@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import com.sun.net.httpserver.HttpExchange;
 
+import crushers.models.Duck;
 import crushers.server.Router;
 
 /**
@@ -11,7 +12,7 @@ import crushers.server.Router;
  * calls and then translates the results back to http talk again. The service is injected via the
  * constructor.
  */
-public class DuckRouter extends Router {
+public class DuckRouter extends Router<Duck> {
 
   private DuckService duckService;
 
