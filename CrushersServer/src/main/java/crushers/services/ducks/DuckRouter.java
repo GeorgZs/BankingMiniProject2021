@@ -21,47 +21,25 @@ public class DuckRouter extends Router {
   }
 
   @Override
-  protected void get(HttpExchange exchange) throws IOException {
-    final String[] pathParams = exchange.getRequestURI().getPath().split("/");
-    final int id = Integer.parseInt(pathParams[pathParams.length - 1]);
-    byte[] response = new byte[0];
-    int statusCode = 200;
+  protected void get(HttpExchange exchange, int id) throws IOException {
+    final int statusCode = 200;
 
-    try {
-      // temporary json solution as an example for the server
-      String json = duckService.get(id).toString();
-      response = json.getBytes();
-    }
-    catch (Exception ex) {
-      statusCode = 400;
-      response = String.format("{\"error\":\"%s\"}", ex.getMessage()).getBytes();
-    }
+    // temporary json solution as an example for the server
+    final String json = duckService.get(id).toString();
+    final byte[] response = json.getBytes();
 
-    exchange.getResponseHeaders().add("Content-Type", "application/json");
-    exchange.sendResponseHeaders(statusCode, response.length);
-    exchange.getResponseBody().write(response);
-    exchange.close();
+    sendResponse(exchange, statusCode, response);
   }
 
   @Override
   protected void getAll(HttpExchange exchange) throws IOException {
-    byte[] response = new byte[0];
-    int statusCode = 200;
+    final int statusCode = 200;
 
-    try {
-      // temporary json solution as an example for the server
-      String json = "[" + duckService.getAll().stream().map(duck -> duck.toString()).reduce((a, b) -> a + "," + b).get() + "]";
-      response = json.getBytes();
-    }
-    catch (Exception ex) {
-      statusCode = 400;
-      response = String.format("{\"error\":\"%s\"}", ex.getMessage()).getBytes();
-    }
+    // temporary json solution as an example for the server
+    final String json = "[" + duckService.getAll().stream().map(duck -> duck.toString()).reduce((a, b) -> a + "," + b).get() + "]";
+    final byte[] response = json.getBytes();
 
-    exchange.getResponseHeaders().add("Content-Type", "application/json");
-    exchange.sendResponseHeaders(statusCode, response.length);
-    exchange.getResponseBody().write(response);
-    exchange.close();
+    sendResponse(exchange, statusCode, response);
   }
 
 }
