@@ -45,7 +45,7 @@ public class JsonStorage<Type extends Storable> implements Storage<Type> {
 
   @Override
   public Type get(int id) {
-    return linkedHashMap.get(id);
+    return this.linkedHashMap.get(id);
   }
 
   @Override
@@ -55,20 +55,22 @@ public class JsonStorage<Type extends Storable> implements Storage<Type> {
 
   @Override
   public Type create(Type obj) throws IOException {
-    linkedHashMap.put(obj.getId(), obj);
-    writer.writeValue(file, linkedHashMap);
+    this.linkedHashMap.put(obj.getId(), obj);
+    writer.writeValue(this.file, this.linkedHashMap);
     return null;
   }
 
   @Override
-  public Type update(int id, Type obj) {
-    linkedHashMap.replace(id, obj);
+  public Type update(int id, Type obj) throws IOException {
+    this.linkedHashMap.replace(id, obj);
+    this.writer.writeValue(this.file, this.linkedHashMap);
     return null;
   }
 
   @Override
-  public Type delete(int id) {
-    linkedHashMap.remove(id);
+  public Type delete(int id) throws IOException {
+    this.linkedHashMap.remove(id);
+    this.writer.writeValue(this.file, this.linkedHashMap);
     return null;
   }
 }

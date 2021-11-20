@@ -1,5 +1,6 @@
 package crushers.server;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 
@@ -8,6 +9,7 @@ import com.sun.net.httpserver.HttpServer;
 import crushers.models.Duck;
 import crushers.services.ducks.DuckRouter;
 import crushers.services.ducks.DuckService;
+import crushers.storage.JsonStorage;
 import crushers.storage.MemoryStorage;
 
 /**
@@ -27,8 +29,8 @@ public class Server {
   /**
    * Here we add our services to the server so that they can be accessed via http.
    */
-  private void addServices() {
-    final DuckService duckService = new DuckService(new MemoryStorage<Duck>());
+  private void addServices() throws IOException {
+    final DuckService duckService = new DuckService(new JsonStorage<Duck>(new File("C://Users/georg/Desktop/ducks.json")));
 
     new DuckRouter(duckService).addEndpoints(this.httpServer);
   }

@@ -11,6 +11,6 @@ public interface Storage<Type extends Storable> {
   Collection<Type> getAll() throws IOException;
 
   Type create(Type obj) throws IOException;
-  Type update(int id, Type obj);
-  Type delete(int id);
+  Type update(int id, Type obj) throws IOException;
+  Type delete(int id) throws IOException;
 }
