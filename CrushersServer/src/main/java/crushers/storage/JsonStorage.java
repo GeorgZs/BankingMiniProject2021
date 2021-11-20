@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.databind.type.MapLikeType;
 
 import java.io.*;
 import java.util.Collection;
@@ -18,25 +19,27 @@ public class JsonStorage<Type extends Storable> implements Storage<Type> {
 
   private ObjectMapper json;
   private InputStream inputStream;
-  private TypeReference<LinkedHashMap<Integer ,Type>> typeReference;
+  private MapLikeType typeReference;
   private LinkedHashMap<Integer ,Type> linkedHashMap;
   private ObjectWriter writer;
   private File file;
+  private int nextId;
 
-  public JsonStorage(File jsonFile) throws IOException {
+  public JsonStorage(File jsonFile, Class<Type> type) throws IOException {
     try {
       // Object Mapper used to read and write from JSON files
       // InputStream is to establish a connection to the JSON file specified
       // TypeReference is there to specify what type the information is structured as when read from file
       this.json = new ObjectMapper();
       this.inputStream = new FileInputStream(jsonFile);
-      this.typeReference = new TypeReference<LinkedHashMap<Integer ,Type>>() {};
+      this.typeReference = json.getTypeFactory().constructMapLikeType(LinkedHashMap.class, Integer.class, type);
 
       // linkedHashMap created by reading off the Json file and adding
       // the entire hashmap as specified to the local hashmap deserialized
       this.linkedHashMap = json.readValue(inputStream, typeReference);
       this.writer = json.writer(new DefaultPrettyPrinter());
       this.file = jsonFile;
+      this.nextId = 1001;
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     }
@@ -54,7 +57,8 @@ public class JsonStorage<Type extends Storable> implements Storage<Type> {
 
   @Override
   public Type create(Type obj) throws IOException {
-    this.linkedHashMap.put(obj.getId(), obj);
+    obj.setId(nextId++);
+    this.linkedHashMap.put(nextId++, obj);
     writer.writeValue(this.file, this.linkedHashMap);
     return null;
   }

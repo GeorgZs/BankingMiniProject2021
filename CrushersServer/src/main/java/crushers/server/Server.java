@@ -30,7 +30,7 @@ public class Server {
    * Here we add our services to the server so that they can be accessed via http.
    */
   private void addServices() throws IOException {
-    final DuckService duckService = new DuckService(new JsonStorage<Duck>(new File("C://Users/georg/Desktop/ducks.json")));
+    final DuckService duckService = new DuckService(new JsonStorage<Duck>(new File("C://Users/georg/Desktop/ducks.json"), Duck.class));
 
     new DuckRouter(duckService).addEndpoints(this.httpServer);
   }
