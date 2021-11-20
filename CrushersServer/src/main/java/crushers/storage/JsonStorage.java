@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.ObjectWriter;
 
 import java.io.*;
-import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -16,7 +15,7 @@ import java.util.List;
  * An implementation of the Storage interface which uses json files to store objects on disk.
  * This class is just a stub and still needs to be implemented.
  */
-public class JsonStorage<Type extends Storable> implements Storage<Storable> {
+public class JsonStorage<Type extends Storable> implements Storage<Type> {
 
   private ObjectMapper json;
   private InputStream inputStream;
@@ -27,21 +26,22 @@ public class JsonStorage<Type extends Storable> implements Storage<Storable> {
   private File file;
 
   public JsonStorage(File jsonFile) throws IOException {
-    try{
+    try {
       this.json = new ObjectMapper();
       this.inputStream = new FileInputStream(jsonFile);
-      this.typeReference = new TypeReference<List<Storable>>() {};
+      this.typeReference = new TypeReference<List<Storable>>() {
+      };
       this.list = json.readValue(inputStream, typeReference);
       this.writer = json.writer(new DefaultPrettyPrinter());
       this.reader = json.reader();
       this.file = jsonFile;
-    } catch(FileNotFoundException e){
+    } catch (FileNotFoundException e) {
       e.printStackTrace();
     }
   }
 
   @Override
-  public Storable get(int id) {
+  public Type get(int id) {
     // TODO Auto-generated method stub
 
     //Can't do this because Jackson typeReference restricts use of Maps, so I can't get by Key
@@ -49,9 +49,9 @@ public class JsonStorage<Type extends Storable> implements Storage<Storable> {
   }
 
   @Override
-  public Collection<Storable> getAll() throws IOException {
-      List<Storable> list = Arrays.asList(reader.readValue(inputStream));
-      return list;
+  public Collection<Type> getAll() throws IOException {
+    List<Type> list = Arrays.asList(reader.readValue(inputStream));
+    return list;
   }
 
   @Override
@@ -62,19 +62,12 @@ public class JsonStorage<Type extends Storable> implements Storage<Storable> {
   }
 
   @Override
-  public Storable update(int id, Storable obj) {
-    // TODO Auto-generated method stub
-
-    //Can't do this because Jackson typeReference restricts use of Maps, so I can't get by Key
+  public Type update(int id, Type obj) {
     return null;
   }
 
   @Override
-  public Storable delete(int id) {
-    // TODO Auto-generated method stub
-
-    //Can't do this because Jackson typeReference restricts use of Maps, so I can't get by Key
+  public Type delete(int id) {
     return null;
   }
-
 }
