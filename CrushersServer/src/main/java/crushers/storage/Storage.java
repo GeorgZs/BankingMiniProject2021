@@ -1,5 +1,6 @@
 package crushers.storage;
 
+import java.io.IOException;
 import java.util.Collection;
 
 /**
@@ -7,9 +8,9 @@ import java.util.Collection;
  */
 public interface Storage<Type extends Storable> {
   Type get(int id);
-  Collection<Type> getAll();
+  Collection<Type> getAll() throws IOException;
 
-  Type create(Type obj);
+  Type create(Type obj) throws IOException;
   Type update(int id, Type obj);
   Type delete(int id);
 }
