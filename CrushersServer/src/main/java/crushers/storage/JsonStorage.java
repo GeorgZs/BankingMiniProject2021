@@ -50,8 +50,7 @@ public class JsonStorage<Type extends Storable> implements Storage<Type> {
 
   @Override
   public Collection<Type> getAll() throws IOException {
-    // TODO -- Needs Fixing due to Method Signature
-    return (Collection<Type>) this.linkedHashMap;
+    return this.linkedHashMap.values();
   }
 
   @Override
