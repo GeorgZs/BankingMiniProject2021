@@ -58,7 +58,7 @@ public class JsonStorage<Type extends Storable> implements Storage<Type> {
   @Override
   public Type create(Type obj) throws IOException {
     obj.setId(nextId++);
-    this.linkedHashMap.put(nextId++, obj);
+    this.linkedHashMap.put(obj.getId(), obj);
     writer.writeValue(this.file, this.linkedHashMap);
     return null;
   }
