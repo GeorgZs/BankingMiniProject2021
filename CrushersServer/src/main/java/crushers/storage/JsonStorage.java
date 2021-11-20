@@ -21,14 +21,13 @@ public class JsonStorage<Type extends Storable> implements Storage<Type> {
   private TypeReference<LinkedHashMap<Integer ,Type>> typeReference;
   private LinkedHashMap<Integer ,Type> linkedHashMap;
   private ObjectWriter writer;
-  private ObjectReader reader;
   private File file;
 
   public JsonStorage(File jsonFile) throws IOException {
     try {
       // Object Mapper used to read and write from JSON files
       // InputStream is to establish a connection to the JSON file specified
-      // TypeReference is ??????????????????????????????
+      // TypeReference is there to specify what type the information is structured as when read from file
       this.json = new ObjectMapper();
       this.inputStream = new FileInputStream(jsonFile);
       this.typeReference = new TypeReference<LinkedHashMap<Integer ,Type>>() {};

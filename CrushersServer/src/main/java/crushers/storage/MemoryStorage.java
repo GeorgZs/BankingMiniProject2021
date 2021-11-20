@@ -6,7 +6,7 @@ import java.util.*;
  * An implementation of the Storage interface which uses a HashMap to store objects in memory.
  */
 public class MemoryStorage<Type extends Storable> implements Storage<Type> {
-  private final Map<Integer, Type> storage;
+  private final LinkedHashMap<Integer, Type> storage;
   private int nextId;
 
   public MemoryStorage() {
