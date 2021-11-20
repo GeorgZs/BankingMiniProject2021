@@ -10,7 +10,7 @@ import com.sun.net.httpserver.*;
  * wiring itself. It also allows for a base path to be configured under which all the endpoints are 
  * available.
  */
-public class Router<T> {
+public class Router<Type> {
 
   private String basePath;
   
@@ -43,14 +43,14 @@ public class Router<T> {
   /**
    * A prewired crud endpoint for creating a new item.
    */
-  protected void post(HttpExchange exchange, T data) throws Exception {
+  protected void post(HttpExchange exchange, Type data) throws Exception {
     throw new MethodNotAllowedException();
   }
 
   /**
    * A prewired crud endpoint for updating an existing item.
    */
-  protected void put(HttpExchange exchange, int id, T data) throws Exception {
+  protected void put(HttpExchange exchange, int id, Type data) throws Exception {
     throw new MethodNotAllowedException();
   }
 
@@ -149,7 +149,7 @@ public class Router<T> {
     }
   }
 
-  private T getBodyData(HttpExchange exchange) {
+  private Type getBodyData(HttpExchange exchange) {
     // TODO: Implement this
     // 1. check the content type header for application/json
     //    -> if not IllegalArgumentException
