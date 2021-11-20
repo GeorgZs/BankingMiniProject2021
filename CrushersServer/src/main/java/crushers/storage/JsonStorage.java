@@ -7,9 +7,8 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.ObjectWriter;
 
 import java.io.*;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
+import java.util.LinkedHashMap;
 
 /**
  * An implementation of the Storage interface which uses json files to store objects on disk.
@@ -19,21 +18,25 @@ public class JsonStorage<Type extends Storable> implements Storage<Type> {
 
   private ObjectMapper json;
   private InputStream inputStream;
-  private TypeReference<List<Storable>> typeReference;
-  private List<Storable> list;
+  private TypeReference<LinkedHashMap<Integer ,Type>> typeReference;
+  private LinkedHashMap<Integer ,Type> linkedHashMap;
   private ObjectWriter writer;
   private ObjectReader reader;
   private File file;
 
   public JsonStorage(File jsonFile) throws IOException {
     try {
+      // Object Mapper used to read and write from JSON files
+      // InputStream is to establish a connection to the JSON file specified
+      // TypeReference is ??????????????????????????????
       this.json = new ObjectMapper();
       this.inputStream = new FileInputStream(jsonFile);
-      this.typeReference = new TypeReference<List<Storable>>() {
-      };
-      this.list = json.readValue(inputStream, typeReference);
+      this.typeReference = new TypeReference<LinkedHashMap<Integer ,Type>>() {};
+
+      // linkedHashMap created by reading off the Json file and adding
+      // the entire hashmap as specified to the local hashmap deserialized
+      this.linkedHashMap = json.readValue(inputStream, typeReference);
       this.writer = json.writer(new DefaultPrettyPrinter());
-      this.reader = json.reader();
       this.file = jsonFile;
     } catch (FileNotFoundException e) {
       e.printStackTrace();
@@ -42,32 +45,31 @@ public class JsonStorage<Type extends Storable> implements Storage<Type> {
 
   @Override
   public Type get(int id) {
-    // TODO Auto-generated method stub
-
-    //Can't do this because Jackson typeReference restricts use of Maps, so I can't get by Key
-    return null;
+    return linkedHashMap.get(id);
   }
 
   @Override
   public Collection<Type> getAll() throws IOException {
-    List<Type> list = Arrays.asList(reader.readValue(inputStream));
-    return list;
+    // TODO -- Needs Fixing due to Method Signature
+    return (Collection<Type>) this.linkedHashMap;
   }
 
   @Override
-  public Storable create(Storable obj) throws IOException {
-    list.add(obj);
-    writer.writeValue(file, list);
+  public Type create(Type obj) throws IOException {
+    linkedHashMap.put(obj.getId(), obj);
+    writer.writeValue(file, linkedHashMap);
     return null;
   }
 
   @Override
   public Type update(int id, Type obj) {
+    linkedHashMap.replace(id, obj);
     return null;
   }
 
   @Override
   public Type delete(int id) {
+    linkedHashMap.remove(id);
     return null;
   }
 }
