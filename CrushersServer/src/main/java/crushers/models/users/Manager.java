@@ -1,6 +1,4 @@
-package crushers.models.Users;
-
-import crushers.models.Users.Clerk;
+package crushers.models.users;
 
 import java.util.List;
 

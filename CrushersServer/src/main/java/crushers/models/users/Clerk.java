@@ -1,4 +1,4 @@
-package crushers.models.Users;
+package crushers.models.users;
 
 import java.util.List;
 

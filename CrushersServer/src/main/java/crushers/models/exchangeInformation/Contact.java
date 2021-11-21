@@ -1,6 +1,6 @@
-package crushers.models.ExchangeInformation;
+package crushers.models.exchangeInformation;
 
-import crushers.models.Accounts.StandardAccount;
+import crushers.models.accounts.StandardAccount;
 
 public class Contact {
     private int ID;

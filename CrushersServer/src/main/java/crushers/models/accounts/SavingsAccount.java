@@ -1,4 +1,4 @@
-package crushers.models.Accounts;
+package crushers.models.accounts;
 
 public class SavingsAccount extends StandardAccount{
     //subject to change as this is set upon creation of bank

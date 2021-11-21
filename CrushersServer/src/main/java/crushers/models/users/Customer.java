@@ -1,7 +1,7 @@
-package crushers.models.Users;
+package crushers.models.users;
 
-import crushers.models.Accounts.StandardAccount;
-import crushers.models.ExchangeInformation.Contact;
+import crushers.models.accounts.StandardAccount;
+import crushers.models.exchangeInformation.Contact;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
