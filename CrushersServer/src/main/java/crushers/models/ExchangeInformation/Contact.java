@@ -1,4 +1,4 @@
-package crushers.models.exchangeInformation;
+package crushers.models.ExchangeInformation;
 
 import crushers.models.Accounts.StandardAccount;
 

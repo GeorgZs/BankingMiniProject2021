@@ -4,7 +4,7 @@ import crushers.storage.Storable;
 
 /**
  * Who doesn't love ducks? Ducks are a great way to represent a person. 
- * - Github Copilot 🦆
+ * - GitHub Copilot 🦆
  */
 public class Duck implements Storable {
   private int id = -1;
