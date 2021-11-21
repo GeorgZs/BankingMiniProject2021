@@ -5,7 +5,7 @@ import crushers.storage.Storable;
 import java.time.LocalTime;
 import java.util.List;
 
-public class User implements Storable {
+public abstract class User implements Storable {
     private String firstName;
     private String lastName;
     private String address;
