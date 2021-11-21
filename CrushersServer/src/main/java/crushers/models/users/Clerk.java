@@ -6,6 +6,9 @@ import java.util.List;
 
 public class Clerk extends User implements Storable {
     private String employmentBank;
+    public Clerk(){
+        //empty for Jackson
+    }
     public Clerk(String firstName, String lastName,
                  String address, String emailAddress,
                  String password, List<String> securityQuestions,
@@ -17,12 +20,12 @@ public class Clerk extends User implements Storable {
 
     @Override
     public int getId() {
-        return super.getID();
+        return super.getId();
     }
 
     @Override
     public void setId(int id) {
-        super.setID(id);
+        super.setId(id);
     }
 
 

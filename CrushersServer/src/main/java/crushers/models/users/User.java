@@ -1,9 +1,11 @@
 package crushers.models.users;
 
+import crushers.storage.Storable;
+
 import java.time.LocalTime;
 import java.util.List;
 
-public class User {
+public class User implements Storable {
     private String firstName;
     private String lastName;
     private String address;
@@ -13,6 +15,9 @@ public class User {
     private int ID;
     private String timeStamp;
 
+    public User(){
+        //empty for Jackson
+    }
     public User(String firstName, String lastName,
                     String address, String emailAddress,
                     String password, List<String> securityQuestions){
@@ -27,14 +32,15 @@ public class User {
         this.timeStamp = LocalTime.now().toString();
     }
 
-    public void setID(int ID) {
-        this.ID = ID;
+    @Override
+    public int getId() {
+        return this.ID;
     }
 
-    public int getID() {
-        return ID;
+    @Override
+    public void setId(int id) {
+        this.ID = id;
     }
-
     public void setTimeStamp(String timeStamp) {
         this.timeStamp = timeStamp;
     }
@@ -91,4 +97,6 @@ public class User {
     public void setSecurityQuestions(List<String> securityQuestions) {
         this.securityQuestions = securityQuestions;
     }
+
+
 }
