@@ -1,8 +1,10 @@
 package crushers.models.users;
 
+import crushers.storage.Storable;
+
 import java.util.List;
 
-public class Manager extends Clerk {
+public class Manager extends Clerk implements Storable{
     public Manager(String firstName, String lastName,
                    String address, String emailAddress,
                    String password, List<String> securityQuestions,
@@ -11,4 +13,5 @@ public class Manager extends Clerk {
               emailAddress, password, securityQuestions,
               employmentBank);
     }
+
 }

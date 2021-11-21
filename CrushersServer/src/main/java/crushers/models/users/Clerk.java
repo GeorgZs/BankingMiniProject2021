@@ -1,8 +1,10 @@
 package crushers.models.users;
 
+import crushers.storage.Storable;
+
 import java.util.List;
 
-public class Clerk extends User {
+public class Clerk extends User implements Storable {
     private String employmentBank;
     public Clerk(String firstName, String lastName,
                  String address, String emailAddress,
@@ -12,5 +14,16 @@ public class Clerk extends User {
               emailAddress, password, securityQuestions);
         this.employmentBank = employmentBank;
     }
+
+    @Override
+    public int getId() {
+        return super.getID();
+    }
+
+    @Override
+    public void setId(int id) {
+        super.setID(id);
+    }
+
 
 }

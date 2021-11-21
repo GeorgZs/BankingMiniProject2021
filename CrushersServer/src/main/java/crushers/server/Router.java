@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.sun.net.httpserver.*;
 
+import crushers.server.customExceptions.MethodNotAllowedException;
 import crushers.utils.Json;
 
 /**

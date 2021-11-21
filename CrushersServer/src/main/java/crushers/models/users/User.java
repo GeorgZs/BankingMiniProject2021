@@ -26,4 +26,69 @@ public class User {
         this.ID = (int) (Math.random() * 100);
         this.timeStamp = LocalTime.now().toString();
     }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setTimeStamp(String timeStamp) {
+        this.timeStamp = timeStamp;
+    }
+
+    public String getTimeStamp() {
+        return timeStamp;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
+
+    //needs to be here for Jackson but isnt a good solution: not secure
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public List<String> getSecurityQuestions() {
+        return securityQuestions;
+    }
+
+    public void setSecurityQuestions(List<String> securityQuestions) {
+        this.securityQuestions = securityQuestions;
+    }
 }

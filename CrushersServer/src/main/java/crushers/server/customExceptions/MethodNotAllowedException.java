@@ -1,4 +1,4 @@
-package crushers.server;
+package crushers.server.customExceptions;
 
 public class MethodNotAllowedException extends Exception {
   public MethodNotAllowedException() {
