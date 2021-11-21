@@ -1,6 +1,6 @@
 package crushers.models.Accounts;
 
-import crushers.models.exchangeInformation.Transaction;
+import crushers.models.ExchangeInformation.Transaction;
 
 import java.sql.Time;
 import java.util.LinkedHashMap;
