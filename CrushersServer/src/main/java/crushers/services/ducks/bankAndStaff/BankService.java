@@ -1,11 +1,9 @@
-package crushers.server.bankAndStaff;
+package crushers.services.ducks.bankAndStaff;
 
 
 import crushers.models.Bank;
-import crushers.models.users.User;
 import crushers.storage.Storage;
 
-import java.io.IOException;
 import java.util.Collection;
 
 public class BankService {
@@ -25,7 +23,7 @@ public class BankService {
 
     public Collection<Bank> getAll() throws Exception {
         if(storage.getAll().isEmpty()){
-            throw new Exception("Empty User story");
+            throw new Exception("Empty User storage");
         }
         return storage.getAll();
     }

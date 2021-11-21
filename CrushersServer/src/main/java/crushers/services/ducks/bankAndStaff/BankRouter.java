@@ -1,11 +1,9 @@
-package crushers.server.bankAndStaff;
+package crushers.services.ducks.bankAndStaff;
 
 import com.sun.net.httpserver.HttpExchange;
 import crushers.models.Bank;
-import crushers.models.users.Manager;
-import crushers.models.users.User;
 import crushers.server.Router;
-import java.lang.reflect.Type;
+
 import java.util.Collection;
 
 public class BankRouter extends Router<Bank> {
