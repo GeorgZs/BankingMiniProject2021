@@ -1,6 +1,6 @@
 package crushers.services.ducks;
 
-import java.io.IOException;
+import java.io.FileNotFoundException;
 import java.util.Collection;
 
 import crushers.models.Duck;
@@ -17,7 +17,7 @@ public class DuckService {
     this.storage = storage;
   }
 
-  public Collection<Duck> getAll() throws IOException {
+  public Collection<Duck> getAll() throws Exception {
     if (storage.getAll().isEmpty()) {
       // add some default ducks
       System.out.println("No ducks found, adding some default ducks");
@@ -28,9 +28,21 @@ public class DuckService {
     return storage.getAll();
   }
 
-  public Duck get(int id) {
-    if (id <= 1000) throw new IllegalArgumentException("Id must be greater than 1000");
-    return storage.get(id);
+  public Duck get(int id) throws Exception {
+    if (id <= 1000) throw new IllegalArgumentException("Id must be greater than 1000.");
+    Duck duck = storage.get(id);
+
+    if (duck == null) {
+      throw new FileNotFoundException("No duck found with id " + id);
+    }
+
+    return duck;
+  }
+
+  public Duck create(Duck duck) throws Exception {
+    if (duck == null) throw new IllegalArgumentException("Data for the creation of a duck must be given.");
+    if (duck.name.isBlank()) throw new IllegalArgumentException("Name must not be empty.");
+    return storage.create(duck);
   }
   
 }

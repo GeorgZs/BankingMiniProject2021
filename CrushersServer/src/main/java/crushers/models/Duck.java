@@ -11,6 +11,14 @@ public class Duck implements Storable {
   public String name;
   public String color;
 
+  public Duck() {
+    // Empty constructor for Jackson
+  }
+
+  public Duck(int id) {
+    this.id = id;
+  }
+
   public Duck(String name, String color) {
     this.name = name;
     this.color = color;
@@ -23,11 +31,5 @@ public class Duck implements Storable {
   public void setId(int id) {
     if (this.id >= 0) throw new IllegalStateException("Id is already set");
     this.id = id;
-  }
-
-  @Override
-  public String toString() {
-    // temporary json solution to show a minimal server setup
-    return String.format("{\"id\":%d,\"name\":\"%s\",\"color\":\"%s\"}", id, name, color);
   }
 }

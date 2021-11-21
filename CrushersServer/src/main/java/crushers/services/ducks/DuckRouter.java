@@ -1,6 +1,7 @@
 package crushers.services.ducks;
 
 import java.io.IOException;
+import java.util.Collection;
 
 import com.sun.net.httpserver.HttpExchange;
 
@@ -22,25 +23,22 @@ public class DuckRouter extends Router<Duck> {
   }
 
   @Override
-  protected void get(HttpExchange exchange, int id) throws IOException {
-    final int statusCode = 200;
-
-    // temporary json solution as an example for the server
-    final String json = duckService.get(id).toString();
-    final byte[] response = json.getBytes();
-
-    sendResponse(exchange, statusCode, response);
+  protected void get(HttpExchange exchange, int id) throws Exception {
+    final Duck responseData = duckService.get(id);
+    sendJsonResponse(exchange, responseData);
   }
 
   @Override
-  protected void getAll(HttpExchange exchange) throws IOException {
-    final int statusCode = 200;
+  protected void getAll(HttpExchange exchange) throws Exception {
+    final Collection<Duck> responseData = duckService.getAll();
+    sendJsonResponse(exchange, responseData);
+  }
 
-    // temporary json solution as an example for the server
-    final String json = "[" + duckService.getAll().stream().map(duck -> duck.toString()).reduce((a, b) -> a + "," + b).get() + "]";
-    final byte[] response = json.getBytes();
-
-    sendResponse(exchange, statusCode, response);
+  @Override
+  protected void post(HttpExchange exchange) throws Exception {
+    final Duck requestData = getJsonBodyData(exchange, Duck.class);
+    final Duck responseData = duckService.create(requestData);
+    sendJsonResponse(exchange, responseData);
   }
 
 }

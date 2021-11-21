@@ -1,8 +1,12 @@
 package crushers.server;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 
 import com.sun.net.httpserver.*;
+
+import crushers.utils.Json;
 
 /**
  * This is a base router which handles some of the wiring for differentiating between common crud 
@@ -43,14 +47,14 @@ public class Router<Type> {
   /**
    * A prewired crud endpoint for creating a new item.
    */
-  protected void post(HttpExchange exchange, Type data) throws Exception {
+  protected void post(HttpExchange exchange) throws Exception {
     throw new MethodNotAllowedException();
   }
 
   /**
    * A prewired crud endpoint for updating an existing item.
    */
-  protected void put(HttpExchange exchange, int id, Type data) throws Exception {
+  protected void put(HttpExchange exchange, int id) throws Exception {
     throw new MethodNotAllowedException();
   }
 
@@ -73,13 +77,44 @@ public class Router<Type> {
   }
 
   /**
-   * Sets the status code and sends a json response.
+   * Sends a json response with the default success status code depending on the request method.
+   */
+  final protected void sendJsonResponse(HttpExchange exchange, Object responseData) throws IOException {
+    byte[] response = Json.instance.stringify(responseData).getBytes();
+    int statusCode = 200;
+
+    if (exchange.getRequestMethod().equals("POST")) {
+      statusCode = 201;
+    }
+    else if (exchange.getRequestMethod().equals("DELETE")) {
+      statusCode = 204;
+    }
+
+    sendResponse(exchange, statusCode, response);
+  }
+
+  /**
+   * Sets the status code and sends a response.
    */
   final protected void sendResponse(HttpExchange exchange, int statusCode, byte[] response) throws IOException {
     exchange.getResponseHeaders().add("Content-Type", "application/json");
     exchange.sendResponseHeaders(statusCode, response.length);
     exchange.getResponseBody().write(response);
     exchange.close();
+  }
+
+  /**
+   * Tries to parse the request body as json.
+   */
+  final protected <T> T getJsonBodyData(HttpExchange exchange, Class<T> type) throws IOException {
+    final List<String> contentType = exchange.getRequestHeaders().get("Content-Type");
+
+    if (contentType == null || !contentType.contains("application/json")) {
+      throw new IllegalArgumentException("The request is missing a valid json body.");
+    }
+
+    byte[] body = exchange.getRequestBody().readAllBytes();
+    return Json.instance.parse(new String(body), type);
   }
 
   /**
@@ -93,7 +128,7 @@ public class Router<Type> {
           break;
       
         case "POST":
-          post(exchange, getBodyData(exchange));
+          post(exchange);
           break;
   
         default:
@@ -102,6 +137,9 @@ public class Router<Type> {
     }
     catch (MethodNotAllowedException ex) {
       exchange.sendResponseHeaders(405, 0);
+    }
+    catch (FileNotFoundException ex) {
+      sendResponse(exchange, 404, String.format("{\"error\":\"%s\"}", ex.getMessage()).getBytes());
     }
     catch (IllegalArgumentException ex) {
       sendResponse(exchange, 400, String.format("{\"error\":\"%s\"}", ex.getMessage()).getBytes());
@@ -126,7 +164,7 @@ public class Router<Type> {
           break;
 
         case "PUT":
-          put(exchange, id, getBodyData(exchange));
+          put(exchange, id);
           break;
 
         case "DELETE":
@@ -140,6 +178,9 @@ public class Router<Type> {
     catch (MethodNotAllowedException ex) {
       exchange.sendResponseHeaders(405, 0);
     }
+    catch (FileNotFoundException ex) {
+      sendResponse(exchange, 404, String.format("{\"error\":\"%s\"}", ex.getMessage()).getBytes());
+    }
     catch (IllegalArgumentException ex) {
       sendResponse(exchange, 400, String.format("{\"error\":\"%s\"}", ex.getMessage()).getBytes());
     }
@@ -147,16 +188,6 @@ public class Router<Type> {
       sendResponse(exchange, 500, String.format("{\"error\":\"Internal server error, try again later.\"}").getBytes());
       ex.printStackTrace();
     }
-  }
-
-  private Type getBodyData(HttpExchange exchange) {
-    // TODO: Implement this
-    // 1. check the content type header for application/json
-    //    -> if not IllegalArgumentException
-    // 2. read the body
-    // 3. parse the body as json
-    // 4. return the parsed json
-    return null;
   }
 
 }
