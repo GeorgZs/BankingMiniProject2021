@@ -3,6 +3,7 @@ package crushers.services.ducks.bankAndStaff;
 import crushers.models.users.Clerk;
 import crushers.storage.Storage;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 public class StaffService {
@@ -22,7 +23,22 @@ public class StaffService {
 
     public Collection<Clerk> getAll() throws Exception {
         if(storage.getAll().isEmpty()){
-            throw new Exception("Empty Staff storage");
+            System.out.println("Empty Staff storage - creating employee 1");
+            ArrayList<String> ge = new ArrayList<>();
+            ge.add( "Mother's Maiden name");
+            ge.add("Georg");
+            ge.add("Pet cat's name");
+            ge.add("Georg");
+            ge.add("Highschool name");
+            ge.add("Georg");
+            storage.create(new Clerk(
+                    "First",
+                    "Last",
+                    "Lindholmen 10",
+                    "test@email.com",
+                    "HelloWorld",
+                    ge,
+                    "Swedbank"));
         }
         return storage.getAll();
     }
