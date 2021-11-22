@@ -1,20 +1,13 @@
 package crushers.model;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class StandardAccount {
-    
     private double balance;
-    ArrayList<Transaction> transactions;
+    private List<Transaction> transactions;
 
-    public StandardAccount(){
-        this.balance = 0;
-        transactions = new ArrayList<Transaction>();
-    }
-
-    public StandardAccount(double balance){
+    public StandardAccount(double balance, List<Transaction> transactions) {
         this.balance = balance;
-        transactions = new ArrayList<Transaction>();
+        this.transactions = transactions;
     }
-
 }

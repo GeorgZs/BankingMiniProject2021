@@ -1,16 +1,12 @@
 package crushers.model;
 
-public class SavingsAccount extends StandardAccount {
-    
-    double interestRate;
+import java.util.List;
 
-    public SavingsAccount(double interestRate){
-        super();
-        this.interestRate = interestRate;
-    }
+public class SavingsAccount extends StandardAccount{
+    private double interestRate;
 
-    public SavingsAccount(double balance, double interestRate){
-        super(balance);
+    public SavingsAccount(double balance, List<Transaction> transactions, double interestRate) {
+        super(balance, transactions);
         this.interestRate = interestRate;
     }
 }
