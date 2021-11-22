@@ -27,7 +27,11 @@ public class App extends Application {
 
         Parent root = FXMLLoader.load(getClass().getResource("views/MainView.fxml"));
 
-        stage.setScene(new Scene(root));
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+
+        scene.getStylesheets().add(getClass().getClassLoader().getResource("crushers/stylesheets/main.css").toExternalForm());
+
         stage.getIcons().add(new Image("crushers/imgs/logo.jpg"));
         stage.setTitle("Crushers Bank");
         stage.show();

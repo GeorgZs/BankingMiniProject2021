@@ -10,16 +10,12 @@ import crushers.App;
 import crushers.model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.*;
 import javafx.stage.Stage;
 
 public class RegisterController implements Initializable {
-    
-    private Stage stage;
-    private Parent root;
 
     @FXML
     private Button registerButton;
@@ -93,9 +89,6 @@ public class RegisterController implements Initializable {
         String thirdAnswer = thirdAnswerField.getText();
 
         if(firstName.isBlank()){
-            // System.out.println(email);
-            // System.out.println(email.contains("@"));
-
             invalidInputLabel.setText("First name cannot be empty!");
         }else if(lastName.isBlank()){
             invalidInputLabel.setText("Last name cannot be empty!");
@@ -111,8 +104,15 @@ public class RegisterController implements Initializable {
             invalidInputLabel.setText("You must answer all security questions!");
         }else{
             int userID = (int) Math.floor(Math.random()*10000000);
-            ArrayList<String> testQuestions = new ArrayList<String>(Arrays.asList("1st q", "2nd q", "3rd q"));
-            User registeredUser = new User(firstName, lastName, address, email, password, testQuestions, userID);
+            ArrayList<String> securityQuestionsAnswers = new ArrayList<String>();
+            securityQuestionsAnswers.add(firstQuestionBox.getValue());
+            securityQuestionsAnswers.add(firstAnswer);
+            securityQuestionsAnswers.add(secondQuestionBox.getValue());
+            securityQuestionsAnswers.add(secondAnswer);
+            securityQuestionsAnswers.add(thirdQuestionBox.getValue());
+            securityQuestionsAnswers.add(thirdAnswer);
+
+            User registeredUser = new User(firstName, lastName, address, email, password, securityQuestionsAnswers, userID);
             App.bank.registerUser(registeredUser);
 
             Stage oldStage = (Stage)((Node)e.getSource()).getScene().getWindow();

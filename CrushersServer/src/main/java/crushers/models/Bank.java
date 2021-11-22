@@ -10,6 +10,10 @@ public class Bank implements Storable {
     private String details;
     private Manager manager;
 
+    public Bank() {
+        // empty constructor for Jackson
+    }
+
     public Bank(Manager manager) {
         this.id = (int) (Math.random() * 10);
         this.name = "Empty - Please Fill";

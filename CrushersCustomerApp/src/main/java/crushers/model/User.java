@@ -9,7 +9,6 @@ public class User {
     private String email;
     private String password;
     private List<String> securityQuestions;
-    // private List<standardAccount> accountList;
     private int id;
     // private int timeStamp;
 
@@ -46,7 +45,8 @@ public class User {
     }
 
     public String toString(){
-        return this.firstName + " " + this.lastName + " lives at " + this.address + "\n" + this.email + " " + this.password;
+        return this.firstName + " " + this.lastName + " lives at " + this.address + "\n" + this.email + " " + this.password +
+        "\n" + securityQuestions.toString();
     }
 
 }

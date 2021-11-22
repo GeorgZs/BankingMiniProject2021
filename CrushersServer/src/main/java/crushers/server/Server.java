@@ -9,7 +9,10 @@ import com.sun.net.httpserver.HttpServer;
 import crushers.models.Bank;
 import crushers.models.Duck;
 import crushers.models.users.Clerk;
+import crushers.models.accounts.Account;
 import crushers.models.users.Customer;
+import crushers.services.accounts.AccountRouter;
+import crushers.services.accounts.AccountService;
 import crushers.services.customers.CustomerRouter;
 import crushers.services.customers.CustomerService;
 import crushers.services.ducks.DuckRouter;
@@ -63,6 +66,14 @@ public class Server {
             Bank.class
     ));
     new BankRouter(bankService).addEndpoints(this.httpServer);
+    final AccountService accountService = new AccountService(
+      customerService,
+      new JsonStorage<Account>(
+        new File("data/accounts.json"), 
+        Account.class
+      )
+    );
+    new AccountRouter(accountService).addEndpoints(this.httpServer);
   }
 
   /**
