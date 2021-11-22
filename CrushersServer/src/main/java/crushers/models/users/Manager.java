@@ -1,20 +1,21 @@
 package crushers.models.users;
 
-import crushers.storage.Storable;
+import crushers.models.Bank;
 
-import java.util.List;
-
-public class Manager extends Clerk implements Storable{
+public class Manager extends Clerk {
     public Manager(){
         //empty for Jackson
     }
-    public Manager(String firstName, String lastName,
-                   String address, String emailAddress,
-                   String password, List<String> securityQuestions,
-                   String employmentBank){
-        super(firstName, lastName, address,
-              emailAddress, password, securityQuestions,
-              employmentBank);
+    public Manager(
+        String emailAddress,
+        String firstName, 
+        String lastName,
+        String address, 
+        String password, 
+        String[] securityQuestions,
+        Bank worksAt
+    ) {
+        super(emailAddress, firstName, lastName, address, password, securityQuestions, worksAt);
     }
 
 }

@@ -1,32 +1,26 @@
 package crushers.model;
 
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.List;
 
 public class User {
-    
     private String firstName;
     private String lastName;
     private String address;
     private String email;
     private String password;
-    private ArrayList<String> securityQuestions;
-    private String ID;
-    private Date lastLogin;
+    private List<String> securityQuestions;
+    // private List<standardAccount> accountList;
+    private int id;
+    // private int timeStamp;
 
-    public User(String firstName, String lastName, String address, String email, String password,
-    ArrayList<String> securityQuestions, String ID){
+    public User(String firstName, String lastName, String address, String email, String password, List<String> securityQuestions, int id) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
         this.email = email;
         this.password = password;
         this.securityQuestions = securityQuestions;
-        this.ID = ID;
-        this.lastLogin = new Date(); // intialize to account creation and update l8r
-    }
-    public String toString(){
-        return this.firstName + " " + this.lastName + " lives at " + this.address + "\n" + this.email + " " + this.password;
+        this.id = id;
     }
 
     public String getFirstName(){
@@ -44,14 +38,15 @@ public class User {
     public String getPassword(){
         return this.password;
     }
-    public ArrayList<String> getSecurityQuestions(){
+    public List<String> getSecurityQuestions(){
         return this.securityQuestions;
     }
-    public String getID(){
-        return this.ID;
+    public int getId(){
+        return this.id;
     }
-    public Date getLastLogin(){
-        return this.lastLogin;
+
+    public String toString(){
+        return this.firstName + " " + this.lastName + " lives at " + this.address + "\n" + this.email + " " + this.password;
     }
 
 }

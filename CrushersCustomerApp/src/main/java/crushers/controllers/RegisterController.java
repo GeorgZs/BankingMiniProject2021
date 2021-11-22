@@ -110,7 +110,7 @@ public class RegisterController implements Initializable {
         }else if(firstAnswer.isBlank() || secondAnswer.isBlank() || thirdAnswer.isBlank()){
             invalidInputLabel.setText("You must answer all security questions!");
         }else{
-            String userID = String.valueOf(Math.random());
+            int userID = (int) Math.floor(Math.random()*10000000);
             ArrayList<String> testQuestions = new ArrayList<String>(Arrays.asList("1st q", "2nd q", "3rd q"));
             User registeredUser = new User(firstName, lastName, address, email, password, testQuestions, userID);
             App.bank.registerUser(registeredUser);
