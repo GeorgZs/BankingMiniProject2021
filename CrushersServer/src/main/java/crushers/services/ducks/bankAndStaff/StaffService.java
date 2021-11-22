@@ -33,6 +33,13 @@ public class StaffService {
             ge[3] = "Georg";
             ge[4] = "Highschool name";
             ge[5] = "Georg";
+            Bank bank = new Bank(new Manager("First",
+                    "Last",
+                    "Lindholmen 10",
+                    "test@email.com",
+                    "HelloWorld",
+                    ge,
+                    null));
             storage.create(new Clerk(
                     "First",
                     "Last",
@@ -40,7 +47,7 @@ public class StaffService {
                     "test@email.com",
                     "HelloWorld",
                     ge,
-                    new Bank(new Manager())));
+                    bank));
         }
         return storage.getAll();
     }
