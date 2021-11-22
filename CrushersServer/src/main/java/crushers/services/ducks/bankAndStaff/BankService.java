@@ -22,9 +22,9 @@ public class BankService {
     }
 
     public Collection<Bank> getAll() throws Exception {
-        if(storage.getAll().isEmpty()){
-            throw new Exception("Empty User storage");
-        }
+        // if(storage.getAll().isEmpty()){
+        //     throw new Exception("Empty User storage");
+        // }
         return storage.getAll();
     }
 
