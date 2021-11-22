@@ -17,10 +17,10 @@ import crushers.services.customers.CustomerRouter;
 import crushers.services.customers.CustomerService;
 import crushers.services.ducks.DuckRouter;
 import crushers.services.ducks.DuckService;
-import crushers.services.ducks.bankAndStaff.BankRouter;
-import crushers.services.ducks.bankAndStaff.BankService;
-import crushers.services.ducks.bankAndStaff.StaffRouter;
-import crushers.services.ducks.bankAndStaff.StaffService;
+import crushers.services.bankAndStaff.BankRouter;
+import crushers.services.bankAndStaff.BankService;
+import crushers.services.bankAndStaff.StaffRouter;
+import crushers.services.bankAndStaff.StaffService;
 import crushers.storage.JsonStorage;
 
 /**

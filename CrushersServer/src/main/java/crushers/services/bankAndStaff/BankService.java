@@ -1,4 +1,4 @@
-package crushers.services.ducks.bankAndStaff;
+package crushers.services.bankAndStaff;
 
 
 import crushers.models.Bank;

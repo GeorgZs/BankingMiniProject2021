@@ -1,4 +1,4 @@
-package crushers.services.ducks.bankAndStaff;
+package crushers.services.bankAndStaff;
 
 import com.sun.net.httpserver.HttpExchange;
 import crushers.models.users.Clerk;
