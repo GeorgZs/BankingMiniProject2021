@@ -21,7 +21,8 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
-        User admin = new User("Jesus", "Christ", "Heaven", "christ@bible.com", "faith", new ArrayList<String>(Arrays.asList("T")), "333");
+        ArrayList<String> securityQA = new ArrayList<String>(Arrays.asList("What's the name of your first pet?", "Alfie"));
+        User admin = new User("John", "Smith", "Willy Street", "smith@google.com", "password", securityQA, 333);
         bank.registerUser(admin);
 
         Parent root = FXMLLoader.load(getClass().getResource("views/MainView.fxml"));

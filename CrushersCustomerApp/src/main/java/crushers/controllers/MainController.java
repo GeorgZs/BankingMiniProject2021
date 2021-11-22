@@ -13,10 +13,9 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.scene.Node;
 
-public class MainController {
+public class MainController { // test commit
 
     private Stage stage;
-    private Scene scene;
     private Parent root;
     
     @FXML
@@ -37,9 +36,6 @@ public class MainController {
     private Label invalidLoginLabel;
     
     public void register(ActionEvent e) throws IOException{
-
-        String email = usernameField.getText();
-        String password = passwordField.getText();
 
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("crushers/views/RegisterView.fxml"));
         root = loader.load();
