@@ -40,7 +40,7 @@ public class StaffService {
                     "test@email.com",
                     "HelloWorld",
                     ge,
-                    new Bank("Swed", "logo", "details", new Manager())));
+                    new Bank(new Manager())));
         }
         return storage.getAll();
     }
