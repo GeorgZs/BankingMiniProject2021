@@ -8,7 +8,7 @@ public class Customer extends User{
     private ArrayList<Contact> contactList;
 
     public Customer(String firstName, String lastName, String address, String email, String password,
-    ArrayList<String> securityQuestions, String ID){
+    ArrayList<String> securityQuestions, int ID){
         super(firstName, lastName, address, email, password, securityQuestions, ID);
         this.accountList = new ArrayList<StandardAccount>();
         this.contactList = new ArrayList<Contact>();
