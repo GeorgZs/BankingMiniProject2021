@@ -32,10 +32,7 @@ public class DuckService {
     if (id <= 1000) throw new IllegalArgumentException("Id must be greater than 1000.");
     Duck duck = storage.get(id);
 
-    if (duck == null) {
-      throw new FileNotFoundException("No duck found with id " + id);
-    }
-
+    if (duck == null) throw new FileNotFoundException("No duck found with id " + id);
     return duck;
   }
 
