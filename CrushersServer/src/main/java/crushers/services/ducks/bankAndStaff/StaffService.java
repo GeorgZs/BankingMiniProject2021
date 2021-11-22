@@ -1,6 +1,8 @@
 package crushers.services.ducks.bankAndStaff;
 
+import crushers.models.Bank;
 import crushers.models.users.Clerk;
+import crushers.models.users.Manager;
 import crushers.storage.Storage;
 
 import java.util.ArrayList;
@@ -24,13 +26,13 @@ public class StaffService {
     public Collection<Clerk> getAll() throws Exception {
         if(storage.getAll().isEmpty()){
             System.out.println("Empty Staff storage - creating employee 1");
-            ArrayList<String> ge = new ArrayList<>();
-            ge.add( "Mother's Maiden name");
-            ge.add("Georg");
-            ge.add("Pet cat's name");
-            ge.add("Georg");
-            ge.add("Highschool name");
-            ge.add("Georg");
+            String[] ge = new String[6];
+            ge[0] = "Mother's Maiden name";
+            ge[1] = "Georg";
+            ge[2] = "Pet cat's name";
+            ge[3] = "Georg";
+            ge[4] = "Highschool name";
+            ge[5] = "Georg";
             storage.create(new Clerk(
                     "First",
                     "Last",
@@ -38,7 +40,7 @@ public class StaffService {
                     "test@email.com",
                     "HelloWorld",
                     ge,
-                    "Swedbank"));
+                    new Bank("Swed", "logo", "details", new Manager())));
         }
         return storage.getAll();
     }
