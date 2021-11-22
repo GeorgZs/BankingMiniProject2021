@@ -25,7 +25,6 @@ public abstract class Account implements Storable {
   private Customer owner;
   private double balance = 0.0;
 
-  // for Jackson
   public String type;
 
   // for later, but not now

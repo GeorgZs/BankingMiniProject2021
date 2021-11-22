@@ -9,9 +9,12 @@ public class SavingsAccount extends Account {
 
     public SavingsAccount(){
         super();
+        this.type = "savings";
+        // empty constructor for Jackson
     }
 
     public SavingsAccount(Bank bank, Customer owner, double balance){
         super(bank, owner, balance);
+        this.type = "savings";
     }
 }
