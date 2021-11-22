@@ -23,7 +23,7 @@
       <Separator layoutX="249.0" layoutY="78.0" orientation="VERTICAL" prefHeight="261.0" prefWidth="7.0" />
       <Label fx:id="invalidInputLabel" layoutX="49.0" layoutY="372.0" prefHeight="18.0" prefWidth="298.0" textFill="#dc1515">
          <font>
-            <Font name="Consolas" size="12.0" />
+            <Font name="Malgun Gothic Semilight" size="12.0" />
          </font></Label>
       <ChoiceBox fx:id="firstQuestionBox" layoutX="276.0" layoutY="93.0" prefHeight="26.0" prefWidth="186.0" />
       <ChoiceBox fx:id="secondQuestionBox" layoutX="275.0" layoutY="181.0" prefHeight="26.0" prefWidth="186.0" />
