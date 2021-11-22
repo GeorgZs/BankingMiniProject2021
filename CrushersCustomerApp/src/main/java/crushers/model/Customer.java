@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Customer extends User{
     private final double interestRate = 0.02; // for now
+    private double savingsGoal = 0; // for now
     private ArrayList<PaymentAccount> accountList;
     private ArrayList<Contact> contactList;
 
@@ -22,7 +23,7 @@ public class Customer extends User{
     }
     public void createSavingsAccount() {
         List<Transaction> transactionList = new ArrayList<>();
-        PaymentAccount savingsAccount = new SavingsAccount(0,transactionList,interestRate);
+        PaymentAccount savingsAccount = new SavingsAccount(0,transactionList,interestRate,savingsGoal);
         accountList.add(savingsAccount);
     }
 }
