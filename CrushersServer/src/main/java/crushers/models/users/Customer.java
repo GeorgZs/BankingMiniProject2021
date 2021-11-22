@@ -1,23 +1,25 @@
 package crushers.models.users;
 
-import crushers.models.accounts.StandardAccount;
-import crushers.models.exchangeInformation.Contact;
-
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-
 public class Customer extends User{
-    private List<StandardAccount> accountList;
-    private LinkedHashMap<Integer,Contact> contactList;
+    // Later, not now
+    // private List<StandardAccount> accountList;
+    // private LinkedHashMap<Integer,Contact> contactList;
 
-    public Customer(String firstName, String lastName,
-                    String address, String emailAddress,
-                    String password, List<String> securityQuestions){
-        super(firstName, lastName, address,
-              emailAddress, password, securityQuestions);
-        this.accountList = new ArrayList<>();
-        this.contactList = new LinkedHashMap<>();
+    public Customer() {
+        // empty constructor for Jackson
+    }
+
+    public Customer(
+        String emailAddress,
+        String firstName, 
+        String lastName,
+        String address, 
+        String password, 
+        String[] securityQuestions
+    ){
+        super(emailAddress, firstName, lastName, address, password, securityQuestions);
+        // this.accountList = new ArrayList<>();
+        // this.contactList = new LinkedHashMap<>();
     }
 
 }

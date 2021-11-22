@@ -7,10 +7,12 @@ import java.net.InetSocketAddress;
 import com.sun.net.httpserver.HttpServer;
 
 import crushers.models.Duck;
+import crushers.models.users.Customer;
+import crushers.services.customers.CustomerRouter;
+import crushers.services.customers.CustomerService;
 import crushers.services.ducks.DuckRouter;
 import crushers.services.ducks.DuckService;
 import crushers.storage.JsonStorage;
-import crushers.storage.MemoryStorage;
 
 /**
  * The actual http server of which the port can be configured in the constructor.
@@ -31,9 +33,18 @@ public class Server {
    */
   private void addServices() throws IOException {
     new File("data").mkdirs();
-    final DuckService duckService = new DuckService(new JsonStorage<Duck>(new File("data/ducks.json"), Duck.class));
 
+    final DuckService duckService = new DuckService(new JsonStorage<Duck>(
+      new File("data/ducks.json"), 
+      Duck.class
+    ));
     new DuckRouter(duckService).addEndpoints(this.httpServer);
+
+    final CustomerService customerService = new CustomerService(new JsonStorage<Customer>(
+      new File("data/customers.json"), 
+      Customer.class
+    ));
+    new CustomerRouter(customerService).addEndpoints(this.httpServer);
   }
 
   /**
