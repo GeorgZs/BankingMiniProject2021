@@ -1,21 +1,25 @@
 package crushers.models.users;
 
-import crushers.storage.Storable;
+import crushers.models.Bank;
 
-import java.util.List;
+public class Clerk extends User {
+    private Bank worksAt;
 
-public class Clerk extends User implements Storable {
-    private String employmentBank;
     public Clerk(){
         //empty for Jackson
     }
-    public Clerk(String firstName, String lastName,
-                 String address, String emailAddress,
-                 String password, List<String> securityQuestions,
-                 String employmentBank){
-        super(firstName, lastName, address,
-              emailAddress, password, securityQuestions);
-        this.employmentBank = employmentBank;
+
+    public Clerk(
+        String emailAddress,
+        String firstName, 
+        String lastName,
+        String address, 
+        String password, 
+        String[] securityQuestions,
+        Bank worksAt
+    ){
+        super(emailAddress, firstName, lastName, address, password, securityQuestions);
+        this.worksAt = worksAt;
     }
 
     @Override
