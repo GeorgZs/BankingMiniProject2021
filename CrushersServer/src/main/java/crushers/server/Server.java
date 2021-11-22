@@ -64,7 +64,7 @@ public class Server {
     final BankService bankService = new BankService(new JsonStorage<Bank>(
             new File("data/bank.json"),
             Bank.class
-    ));
+    ), staffService);
     new BankRouter(bankService).addEndpoints(this.httpServer);
     
     final AccountService accountService = new AccountService(

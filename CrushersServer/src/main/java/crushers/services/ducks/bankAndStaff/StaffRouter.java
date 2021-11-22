@@ -10,6 +10,10 @@ public class StaffRouter extends Router<Clerk>{
 
     private StaffService staffService;
 
+    //this constructor means that when the StaffRouter object
+    //is created it sets the base path from the Router
+    //super to /staff therefore setting it as an endpoint
+    //for our server - routes us to the bank storage
     public StaffRouter(StaffService staffService) {
         super("/staff");
         this.staffService = staffService;

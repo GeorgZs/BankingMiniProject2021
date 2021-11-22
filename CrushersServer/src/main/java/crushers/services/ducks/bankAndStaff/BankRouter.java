@@ -10,6 +10,10 @@ public class BankRouter extends Router<Bank> {
 
     private BankService bankService;
 
+    //this constructor means that when the BankRouter object
+    //is created it sets the base path from the Router
+    //super to /banks therefore setting it as an endpoint
+    //for our server - routes us to the bank storage
     public BankRouter(BankService bankService) {
         super("/banks");
         this.bankService = bankService;
