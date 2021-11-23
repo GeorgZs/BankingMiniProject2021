@@ -7,16 +7,14 @@ import crushers.models.users.Manager;
 import crushers.server.Authenticator;
 import crushers.server.httpExceptions.*;
 
-import crushers.storage.Storage;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 public class StaffService {
-    private final Storage<Clerk> storage;
+    private final JsonClerkStorage storage;
 
-    public StaffService(Storage<Clerk> storage) throws Exception {
+    public StaffService(JsonClerkStorage storage) throws Exception {
         this.storage = storage;
 
         for (Clerk clerk : storage.getAll()) {
@@ -122,8 +120,11 @@ public class StaffService {
         return storage.get(loggedInClerk.getId());
     }
 
-    public Bank getBank(Clerk loggedInClerk) throws Exception{
-        Clerk clerk = storage.get(loggedInClerk.getId());
-        return clerk.getWorksAt();
+    public Collection<Clerk> getClerksOfBank(Bank bank) throws Exception{
+        Collection<Clerk> clerks = storage.getClerksOfBank(bank);
+        if(clerks == null){
+            clerks = new ArrayList<>();
+        }
+        return clerks;
     }
 }

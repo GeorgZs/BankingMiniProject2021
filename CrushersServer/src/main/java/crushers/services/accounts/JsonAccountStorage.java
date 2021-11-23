@@ -24,7 +24,7 @@ public class JsonAccountStorage extends JsonStorage<Account> {
   }
 
   @Override
-  public Account create(Account newAccount) throws IOException {
+  public Account create(Account newAccount) throws Exception {
     Account createdAccount = super.create(newAccount);
 
     if (!customerAccounts.containsKey(createdAccount.getOwner())) {

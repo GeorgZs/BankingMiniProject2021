@@ -52,7 +52,7 @@ public class StaffRouter extends Router<Clerk>{
             try {
                 switch (exchange.getRequestMethod()) {
                     case "GET":
-                        getBank(exchange);
+                        getClerksOfBank(exchange);
                         break;
 
                     default:
@@ -96,9 +96,9 @@ public class StaffRouter extends Router<Clerk>{
         sendJsonResponse(exchange, responseData);
     }
 
-    protected void getBank(HttpExchange exchange) throws Exception{
-        final Clerk clerk = Authenticator.instance.authClerk(exchange);
-        final Bank responseData = staffService.getBank(clerk);
+    protected void getClerksOfBank(HttpExchange exchange) throws Exception{
+        final Manager manager = Authenticator.instance.authManager(exchange);
+        final Collection<Clerk> responseData = staffService.getClerksOfBank(manager.getWorksAt());
         sendJsonResponse(exchange, responseData);
     }
 }
