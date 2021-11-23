@@ -7,6 +7,7 @@ import java.util.Collection;
 import crushers.models.accounts.Account;
 import crushers.models.users.Clerk;
 import crushers.models.users.Customer;
+import crushers.models.users.User;
 import crushers.server.Authenticator;
 import crushers.server.Router;
 import crushers.server.httpExceptions.HttpException;
@@ -76,7 +77,8 @@ public class AccountRouter extends Router<Account> {
 
   @Override
   protected void get(HttpExchange exchange, int id) throws Exception {
-    final Account responseData = accountService.get(id);
+    final User loggedInUser = Authenticator.instance.authUser(exchange);
+    final Account responseData = accountService.get(loggedInUser, id);
     sendJsonResponse(exchange, responseData);
   }
 

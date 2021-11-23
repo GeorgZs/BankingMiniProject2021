@@ -5,7 +5,9 @@ import java.util.Collection;
 
 import crushers.models.Bank;
 import crushers.models.accounts.Account;
+import crushers.models.users.Clerk;
 import crushers.models.users.Customer;
+import crushers.models.users.User;
 import crushers.server.httpExceptions.*;
 import crushers.services.banks.BankService;
 
@@ -32,9 +34,17 @@ public class AccountService {
     return storage.create(account);
   }
 
-  public Account get(int id) throws Exception {
+  public Account get(User loggedInUser, int id) throws Exception {
     Account account = storage.get(id);
-    if (account == null) throw new NotFoundException("No account found with id " + id);
+    if (account == null) throw new ForbiddenException();
+
+    System.out.println(loggedInUser.getClass());
+    System.out.println(account.getBank().getId());
+    boolean isBankStaff = (loggedInUser instanceof Clerk && account.getBank().equals(((Clerk)loggedInUser).getWorksAt()));
+    if (!account.getOwner().equals(loggedInUser) && !isBankStaff) {
+      throw new ForbiddenException();
+    }
+
     return account;
   }
 

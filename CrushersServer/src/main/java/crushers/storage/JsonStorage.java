@@ -31,6 +31,7 @@ public class JsonStorage<Type extends Storable> implements Storage<Type> {
     if (jsonFile.exists()) {
       InputStream existingJsonData = new FileInputStream(jsonFile);
       this.linkedHashMap = Json.instance.parseMap(existingJsonData, type);
+      this.nextId += linkedHashMap.size();
     }
 
     Json.instance.write(this.linkedHashMap, jsonFile, type);
