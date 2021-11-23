@@ -13,6 +13,7 @@ import java.util.LinkedHashMap;
 public class JsonStorage<Type extends Storable> implements Storage<Type> {
 
   private File file;
+  private Class<Type> type;
   private int nextId;
   private LinkedHashMap<Integer, Type> linkedHashMap;
 
@@ -23,15 +24,17 @@ public class JsonStorage<Type extends Storable> implements Storage<Type> {
   //// easier and disallow repeated objects, and they would be sorted by ID number
   public JsonStorage(File jsonFile, Class<Type> type) throws IOException {
     this.file = jsonFile;
+    this.type = type;
     this.nextId = 1001;
     this.linkedHashMap = new LinkedHashMap<>();
 
     if (jsonFile.exists()) {
       InputStream existingJsonData = new FileInputStream(jsonFile);
       this.linkedHashMap = Json.instance.parseMap(existingJsonData, type);
+      this.nextId += linkedHashMap.size();
     }
 
-    Json.instance.write(this.linkedHashMap, jsonFile);
+    Json.instance.write(this.linkedHashMap, jsonFile, type);
   }
 
   @Override
@@ -48,21 +51,21 @@ public class JsonStorage<Type extends Storable> implements Storage<Type> {
   public Type create(Type newObj) throws IOException {
     newObj.setId(nextId++);
     this.linkedHashMap.put(newObj.getId(), newObj);
-    Json.instance.write(this.linkedHashMap, this.file);
+    Json.instance.write(this.linkedHashMap, this.file, this.type);
     return newObj;
   }
 
   @Override
   public Type update(int id, Type newObjData) throws IOException {
     this.linkedHashMap.replace(id, newObjData);
-    Json.instance.write(this.linkedHashMap, this.file);
+    Json.instance.write(this.linkedHashMap, this.file, this.type);
     return newObjData;
   }
 
   @Override
   public Type delete(int id) throws IOException {
     Type deletedObj = this.linkedHashMap.remove(id);
-    Json.instance.write(this.linkedHashMap, this.file);
+    Json.instance.write(this.linkedHashMap, this.file, this.type);
     return deletedObj;
   }
 }

@@ -33,8 +33,14 @@ public class Json {
   }
 
   //writes an object to the specified json file encoded into json
-  public void write(Object value, File file) throws IOException {
-    jsonWriter.writeValue(file, value);
+  public <T> void write(Object value, File file, Class<T> type) throws IOException {
+    final MapLikeType mapType = json.getTypeFactory().constructMapLikeType(
+      LinkedHashMap.class,
+      Integer.class,
+      type
+    );
+    
+    jsonWriter.forType(mapType).writeValue(file, value);
   }
 
   //the parse function allows us to return an json-encoded object for further

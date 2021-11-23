@@ -4,7 +4,7 @@ import com.sun.net.httpserver.*;
 
 import crushers.models.Bank;
 import crushers.models.users.Clerk;
-
+import crushers.models.users.Manager;
 import crushers.server.Authenticator;
 import crushers.server.Router;
 import crushers.server.httpExceptions.HttpException;
@@ -84,8 +84,9 @@ public class StaffRouter extends Router<Clerk>{
 
     @Override
     protected void post(HttpExchange exchange) throws Exception {
+        final Manager loggedInManager = Authenticator.instance.authManager(exchange);
         final Clerk requestData = getJsonBodyData(exchange, Clerk.class);
-        final Clerk responseData = staffService.create(requestData);
+        final Clerk responseData = staffService.create(loggedInManager.getWorksAt(), requestData);
         sendJsonResponse(exchange, responseData);
     }
 

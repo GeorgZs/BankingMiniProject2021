@@ -5,45 +5,58 @@ import java.util.Collection;
 
 import crushers.models.Bank;
 import crushers.models.accounts.Account;
+import crushers.models.users.Clerk;
 import crushers.models.users.Customer;
+import crushers.models.users.User;
 import crushers.server.httpExceptions.*;
-import crushers.services.customers.CustomerService;
-import crushers.storage.Storage;
+import crushers.services.banks.BankService;
 
 public class AccountService {
   
-  private final Storage<Account> storage;
-  private final CustomerService customerService;
+  private final JsonAccountStorage storage;
+  private final BankService bankService;
 
-  public AccountService(CustomerService customerService, Storage<Account> storage) {
-    this.customerService = customerService;
+  public AccountService(BankService bankService, JsonAccountStorage storage) {
+    this.bankService = bankService;
     this.storage = storage;
   }
 
   public Account create(Customer owner, Account account) throws Exception {
+    if (account.getBank() == null) {
+      throw new BadRequestException("The bank, the account should be opened at, is required.");
+    }
+    
+    // check if the bank exists
+    account.setBank(bankService.get(account.getBank().getId()));
+
     account.setOwner(owner);
-
-    // general validation
-    if (account.getBank() == null || account.getBank().getId() == -1) throw new BadRequestException("The bank the account should be opened at is required.");
-
-    // TODO: check if the bank exists
+    account.setNumber(account.getBank().generateAccountNumber());
     return storage.create(account);
   }
 
-  public Account get(int id) throws Exception {
-    // TODO: check authentication
+  public Account get(User loggedInUser, int id) throws Exception {
     Account account = storage.get(id);
-    if (account == null) throw new NotFoundException("No account found with id " + id);
+    if (account == null) throw new ForbiddenException();
+
+    System.out.println(loggedInUser.getClass());
+    System.out.println(account.getBank().getId());
+    boolean isBankStaff = (loggedInUser instanceof Clerk && account.getBank().equals(((Clerk)loggedInUser).getWorksAt()));
+    if (!account.getOwner().equals(loggedInUser) && !isBankStaff) {
+      throw new ForbiddenException();
+    }
+
     return account;
   }
 
-  public Collection<Account> getOfOwner(Customer owner) throws Exception {
-    // TODO
-    return new ArrayList<>();
+  public Collection<Account> getOfCustomer(Customer customer) throws Exception {
+    Collection<Account> accounts = storage.getAccountsOfCustomer(customer);
+    if (accounts == null) accounts = new ArrayList<>();
+    return accounts;
   }
 
   public Collection<Account> getOfBank(Bank bank) throws Exception {
-    // TODO
-    return new ArrayList<>();
+    Collection<Account> accounts = storage.getAccountsOfBank(bank);
+    if (accounts == null) accounts = new ArrayList<>();
+    return accounts;
   }
 }

@@ -5,11 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1aec4024-984c-4729-9703-b149b6532b29" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/BankingSoftwareMiniproject.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CrushersServer/.idea/.name" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CrushersStaffApp/src/main/java/crushers/Manager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,7 +26,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/CrushersServer" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="preferences.editor.code.editing" />
   </component>
   <component name="RunManager">
@@ -73,6 +70,9 @@
       <workItem from="1637328987340" duration="1000" />
       <workItem from="1637329080635" duration="395000" />
       <workItem from="1637329491657" duration="84000" />
+      <workItem from="1637699482566" duration="59000" />
+      <workItem from="1637699877919" duration="3000" />
+      <workItem from="1637699924808" duration="15000" />
     </task>
     <servers />
   </component>

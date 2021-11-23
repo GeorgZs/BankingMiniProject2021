@@ -20,7 +20,24 @@ public class StaffService {
         this.storage = storage;
 
         for (Clerk clerk : storage.getAll()) {
-            Authenticator.instance.register(clerk);
+            if (clerk.getStaffType().equals("clerk")) {
+                Authenticator.instance.register(clerk);
+            }
+            else {
+                // turn managers into managers again
+                Manager manager = new Manager(
+                    clerk.getEmail(),
+                    clerk.getFirstName(), 
+                    clerk.getLastName(), 
+                    clerk.getAddress(), 
+                    clerk.getPassword(), 
+                    clerk.getSecurityQuestions(), 
+                    clerk.getWorksAt()
+                );
+
+                storage.update(clerk.getId(), manager);
+                Authenticator.instance.register(manager);
+            }
         }
     }
 
@@ -56,7 +73,7 @@ public class StaffService {
                     securityQandA,
                     null));
             
-            create(new Clerk(
+            create(bank, new Clerk(
                     "test2@email.com",
                     "First",
                     "Last",
@@ -70,7 +87,7 @@ public class StaffService {
 
     //called to create a clerk and this returns the clerk
     //created and adds them to the storage
-    public Clerk create(Clerk clerk) throws Exception {
+    public Clerk create(Bank bank, Clerk clerk) throws Exception {
         List<String> invalidDataMessage = new ArrayList<>();
         if(clerk == null){
             throw new BadRequestException("Staff Member invalid!");
@@ -96,6 +113,7 @@ public class StaffService {
         if(clerk.getPassword() != null && clerk.getPassword().contains(" ")){
             invalidDataMessage.add("Password cannot contain an empty character");}
 
+        clerk.setWorksAt(bank);
         Authenticator.instance.register(clerk);
         return storage.create(clerk);
     }
