@@ -26,4 +26,13 @@ public class Customer extends User{
         PaymentAccount savingsAccount = new SavingsAccount(0, savingsGoal);
         accountList.add(savingsAccount);
     }
+
+    public void resetPassword(){
+        //User must input their current password.
+        //If entered password matches current password, user may create a new password
+
+    }
+
+
+
 }
