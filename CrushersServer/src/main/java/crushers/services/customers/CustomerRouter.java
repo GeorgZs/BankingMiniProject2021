@@ -2,8 +2,6 @@ package crushers.services.customers;
 
 import com.sun.net.httpserver.*;
 
-import java.util.Collection;
-
 import crushers.models.users.Customer;
 import crushers.server.Authenticator;
 import crushers.server.Router;

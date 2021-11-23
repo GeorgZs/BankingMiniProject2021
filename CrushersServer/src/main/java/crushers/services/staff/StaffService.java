@@ -2,12 +2,15 @@ package crushers.services.staff;
 
 import crushers.models.Bank;
 import crushers.models.users.Clerk;
+import crushers.models.users.Customer;
 import crushers.models.users.Manager;
 import crushers.server.Authenticator;
 import crushers.server.httpExceptions.*;
 import crushers.storage.Storage;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class StaffService {
     private final Storage<Clerk> storage;
@@ -67,11 +70,41 @@ public class StaffService {
     //called to create a clerk and this returns the clerk
     //created and adds them to the storage
     public Clerk create(Clerk clerk) throws Exception {
+        List<String> invalidDataMessage = new ArrayList<>();
         if(clerk == null){
             throw new BadRequestException("Staff Member invalid!");
         }
 
+        //general validation of details
+        if(clerk.getEmail().isBlank() || clerk.getEmail() == null){
+            invalidDataMessage.add("Email cannot be blank");}
+        if(clerk.getFirstName().isBlank() || clerk.getFirstName() == null){
+            invalidDataMessage.add("First Name cannot be blank");}
+        if(clerk.getLastName().isBlank() || clerk.getLastName() == null){
+            invalidDataMessage.add("Last Name cannot be blank");}
+        if(clerk.getPassword().isBlank() || clerk.getPassword() == null){
+            invalidDataMessage.add("Password cannot be blank");}
+
+        //password validation - not allow creating of simple passwords
+        if(clerk.getPassword() != null && clerk.getPassword().length() < 8){
+            invalidDataMessage.add("Password must be longer that 8 characters");}
+        if(clerk.getPassword() != null && clerk.getPassword().matches(".*[A-Z].*")){
+            invalidDataMessage.add("Password must contain at least 1 Captial Letter");}
+        if(clerk.getPassword() != null && clerk.getPassword().matches(".*[0-9].*")){
+            invalidDataMessage.add("Password must contain at least 1 digit (0-9)");}
+        if(clerk.getPassword() != null && clerk.getPassword().contains(" ")){
+            invalidDataMessage.add("Password cannot contain an empty character");}
+
         Authenticator.instance.register(clerk);
         return storage.create(clerk);
+    }
+
+    public Clerk getLoggedIn(Clerk loggedInClerk) throws Exception {
+        return storage.get(loggedInClerk.getId());
+    }
+
+    public Bank getBank(Clerk loggedInClerk) throws Exception{
+        Clerk clerk = storage.get(loggedInClerk.getId());
+        return clerk.getWorksAt();
     }
 }

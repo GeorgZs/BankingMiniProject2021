@@ -34,6 +34,9 @@ public class CustomerService {
     if (customer.getPassword() != null && customer.getPassword().length() < 8) invalidDataMessage.add("Password must be at least 8 characters long.");
     if (customer.getPassword() != null && !customer.getPassword().matches(".*[A-Z].*")) invalidDataMessage.add("Password must contain at least 1 capital letter.");
     if (customer.getPassword() != null && !customer.getPassword().matches(".*[0-9].*")) invalidDataMessage.add("Password must contain at least 1 digit.");
+    if(customer.getPassword() != null && customer.getPassword().contains(" ")){
+      invalidDataMessage.add("Password cannot contain an empty character");
+    }
 
     // build the error message if there are any errors
     if (!invalidDataMessage.isEmpty()) throw new BadRequestException(String.join("\n", invalidDataMessage));
