@@ -19,12 +19,9 @@ public abstract class User implements Storable {
     }
 
     public User(
-        String emailAddress, 
-        String firstName, 
-        String lastName,
-        String address, 
-        String password, 
-        String[] securityQuestions
+        String emailAddress, String firstName,
+        String lastName, String address,
+        String password, String[] securityQuestions
     ) {
         this.id = -1;
         this.email = emailAddress;
