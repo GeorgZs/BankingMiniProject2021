@@ -4,8 +4,7 @@ import com.sun.net.httpserver.*;
 
 import crushers.models.Bank;
 import crushers.models.users.Clerk;
-import crushers.models.users.Customer;
-import crushers.models.users.Manager;
+
 import crushers.server.Authenticator;
 import crushers.server.Router;
 import crushers.server.httpExceptions.HttpException;
@@ -29,7 +28,6 @@ public class StaffRouter extends Router<Clerk>{
     @Override
     public void addEndpoints(HttpServer server) {
         super.addEndpoints(server); // add the prewiring
-
         server.createContext(basePath + "/@me", (exchange) -> {
             try {
                 switch (exchange.getRequestMethod()) {

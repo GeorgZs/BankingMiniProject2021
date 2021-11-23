@@ -2,10 +2,11 @@ package crushers.services.staff;
 
 import crushers.models.Bank;
 import crushers.models.users.Clerk;
-import crushers.models.users.Customer;
 import crushers.models.users.Manager;
+
 import crushers.server.Authenticator;
 import crushers.server.httpExceptions.*;
+
 import crushers.storage.Storage;
 
 import java.util.ArrayList;
