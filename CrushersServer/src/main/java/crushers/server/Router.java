@@ -1,11 +1,11 @@
 package crushers.server;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
 import com.sun.net.httpserver.*;
 
+import crushers.server.httpExceptions.BadRequestException;
 import crushers.server.httpExceptions.HttpException;
 import crushers.server.httpExceptions.MethodNotAllowedException;
 import crushers.utils.Json;
@@ -18,7 +18,7 @@ import crushers.utils.Json;
  */
 public class Router<Type> {
 
-  private String basePath;
+  protected String basePath;
   
   public Router(String basePath) {
     this.basePath = basePath;
@@ -108,11 +108,11 @@ public class Router<Type> {
   /**
    * Tries to parse the request body as json.
    */
-  final protected <T> T getJsonBodyData(HttpExchange exchange, Class<T> type) throws IOException {
+  final protected <T> T getJsonBodyData(HttpExchange exchange, Class<T> type) throws Exception {
     final List<String> contentType = exchange.getRequestHeaders().get("Content-Type");
 
     if (contentType == null || !contentType.contains("application/json")) {
-      throw new IllegalArgumentException("The request is missing a valid json body.");
+      throw new BadRequestException("The request is missing a valid json body.");
     }
 
     byte[] body = exchange.getRequestBody().readAllBytes();

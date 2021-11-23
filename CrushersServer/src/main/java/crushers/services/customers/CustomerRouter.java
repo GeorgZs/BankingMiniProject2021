@@ -5,6 +5,7 @@ import com.sun.net.httpserver.*;
 import java.util.Collection;
 
 import crushers.models.users.Customer;
+import crushers.server.Authenticator;
 import crushers.server.Router;
 import crushers.server.httpExceptions.HttpException;
 import crushers.server.httpExceptions.MethodNotAllowedException;
@@ -22,7 +23,7 @@ public class CustomerRouter extends Router<Customer> {
   public void addEndpoints(HttpServer server) {
     super.addEndpoints(server); // add the prewiring
 
-    server.createContext("/customers/@me", (exchange) -> {
+    server.createContext(basePath + "/@me", (exchange) -> {
       try {
         switch (exchange.getRequestMethod()) {
           case "GET":
@@ -51,7 +52,8 @@ public class CustomerRouter extends Router<Customer> {
   }
 
   private void getLoggedIn(HttpExchange exchange) throws Exception {
-    final Customer responseData = customerService.getLoggedIn();
+    final Customer loggedInCustomer = Authenticator.instance.authCustomer(exchange);
+    final Customer responseData = customerService.getLoggedIn(loggedInCustomer);
     sendJsonResponse(exchange, responseData);
   }
   

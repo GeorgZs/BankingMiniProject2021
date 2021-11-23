@@ -3,6 +3,7 @@ package crushers.services.banks;
 
 import crushers.models.Bank;
 import crushers.models.users.Manager;
+import crushers.server.Authenticator;
 import crushers.server.httpExceptions.*;
 import crushers.services.staff.StaffService;
 import crushers.storage.Storage;
@@ -36,10 +37,11 @@ public class BankService {
             securityQandA[3] = "Georg";
             securityQandA[4] = "Highschool name";
             securityQandA[5] = "Georg";
-            Manager manager = new Manager("First",
+            Manager manager = new Manager(
+                    "test@email.com",
+                    "First",
                     "Last",
                     "Lindholmen 10",
-                    "test@email.com",
                     "HelloWorld",
                     securityQandA,
                     null);
@@ -54,6 +56,8 @@ public class BankService {
         if(bank == null){
             throw new BadRequestException("User invalid!");
         }
+
+        staffService.create(bank.getManager());        
         return storage.create(bank);
     }
 }

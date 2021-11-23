@@ -1,10 +1,10 @@
 package crushers.services.customers;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import crushers.models.users.Customer;
+import crushers.server.Authenticator;
 import crushers.server.httpExceptions.*;
 import crushers.storage.Storage;
 
@@ -12,8 +12,12 @@ public class CustomerService {
   
   private final Storage<Customer> storage;
 
-  public CustomerService(Storage<Customer> storage) {
+  public CustomerService(Storage<Customer> storage) throws Exception {
     this.storage = storage;
+    
+    for (Customer customer : storage.getAll()) {
+      Authenticator.instance.register(customer);
+    }
   }
 
   public Customer create(Customer customer) throws Exception {
@@ -34,14 +38,12 @@ public class CustomerService {
     // build the error message if there are any errors
     if (!invalidDataMessage.isEmpty()) throw new BadRequestException(String.join("\n", invalidDataMessage));
 
-    // TODO: check if email is already in use
+    Authenticator.instance.register(customer);
     return storage.create(customer);
   }
 
-  public Customer getLoggedIn() throws Exception {
-    // TODO: get the actual logged in customer
-    if (storage.getAll().isEmpty()) throw new UnauthorizedException();
-    return storage.getAll().iterator().next();
+  public Customer getLoggedIn(Customer loggedInCustomer) throws Exception {
+    return storage.get(loggedInCustomer.getId());
   }
 
 }

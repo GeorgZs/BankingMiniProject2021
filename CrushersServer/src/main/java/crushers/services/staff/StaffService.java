@@ -3,6 +3,7 @@ package crushers.services.staff;
 import crushers.models.Bank;
 import crushers.models.users.Clerk;
 import crushers.models.users.Manager;
+import crushers.server.Authenticator;
 import crushers.server.httpExceptions.*;
 import crushers.storage.Storage;
 
@@ -11,8 +12,12 @@ import java.util.Collection;
 public class StaffService {
     private final Storage<Clerk> storage;
 
-    public StaffService(Storage<Clerk> storage){
+    public StaffService(Storage<Clerk> storage) throws Exception {
         this.storage = storage;
+
+        for (Clerk clerk : storage.getAll()) {
+            Authenticator.instance.register(clerk);
+        }
     }
 
     //this method gets the staff member by their unique
@@ -38,18 +43,20 @@ public class StaffService {
             securityQandA[3] = "Georg";
             securityQandA[4] = "Highschool name";
             securityQandA[5] = "Georg";
-            Bank bank = new Bank(new Manager("First",
-                    "Last",
-                    "Lindholmen 10",
+            Bank bank = new Bank(new Manager(
                     "test@email.com",
-                    "HelloWorld",
-                    securityQandA,
-                    null));
-            storage.create(new Clerk(
                     "First",
                     "Last",
                     "Lindholmen 10",
-                    "test@email.com",
+                    "HelloWorld",
+                    securityQandA,
+                    null));
+            
+            create(new Clerk(
+                    "test2@email.com",
+                    "First",
+                    "Last",
+                    "Lindholmen 10",
                     "HelloWorld",
                     securityQandA,
                     bank));
@@ -63,6 +70,8 @@ public class StaffService {
         if(clerk == null){
             throw new BadRequestException("Staff Member invalid!");
         }
+
+        Authenticator.instance.register(clerk);
         return storage.create(clerk);
     }
 }

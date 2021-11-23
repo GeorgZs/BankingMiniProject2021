@@ -20,8 +20,7 @@ public class AccountService {
     this.storage = storage;
   }
 
-  public Account create(Account account) throws Exception {
-    Customer owner = customerService.getLoggedIn();
+  public Account create(Customer owner, Account account) throws Exception {
     account.setOwner(owner);
 
     // general validation
@@ -38,7 +37,7 @@ public class AccountService {
     return account;
   }
 
-  public Collection<Account> getOfOwner(Customer customer) throws Exception {
+  public Collection<Account> getOfOwner(Customer owner) throws Exception {
     // TODO
     return new ArrayList<>();
   }

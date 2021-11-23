@@ -5,6 +5,9 @@ import com.sun.net.httpserver.*;
 import java.util.Collection;
 
 import crushers.models.accounts.Account;
+import crushers.models.users.Clerk;
+import crushers.models.users.Customer;
+import crushers.server.Authenticator;
 import crushers.server.Router;
 import crushers.server.httpExceptions.HttpException;
 import crushers.server.httpExceptions.MethodNotAllowedException;
@@ -65,8 +68,9 @@ public class AccountRouter extends Router<Account> {
 
   @Override
   protected void post(HttpExchange exchange) throws Exception {
+    final Customer loggedInCustomer = Authenticator.instance.authCustomer(exchange);
     final Account requestData = getJsonBodyData(exchange, Account.class);
-    final Account responseData = accountService.create(requestData);
+    final Account responseData = accountService.create(loggedInCustomer, requestData);
     sendJsonResponse(exchange, responseData);
   }
 
@@ -77,12 +81,14 @@ public class AccountRouter extends Router<Account> {
   }
 
   private void getOfLoggedInCustomer(HttpExchange exchange) throws Exception {
-    final Collection<Account> responseData = accountService.getOfOwner(null);
+    final Customer loggedInCustomer = Authenticator.instance.authCustomer(exchange);
+    final Collection<Account> responseData = accountService.getOfOwner(loggedInCustomer);
     sendJsonResponse(exchange, responseData);
   }
 
   private void getOfLoggedInBank(HttpExchange exchange) throws Exception {
-    final Collection<Account> responseData = accountService.getOfBank(null);
+    final Clerk loggedInClerk = Authenticator.instance.authClerk(exchange);
+    final Collection<Account> responseData = accountService.getOfBank(loggedInClerk.getWorksAt());
     sendJsonResponse(exchange, responseData);
   }
 
