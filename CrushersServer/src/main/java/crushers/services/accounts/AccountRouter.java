@@ -6,7 +6,8 @@ import java.util.Collection;
 
 import crushers.models.accounts.Account;
 import crushers.server.Router;
-import crushers.server.customExceptions.MethodNotAllowedException;
+import crushers.server.httpExceptions.HttpException;
+import crushers.server.httpExceptions.MethodNotAllowedException;
 
 public class AccountRouter extends Router<Account> {
 
@@ -32,14 +33,8 @@ public class AccountRouter extends Router<Account> {
             throw new MethodNotAllowedException();
         }
       }
-      catch (MethodNotAllowedException ex) {
-        exchange.sendResponseHeaders(405, 0);
-      }
-      catch (IllegalAccessException ex) {
-        sendResponse(exchange, 401, String.format("{\"error\":\"%s\"}", ex.getMessage()).getBytes());
-      }
-      catch (IllegalArgumentException ex) {
-        sendResponse(exchange, 400, String.format("{\"error\":\"%s\"}", ex.getMessage()).getBytes());
+      catch (HttpException ex) {
+        sendResponse(exchange, ex.statusCode, String.format("{\"error\":\"%s\"}", ex.getMessage()).getBytes());
       }
       catch (Exception ex) {
         sendResponse(exchange, 500, String.format("{\"error\":\"Internal server error, try again later.\"}").getBytes());
@@ -58,14 +53,8 @@ public class AccountRouter extends Router<Account> {
             throw new MethodNotAllowedException();
         }
       }
-      catch (MethodNotAllowedException ex) {
-        exchange.sendResponseHeaders(405, 0);
-      }
-      catch (IllegalAccessException ex) {
-        sendResponse(exchange, 401, String.format("{\"error\":\"%s\"}", ex.getMessage()).getBytes());
-      }
-      catch (IllegalArgumentException ex) {
-        sendResponse(exchange, 400, String.format("{\"error\":\"%s\"}", ex.getMessage()).getBytes());
+      catch (HttpException ex) {
+        sendResponse(exchange, ex.statusCode, String.format("{\"error\":\"%s\"}", ex.getMessage()).getBytes());
       }
       catch (Exception ex) {
         sendResponse(exchange, 500, String.format("{\"error\":\"Internal server error, try again later.\"}").getBytes());

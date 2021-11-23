@@ -1,7 +1,8 @@
-package crushers.services.ducks.bankAndStaff;
+package crushers.services.banks;
 
 
 import crushers.models.Bank;
+import crushers.server.httpExceptions.*;
 import crushers.storage.Storage;
 
 import java.util.Collection;
@@ -13,10 +14,10 @@ public class BankService {
         this.storage = storage;
     }
 
-    public Bank get(int id) throws Exception{
+    public Bank get(int id) throws Exception {
         Bank bank = storage.get(id);
         if(bank == null){
-            throw new Exception("No User found with ID: " + id);
+            throw new NotFoundException("No User found with ID: " + id);
         }
         return bank;
     }
@@ -30,7 +31,7 @@ public class BankService {
 
     public Bank create(Bank bank) throws Exception {
         if(bank == null){
-            throw new Exception("User invalid!");
+            throw new BadRequestException("User invalid!");
         }
         return storage.create(bank);
     }

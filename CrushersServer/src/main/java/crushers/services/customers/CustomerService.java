@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import crushers.models.users.Customer;
+import crushers.server.httpExceptions.*;
 import crushers.storage.Storage;
 
 public class CustomerService {
@@ -31,7 +32,7 @@ public class CustomerService {
     if (customer.getPassword() != null && !customer.getPassword().matches(".*[0-9].*")) invalidDataMessage.add("Password must contain at least 1 digit.");
 
     // build the error message if there are any errors
-    if (!invalidDataMessage.isEmpty()) throw new IllegalArgumentException(String.join("\n", invalidDataMessage));
+    if (!invalidDataMessage.isEmpty()) throw new BadRequestException(String.join("\n", invalidDataMessage));
 
     // TODO: check if email is already in use
     return storage.create(customer);
@@ -39,7 +40,7 @@ public class CustomerService {
 
   public Customer getLoggedIn() throws Exception {
     // TODO: get the actual logged in customer
-    if (storage.getAll().isEmpty()) throw new IllegalAccessException("Needs a customer to be logged in (for now create one and the first customer is always logged in).");
+    if (storage.getAll().isEmpty()) throw new UnauthorizedException();
     return storage.getAll().iterator().next();
   }
 

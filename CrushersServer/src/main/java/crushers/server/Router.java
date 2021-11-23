@@ -6,7 +6,8 @@ import java.util.List;
 
 import com.sun.net.httpserver.*;
 
-import crushers.server.customExceptions.MethodNotAllowedException;
+import crushers.server.httpExceptions.HttpException;
+import crushers.server.httpExceptions.MethodNotAllowedException;
 import crushers.utils.Json;
 
 /**
@@ -136,14 +137,8 @@ public class Router<Type> {
           throw new MethodNotAllowedException();
       }
     }
-    catch (MethodNotAllowedException ex) {
-      exchange.sendResponseHeaders(405, 0);
-    }
-    catch (FileNotFoundException ex) {
-      sendResponse(exchange, 404, String.format("{\"error\":\"%s\"}", ex.getMessage()).getBytes());
-    }
-    catch (IllegalArgumentException ex) {
-      sendResponse(exchange, 400, String.format("{\"error\":\"%s\"}", ex.getMessage()).getBytes());
+    catch (HttpException ex) {
+      sendResponse(exchange, ex.statusCode, String.format("{\"error\":\"%s\"}", ex.getMessage()).getBytes());
     }
     catch (Exception ex) {
       sendResponse(exchange, 500, String.format("{\"error\":\"Internal server error, try again later.\"}").getBytes());
@@ -176,14 +171,8 @@ public class Router<Type> {
           throw new MethodNotAllowedException();
       }
     }
-    catch (MethodNotAllowedException ex) {
-      exchange.sendResponseHeaders(405, 0);
-    }
-    catch (FileNotFoundException ex) {
-      sendResponse(exchange, 404, String.format("{\"error\":\"%s\"}", ex.getMessage()).getBytes());
-    }
-    catch (IllegalArgumentException ex) {
-      sendResponse(exchange, 400, String.format("{\"error\":\"%s\"}", ex.getMessage()).getBytes());
+    catch (HttpException ex) {
+      sendResponse(exchange, ex.statusCode, String.format("{\"error\":\"%s\"}", ex.getMessage()).getBytes());
     }
     catch (Exception ex) {
       sendResponse(exchange, 500, String.format("{\"error\":\"Internal server error, try again later.\"}").getBytes());

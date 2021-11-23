@@ -1,8 +1,9 @@
-package crushers.services.ducks.bankAndStaff;
+package crushers.services.staff;
 
 import crushers.models.Bank;
 import crushers.models.users.Clerk;
 import crushers.models.users.Manager;
+import crushers.server.httpExceptions.*;
 import crushers.storage.Storage;
 
 import java.util.ArrayList;
@@ -15,10 +16,10 @@ public class StaffService {
         this.storage = storage;
     }
 
-    public Clerk get(int id) throws Exception{
+    public Clerk get(int id) throws Exception {
         Clerk clerk = storage.get(id);
         if(clerk == null){
-            throw new Exception("No Staff member found with ID: " + id);
+            throw new NotFoundException("No Staff member found with ID: " + id);
         }
         return clerk;
     }
@@ -54,7 +55,7 @@ public class StaffService {
 
     public Clerk create(Clerk clerk) throws Exception {
         if(clerk == null){
-            throw new Exception("Staff Member invalid!");
+            throw new BadRequestException("Staff Member invalid!");
         }
         return storage.create(clerk);
     }

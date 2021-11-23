@@ -7,20 +7,17 @@ import java.net.InetSocketAddress;
 import com.sun.net.httpserver.HttpServer;
 
 import crushers.models.Bank;
-import crushers.models.Duck;
 import crushers.models.users.Clerk;
 import crushers.models.accounts.Account;
 import crushers.models.users.Customer;
 import crushers.services.accounts.AccountRouter;
 import crushers.services.accounts.AccountService;
+import crushers.services.banks.BankRouter;
+import crushers.services.banks.BankService;
 import crushers.services.customers.CustomerRouter;
 import crushers.services.customers.CustomerService;
-import crushers.services.ducks.DuckRouter;
-import crushers.services.ducks.DuckService;
-import crushers.services.ducks.bankAndStaff.BankRouter;
-import crushers.services.ducks.bankAndStaff.BankService;
-import crushers.services.ducks.bankAndStaff.StaffRouter;
-import crushers.services.ducks.bankAndStaff.StaffService;
+import crushers.services.staff.StaffRouter;
+import crushers.services.staff.StaffService;
 import crushers.storage.JsonStorage;
 
 /**
@@ -43,12 +40,6 @@ public class Server {
   private void addServices() throws IOException {
     new File("data").mkdirs();
 
-    final DuckService duckService = new DuckService(new JsonStorage<Duck>(
-      new File("data/ducks.json"), 
-      Duck.class
-    ));
-    new DuckRouter(duckService).addEndpoints(this.httpServer);
-
     final CustomerService customerService = new CustomerService(new JsonStorage<Customer>(
       new File("data/customers.json"), 
       Customer.class
@@ -56,14 +47,14 @@ public class Server {
     new CustomerRouter(customerService).addEndpoints(this.httpServer);
 
     final StaffService staffService = new StaffService(new JsonStorage<Clerk>(
-            new File("data/staff.json"),
-            Clerk.class
+      new File("data/staff.json"),
+      Clerk.class
     ));
     new StaffRouter(staffService).addEndpoints(this.httpServer);
 
     final BankService bankService = new BankService(new JsonStorage<Bank>(
-            new File("data/bank.json"),
-            Bank.class
+      new File("data/bank.json"),
+      Bank.class
     ));
     new BankRouter(bankService).addEndpoints(this.httpServer);
     
