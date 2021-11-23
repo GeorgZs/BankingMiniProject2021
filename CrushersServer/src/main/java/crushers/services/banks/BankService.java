@@ -3,7 +3,6 @@ package crushers.services.banks;
 
 import crushers.models.Bank;
 import crushers.models.users.Manager;
-import crushers.server.Authenticator;
 import crushers.server.httpExceptions.*;
 import crushers.services.staff.StaffService;
 import crushers.storage.Storage;
@@ -22,7 +21,7 @@ public class BankService {
     public Bank get(int id) throws Exception {
         Bank bank = storage.get(id);
         if(bank == null){
-            throw new NotFoundException("No User found with ID: " + id);
+            throw new NotFoundException("No Bank found with ID: " + id);
         }
         return bank;
     }
@@ -57,7 +56,8 @@ public class BankService {
             throw new BadRequestException("User invalid!");
         }
 
-        staffService.create(bank.getManager());        
-        return storage.create(bank);
+        Bank createdBank = storage.create(bank);
+        staffService.create(createdBank, bank.getManager());
+        return createdBank;
     }
 }

@@ -82,7 +82,7 @@ public class AccountRouter extends Router<Account> {
 
   private void getOfLoggedInCustomer(HttpExchange exchange) throws Exception {
     final Customer loggedInCustomer = Authenticator.instance.authCustomer(exchange);
-    final Collection<Account> responseData = accountService.getOfOwner(loggedInCustomer);
+    final Collection<Account> responseData = accountService.getOfCustomer(loggedInCustomer);
     sendJsonResponse(exchange, responseData);
   }
 

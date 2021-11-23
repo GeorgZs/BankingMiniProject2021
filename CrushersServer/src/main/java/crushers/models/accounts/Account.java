@@ -1,5 +1,6 @@
 package crushers.models.accounts;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
@@ -19,20 +20,20 @@ import crushers.storage.Storable;
 })
 public abstract class Account implements Storable {
   private int id = -1;
-  // temporary bank number generation
-  private String number = "SE " + (int)(Math.floor(Math.random() * 9000 + 1000)) + " " + (int)(Math.floor(Math.random() * 90000 + 10000)) + " " + (int)(Math.floor(Math.random() * 9000 + 1000));
+  private String number;
+
+  @JsonIgnoreProperties({ "details", "manager" })
   private Bank bank;
+  
+  @JsonIgnoreProperties({ "password", "securityQuestions", "lastLoginAt" })
   private Customer owner;
   private double balance = 0.0;
-
-  public String type;
 
   // for later, but not now
   // private LinkedHashMap<Time, Transaction> transactions;
 
   public Account() {
     // empty constructor for Jackson
-    // temporary bank number assignment
   }
 
   public Account(Bank bank, Customer owner, double balance) {
@@ -82,5 +83,29 @@ public abstract class Account implements Storable {
   public void setBalance(double balance) {
     this.balance = balance;
   }
+
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + id;
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    Account other = (Account) obj;
+    if (id != other.id)
+      return false;
+    return true;
+  }
+
+  
 
 }

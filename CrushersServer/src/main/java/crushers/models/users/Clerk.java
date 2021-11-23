@@ -1,12 +1,18 @@
 package crushers.models.users;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import crushers.models.Bank;
 
 public class Clerk extends User {
+    
+    protected String staffType;
+
+    @JsonIgnoreProperties({ "details", "manager" })
     private Bank worksAt;
 
-    public Clerk(){
-        //empty for Jackson
+    public Clerk() {
+        this.staffType = "clerk"; // empty for Jackson
     }
 
     public Clerk(
@@ -19,6 +25,7 @@ public class Clerk extends User {
         Bank worksAt
     ){
         super(emailAddress, firstName, lastName, address, password, securityQuestions);
+        this.staffType = "clerk";
         this.worksAt = worksAt;
     }
 
@@ -38,6 +45,10 @@ public class Clerk extends User {
 
     public void setWorksAt(Bank worksAt) {
         this.worksAt = worksAt;
+    }
+
+    public String getStaffType() {
+        return staffType;
     }
 
 }

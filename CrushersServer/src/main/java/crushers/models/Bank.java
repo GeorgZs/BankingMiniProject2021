@@ -1,5 +1,9 @@
 package crushers.models;
 
+import java.time.LocalTime;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import crushers.models.users.Manager;
 import crushers.storage.Storable;
 
@@ -8,6 +12,8 @@ public class Bank implements Storable {
     private String name;
     private String logo;
     private String details;
+
+    @JsonIgnoreProperties({ "worksAt" })
     private Manager manager;
 
     public Bank() {
@@ -20,6 +26,10 @@ public class Bank implements Storable {
         this.logo = "Empty - Please Fill";
         this.details = "Empty - Please Fill";
         this.manager = manager;
+    }
+
+    public String generateAccountNumber() {
+        return String.format("SE %d %s %d", this.id, LocalTime.now().toString().split("[.]")[1], (int)(10000 + Math.random() * 90000));
     }
 
     @Override
