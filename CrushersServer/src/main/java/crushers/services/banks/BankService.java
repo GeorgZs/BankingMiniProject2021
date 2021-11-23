@@ -2,16 +2,20 @@ package crushers.services.banks;
 
 
 import crushers.models.Bank;
+import crushers.models.users.Manager;
 import crushers.server.httpExceptions.*;
+import crushers.services.staff.StaffService;
 import crushers.storage.Storage;
 
 import java.util.Collection;
 
 public class BankService {
     private final Storage<Bank> storage;
+    private final StaffService staffService;
 
-    public BankService(Storage<Bank> storage) {
+    public BankService(Storage<Bank> storage, StaffService staffService) {
         this.storage = storage;
+        this.staffService = staffService;
     }
 
     public Bank get(int id) throws Exception {
@@ -23,9 +27,26 @@ public class BankService {
     }
 
     public Collection<Bank> getAll() throws Exception {
-        // if(storage.getAll().isEmpty()){
-        //     throw new Exception("Empty User storage");
-        // }
+        if(storage.getAll().isEmpty()){
+            System.out.println("Empty Bank storage - creating random bank");
+            String[] securityQandA = new String[6];
+            securityQandA[0] = "Mother's Maiden name";
+            securityQandA[1] = "Georg";
+            securityQandA[2] = "Pet cat's name";
+            securityQandA[3] = "Georg";
+            securityQandA[4] = "Highschool name";
+            securityQandA[5] = "Georg";
+            Manager manager = new Manager("First",
+                    "Last",
+                    "Lindholmen 10",
+                    "test@email.com",
+                    "HelloWorld",
+                    securityQandA,
+                    null);
+            staffService.create(manager);
+            storage.create(new Bank(manager));
+        }
+        
         return storage.getAll();
     }
 
