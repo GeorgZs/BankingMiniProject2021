@@ -6,7 +6,6 @@ import crushers.models.users.Manager;
 import crushers.server.httpExceptions.*;
 import crushers.storage.Storage;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 public class StaffService {
@@ -16,6 +15,8 @@ public class StaffService {
         this.storage = storage;
     }
 
+    //this method gets the staff member by their unique
+    //id that is generated upon their creation
     public Clerk get(int id) throws Exception {
         Clerk clerk = storage.get(id);
         if(clerk == null){
@@ -24,22 +25,25 @@ public class StaffService {
         return clerk;
     }
 
+    //when http://localhost:8080/staff is first called it uses the function
+    //below to get all staff members which, if there are no staff members, creates a new
+    //template staff member
     public Collection<Clerk> getAll() throws Exception {
         if(storage.getAll().isEmpty()){
-            System.out.println("Empty Staff storage - creating employee 1");
-            String[] ge = new String[6];
-            ge[0] = "Mother's Maiden name";
-            ge[1] = "Georg";
-            ge[2] = "Pet cat's name";
-            ge[3] = "Georg";
-            ge[4] = "Highschool name";
-            ge[5] = "Georg";
+            System.out.println("Empty Staff storage - creating random employee");
+            String[] securityQandA = new String[6];
+            securityQandA[0] = "Mother's Maiden name";
+            securityQandA[1] = "Georg";
+            securityQandA[2] = "Pet cat's name";
+            securityQandA[3] = "Georg";
+            securityQandA[4] = "Highschool name";
+            securityQandA[5] = "Georg";
             Bank bank = new Bank(new Manager("First",
                     "Last",
                     "Lindholmen 10",
                     "test@email.com",
                     "HelloWorld",
-                    ge,
+                    securityQandA,
                     null));
             storage.create(new Clerk(
                     "First",
@@ -47,12 +51,14 @@ public class StaffService {
                     "Lindholmen 10",
                     "test@email.com",
                     "HelloWorld",
-                    ge,
+                    securityQandA,
                     bank));
         }
         return storage.getAll();
     }
 
+    //called to create a clerk and this returns the clerk
+    //created and adds them to the storage
     public Clerk create(Clerk clerk) throws Exception {
         if(clerk == null){
             throw new BadRequestException("Staff Member invalid!");

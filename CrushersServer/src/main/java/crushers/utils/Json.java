@@ -26,18 +26,25 @@ public class Json {
     this.jsonWriter = json.writer(new DefaultPrettyPrinter());
   }
 
+  //the toString method of Json - convert json-object to an normal object
+  //then make it a readable string
   public String stringify(Object value) throws JsonProcessingException {
     return json.writeValueAsString(value);
   }
 
+  //writes an object to the specified json file encoded into json
   public void write(Object value, File file) throws IOException {
     jsonWriter.writeValue(file, value);
   }
 
+  //the parse function allows us to return an json-encoded object for further
+  //use in the code
   public <T> T parse(String jsonString, Class<T> type) throws JsonProcessingException {
     return json.readValue(jsonString, type);
   }
 
+  //does the same as the function above however it creates a LinkedHashMap and returns that with
+  //the values decoded from the json file
   public <T> LinkedHashMap<Integer, T> parseMap(InputStream jsonStream, Class<T> type) throws IOException {
     final MapLikeType mapType = json.getTypeFactory().constructMapLikeType(
       LinkedHashMap.class,
