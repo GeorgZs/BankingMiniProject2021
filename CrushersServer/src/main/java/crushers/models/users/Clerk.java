@@ -31,6 +31,13 @@ public class Clerk extends User {
     public void setId(int id) {
         super.setId(id);
     }
+    
+    public Bank getWorksAt() {
+        return worksAt;
+    }
 
+    public void setWorksAt(Bank worksAt) {
+        this.worksAt = worksAt;
+    }
 
 }

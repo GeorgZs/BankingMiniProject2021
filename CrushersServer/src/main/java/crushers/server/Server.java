@@ -1,20 +1,23 @@
 package crushers.server;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.InetSocketAddress;
 
 import com.sun.net.httpserver.HttpServer;
 
-import crushers.models.Duck;
+import crushers.models.Bank;
+import crushers.models.users.Clerk;
 import crushers.models.accounts.Account;
 import crushers.models.users.Customer;
+import crushers.services.AuthenticationRouter;
 import crushers.services.accounts.AccountRouter;
 import crushers.services.accounts.AccountService;
+import crushers.services.banks.BankRouter;
+import crushers.services.banks.BankService;
 import crushers.services.customers.CustomerRouter;
 import crushers.services.customers.CustomerService;
-import crushers.services.ducks.DuckRouter;
-import crushers.services.ducks.DuckService;
+import crushers.services.staff.StaffRouter;
+import crushers.services.staff.StaffService;
 import crushers.storage.JsonStorage;
 
 /**
@@ -25,7 +28,7 @@ public class Server {
   public final int port;
   private final HttpServer httpServer;
 
-  public Server(int port) throws IOException {
+  public Server(int port) throws Exception {
     this.port = port;
     this.httpServer = HttpServer.create(new InetSocketAddress(port), 0);
     addServices();
@@ -34,14 +37,10 @@ public class Server {
   /**
    * Here we add our services to the server so that they can be accessed via http.
    */
-  private void addServices() throws IOException {
+  private void addServices() throws Exception {
     new File("data").mkdirs();
 
-    final DuckService duckService = new DuckService(new JsonStorage<Duck>(
-      new File("data/ducks.json"), 
-      Duck.class
-    ));
-    new DuckRouter(duckService).addEndpoints(this.httpServer);
+    new AuthenticationRouter().addEndpoints(httpServer);
 
     final CustomerService customerService = new CustomerService(new JsonStorage<Customer>(
       new File("data/customers.json"), 
@@ -49,6 +48,18 @@ public class Server {
     ));
     new CustomerRouter(customerService).addEndpoints(this.httpServer);
 
+    final StaffService staffService = new StaffService(new JsonStorage<Clerk>(
+      new File("data/staff.json"),
+      Clerk.class
+    ));
+    new StaffRouter(staffService).addEndpoints(this.httpServer);
+
+    final BankService bankService = new BankService(new JsonStorage<Bank>(
+      new File("data/bank.json"),
+      Bank.class
+    ), staffService);
+    new BankRouter(bankService).addEndpoints(this.httpServer);
+    
     final AccountService accountService = new AccountService(
       customerService,
       new JsonStorage<Account>(

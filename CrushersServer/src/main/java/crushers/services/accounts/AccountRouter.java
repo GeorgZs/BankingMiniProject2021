@@ -5,8 +5,12 @@ import com.sun.net.httpserver.*;
 import java.util.Collection;
 
 import crushers.models.accounts.Account;
+import crushers.models.users.Clerk;
+import crushers.models.users.Customer;
+import crushers.server.Authenticator;
 import crushers.server.Router;
-import crushers.server.customExceptions.MethodNotAllowedException;
+import crushers.server.httpExceptions.HttpException;
+import crushers.server.httpExceptions.MethodNotAllowedException;
 
 public class AccountRouter extends Router<Account> {
 
@@ -32,14 +36,8 @@ public class AccountRouter extends Router<Account> {
             throw new MethodNotAllowedException();
         }
       }
-      catch (MethodNotAllowedException ex) {
-        exchange.sendResponseHeaders(405, 0);
-      }
-      catch (IllegalAccessException ex) {
-        sendResponse(exchange, 401, String.format("{\"error\":\"%s\"}", ex.getMessage()).getBytes());
-      }
-      catch (IllegalArgumentException ex) {
-        sendResponse(exchange, 400, String.format("{\"error\":\"%s\"}", ex.getMessage()).getBytes());
+      catch (HttpException ex) {
+        sendResponse(exchange, ex.statusCode, String.format("{\"error\":\"%s\"}", ex.getMessage()).getBytes());
       }
       catch (Exception ex) {
         sendResponse(exchange, 500, String.format("{\"error\":\"Internal server error, try again later.\"}").getBytes());
@@ -58,14 +56,8 @@ public class AccountRouter extends Router<Account> {
             throw new MethodNotAllowedException();
         }
       }
-      catch (MethodNotAllowedException ex) {
-        exchange.sendResponseHeaders(405, 0);
-      }
-      catch (IllegalAccessException ex) {
-        sendResponse(exchange, 401, String.format("{\"error\":\"%s\"}", ex.getMessage()).getBytes());
-      }
-      catch (IllegalArgumentException ex) {
-        sendResponse(exchange, 400, String.format("{\"error\":\"%s\"}", ex.getMessage()).getBytes());
+      catch (HttpException ex) {
+        sendResponse(exchange, ex.statusCode, String.format("{\"error\":\"%s\"}", ex.getMessage()).getBytes());
       }
       catch (Exception ex) {
         sendResponse(exchange, 500, String.format("{\"error\":\"Internal server error, try again later.\"}").getBytes());
@@ -76,8 +68,9 @@ public class AccountRouter extends Router<Account> {
 
   @Override
   protected void post(HttpExchange exchange) throws Exception {
+    final Customer loggedInCustomer = Authenticator.instance.authCustomer(exchange);
     final Account requestData = getJsonBodyData(exchange, Account.class);
-    final Account responseData = accountService.create(requestData);
+    final Account responseData = accountService.create(loggedInCustomer, requestData);
     sendJsonResponse(exchange, responseData);
   }
 
@@ -88,12 +81,14 @@ public class AccountRouter extends Router<Account> {
   }
 
   private void getOfLoggedInCustomer(HttpExchange exchange) throws Exception {
-    final Collection<Account> responseData = accountService.getOfOwner(null);
+    final Customer loggedInCustomer = Authenticator.instance.authCustomer(exchange);
+    final Collection<Account> responseData = accountService.getOfOwner(loggedInCustomer);
     sendJsonResponse(exchange, responseData);
   }
 
   private void getOfLoggedInBank(HttpExchange exchange) throws Exception {
-    final Collection<Account> responseData = accountService.getOfBank(null);
+    final Clerk loggedInClerk = Authenticator.instance.authClerk(exchange);
+    final Collection<Account> responseData = accountService.getOfBank(loggedInClerk.getWorksAt());
     sendJsonResponse(exchange, responseData);
   }
 

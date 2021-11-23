@@ -16,6 +16,11 @@ public class JsonStorage<Type extends Storable> implements Storage<Type> {
   private int nextId;
   private LinkedHashMap<Integer, Type> linkedHashMap;
 
+  //in the constructor it creates the json storage with the json file,
+  //and the specific class type that the json file should store
+  //like the clerk class or the bank class - storing only objects of that type
+  //// also creates a linkedHashMap so that we can save and retrieve objects
+  //// easier and disallow repeated objects, and they would be sorted by ID number
   public JsonStorage(File jsonFile, Class<Type> type) throws IOException {
     this.file = jsonFile;
     this.nextId = 1001;

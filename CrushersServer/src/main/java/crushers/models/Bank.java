@@ -14,11 +14,11 @@ public class Bank implements Storable {
         // empty constructor for Jackson
     }
 
-    public Bank(String name, String logo, String details, Manager manager) {
+    public Bank(Manager manager) {
         this.id = (int) (Math.random() * 10);
-        this.name = name;
-        this.logo = logo;
-        this.details = details;
+        this.name = "Empty - Please Fill";
+        this.logo = "Empty - Please Fill";
+        this.details = "Empty - Please Fill";
         this.manager = manager;
     }
 
@@ -30,5 +30,33 @@ public class Bank implements Storable {
     @Override
     public void setId(int id) {
         this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setLogo(String logo) {
+        this.logo = logo;
+    }
+
+    public String getLogo() {
+        return logo;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
+    }
+
+    public String getDetails() {
+        return details;
+    }
+
+    public Manager getManager() {
+        return manager;
     }
 }

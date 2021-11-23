@@ -2,11 +2,11 @@ package crushers.services.customers;
 
 import com.sun.net.httpserver.*;
 
-import java.util.Collection;
-
 import crushers.models.users.Customer;
+import crushers.server.Authenticator;
 import crushers.server.Router;
-import crushers.server.customExceptions.MethodNotAllowedException;
+import crushers.server.httpExceptions.HttpException;
+import crushers.server.httpExceptions.MethodNotAllowedException;
 
 public class CustomerRouter extends Router<Customer> {
 
@@ -21,7 +21,7 @@ public class CustomerRouter extends Router<Customer> {
   public void addEndpoints(HttpServer server) {
     super.addEndpoints(server); // add the prewiring
 
-    server.createContext("/customers/@me", (exchange) -> {
+    server.createContext(basePath + "/@me", (exchange) -> {
       try {
         switch (exchange.getRequestMethod()) {
           case "GET":
@@ -32,14 +32,8 @@ public class CustomerRouter extends Router<Customer> {
             throw new MethodNotAllowedException();
         }
       }
-      catch (MethodNotAllowedException ex) {
-        exchange.sendResponseHeaders(405, 0);
-      }
-      catch (IllegalAccessException ex) {
-        sendResponse(exchange, 401, String.format("{\"error\":\"%s\"}", ex.getMessage()).getBytes());
-      }
-      catch (IllegalArgumentException ex) {
-        sendResponse(exchange, 400, String.format("{\"error\":\"%s\"}", ex.getMessage()).getBytes());
+      catch (HttpException ex) {
+        sendResponse(exchange, ex.statusCode, String.format("{\"error\":\"%s\"}", ex.getMessage()).getBytes());
       }
       catch (Exception ex) {
         sendResponse(exchange, 500, String.format("{\"error\":\"Internal server error, try again later.\"}").getBytes());
@@ -56,7 +50,8 @@ public class CustomerRouter extends Router<Customer> {
   }
 
   private void getLoggedIn(HttpExchange exchange) throws Exception {
-    final Customer responseData = customerService.getLoggedIn();
+    final Customer loggedInCustomer = Authenticator.instance.authCustomer(exchange);
+    final Customer responseData = customerService.getLoggedIn(loggedInCustomer);
     sendJsonResponse(exchange, responseData);
   }
   
