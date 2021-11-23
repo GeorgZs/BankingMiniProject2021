@@ -58,14 +58,14 @@ public class MainController { // test commit
             Stage oldStage = (Stage)((Node)e.getSource()).getScene().getWindow(); // close upon login
             oldStage.close();
 
-            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("crushers/views/SystemView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("crushers/views/AccountView.fxml"));
             root = loader.load();
-            SystemController sysCtrl = loader.getController();
-            sysCtrl.displayName(user.getFirstName() + " " + user.getLastName());
+            AccountController accCtrl = loader.getController();
+            accCtrl.displayName(user.getFirstName() + " " + user.getLastName());
             stage = new Stage();
             stage.setScene(new Scene(root));
             stage.getIcons().add(new Image("crushers/imgs/logo.jpg"));
-            stage.setTitle("Crushers System");
+            stage.setTitle("Select an Accunt");
             stage.show();
             return;
             }
