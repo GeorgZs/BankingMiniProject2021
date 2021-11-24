@@ -26,7 +26,7 @@ public class Json {
     this.jsonWriter = json.writer(new DefaultPrettyPrinter());
   }
 
-  //the toString method of Json - convert json-object to an normal object
+  //the toString method of Json - convert json-object to a normal object
   //then make it a readable string
   public String stringify(Object value) throws JsonProcessingException {
     return json.writeValueAsString(value);
