@@ -53,33 +53,6 @@ public class StaffService {
     //below to get all staff members which, if there are no staff members, creates a new
     //template staff member
     public Collection<Clerk> getAll() throws Exception {
-        if(storage.getAll().isEmpty()){
-            System.out.println("Empty Staff storage - creating random employee");
-            String[] securityQandA = new String[6];
-            securityQandA[0] = "Mother's Maiden name";
-            securityQandA[1] = "Georg";
-            securityQandA[2] = "Pet cat's name";
-            securityQandA[3] = "Georg";
-            securityQandA[4] = "Highschool name";
-            securityQandA[5] = "Georg";
-            Bank bank = new Bank(new Manager(
-                    "test@email.com",
-                    "First",
-                    "Last",
-                    "Lindholmen 10",
-                    "HelloWorld",
-                    securityQandA,
-                    null));
-            
-            create(bank, new Clerk(
-                    "test2@email.com",
-                    "First",
-                    "Last",
-                    "Lindholmen 10",
-                    "HelloWorld",
-                    securityQandA,
-                    bank));
-        }
         return storage.getAll();
     }
 
