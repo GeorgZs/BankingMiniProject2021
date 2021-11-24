@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="331.0" prefWidth="365.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="crushers.controllers.AccountCreationController">
+   <children>
+      <ChoiceBox layoutX="33.0" layoutY="46.0" prefWidth="150.0" />
+      <RadioButton layoutX="33.0" layoutY="118.0" mnemonicParsing="false" text="Payment account">
+         <font>
+            <Font name="SansSerif Regular" size="13.0" />
+         </font>
+      </RadioButton>
+      <RadioButton layoutX="33.0" layoutY="148.0" mnemonicParsing="false" text="Savings account" />
+      <Label layoutX="33.0" layoutY="23.0" text="Select Bank" />
+      <Label layoutX="33.0" layoutY="94.0" text="Select account type for creation" />
+   </children>
+</AnchorPane>
