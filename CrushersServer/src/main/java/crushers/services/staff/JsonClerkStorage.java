@@ -13,17 +13,21 @@ import java.util.Map;
 
 public class JsonClerkStorage extends JsonStorage<Clerk> {
 
-    private Map<Bank, Collection<Clerk>> bankClerks;
+    private final Map<Bank, Collection<Clerk>> bankClerks;
 
     public JsonClerkStorage(File jsonFile) throws IOException {
         super(jsonFile, Clerk.class);
         this.bankClerks = new HashMap<>();
+
+        for(Clerk clerk : this.data.values()){
+            addToMap(clerk);
+        }
     }
 
     @Override
     public Clerk create(Clerk clerk) throws Exception {
         Clerk clerkCreated = super.create(clerk);
-        if(!bankClerks.containsKey(clerkCreated.getWorksAt().getId())){
+        if(!bankClerks.containsKey(clerkCreated.getWorksAt())){
             bankClerks.put(clerkCreated.getWorksAt(), new ArrayList<>());
         }
         bankClerks.get(clerkCreated.getWorksAt()).add(clerkCreated);
@@ -41,5 +45,13 @@ public class JsonClerkStorage extends JsonStorage<Clerk> {
 
     public Collection<Clerk> getClerksOfBank(Bank bank){
         return bankClerks.get(bank);
+    }
+
+    protected void addToMap(Clerk clerk){
+        if(!bankClerks.containsKey(clerk.getWorksAt())){
+            bankClerks.put(clerk.getWorksAt(), new ArrayList<>());
+        }
+
+        bankClerks.get(clerk.getWorksAt()).add(clerk);
     }
 }

@@ -77,12 +77,16 @@ public class StaffService {
         //password validation - not allow creating of simple passwords
         if(clerk.getPassword() != null && clerk.getPassword().length() < 8){
             invalidDataMessage.add("Password must be longer that 8 characters");}
-        if(clerk.getPassword() != null && clerk.getPassword().matches(".*[A-Z].*")){
+        if(clerk.getPassword() != null && !clerk.getPassword().matches(".*[A-Z].*")){
             invalidDataMessage.add("Password must contain at least 1 Captial Letter");}
-        if(clerk.getPassword() != null && clerk.getPassword().matches(".*[0-9].*")){
+        if (clerk.getPassword() != null && !clerk.getPassword().matches(".*[0-9].*")){
             invalidDataMessage.add("Password must contain at least 1 digit (0-9)");}
         if(clerk.getPassword() != null && clerk.getPassword().contains(" ")){
             invalidDataMessage.add("Password cannot contain an empty character");}
+
+        if (!invalidDataMessage.isEmpty()) {
+            throw new BadRequestException(String.join("\n", invalidDataMessage));
+        }
 
         clerk.setWorksAt(bank);
         Authenticator.instance.register(clerk);
