@@ -21,22 +21,16 @@ public class JsonAccountStorage extends JsonStorage<Account> {
     super(jsonFile, Account.class);
     this.customerAccounts = new HashMap<>();
     this.bankAccounts = new HashMap<>();
+
+    for (Account account : this.data.values()) {
+      addToMaps(account);
+    }
   }
 
   @Override
   public Account create(Account newAccount) throws IOException {
     Account createdAccount = super.create(newAccount);
-
-    if (!customerAccounts.containsKey(createdAccount.getOwner())) {
-      customerAccounts.put(createdAccount.getOwner(), new ArrayList<>());
-    }
-
-    if (!bankAccounts.containsKey(createdAccount.getBank())) {
-      bankAccounts.put(createdAccount.getBank(), new ArrayList<>());
-    }
-
-    customerAccounts.get(createdAccount.getOwner()).add(createdAccount);
-    bankAccounts.get(createdAccount.getBank()).add(createdAccount);
+    addToMaps(createdAccount);
     return createdAccount;
   }
 
@@ -60,4 +54,17 @@ public class JsonAccountStorage extends JsonStorage<Account> {
     return bankAccounts.get(bank);
   }
   
+
+  protected void addToMaps(Account account) {
+    if (!customerAccounts.containsKey(account.getOwner())) {
+      customerAccounts.put(account.getOwner(), new ArrayList<>());
+    }
+
+    if (!bankAccounts.containsKey(account.getBank())) {
+      bankAccounts.put(account.getBank(), new ArrayList<>());
+    }
+
+    customerAccounts.get(account.getOwner()).add(account);
+    bankAccounts.get(account.getBank()).add(account);
+  }
 }
