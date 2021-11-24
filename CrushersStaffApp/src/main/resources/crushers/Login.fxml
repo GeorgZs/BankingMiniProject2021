@@ -18,7 +18,7 @@
          <children>
             <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="39.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../img.png" />
+                  <Image url="@img/PESA1.png" />
                </image>
                <effect>
                   <Reflection />

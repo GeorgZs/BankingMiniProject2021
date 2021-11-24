@@ -18,7 +18,7 @@
                <children>
                   <ImageView fitHeight="16.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../img8-plus-48.png" />
+                        <Image url="@img/icons8-plus-48.png" />
                      </image>
                   </ImageView>
                   <Label text="Add staff" />
