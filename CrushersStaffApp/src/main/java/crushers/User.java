@@ -1,46 +1,51 @@
+
 package crushers;
 
-import java.time.LocalTime;
-import java.util.List;
+import java.time.LocalDateTime;
 
-public class User {
+public abstract class User {
+    private int id;
+    private String email;
     private String firstName;
     private String lastName;
     private String address;
-    private String emailAddress;
     private String password;
-    private List<String> securityQuestions;
-    private int ID;
-    private String timeStamp;
+    private String[] securityQuestions;
+    private LocalDateTime lastLoginAt;
 
-    public User(){
+    public User() {
         //empty for Jackson
     }
-    public User(String firstName, String lastName, String address, String emailAddress, String password, List<String> securityQuestions){
+
+    public User(
+        String emailAddress, String firstName,
+        String lastName, String address,
+        String password, String[] securityQuestions
+    ) {
+        this.id = -1;
+        this.email = emailAddress;
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
-        this.emailAddress = emailAddress;
         this.password = password;
         this.securityQuestions = securityQuestions;
-        //ID subject to change depending on how we want the IDs to be created
-        this.ID = (int) (Math.random() * 100);
-        this.timeStamp = LocalTime.now().toString();
+        this.lastLoginAt = null;
     }
 
     public int getId() {
-        return this.ID;
+        return this.id;
     }
 
     public void setId(int id) {
-        this.ID = id;
-    }
-    public void setTimeStamp(String timeStamp) {
-        this.timeStamp = timeStamp;
+        this.id = id;
     }
 
-    public String getTimeStamp() {
-        return timeStamp;
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String emailAddress) {
+        this.email = emailAddress;
     }
 
     public String getFirstName() {
@@ -67,14 +72,6 @@ public class User {
         this.address = address;
     }
 
-    public String getEmailAddress() {
-        return emailAddress;
-    }
-
-    public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
-    }
-
     //needs to be here for Jackson but isnt a good solution: not secure
     public String getPassword() {
         return password;
@@ -84,13 +81,41 @@ public class User {
         this.password = password;
     }
 
-    public List<String> getSecurityQuestions() {
+    public String[] getSecurityQuestions() {
         return securityQuestions;
     }
 
-    public void setSecurityQuestions(List<String> securityQuestions) {
+    public void setSecurityQuestions(String[] securityQuestions) {
         this.securityQuestions = securityQuestions;
     }
 
+    public LocalDateTime getLastLoginAt() {
+        return lastLoginAt;
+    }
 
+    public void setLastLoginAt(LocalDateTime timeStamp) {
+        this.lastLoginAt = timeStamp;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + id;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        User other = (User) obj;
+        if (id != other.id)
+            return false;
+        return true;
+    }
 }

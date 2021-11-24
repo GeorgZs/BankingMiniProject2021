@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+
 public class register {
 
     @FXML
@@ -65,7 +66,7 @@ public class register {
     }
 
     @FXML
-    public void registerUser(ActionEvent event) throws IOException {
+    public void registerUser(ActionEvent event) throws Exception {
         MainController m = new MainController();
         String bankName = bankNameField.getText();
         String logo = logoField.getText();
@@ -77,7 +78,7 @@ public class register {
         String postalCode = postalCodeField.getText();
         String email = emailField.getText();
         String password = passwordField.getText();
-        //String question = securityQuestions.getValue().toString();
+        String question = securityQuestions.getValue().toString();
         //String answer = answerQuestions.getText();
         if(event.isConsumed()) {
             System.out.println("COOOOOOOL");
@@ -150,7 +151,11 @@ public class register {
         }
 
         //resetAllBorders("-fx-border-color: black ; -fx-border-width: 1px ;");
-
+        Bank bank = new Bank(new Manager(firstName, lastName,  streetAddress,  email,  password, null, null));
+        bank.setName(bankName);
+        bank.setDetails(details);
+        bank.setLogo(logo);
+        HTTPUtils.post("/banks", bank, Bank.class);
     }
 
     private void showAlert(String message){
