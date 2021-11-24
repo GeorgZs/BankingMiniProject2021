@@ -2,6 +2,7 @@ package crushers.services.staff;
 
 import crushers.models.Bank;
 import crushers.models.users.Clerk;
+import crushers.models.users.Manager;
 import crushers.storage.JsonStorage;
 
 import java.io.File;
@@ -20,6 +21,24 @@ public class JsonClerkStorage extends JsonStorage<Clerk> {
         this.bankClerks = new HashMap<>();
 
         for(Clerk clerk : this.data.values()){
+            if (clerk.getStaffType().equals("manager")) {
+                System.out.println("Manager: " + clerk.getId());
+
+                // turn managers into managers again
+                Manager manager = new Manager(
+                    clerk.getEmail(),
+                    clerk.getFirstName(), 
+                    clerk.getLastName(), 
+                    clerk.getAddress(), 
+                    clerk.getPassword(), 
+                    clerk.getSecurityQuestions(), 
+                    clerk.getWorksAt()
+                );
+                    
+                manager.setId(clerk.getId());
+                update(clerk.getId(), manager);
+            }
+            
             addToMap(clerk);
         }
     }

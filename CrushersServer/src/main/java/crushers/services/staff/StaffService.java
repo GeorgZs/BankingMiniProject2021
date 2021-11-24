@@ -18,24 +18,7 @@ public class StaffService {
         this.storage = storage;
 
         for (Clerk clerk : storage.getAll()) {
-            if (clerk.getStaffType().equals("clerk")) {
-                Authenticator.instance.register(clerk);
-            }
-            else {
-                // turn managers into managers again
-                Manager manager = new Manager(
-                    clerk.getEmail(),
-                    clerk.getFirstName(), 
-                    clerk.getLastName(), 
-                    clerk.getAddress(), 
-                    clerk.getPassword(), 
-                    clerk.getSecurityQuestions(), 
-                    clerk.getWorksAt()
-                );
-
-                storage.update(clerk.getId(), manager);
-                Authenticator.instance.register(manager);
-            }
+            Authenticator.instance.register(clerk);
         }
     }
 
