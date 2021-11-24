@@ -20,17 +20,14 @@ public class Manager extends Clerk {
     }
 
     public void setBankName(String name) {
-        bank = getEmploymentBank();
         bank.setName(name);
     }
 
     public void setBankLogo(String logo) {
-        bank = getEmploymentBank();
         bank.setLogo(logo);
     }
 
     public void setBankDetails(String details) {
-        bank = getEmploymentBank();
         bank.setDetails(details);
     }
 
