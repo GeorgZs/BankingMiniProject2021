@@ -2,7 +2,6 @@ package crushers;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -14,18 +13,17 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        this.stage = stage;
-
-        final FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("views/main.fxml"));
-        final Parent root = fxmlLoader.load();
-
-        final Scene scene = new Scene(root, 1080, 720);
+        stage.setResizable(false);
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("Login.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+        scene.getRoot().setStyle("-fx-font-family: SansSerif");
+        stage.setTitle("PESA!");
         stage.setScene(scene);
         stage.show();
     }
 
+
     public static void main(String[] args) {
         launch();
     }
-
 }
