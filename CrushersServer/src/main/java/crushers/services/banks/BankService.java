@@ -27,27 +27,6 @@ public class BankService {
     }
 
     public Collection<Bank> getAll() throws Exception {
-        if(storage.getAll().isEmpty()){
-            System.out.println("Empty Bank storage - creating random bank");
-            String[] securityQandA = new String[6];
-            securityQandA[0] = "Mother's Maiden name";
-            securityQandA[1] = "Georg";
-            securityQandA[2] = "Pet cat's name";
-            securityQandA[3] = "Georg";
-            securityQandA[4] = "Highschool name";
-            securityQandA[5] = "Georg";
-            Manager manager = new Manager(
-                    "test@email.com",
-                    "First",
-                    "Last",
-                    "Lindholmen 10",
-                    "HelloWorld",
-                    securityQandA,
-                    null);
-            staffService.create(null, manager);
-            storage.create(new Bank(manager));
-        }
-        
         return storage.getAll();
     }
 

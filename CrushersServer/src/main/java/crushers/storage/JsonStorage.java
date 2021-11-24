@@ -15,7 +15,7 @@ public class JsonStorage<Type extends Storable> implements Storage<Type> {
   private File file;
   private Class<Type> type;
   private int nextId;
-  private LinkedHashMap<Integer, Type> linkedHashMap;
+  protected LinkedHashMap<Integer, Type> data;
 
   //in the constructor it creates the json storage with the json file,
   //and the specific class type that the json file should store
@@ -26,46 +26,46 @@ public class JsonStorage<Type extends Storable> implements Storage<Type> {
     this.file = jsonFile;
     this.type = type;
     this.nextId = 1001;
-    this.linkedHashMap = new LinkedHashMap<>();
+    this.data = new LinkedHashMap<>();
 
     if (jsonFile.exists()) {
       InputStream existingJsonData = new FileInputStream(jsonFile);
-      this.linkedHashMap = Json.instance.parseMap(existingJsonData, type);
-      this.nextId += linkedHashMap.size();
+      this.data = Json.instance.parseMap(existingJsonData, type);
+      this.nextId += data.size();
     }
 
-    Json.instance.write(this.linkedHashMap, jsonFile, type);
+    Json.instance.write(this.data, jsonFile, type);
   }
 
   @Override
   public Type get(int id) {
-    return this.linkedHashMap.get(id);
+    return this.data.get(id);
   }
 
   @Override
   public Collection<Type> getAll() throws IOException {
-    return this.linkedHashMap.values();
+    return this.data.values();
   }
 
   @Override
   public Type create(Type newObj) throws IOException, Exception {
     newObj.setId(nextId++);
-    this.linkedHashMap.put(newObj.getId(), newObj);
-    Json.instance.write(this.linkedHashMap, this.file, this.type);
+    this.data.put(newObj.getId(), newObj);
+    Json.instance.write(this.data, this.file, this.type);
     return newObj;
   }
 
   @Override
   public Type update(int id, Type newObjData) throws IOException {
-    this.linkedHashMap.replace(id, newObjData);
-    Json.instance.write(this.linkedHashMap, this.file, this.type);
+    this.data.replace(id, newObjData);
+    Json.instance.write(this.data, this.file, this.type);
     return newObjData;
   }
 
   @Override
   public Type delete(int id) throws IOException {
-    Type deletedObj = this.linkedHashMap.remove(id);
-    Json.instance.write(this.linkedHashMap, this.file, this.type);
+    Type deletedObj = this.data.remove(id);
+    Json.instance.write(this.data, this.file, this.type);
     return deletedObj;
   }
 }
