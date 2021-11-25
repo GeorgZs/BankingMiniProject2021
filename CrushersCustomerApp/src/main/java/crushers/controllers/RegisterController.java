@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.ResourceBundle;
 
 import crushers.App;
+import crushers.model.Customer;
 import crushers.model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -113,7 +114,8 @@ public class RegisterController implements Initializable {
             securityQuestionsAnswers.add(thirdAnswer);
 
             User registeredUser = new User(firstName, lastName, address, email, password, securityQuestionsAnswers, userID);
-            App.bank.registerUser(registeredUser);
+            Customer registeredCustomer = new Customer(firstName, lastName, address, email, password, securityQuestionsAnswers, userID);
+            App.crushersBank.registerUser(registeredUser);
 
             Stage oldStage = (Stage)((Node)e.getSource()).getScene().getWindow();
             oldStage.close();

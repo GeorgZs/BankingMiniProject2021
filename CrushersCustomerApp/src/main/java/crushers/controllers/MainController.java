@@ -52,7 +52,7 @@ public class MainController { // test commit
         String email = usernameField.getText();
         String password = passwordField.getText();
 
-        for(User user: App.bank.getUsers()){
+        for(User user: App.crushersBank.getUsers()){
             if(user.getEmail().equals(email) && user.getPassword().equals(password)){
 
             Stage oldStage = (Stage)((Node)e.getSource()).getScene().getWindow(); // close upon login
@@ -65,7 +65,7 @@ public class MainController { // test commit
             stage = new Stage();
             stage.setScene(new Scene(root));
             stage.getIcons().add(new Image("crushers/imgs/logo.jpg"));
-            stage.setTitle("Select an Accunt");
+            stage.setTitle("Select an Account");
             stage.show();
             return;
             }
@@ -75,7 +75,7 @@ public class MainController { // test commit
 
     public void requestHelp(){
         System.out.println("cry about it");
-        for(User user: App.bank.getUsers()){
+        for(User user: App.crushersBank.getUsers()){
             System.out.println(user);
         }
     }
