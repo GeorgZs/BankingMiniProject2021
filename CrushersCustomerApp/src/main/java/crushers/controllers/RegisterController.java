@@ -119,9 +119,8 @@ public class RegisterController implements Initializable {
             securityQuestionsAnswers.add(thirdQuestionBox.getValue());
             securityQuestionsAnswers.add(thirdAnswer);
 
-            User registeredUser = new User(firstName, lastName, address, email, password, securityQuestionsAnswers, userID);
             Customer registeredCustomer = new Customer(firstName, lastName, address, email, password, securityQuestionsAnswers, userID);
-            App.crushersBank.registerUser(registeredUser);
+            App.crushersBank.registerCustomer(registeredCustomer);
 
             Stage oldStage = (Stage)((Node)e.getSource()).getScene().getWindow();
             oldStage.close();

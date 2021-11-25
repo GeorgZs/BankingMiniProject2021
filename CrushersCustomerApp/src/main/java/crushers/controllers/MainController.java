@@ -3,6 +3,7 @@ package crushers.controllers;
 import java.io.IOException;
 
 import crushers.App;
+import crushers.model.Customer;
 import crushers.model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.*;
@@ -47,21 +48,27 @@ public class MainController { // test commit
 
     }
 
+    public static Customer currentCustomer;
+
+    public static AccountController accCtrl;
+
     public void login(ActionEvent e) throws IOException{
 
         String email = usernameField.getText();
         String password = passwordField.getText();
 
-        for(User user: App.crushersBank.getUsers()){
-            if(user.getEmail().equals(email) && user.getPassword().equals(password)){
+        for(Customer customer: App.crushersBank.getCustomers()){
+            if(customer.getEmail().equals(email) && customer.getPassword().equals(password)){
 
+            App.currentCustomer = customer;
+            
             Stage oldStage = (Stage)((Node)e.getSource()).getScene().getWindow(); // close upon login
             oldStage.close();
 
             FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("crushers/views/AccountView.fxml"));
             root = loader.load();
-            AccountController accCtrl = loader.getController();
-            accCtrl.displayName(user.getFirstName() + " " + user.getLastName());
+            accCtrl = loader.getController();
+            accCtrl.displayName(customer.getFirstName() + " " + customer.getLastName());
             stage = new Stage();
             stage.setScene(new Scene(root));
             stage.getIcons().add(new Image("crushers/imgs/logo.jpg"));
@@ -75,8 +82,8 @@ public class MainController { // test commit
 
     public void requestHelp(){
         System.out.println("cry about it");
-        for(User user: App.crushersBank.getUsers()){
-            System.out.println(user);
+        for(Customer customer: App.crushersBank.getCustomers()){
+            System.out.println(customer);
         }
     }
 

@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="394.0" prefWidth="365.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="crushers.controllers.AccountCreationController">
+<AnchorPane prefHeight="410.0" prefWidth="365.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="crushers.controllers.AccountCreationController">
    <children>
       <ChoiceBox fx:id="bankSelection" layoutX="28.0" layoutY="90.0" prefHeight="26.0" prefWidth="181.0" />
       <Label layoutX="28.0" layoutY="65.0" text="Select Bank:">
@@ -36,7 +36,7 @@
             <ToggleGroup fx:id="accountType" />
          </toggleGroup>
       </RadioButton>
-      <Button fx:id="createAccountButton" layoutX="247.0" layoutY="333.0" mnemonicParsing="false" onAction="#createAccount" text="Create Account">
+      <Button fx:id="createAccountButton" layoutX="245.0" layoutY="333.0" mnemonicParsing="false" onAction="#createAccount" text="Create Account">
          <font>
             <Font name="Candara" size="12.0" />
          </font>
@@ -58,5 +58,10 @@
       </Label>
       <TextField fx:id="accountDescriptionField" layoutX="28.0" layoutY="265.0" prefHeight="26.0" prefWidth="182.0" />
       <TextField fx:id="savingsGoalField" layoutX="28.0" layoutY="332.0" prefHeight="26.0" prefWidth="146.0" />
+      <Label fx:id="invalidLabel" layoutX="28.0" layoutY="371.0" textFill="#e11616">
+         <font>
+            <Font name="Malgun Gothic Semilight" size="12.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
