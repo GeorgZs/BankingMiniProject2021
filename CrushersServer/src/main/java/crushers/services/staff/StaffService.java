@@ -6,6 +6,7 @@ import crushers.models.users.Manager;
 
 import crushers.server.Authenticator;
 import crushers.server.httpExceptions.*;
+import crushers.utils.Security;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -13,6 +14,7 @@ import java.util.List;
 
 public class StaffService {
     private final JsonClerkStorage storage;
+    private final Security security = new Security();
 
     public StaffService(JsonClerkStorage storage) throws Exception {
         this.storage = storage;
@@ -70,6 +72,9 @@ public class StaffService {
         if (!invalidDataMessage.isEmpty()) {
             throw new BadRequestException(String.join("\n", invalidDataMessage));
         }
+
+        clerk.setPassword(security.passwordEncryption(clerk.getPassword(), "MD5"));
+
 
         clerk.setWorksAt(bank);
         Authenticator.instance.register(clerk);

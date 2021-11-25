@@ -11,9 +11,11 @@ import crushers.models.Credentials;
 import crushers.models.users.*;
 import crushers.server.httpExceptions.*;
 import crushers.utils.Json;
+import crushers.utils.Security;
 
 public class Authenticator {
   public final static Authenticator instance = new Authenticator();
+  private final Security security = new Security();
 
   private final Map<String, User> users = new LinkedHashMap<>();
   private final Map<String, User> activeTokens = new LinkedHashMap<>();
@@ -54,6 +56,7 @@ public class Authenticator {
     }
 
     // encrypt the credential password as well if you encrypt/hash the password
+    credentials.password = security.passwordEncryption(credentials.password, "MD5");
 
     if (!user.getPassword().equals(credentials.password)) {
       throw new UnauthorizedException();
