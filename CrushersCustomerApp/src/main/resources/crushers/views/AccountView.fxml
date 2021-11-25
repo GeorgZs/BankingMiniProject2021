@@ -11,27 +11,27 @@
    <children>
       <Label fx:id="welcomeLabel" alignment="CENTER" layoutY="30.0" prefHeight="52.0" prefWidth="600.0" text="Welcome, {firstName} {lastName}">
          <font>
-            <Font name="Malgun Gothic Semilight" size="32.0" />
+            <Font name="SansSerif" size="32.0" />
          </font>
       </Label>
       <Button fx:id="logoutButton" layoutX="508.0" layoutY="337.0" mnemonicParsing="false" onAction="#logout" text="Log out">
          <font>
-            <Font name="Candara" size="12.0" />
+            <Font name="SansSerif" size="12.0" />
          </font></Button>
       <ListView fx:id="accountList" layoutX="66.0" layoutY="119.0" prefHeight="200.0" prefWidth="286.0" />
       <Label layoutX="128.0" layoutY="95.0" text="Please, select an account">
          <font>
-            <Font name="Malgun Gothic Semilight" size="15.0" />
+            <Font name="SansSerif" size="15.0" />
          </font>
       </Label>
       <Button fx:id="selectButton" layoutX="295.0" layoutY="336.0" mnemonicParsing="false" onAction="#select" prefHeight="26.0" prefWidth="58.0" text="Select">
          <font>
-            <Font name="Candara" size="12.0" />
+            <Font name="SansSerif" size="12.0" />
          </font>
       </Button>
       <Button fx:id="createNewAccountButton" layoutX="68.0" layoutY="336.0" mnemonicParsing="false" onAction="#createNewAccount" text="Create new account">
          <font>
-            <Font name="Candara" size="12.0" />
+            <Font name="SansSerif" size="12.0" />
          </font>
       </Button>
       <Pane layoutX="390.0" layoutY="119.0" prefHeight="200.0" prefWidth="157.0">

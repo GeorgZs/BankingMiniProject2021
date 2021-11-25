@@ -23,4 +23,8 @@ public class Bank {
         this.users.add(user);
     }
 
+    public String toString(){
+        return this.name;
+    }
+
 }
