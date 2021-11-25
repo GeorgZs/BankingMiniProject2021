@@ -65,7 +65,7 @@ public class MainController { // test commit
             stage = new Stage();
             stage.setScene(new Scene(root));
             stage.getIcons().add(new Image("crushers/imgs/logo.jpg"));
-            stage.setTitle("Select an Accunt");
+            stage.setTitle("Select an Account");
             stage.show();
             return;
             }

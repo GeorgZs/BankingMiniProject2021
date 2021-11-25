@@ -46,6 +46,8 @@ public class RegisterController implements Initializable {
     @FXML
     private PasswordField repeatedPasswordField;
 
+
+
     private String[] questions = {
         "What's the name of your first pet?",
         "What's the name of your home-town?",
@@ -59,6 +61,10 @@ public class RegisterController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        firstQuestionBox.setStyle("-fx-font-family: SansSerif");
+        secondQuestionBox.setStyle("-fx-font-family: SansSerif");
+        thirdQuestionBox.setStyle("-fx-font-family: SansSerif");
         firstQuestionBox.getItems().addAll(questions);
         secondQuestionBox.getItems().addAll(questions);
         thirdQuestionBox.getItems().addAll(questions);
