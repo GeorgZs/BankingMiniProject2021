@@ -3,12 +3,10 @@ package crushers.controllers;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.ResourceBundle;
 
 import crushers.App;
 import crushers.model.Customer;
-import crushers.model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -23,29 +21,11 @@ public class RegisterController implements Initializable {
     @FXML
     private Label invalidInputLabel;
     @FXML
-    private ChoiceBox<String> firstQuestionBox;
+    private ChoiceBox<String> firstQuestionBox, secondQuestionBox, thirdQuestionBox;
     @FXML
-    private ChoiceBox<String> secondQuestionBox;
+    private TextField firstAnswerField, secondAnswerField, thirdAnswerField, firstNameField, lastNameField, addressField, emailField;
     @FXML
-    private ChoiceBox<String> thirdQuestionBox;
-    @FXML
-    private TextField firstAnswerField;
-    @FXML
-    private TextField secondAnswerField;
-    @FXML
-    private TextField thirdAnswerField;
-    @FXML
-    private TextField firstNameField;
-    @FXML
-    private TextField lastNameField;
-    @FXML
-    private TextField addressField;
-    @FXML
-    private TextField emailField;
-    @FXML
-    private PasswordField passwordField;
-    @FXML
-    private PasswordField repeatedPasswordField;
+    private PasswordField passwordField, repeatedPasswordField;
 
 
 

@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 import crushers.App;
 import crushers.model.PaymentAccount;
 import crushers.model.SavingsAccount;
+import crushers.util.Util;
 import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.scene.*;
@@ -23,13 +24,9 @@ public class AccountController implements Initializable{
     @FXML
     private ListView<PaymentAccount> accountList;
     @FXML
-    private Button createNewAccountButton;
-    @FXML
-    private Button selectButton;
+    private Button createNewAccountButton, selectButton, logoutButton;
     @FXML
     private Label welcomeLabel;
-    @FXML
-    private Button logoutButton;
 
 
 
@@ -43,8 +40,7 @@ public class AccountController implements Initializable{
         oldStage.close();
 
         stage = new Stage();
-        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("crushers/views/MainView.fxml"));
-        root = loader.load();
+        root = Util.mainLoader.load();
         stage.setScene(new Scene(root));
         stage.show();
         stage.setTitle("Crushers Bank");
@@ -52,8 +48,7 @@ public class AccountController implements Initializable{
     }
 
     public void createNewAccount(ActionEvent e) throws IOException{
-        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("crushers/views/AccountCreationView.fxml"));
-        root = loader.load();
+        root = Util.accountCreationLoader.load();
         stage = new Stage();
         stage.setScene(new Scene(root));
         stage.getIcons().add(new Image("crushers/imgs/logo.jpg"));
@@ -67,9 +62,7 @@ public class AccountController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        for(PaymentAccount account: App.currentCustomer.getAccountList()){
-            accountList.getItems().add(account);
-        }
+        accountList.getItems().addAll(App.currentCustomer.getAccountList());
     }
 
     public void addSavingsToList(SavingsAccount account){

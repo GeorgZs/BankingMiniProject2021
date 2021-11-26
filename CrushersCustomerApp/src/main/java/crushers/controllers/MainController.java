@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import crushers.App;
 import crushers.model.Customer;
-import crushers.model.User;
+import crushers.util.Util;
 import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.scene.*;
@@ -24,31 +24,23 @@ public class MainController { // test commit
     @FXML
     private PasswordField passwordField;
     @FXML
-    private Button loginButton;
+    private Button loginButton, registerButton;
     @FXML
-    private Button registerButton;
-    @FXML
-    private Label forgottenPasswordLabel;
-    @FXML
-    private Label requestHelpLabel;
+    private Label forgottenPasswordLabel, requestHelpLabel, invalidLoginLabel;
     @FXML
     private ImageView loginScreenImage;
-    @FXML
-    private Label invalidLoginLabel;
     
     public void register(ActionEvent e) throws IOException{
 
-        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("crushers/views/RegisterView.fxml"));
-        root = loader.load();
+        root = Util.registerLoader.load();
         stage = new Stage();
         stage.setScene(new Scene(root));
+
         stage.getIcons().add(new Image("crushers/imgs/logo.jpg"));
         stage.setTitle("Registration Form");
         stage.show();
 
     }
-
-    public static Customer currentCustomer;
 
     public static AccountController accCtrl;
 
@@ -65,9 +57,8 @@ public class MainController { // test commit
             Stage oldStage = (Stage)((Node)e.getSource()).getScene().getWindow(); // close upon login
             oldStage.close();
 
-            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("crushers/views/AccountView.fxml"));
-            root = loader.load();
-            accCtrl = loader.getController();
+            root = Util.accountLoader.load();
+            accCtrl = Util.accountLoader.getController();
             accCtrl.displayName(customer.getFirstName() + " " + customer.getLastName());
             stage = new Stage();
             stage.setScene(new Scene(root));
