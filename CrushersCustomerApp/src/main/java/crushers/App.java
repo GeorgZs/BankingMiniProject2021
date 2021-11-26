@@ -35,10 +35,11 @@ public class App extends Application {
         Customer emptyCustomer = new Customer("", "", "", "", "", securityQA, 0);
         crushersBank.registerCustomer(defaultCustomer);
         crushersBank.registerCustomer(emptyCustomer);
-        defaultCustomer.createAccount(new PaymentAccount("Education Fund", 0.01));
-        emptyCustomer.createAccount(new SavingsAccount("Kaylee's funds", 10, 1000));
+        defaultCustomer.createAccount(new PaymentAccount("Education Fund", 0.01, crushersBank));
+        emptyCustomer.createAccount(new SavingsAccount("Kaylee's funds", 10, 1000, swedbank));
 
-        Parent root = Util.mainLoader.load();
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("crushers/views/MainView.fxml"));
+        Parent root = loader.load();
         Scene scene = new Scene(root);
         stage.setScene(scene);
 

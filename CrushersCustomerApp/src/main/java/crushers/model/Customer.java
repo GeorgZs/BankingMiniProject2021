@@ -29,11 +29,11 @@ public class Customer{
         this.accountList = new ArrayList<PaymentAccount>();
         this.contactList = new ArrayList<Contact>();
     }
-    public void createPaymentAccount(String name) {
-        this.accountList.add(new PaymentAccount(name, 0));
+    public void createPaymentAccount(String name, Bank bank) {
+        this.accountList.add(new PaymentAccount(name, 0, bank));
     }
-    public void createSavingsAccount(String name, double savingsGoal) {
-        PaymentAccount savingsAccount = new SavingsAccount(name, 0, savingsGoal);
+    public void createSavingsAccount(String name, double savingsGoal, Bank bank) {
+        PaymentAccount savingsAccount = new SavingsAccount(name, 0, savingsGoal, bank);
         this.accountList.add(savingsAccount);
     }
 

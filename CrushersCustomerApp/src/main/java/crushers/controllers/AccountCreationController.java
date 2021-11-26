@@ -10,6 +10,7 @@ import crushers.model.SavingsAccount;
 import crushers.util.Util;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -45,16 +46,20 @@ public class AccountCreationController implements Initializable{
             invalidLabel.setText("Please enter an account name!");
         }else{
             String accountName = accountDescriptionField.getText();
+            Bank bank = bankSelection.getValue();
+            AccountController accCtrl = MainController.accCtrl;
+
             if(isPayment){
-                PaymentAccount account = new PaymentAccount(accountName, 0);
-                ((AccountController)Util.accountLoader.getController()).addPaymentToList(account);
+                PaymentAccount account = new PaymentAccount(accountName, 0, bank);
+                accCtrl.addAcountToList(account);
+                // accCtrl.addPaymentToList(account);
                 App.currentCustomer.createAccount(account);
             }else{
                 try{
 
                 double savingsGoal = Double.parseDouble(savingsGoalField.getText());
-                SavingsAccount account = new SavingsAccount(accountName, 0, savingsGoal);
-                ((AccountController) Util.accountLoader.getController()).addSavingsToList(account);
+                SavingsAccount account = new SavingsAccount(accountName, 0, savingsGoal, bank);
+                accCtrl.addSavingsToList(account);
                 App.currentCustomer.createAccount(account);
 
                 }catch(NumberFormatException nfe){

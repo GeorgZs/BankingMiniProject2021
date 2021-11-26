@@ -32,7 +32,8 @@ public class MainController { // test commit
     
     public void register(ActionEvent e) throws IOException{
 
-        root = Util.registerLoader.load();
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("crushers/views/RegisterView.fxml"));
+        root = loader.load();
         stage = new Stage();
         stage.setScene(new Scene(root));
 
@@ -57,8 +58,9 @@ public class MainController { // test commit
             Stage oldStage = (Stage)((Node)e.getSource()).getScene().getWindow(); // close upon login
             oldStage.close();
 
-            root = Util.accountLoader.load();
-            accCtrl = Util.accountLoader.getController();
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("crushers/views/AccountView.fxml"));
+            root = loader.load();
+            accCtrl = loader.getController();
             accCtrl.displayName(customer.getFirstName() + " " + customer.getLastName());
             stage = new Stage();
             stage.setScene(new Scene(root));
