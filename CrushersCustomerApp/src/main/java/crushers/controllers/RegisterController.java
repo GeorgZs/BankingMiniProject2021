@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.ResourceBundle;
 
 import crushers.App;
+import crushers.model.Customer;
 import crushers.model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -46,6 +47,8 @@ public class RegisterController implements Initializable {
     @FXML
     private PasswordField repeatedPasswordField;
 
+
+
     private String[] questions = {
         "What's the name of your first pet?",
         "What's the name of your home-town?",
@@ -59,6 +62,10 @@ public class RegisterController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        firstQuestionBox.setStyle("-fx-font-family: SansSerif");
+        secondQuestionBox.setStyle("-fx-font-family: SansSerif");
+        thirdQuestionBox.setStyle("-fx-font-family: SansSerif");
         firstQuestionBox.getItems().addAll(questions);
         secondQuestionBox.getItems().addAll(questions);
         thirdQuestionBox.getItems().addAll(questions);
@@ -112,8 +119,8 @@ public class RegisterController implements Initializable {
             securityQuestionsAnswers.add(thirdQuestionBox.getValue());
             securityQuestionsAnswers.add(thirdAnswer);
 
-            User registeredUser = new User(firstName, lastName, address, email, password, securityQuestionsAnswers, userID);
-            App.bank.registerUser(registeredUser);
+            Customer registeredCustomer = new Customer(firstName, lastName, address, email, password, securityQuestionsAnswers, userID);
+            App.crushersBank.registerCustomer(registeredCustomer);
 
             Stage oldStage = (Stage)((Node)e.getSource()).getScene().getWindow();
             oldStage.close();

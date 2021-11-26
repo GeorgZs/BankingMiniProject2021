@@ -4,8 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import javax.swing.event.SwingPropertyChangeSupport;
-
+import crushers.App;
 import crushers.model.PaymentAccount;
 import crushers.model.SavingsAccount;
 import javafx.event.ActionEvent;
@@ -52,8 +51,14 @@ public class AccountController implements Initializable{
         stage.getIcons().add(new Image("crushers/imgs/logo.jpg"));
     }
 
-    public void createNewAccount(ActionEvent e){
-
+    public void createNewAccount(ActionEvent e) throws IOException{
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("crushers/views/AccountCreationView.fxml"));
+        root = loader.load();
+        stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.getIcons().add(new Image("crushers/imgs/logo.jpg"));
+        stage.setTitle("Register new account");
+        stage.show();
     }
 
     public void select(ActionEvent e){
@@ -62,10 +67,15 @@ public class AccountController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        PaymentAccount test = new PaymentAccount(100.0);
-        SavingsAccount save = new SavingsAccount(200.1, 0.01);
-        accountList.getItems().addAll(test, save);
-
+        for(PaymentAccount account: App.currentCustomer.getAccountList()){
+            accountList.getItems().add(account);
+        }
     }
 
+    public void addSavingsToList(SavingsAccount account){
+        accountList.getItems().add(account);
+    }
+    public void addPaymentToList(PaymentAccount account){
+        accountList.getItems().add(account);
+    }
 }

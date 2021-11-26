@@ -6,6 +6,7 @@ import crushers.models.users.Manager;
 
 import crushers.server.Authenticator;
 import crushers.server.httpExceptions.*;
+import crushers.utils.Security;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -13,29 +14,13 @@ import java.util.List;
 
 public class StaffService {
     private final JsonClerkStorage storage;
+    private final Security security = new Security();
 
     public StaffService(JsonClerkStorage storage) throws Exception {
         this.storage = storage;
 
         for (Clerk clerk : storage.getAll()) {
-            if (clerk.getStaffType().equals("clerk")) {
-                Authenticator.instance.register(clerk);
-            }
-            else {
-                // turn managers into managers again
-                Manager manager = new Manager(
-                    clerk.getEmail(),
-                    clerk.getFirstName(), 
-                    clerk.getLastName(), 
-                    clerk.getAddress(), 
-                    clerk.getPassword(), 
-                    clerk.getSecurityQuestions(), 
-                    clerk.getWorksAt()
-                );
-
-                storage.update(clerk.getId(), manager);
-                Authenticator.instance.register(manager);
-            }
+            Authenticator.instance.register(clerk);
         }
     }
 
@@ -77,12 +62,19 @@ public class StaffService {
         //password validation - not allow creating of simple passwords
         if(clerk.getPassword() != null && clerk.getPassword().length() < 8){
             invalidDataMessage.add("Password must be longer that 8 characters");}
-        if(clerk.getPassword() != null && clerk.getPassword().matches(".*[A-Z].*")){
+        if(clerk.getPassword() != null && !clerk.getPassword().matches(".*[A-Z].*")){
             invalidDataMessage.add("Password must contain at least 1 Captial Letter");}
-        if(clerk.getPassword() != null && clerk.getPassword().matches(".*[0-9].*")){
+        if (clerk.getPassword() != null && !clerk.getPassword().matches(".*[0-9].*")){
             invalidDataMessage.add("Password must contain at least 1 digit (0-9)");}
         if(clerk.getPassword() != null && clerk.getPassword().contains(" ")){
             invalidDataMessage.add("Password cannot contain an empty character");}
+
+        if (!invalidDataMessage.isEmpty()) {
+            throw new BadRequestException(String.join("\n", invalidDataMessage));
+        }
+
+        clerk.setPassword(security.passwordEncryption(clerk.getPassword(), "MD5"));
+
 
         clerk.setWorksAt(bank);
         Authenticator.instance.register(clerk);

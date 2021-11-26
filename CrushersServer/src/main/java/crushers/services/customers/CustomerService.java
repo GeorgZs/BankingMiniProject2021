@@ -9,10 +9,12 @@ import crushers.server.Authenticator;
 import crushers.server.httpExceptions.*;
 
 import crushers.storage.Storage;
+import crushers.utils.Security;
 
 public class CustomerService {
   
   private final Storage<Customer> storage;
+  private final Security security = new Security();
 
   public CustomerService(Storage<Customer> storage) throws Exception {
     this.storage = storage;
@@ -42,6 +44,8 @@ public class CustomerService {
 
     // build the error message if there are any errors
     if (!invalidDataMessage.isEmpty()) throw new BadRequestException(String.join("\n", invalidDataMessage));
+
+    customer.setPassword(security.passwordEncryption(customer.getPassword(), "MD5"));
 
     Authenticator.instance.register(customer);
     return storage.create(customer);
