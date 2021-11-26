@@ -53,7 +53,7 @@
                   <Font name="SansSerif Regular" size="13.0" />
                </font>
             </TextField>
-            <TextField fx:id="clerkCity" layoutX="41.0" layoutY="148.0" promptText="City">
+            <TextField fx:id="city" layoutX="41.0" layoutY="148.0" promptText="City">
                <font>
                   <Font name="SansSerif Regular" size="13.0" />
                </font>
@@ -63,12 +63,12 @@
                   <Font name="SansSerif Regular" size="13.0" />
                </font>
             </TextField>
-            <TextField fx:id="clerkEmail" layoutX="43.0" layoutY="187.0" prefHeight="26.0" prefWidth="355.0" promptText="E-mail address">
+            <TextField fx:id="email" layoutX="43.0" layoutY="187.0" prefHeight="26.0" prefWidth="355.0" promptText="E-mail address">
                <font>
                   <Font name="SansSerif Regular" size="13.0" />
                </font>
             </TextField>
-            <PasswordField fx:id="clerkPassword" layoutX="41.0" layoutY="231.0" promptText="Password">
+            <PasswordField fx:id="password" layoutX="41.0" layoutY="231.0" promptText="Password">
                <font>
                   <Font name="SansSerif Regular" size="13.0" />
                </font>
@@ -94,7 +94,7 @@
                   <Font name="SansSerif Regular" size="13.0" />
                </font>
             </TextField>
-            <Button layoutX="145.0" layoutY="333.0" mnemonicParsing="false" text="Register">
+            <Button layoutX="145.0" layoutY="333.0" mnemonicParsing="false" onAction="#registerClerk" text="Register">
                <font>
                   <Font name="SansSerif Regular" size="13.0" />
                </font>

@@ -81,7 +81,7 @@ public class register {
         String postalCode = postalCodeField.getText();
         String email = emailField.getText();
         String password = passwordField.getText();
-        String question = securityQuestions.getValue().toString();
+        //String question = securityQuestions.getValue().toString();
         //String answer = answerQuestions.getText();
 
         if(bankName.isEmpty() || bankName.isBlank()){

@@ -9,6 +9,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
+import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,13 +22,13 @@ public class dashboard {
     @FXML
     private TextField clerkStreetAddress;
     @FXML
-    private TextField clerkCity;
+    private TextField city;
     @FXML
     private TextField clerkPostal;
     @FXML
-    private TextField clerkEmail;
+    private TextField email;
     @FXML
-    private PasswordField clerkPassword;
+    private PasswordField password;
     @FXML
     private ChoiceBox clerkSecurityQuestion;
     @FXML
@@ -88,10 +89,45 @@ public class dashboard {
         m.changeScene("Login.fxml", mouseEvent);
     }
 
+    @FXML
+    public void registerClerk(javafx.event.ActionEvent event) {
+        MainController m = new MainController();
+        String clerkFirst = clertkFirstName.getText();
+        String clerkLast = clerkLastName.getText();
+        String clerkAddress = clerkStreetAddress.getText();
+        String clerkCity = city.getText();
+        String clerkZip = clerkPostal.getText();
+        String clerkEmail = email.getText();
+        String clerkPassword = password.getText();
 
-
-
-
-
-
+        if(clerkFirst.isEmpty() || clerkFirst.isBlank()) {
+            clertkFirstName.setStyle("-fx-border-color: red ; -fx-border-width: 1px");
+        } else {
+            clertkFirstName.setStyle("-fx-border-color: transparent");
+        } if(clerkLast.isEmpty() || clerkLast.isBlank()) {
+            clerkLastName.setStyle("-fx-border-color: red ; -fx-border-width: 1px");
+        } else {
+            clerkLastName.setStyle("-fx-border-color: transparent");
+        } if(clerkAddress.isEmpty() || clerkAddress.isBlank()) {
+            clerkStreetAddress.setStyle("-fx-border-color: red ; -fx-border-width: 1px");
+        } else {
+            clerkStreetAddress.setStyle("-fx-border-color: transparent");
+        } if(clerkCity.isBlank() || clerkCity.isEmpty()) {
+            city.setStyle("-fx-border-color: red ; -fx-border-width: 1px");
+        } else {
+            city.setStyle("-fx-border-color: transparent");
+        } if(clerkZip.isEmpty() || clerkZip.isBlank()) {
+            clerkPostal.setStyle("-fx-border-color: red ; -fx-border-width: 1px");
+        } else {
+            clerkPostal.setStyle("-fx-border-color: transparent");
+        } if(clerkEmail.isEmpty() || clerkEmail.isBlank() || !clerkEmail.contains("@")) {
+            email.setStyle("-fx-border-color: red ; -fx-border-width: 1px");
+        } else {
+            email.setStyle("-fx-border-color: transparent");
+        } if(clerkPassword.isEmpty() || clerkPassword.isBlank() || clerkPassword.length() < 8) {
+            password.setStyle("-fx-border-color: red ; -fx-border-width: 1px");
+        } else {
+            password.setStyle("-fx-border-color: transparent");
+        }
+    }
 }
