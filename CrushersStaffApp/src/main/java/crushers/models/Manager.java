@@ -1,4 +1,7 @@
-package crushers;
+package crushers.models;
+
+import crushers.models.Bank;
+import crushers.models.Clerk;
 
 public class Manager extends Clerk {
     public Manager(){

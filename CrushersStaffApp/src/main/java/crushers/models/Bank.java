@@ -1,9 +1,7 @@
-package crushers;
+package crushers.models;
 import java.time.LocalTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import crushers.Manager;
 
 
 public class Bank {
