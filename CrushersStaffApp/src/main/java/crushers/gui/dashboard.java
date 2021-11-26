@@ -1,6 +1,8 @@
 package crushers.gui;
 
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -8,20 +10,52 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class dashboard {
+    @FXML
+    private TextField clertkFirstName;
+    @FXML
+    private TextField clerkLastName;
+    @FXML
+    private TextField clerkStreetAddress;
+    @FXML
+    private TextField clerkCity;
+    @FXML
+    private TextField clerkPostal;
+    @FXML
+    private TextField clerkEmail;
+    @FXML
+    private PasswordField clerkPassword;
+    @FXML
+    private ChoiceBox clerkSecurityQuestion;
+    @FXML
+    private TextField clerkAnswer;
     @FXML
     private HBox staff;
     @FXML
     private HBox logout;
     @FXML
-    private Pane rightPane;
+    private Pane registerPane;
+
+    private String[] clerkQuestion = {
+            "What's the name of your first pet?",
+            "What's the name of your home-town?",
+            "What's your favorite movie?",
+            "Which high-school did you graduate?",
+            "What's your mother's maiden name?",
+            "What's the name of your first school?",
+            "What was your favorite food as a child?",
+            "What's your favorite book?"
+
+    };
+
     @FXML
-    private TextField id;
-    @FXML
-    private TextField username;
-    @FXML
-    private PasswordField password;
+    void initialize(){
+        clerkSecurityQuestion.setItems(FXCollections.observableArrayList(new ArrayList<String>(Arrays.asList(clerkQuestion))));
+        clerkSecurityQuestion.setStyle("-fx-font-family: SansSerif");
+    }
 
     @FXML
     private void onHover(MouseEvent mouseEvent) {
@@ -45,14 +79,16 @@ public class dashboard {
 
     @FXML
     private void onClickedStaff(MouseEvent mouseEvent) {
-        rightPane.setVisible(true);
+        registerPane.setVisible(true);
     }
 
     @FXML
     public void onClickedLogout(MouseEvent mouseEvent) throws IOException {
         MainController m = new MainController();
-        m.changeScene("crushers/gui/Login.fxml", mouseEvent);
+        m.changeScene("Login.fxml", mouseEvent);
     }
+
+
 
 
 
