@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="crushers.dashboard">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="crushers.gui.dashboard">
    <children>
       <Pane prefHeight="400.0" prefWidth="89.0" style="-fx-background-color: FFB6B6;">
          <children>
@@ -18,7 +18,7 @@
                <children>
                   <ImageView fitHeight="16.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@img/icons8-plus-48.png" />
+                        <Image url="@pesalogin/icons8-plus-48.png" />
                      </image>
                   </ImageView>
                   <Label text="Add staff" />

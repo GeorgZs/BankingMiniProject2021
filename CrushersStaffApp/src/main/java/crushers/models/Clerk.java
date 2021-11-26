@@ -1,6 +1,5 @@
-package crushers;
+package crushers.models;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 
 
 public class Clerk extends User {

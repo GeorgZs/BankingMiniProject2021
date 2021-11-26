@@ -1,4 +1,4 @@
-package crushers;
+package crushers.gui;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
@@ -51,7 +51,7 @@ public class dashboard {
     @FXML
     public void onClickedLogout(MouseEvent mouseEvent) throws IOException {
         MainController m = new MainController();
-        m.changeScene("crushers/Login.fxml", mouseEvent);
+        m.changeScene("crushers/gui/Login.fxml", mouseEvent);
     }
 
 

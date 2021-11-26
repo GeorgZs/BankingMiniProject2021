@@ -1,4 +1,4 @@
-package crushers;
+package crushers.utils;
 
 import java.io.File;
 import java.io.IOException;

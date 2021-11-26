@@ -1,5 +1,5 @@
 
-package crushers;
+package crushers.models;
 
 import java.time.LocalDateTime;
 

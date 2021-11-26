@@ -1,4 +1,4 @@
-package crushers;
+package crushers.utils;
 
 import java.net.URI;
 import java.util.List;
