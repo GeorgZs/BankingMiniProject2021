@@ -8,6 +8,7 @@ import crushers.server.Authenticator;
 import crushers.server.httpExceptions.*;
 import crushers.utils.Security;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -39,6 +40,11 @@ public class StaffService {
     //template staff member
     public Collection<Clerk> getAll() throws Exception {
         return storage.getAll();
+    }
+
+    public Clerk updateClerk(int id, Clerk clerk) throws Exception {
+        storage.update(id, clerk);
+        return get(id);
     }
 
     //called to create a clerk and this returns the clerk

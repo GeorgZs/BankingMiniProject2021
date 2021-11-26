@@ -62,6 +62,16 @@ public class JsonClerkStorage extends JsonStorage<Clerk> {
         return killedClerk;
     }
 
+    @Override
+    public Clerk update(int id, Clerk clerk) throws IOException{
+        Clerk updatedClerk = super.update(id, clerk);
+        if(!updatedClerk.equals(get(id))){
+            bankClerks.remove(get(id).getWorksAt()).remove(get(id));
+            bankClerks.get(updatedClerk.getWorksAt()).add(updatedClerk);
+        }
+        return updatedClerk;
+    }
+
     public Collection<Clerk> getClerksOfBank(Bank bank){
         return bankClerks.get(bank);
     }
