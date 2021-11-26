@@ -10,10 +10,10 @@ import crushers.storage.Storage;
 import java.util.Collection;
 
 public class BankService {
-    private final Storage<Bank> storage;
+    private final JsonBankStorage storage;
     private final StaffService staffService;
 
-    public BankService(Storage<Bank> storage, StaffService staffService) {
+    public BankService(JsonBankStorage storage, StaffService staffService) {
         this.storage = storage;
         this.staffService = staffService;
     }
@@ -38,5 +38,10 @@ public class BankService {
         Bank createdBank = storage.create(bank);
         staffService.create(createdBank, bank.getManager());
         return createdBank;
+    }
+
+    public Bank updateBank(int id, Bank bank) throws Exception {
+        storage.update(id, bank);
+        return bank;
     }
 }

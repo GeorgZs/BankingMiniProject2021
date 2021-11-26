@@ -39,4 +39,11 @@ public class BankRouter extends Router<Bank> {
         final Bank responseData = bankService.create(requestData);
         sendJsonResponse(exchange, responseData);
     }
+
+    @Override
+    protected void put(HttpExchange exchange, int id) throws Exception {
+        final Bank requestData = getJsonBodyData(exchange, Bank.class);
+        final Bank responseData = bankService.updateBank(id, requestData);
+        sendJsonResponse(exchange, responseData);
+    }
 }
