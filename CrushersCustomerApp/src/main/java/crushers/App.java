@@ -16,7 +16,7 @@ import crushers.model.Bank;
 import crushers.model.Customer;
 import crushers.model.PaymentAccount;
 import crushers.model.SavingsAccount;
-import crushers.model.User;
+import crushers.util.Util;
 
 public class App extends Application {
 
@@ -29,7 +29,6 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
-
         // Registering local defaults
         ArrayList<String> securityQA = new ArrayList<String>(Arrays.asList("What's the name of your first pet?", "Alfie"));
         Customer defaultCustomer = new Customer("John", "Smith", "Willy Street", "smith@google.com", "password", securityQA, 333);
@@ -39,15 +38,18 @@ public class App extends Application {
         defaultCustomer.createAccount(new PaymentAccount("Education Fund", 0.01));
         emptyCustomer.createAccount(new SavingsAccount("Kaylee's funds", 10, 1000));
 
-        Parent root = FXMLLoader.load(getClass().getResource("views/MainView.fxml"));
-
+        Parent root = Util.mainLoader.load();
         Scene scene = new Scene(root);
         stage.setScene(scene);
 
-        scene.getStylesheets().add(getClass().getClassLoader().getResource("crushers/stylesheets/main.css").toExternalForm());
+        //scene.getStylesheets().add(getClass().getClassLoader().getResource("crushers/stylesheets/main.css").toExternalForm());
 
+        configStage(stage, "Crushers Bank");
+    }
+
+    public static void configStage(Stage stage, String title){
         stage.getIcons().add(new Image("crushers/imgs/logo.jpg"));
-        stage.setTitle("Crushers Bank");
+        stage.setTitle(title);
         stage.show();
     }
 

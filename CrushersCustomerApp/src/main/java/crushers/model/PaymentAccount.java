@@ -11,12 +11,12 @@ public class PaymentAccount {
 
     public PaymentAccount(String name, double balance) {
         this.name = name;
-        this.ID = String.valueOf(Math.floor((Math.random()*100000)) + "CB21");
+        this.ID = String.valueOf((int)Math.floor((Math.random()*100000)));
         this.balance = balance;
         this.transactions = new ArrayList<Transaction>();
     }
 
     public String toString(){
-        return "Payment Account (" + this.ID + "): " + this.balance + " SEK";
+        return "Payment Account (ID" + this.ID + "): " + this.balance + " SEK";
     }
 }

@@ -7,47 +7,30 @@ import crushers.App;
 import crushers.model.Bank;
 import crushers.model.PaymentAccount;
 import crushers.model.SavingsAccount;
+import crushers.util.Util;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 
 public class AccountCreationController implements Initializable{
     
     @FXML
     private ChoiceBox<Bank> bankSelection;
-
     @FXML
-    private RadioButton paymentOption;
-
+    private RadioButton paymentOption, savingsOption;
     @FXML
-    private RadioButton savingsOption;
-
+    private TextField accountDescriptionField, savingsGoalField;
     @FXML
-    private TextField accountDescriptionField;
-
-    @FXML
-    private TextField savingsGoalField;
-    @FXML
-    private Label savingsGoalLabel;
-    @FXML
-    private Label sekLabel;
+    private Label savingsGoalLabel, sekLabel, invalidLabel;
     @FXML
     private Button createAccountButton;
-    @FXML
-    private Label invalidLabel;
     
     private Boolean isPayment;
 
@@ -58,33 +41,22 @@ public class AccountCreationController implements Initializable{
             invalidLabel.setText("Please select an account type!");
         }else if(!isPayment && savingsGoalField.getText().isBlank()){
             invalidLabel.setText("Please enter a savings goal!");
-            // if(savingsGoalField.getText().isBlank()){
-            //     invalidLabel.setText("Please enter a savings goal!");
-            // }else{
-            //     try{
-            //         double parsed = Double.parseDouble(savingsGoalField.getText());
-            //     }catch(NumberFormatException nfe){
-            //         invalidLabel.setText("Please enter a valid savings goal!");
-            //         return;
-            //     }
-            // }
         }else if(accountDescriptionField.getText().isBlank()){
             invalidLabel.setText("Please enter an account name!");
         }else{
-            
             String accountName = accountDescriptionField.getText();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("views/AccountView.fxml"));
             if(isPayment){
                 PaymentAccount account = new PaymentAccount(accountName, 0);
-                MainController.accCtrl.addPaymentToList(account);
+                ((AccountController)Util.accountLoader.getController()).addPaymentToList(account);
                 App.currentCustomer.createAccount(account);
             }else{
-
                 try{
+
                 double savingsGoal = Double.parseDouble(savingsGoalField.getText());
                 SavingsAccount account = new SavingsAccount(accountName, 0, savingsGoal);
-                MainController.accCtrl.addSavingsToList(account);
+                ((AccountController) Util.accountLoader.getController()).addSavingsToList(account);
                 App.currentCustomer.createAccount(account);
+
                 }catch(NumberFormatException nfe){
                     invalidLabel.setText("Please enter a valid savings goal!");
                     return;
@@ -111,9 +83,7 @@ public class AccountCreationController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        for(Bank bank: App.banks){
-            bankSelection.getItems().add(bank);
-        }
+        bankSelection.getItems().addAll(App.banks);
         savingsGoalLabel.setVisible(false);
         savingsGoalField.setVisible(false);
         sekLabel.setVisible(false);

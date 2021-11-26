@@ -13,6 +13,6 @@ public class SavingsAccount extends PaymentAccount{
 
     @Override
     public String toString(){
-        return "Savings Account (" + super.ID + "): " + super.balance + " SEK";
+        return "Savings Account (ID" + super.ID + "): " + super.balance + " SEK";
     }
 }
