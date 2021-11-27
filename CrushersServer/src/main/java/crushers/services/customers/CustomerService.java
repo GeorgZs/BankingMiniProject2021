@@ -45,7 +45,8 @@ public class CustomerService {
     // build the error message if there are any errors
     if (!invalidDataMessage.isEmpty()) throw new BadRequestException(String.join("\n", invalidDataMessage));
 
-    customer.setPassword(security.passwordEncryption(customer.getPassword(), "MD5"));
+    //for testing out commented
+    //customer.setPassword(security.passwordEncryption(customer.getPassword(), "MD5"));
 
     Authenticator.instance.register(customer);
     return storage.create(customer);

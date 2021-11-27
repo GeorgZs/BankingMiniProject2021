@@ -79,7 +79,9 @@ public class StaffService {
             throw new BadRequestException(String.join("\n", invalidDataMessage));
         }
 
-        clerk.setPassword(security.passwordEncryption(clerk.getPassword(), "MD5"));
+
+        //for testing out commented
+        //clerk.setPassword(security.passwordEncryption(clerk.getPassword(), "MD5"));
 
 
         clerk.setWorksAt(bank);
