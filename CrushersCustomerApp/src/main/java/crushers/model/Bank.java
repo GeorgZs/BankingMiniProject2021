@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Bank {
     
-    private ArrayList<User> users;
+    private ArrayList<Customer> customers;
     // private ArrayList<Clerk> clerks;
     // private ArrayList<Manager> managers;
 
@@ -13,14 +13,18 @@ public class Bank {
 
     public Bank(String name){
         this.name = name;
-        this.users = new ArrayList<User>();
+        this.customers = new ArrayList<Customer>();
     }
     
-    public ArrayList<User> getUsers(){
-        return this.users;
+    public ArrayList<Customer> getCustomers(){
+        return this.customers;
     }
-    public void registerUser(User user){
-        this.users.add(user);
+    public void registerCustomer(Customer customer){
+        this.customers.add(customer);
+    }
+
+    public String toString(){
+        return this.name;
     }
 
 }

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="695.0" prefWidth="401.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="crushers.gui.register">
+   <children>
+      <TextField fx:id="bankNameField" layoutX="14.0" layoutY="61.0" promptText="Name">
+         <font>
+            <Font name="SansSerif Regular" size="13.0" />
+         </font></TextField>
+      <TextField fx:id="logoField" layoutX="206.0" layoutY="61.0" promptText="Logo">
+         <font>
+            <Font name="SansSerif Regular" size="13.0" />
+         </font></TextField>
+      <TextArea fx:id="bankDetails" layoutX="12.0" layoutY="102.0" prefHeight="76.0" prefWidth="356.0" promptText="Details">
+         <font>
+            <Font name="SansSerif Regular" size="13.0" />
+         </font></TextArea>
+      <TextField fx:id="firstNameField" layoutX="14.0" layoutY="280.0" prefHeight="27.0" prefWidth="176.0" promptText="First">
+         <font>
+            <Font name="SansSerif Regular" size="13.0" />
+         </font></TextField>
+      <TextField fx:id="lastNameField" layoutX="206.0" layoutY="280.0" prefHeight="27.0" prefWidth="176.0" promptText="Last">
+         <font>
+            <Font name="SansSerif Regular" size="13.0" />
+         </font></TextField>
+      <TextField fx:id="streetAddressField" layoutX="15.0" layoutY="348.0" prefHeight="27.0" prefWidth="371.0" promptText="Street address">
+         <font>
+            <Font name="SansSerif Regular" size="13.0" />
+         </font></TextField>
+      <TextField fx:id="cityField" layoutX="14.0" layoutY="392.0" prefHeight="27.0" prefWidth="176.0" promptText="City">
+         <font>
+            <Font name="SansSerif Regular" size="13.0" />
+         </font></TextField>
+      <TextField fx:id="postalCodeField" layoutX="206.0" layoutY="392.0" prefHeight="27.0" prefWidth="176.0" promptText="Postal/Zip code">
+         <font>
+            <Font name="SansSerif Regular" size="13.0" />
+         </font></TextField>
+      <TextField fx:id="emailField" layoutX="15.0" layoutY="462.0" prefHeight="27.0" prefWidth="371.0" promptText="E-mail">
+         <font>
+            <Font name="SansSerif Regular" size="13.0" />
+         </font></TextField>
+      <TextField fx:id="passwordField" layoutX="15.0" layoutY="547.0" prefHeight="27.0" prefWidth="371.0" promptText="Password">
+         <font>
+            <Font name="SansSerif Regular" size="13.0" />
+         </font></TextField>
+      <ChoiceBox fx:id="securityQuestions" layoutX="21.0" layoutY="586.0" prefHeight="27.0" prefWidth="185.0" />
+      <TextField fx:id="answerQuestion" layoutX="216.0" layoutY="586.0" prefHeight="27.0" prefWidth="170.0" promptText="answer">
+         <font>
+            <Font name="SansSerif Regular" size="13.0" />
+         </font></TextField>
+      <Text layoutX="15.0" layoutY="231.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Member Information:">
+         <font>
+            <Font name="SansSerif Regular" size="13.0" />
+         </font></Text>
+      <Text layoutX="14.0" layoutY="267.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name">
+         <font>
+            <Font name="SansSerif Regular" size="13.0" />
+         </font></Text>
+      <Text layoutX="15.0" layoutY="332.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Address">
+         <font>
+            <Font name="SansSerif Regular" size="13.0" />
+         </font></Text>
+      <Text layoutX="21.0" layoutY="448.0" strokeType="OUTSIDE" strokeWidth="0.0" text="E-mail">
+         <font>
+            <Font name="SansSerif Regular" size="13.0" />
+         </font></Text>
+      <Text layoutX="31.0" layoutY="508.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*This will also be your login username">
+         <font>
+            <Font name="SansSerif Italic" size="11.0" />
+         </font>
+      </Text>
+      <Text layoutX="20.0" layoutY="533.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password">
+         <font>
+            <Font name="SansSerif Regular" size="13.0" />
+         </font></Text>
+      <Button fx:id="register" layoutX="67.0" layoutY="632.0" mnemonicParsing="false" onAction="#registerUser" prefHeight="27.0" prefWidth="100.0" text="Register">
+         <font>
+            <Font name="SansSerif Regular" size="13.0" />
+         </font></Button>
+      <Button fx:id="cancel" layoutX="216.0" layoutY="632.0" mnemonicParsing="false" onAction="#cancelRegistration" prefHeight="27.0" prefWidth="100.0" text="Cancel">
+         <font>
+            <Font name="SansSerif Regular" size="13.0" />
+         </font></Button>
+      <Text layoutX="16.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bank information:">
+         <font>
+            <Font name="SansSerif Regular" size="13.0" />
+         </font></Text>
+   </children>
+</AnchorPane>

@@ -3,11 +3,10 @@ package crushers.controllers;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.ResourceBundle;
 
 import crushers.App;
-import crushers.model.User;
+import crushers.model.Customer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -22,29 +21,13 @@ public class RegisterController implements Initializable {
     @FXML
     private Label invalidInputLabel;
     @FXML
-    private ChoiceBox<String> firstQuestionBox;
+    private ChoiceBox<String> firstQuestionBox, secondQuestionBox, thirdQuestionBox;
     @FXML
-    private ChoiceBox<String> secondQuestionBox;
+    private TextField firstAnswerField, secondAnswerField, thirdAnswerField, firstNameField, lastNameField, addressField, emailField;
     @FXML
-    private ChoiceBox<String> thirdQuestionBox;
-    @FXML
-    private TextField firstAnswerField;
-    @FXML
-    private TextField secondAnswerField;
-    @FXML
-    private TextField thirdAnswerField;
-    @FXML
-    private TextField firstNameField;
-    @FXML
-    private TextField lastNameField;
-    @FXML
-    private TextField addressField;
-    @FXML
-    private TextField emailField;
-    @FXML
-    private PasswordField passwordField;
-    @FXML
-    private PasswordField repeatedPasswordField;
+    private PasswordField passwordField, repeatedPasswordField;
+
+
 
     private String[] questions = {
         "What's the name of your first pet?",
@@ -59,6 +42,10 @@ public class RegisterController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        firstQuestionBox.setStyle("-fx-font-family: SansSerif");
+        secondQuestionBox.setStyle("-fx-font-family: SansSerif");
+        thirdQuestionBox.setStyle("-fx-font-family: SansSerif");
         firstQuestionBox.getItems().addAll(questions);
         secondQuestionBox.getItems().addAll(questions);
         thirdQuestionBox.getItems().addAll(questions);
@@ -112,8 +99,8 @@ public class RegisterController implements Initializable {
             securityQuestionsAnswers.add(thirdQuestionBox.getValue());
             securityQuestionsAnswers.add(thirdAnswer);
 
-            User registeredUser = new User(firstName, lastName, address, email, password, securityQuestionsAnswers, userID);
-            App.bank.registerUser(registeredUser);
+            Customer registeredCustomer = new Customer(firstName, lastName, address, email, password, securityQuestionsAnswers, userID);
+            App.crushersBank.registerCustomer(registeredCustomer);
 
             Stage oldStage = (Stage)((Node)e.getSource()).getScene().getWindow();
             oldStage.close();

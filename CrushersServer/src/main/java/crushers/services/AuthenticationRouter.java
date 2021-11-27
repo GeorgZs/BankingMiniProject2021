@@ -57,6 +57,28 @@ public class AuthenticationRouter {
         ex.printStackTrace();
       }
     });
+
+    server.createContext("/auth/password").setHandler((HttpExchange exchange) -> {
+      try {
+        switch (exchange.getRequestMethod()) {
+          case "PUT":
+            Authenticator.instance.resetPassword(exchange);
+            sendResponse(exchange, 200, String.format("{\"Password successfully reset\"}").getBytes());
+            exchange.close();
+            break;
+
+          default:
+            throw new MethodNotAllowedException();
+        }
+      }
+      catch (HttpException ex) {
+        sendResponse(exchange, ex.statusCode, String.format("{\"error\":\"%s\"}", ex.getMessage()).getBytes());
+      }
+      catch (Exception ex) {
+        sendResponse(exchange, 500, String.format("{\"error\":\"Internal server error, try again later.\"}").getBytes());
+        ex.printStackTrace();
+      }
+    });
   }
   
     /**

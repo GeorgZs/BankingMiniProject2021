@@ -1,7 +1,12 @@
-package crushers;
+package crushers.gui;
 
 import crushers.models.Bank;
+<<<<<<< HEAD:CrushersStaffApp/src/main/java/crushers/register.java
 import crushers.models.users.Manager;
+=======
+import crushers.models.Manager;
+import crushers.utils.HTTPUtils;
+>>>>>>> 6c000bc38e2f35a8114287d5c077d0c757c2cc04:CrushersStaffApp/src/main/java/crushers/gui/register.java
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -64,7 +69,7 @@ public class register {
     @FXML
     private void cancelRegistration(ActionEvent event) throws IOException {
         MainController h = new MainController();
-        h.changeScene("crushers/Login.fxml", event);
+        h.changeScene("Login.fxml", event);
     }
 
     @FXML
@@ -80,11 +85,9 @@ public class register {
         String postalCode = postalCodeField.getText();
         String email = emailField.getText();
         String password = passwordField.getText();
-        String question = securityQuestions.getValue().toString();
+        //String question = securityQuestions.getValue().toString();
         //String answer = answerQuestions.getText();
-        if(event.isConsumed()) {
-            System.out.println("COOOOOOOL");
-        }
+
         if(bankName.isEmpty() || bankName.isBlank()){
             showAlert("Bank name cannot be empty");
             bankNameField.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
