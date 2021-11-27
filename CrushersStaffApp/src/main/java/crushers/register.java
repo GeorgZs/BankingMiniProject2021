@@ -1,5 +1,7 @@
 package crushers;
 
+import crushers.models.Bank;
+import crushers.models.users.Manager;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

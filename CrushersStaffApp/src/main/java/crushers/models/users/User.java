@@ -1,5 +1,4 @@
-
-package crushers;
+package crushers.models.users;
 
 import java.time.LocalDateTime;
 

@@ -1,6 +1,9 @@
-package crushers;
+package crushers.models.users;
+
+import crushers.models.Bank;
 
 public class Manager extends Clerk {
+
     public Manager(){
         //empty for Jackson
         this.staffType = "manager";

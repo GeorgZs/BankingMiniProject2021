@@ -1,10 +1,10 @@
-package crushers;
+package crushers.models;
+
 import java.time.LocalTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import crushers.Manager;
-
+import crushers.models.users.Manager;
 
 public class Bank {
     private int id;
