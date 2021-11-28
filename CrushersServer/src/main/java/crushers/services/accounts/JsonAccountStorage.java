@@ -66,8 +66,8 @@ public class JsonAccountStorage extends JsonStorage<Account> {
 
   public Collection<String> getIDsFromAllAccounts(){
     Collection<String> id = new ArrayList<>();
-    for(Bank bank : bankAccounts.keySet()){
-      for(Account account : bankAccounts.get(bank)){
+    for(Customer customer : customerAccounts.keySet()){
+      for(Account account : customerAccounts.get(customer)){
         id.add(account.getNumber());
       }
     }

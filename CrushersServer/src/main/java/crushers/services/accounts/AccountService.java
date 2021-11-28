@@ -58,8 +58,8 @@ public class AccountService {
     return null;
   }
 
-  public Account get(Bank bank, String accountNum) throws Exception{
-    Collection<Account> customerAccounts = getOfBank(bank);
+  public Account get(String accountNum) throws Exception{
+    Collection<Account> customerAccounts = storage.getAll();
     for(Account account : customerAccounts){
       if(account.getNumber().equals(accountNum)){
         return account;
