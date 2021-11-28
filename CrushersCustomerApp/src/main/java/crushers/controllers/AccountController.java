@@ -101,7 +101,7 @@ public class AccountController implements Initializable{
     public void addPaymentToList(PaymentAccount account){
         accountList.getItems().add(account);
     }
-    public void addAcountToList(PaymentAccount account){
+    public void addAccountToList(PaymentAccount account){
         accountList.getItems().add(account);
     }
     public void displayDetails(){
