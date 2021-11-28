@@ -22,6 +22,9 @@ import crushers.services.staff.JsonClerkStorage;
 import crushers.services.staff.StaffRouter;
 import crushers.services.staff.StaffService;
 
+import crushers.services.transactions.JsonTransactionStorage;
+import crushers.services.transactions.TransactionRouter;
+import crushers.services.transactions.TransactionService;
 import crushers.storage.JsonStorage;
 
 /**
@@ -64,6 +67,9 @@ public class Server {
       new JsonAccountStorage(new File("data/accounts.json"))
     );
     new AccountRouter(accountService).addEndpoints(this.httpServer);
+
+    final TransactionService transactionService = new TransactionService(new JsonTransactionStorage(new File("data/transactions.json")), accountService);
+    new TransactionRouter(transactionService).addEndpoints(this.httpServer);
   }
 
   /**
