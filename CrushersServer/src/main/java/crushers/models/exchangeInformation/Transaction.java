@@ -1,22 +1,27 @@
 package crushers.models.exchangeInformation;
 
-import crushers.models.accounts.Account;
 import crushers.storage.Storable;
 
 public class Transaction implements Storable {
     private int ID;
-    private Account accountFrom;
-    private Account accountTo;
+    private String accountFromID;
+    private String accountToID;
     private double amount;
     private String description;
     //For the date maybe use Time - to calculate age of transaction
     private String date;
 
-    public Transaction(int ID, Account accountFrom, Account accountTo,
+    public Transaction(){
+        //for fasterXML Jackson
+    }
+
+    public Transaction(String accountFromID, String accountToID,
                        double amount, String description, String date){
-        this.ID = ID;
-        this.accountFrom = accountFrom;
-        this.accountTo = accountTo;
+        //REMOVED ID from constructor as the ID increments everytime a transaction
+        //is created using the endpoint /transactions
+        this.ID = 1;
+        this.accountFromID = accountFromID;
+        this.accountToID = accountToID;
         this.amount = amount;
         this.description = description;
         this.date = date;
@@ -32,20 +37,20 @@ public class Transaction implements Storable {
         this.ID = id;
     }
 
-    public Account getAccountFrom() {
-        return accountFrom;
+    public String getAccountFromID() {
+        return accountFromID;
     }
 
-    public void setAccountFrom(Account accountFrom) {
-        this.accountFrom = accountFrom;
+    public void setAccountFromID(String accountFromID) {
+        this.accountFromID = accountFromID;
     }
 
-    public Account getAccountTo() {
-        return accountTo;
+    public String getAccountToID() {
+        return accountToID;
     }
 
-    public void setAccountTo(Account accountTo) {
-        this.accountTo = accountTo;
+    public void setAccountToID(String accountToID) {
+        this.accountToID = accountToID;
     }
 
     public double getAmount() {

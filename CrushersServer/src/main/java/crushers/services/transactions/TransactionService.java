@@ -1,24 +1,24 @@
 package crushers.services.transactions;
 
+import crushers.models.accounts.Account;
 import crushers.models.exchangeInformation.Transaction;
 import crushers.models.users.Clerk;
 import crushers.models.users.Customer;
 import crushers.models.users.User;
-import crushers.server.Authenticator;
+
 import crushers.server.httpExceptions.BadRequestException;
 import crushers.services.accounts.AccountService;
-import crushers.services.customers.CustomerService;
-import crushers.services.staff.JsonClerkStorage;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class TransactionService {
     private final JsonTransactionStorage storage;
     private final AccountService accountService;
-    public int ID = 1;
+    public static int ID = 0;
 
 
     public TransactionService(JsonTransactionStorage storage, AccountService accountService) throws IOException {
@@ -26,30 +26,37 @@ public class TransactionService {
         this.accountService = accountService;
     }
 
-    public Transaction create(User user, User target, Transaction transaction) throws Exception {
+    public Transaction create(Transaction transaction, User user) throws Exception {
         List<String> invalidDataMessage = new ArrayList<>();
         if(transaction == null){
-            throw new BadRequestException("Staff Member invalid!");
+            throw new BadRequestException("Transaction invalid!");
         }
         if(user instanceof Customer){
-            Customer accountTo = (Customer) target;
             Customer customer = (Customer) user;
-            if(!transaction.getAccountFrom().equals(accountService.getOfCustomer(customer))){
+            if(transaction.getAccountToID().equals(transaction.getAccountFromID())){
+                throw new BadRequestException("Accounts to and from are the Same");
+            }
+            if(!accountService.getIDs(customer).contains(transaction.getAccountFromID())){
                 invalidDataMessage.add("Account does not exist for selected customer");
             }
-            if(!transaction.getAccountTo().equals(accountService.getOfCustomer(accountTo))){
+            if(!accountService.getAllIDs().contains(transaction.getAccountToID())){
                 invalidDataMessage.add("Account does not exist for target customer");
             }
+            Account account = accountService.get(customer, transaction.getAccountFromID());
+            if(account.getBalance() <= 0){
+                invalidDataMessage.add("Cannot create Transaction: Account with id: "
+                        + account.getId() + " does not have enough funds to create this Transaction");
+                throw new BadRequestException(String.join("\n", invalidDataMessage));
+            }
+            account.setBalance(account.getBalance() - transaction.getAmount());
         }
         if(user instanceof Clerk){
-            Customer accountTo = (Customer) target;
-            Clerk clerk = (Clerk) user;
             //null bcs it's from the bank
             //1st case:   Bank -> Account
-            if(transaction.getAccountFrom() != null){
-                invalidDataMessage.add("Account does not exist for selected customer");
+            if(transaction.getAccountFromID() != null){
+                invalidDataMessage.add("Account from should be the Bank!");
             }
-            if(!transaction.getAccountTo().equals(accountService.getOfCustomer(accountTo))){
+            if(!accountService.getAllIDs().contains(transaction.getAccountToID())){
                 invalidDataMessage.add("Account does not exist for target customer");
             }
         }
@@ -63,14 +70,12 @@ public class TransactionService {
         if (!invalidDataMessage.isEmpty()) {
             throw new BadRequestException(String.join("\n", invalidDataMessage));
         }
-        /*
-    id: int,
-    from: AccountId,
-    to: AccountId,
-    amount: double,
-    description: String,
-    date: LocalDate,
-         */
+        transaction.setDate(LocalDateTime.now().toString());
+        transaction.setId(ID++);
+        //Account accountTo = accountService.get(transaction.getAccountToID());
+        // TODO: have to change the balance of the AccountTo account before transaction is created
+        // TODO: create a class that gets the account based on the accountNumber
+        //transaction.getAccountTo().setBalance(transaction.getAccountTo().getBalance() + transaction.getAmount());
         return storage.create(transaction);
     }
 }

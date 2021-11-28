@@ -48,6 +48,26 @@ public class AccountService {
     return account;
   }
 
+  public Account get(Customer loggedInCustomer, String accountNum) throws Exception{
+    Collection<Account> customerAccounts = getOfCustomer(loggedInCustomer);
+    for(Account account : customerAccounts){
+      if(account.getNumber().equals(accountNum)){
+        return account;
+      }
+    }
+    return null;
+  }
+
+  public Account get(Bank bank, String accountNum) throws Exception{
+    Collection<Account> customerAccounts = getOfBank(bank);
+    for(Account account : customerAccounts){
+      if(account.getNumber().equals(accountNum)){
+        return account;
+      }
+    }
+    return null;
+  }
+
   public Collection<Account> getOfCustomer(Customer customer) throws Exception {
     Collection<Account> accounts = storage.getAccountsOfCustomer(customer);
     if (accounts == null) accounts = new ArrayList<>();
@@ -58,5 +78,15 @@ public class AccountService {
     Collection<Account> accounts = storage.getAccountsOfBank(bank);
     if (accounts == null) accounts = new ArrayList<>();
     return accounts;
+  }
+
+  public Collection<String> getIDs(Customer customer) throws Exception{
+    Collection<String> ids = storage.getIDsOfSpecificAccounts(customer);
+    return ids;
+  }
+
+  public Collection<String> getAllIDs() throws Exception{
+    Collection<String> ids = storage.getIDsFromAllAccounts();
+    return ids;
   }
 }
