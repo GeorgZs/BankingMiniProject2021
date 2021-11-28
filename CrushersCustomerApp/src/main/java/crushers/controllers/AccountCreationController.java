@@ -49,6 +49,10 @@ public class AccountCreationController implements Initializable{
             Bank bank = bankSelection.getValue();
             AccountController accCtrl = MainController.accCtrl;
 
+            /*
+
+            This needs attention
+             */
             if(isPayment){
                 PaymentAccount account = new PaymentAccount(accountName, 0, bank);
                 accCtrl.addAcountToList(account);

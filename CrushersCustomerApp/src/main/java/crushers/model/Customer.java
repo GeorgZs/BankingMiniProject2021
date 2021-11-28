@@ -68,6 +68,9 @@ public class Customer{
     public String getPassword(){
         return this.password;
     }
+    public void setPassword(String password) {
+        this.password = password;
+    }
     public ArrayList<String> getSecurityQuestions(){
         return this.securityQuestions;
     }

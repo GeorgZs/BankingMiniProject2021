@@ -80,8 +80,12 @@ public class MainController { // test commit
         }
     }
 
-    public void forgottenPassword(){
-        System.out.println("lol dummy");
+    public void forgottenPassword() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("crushers/views/ChangePasswordView.fxml"));
+        root = loader.load();
+        stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setTitle("Reset password");
+        stage.show();
     }
-
 }
