@@ -2,10 +2,6 @@ package crushers.models.users;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import crushers.models.Bank;
 import crushers.models.accounts.*;
-import crushers.models.users.Customer;
-
-import java.util.ArrayList;
-
 
 public class Clerk extends User {
 
@@ -60,11 +56,7 @@ public class Clerk extends User {
     public double seeCustomerBalance(int customerID, String accountID) {
         // GET http request returns desired customer
         Customer customer = new Customer(null, null, null, null, null, null);
-        if (customer == null) {
-            return -1.0;
-        }
-        PaymentAccount paymentAccount = new PaymentAccount(0);
-        if (customer.equals(paymentAccount.getOwner()))
-            return paymentAccount.getBalance();
+        PaymentAccount paymentAccount = new PaymentAccount(null, customer, 0.0);
+        return paymentAccount.getBalance();
     }
 }

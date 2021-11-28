@@ -9,7 +9,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
-import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,7 +29,7 @@ public class dashboard {
     @FXML
     private PasswordField password;
     @FXML
-    private ChoiceBox clerkSecurityQuestion;
+    private ChoiceBox<String> clerkSecurityQuestion;
     @FXML
     private TextField clerkAnswer;
     @FXML
@@ -91,7 +90,6 @@ public class dashboard {
 
     @FXML
     public void registerClerk(javafx.event.ActionEvent event) {
-        MainController m = new MainController();
         String clerkFirst = clertkFirstName.getText();
         String clerkLast = clerkLastName.getText();
         String clerkAddress = clerkStreetAddress.getText();
