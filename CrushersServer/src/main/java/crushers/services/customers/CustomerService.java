@@ -1,8 +1,10 @@
 package crushers.services.customers;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
+import crushers.models.Bank;
 import crushers.models.users.Customer;
 
 import crushers.server.Authenticator;
@@ -13,13 +15,13 @@ import crushers.utils.Security;
 
 public class CustomerService {
   
-  private final Storage<Customer> storage;
+  private final JsonCustomerStorage customerStorage;
   private final Security security = new Security();
 
-  public CustomerService(Storage<Customer> storage) throws Exception {
-    this.storage = storage;
+  public CustomerService(JsonCustomerStorage customerStorage) throws Exception {
+    this.customerStorage = customerStorage;
     
-    for (Customer customer : storage.getAll()) {
+    for (Customer customer : customerStorage.getAll()) {
       Authenticator.instance.register(customer);
     }
   }
@@ -49,11 +51,23 @@ public class CustomerService {
     //customer.setPassword(security.passwordEncryption(customer.getPassword(), "MD5"));
 
     Authenticator.instance.register(customer);
-    return storage.create(customer);
+    return customerStorage.create(customer);
   }
 
   public Customer getLoggedIn(Customer loggedInCustomer) throws Exception {
-    return storage.get(loggedInCustomer.getId());
+    return customerStorage.get(loggedInCustomer.getId());
+  }
+
+  public Collection<Customer> getAll() throws Exception {
+    return customerStorage.getAll();
+  }
+
+  public Collection<String> getAllEmail() throws Exception{
+    Collection<String> emailList = new ArrayList<>();
+    for(Customer customer : customerStorage.getAll()){
+      emailList.add(customer.getEmail());
+    }
+    return emailList;
   }
 
 }

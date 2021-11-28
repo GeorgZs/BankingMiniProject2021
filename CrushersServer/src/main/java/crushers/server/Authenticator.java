@@ -3,10 +3,7 @@ package crushers.server;
 import com.sun.net.httpserver.HttpExchange;
 
 import java.time.LocalDateTime;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import crushers.models.Credentials;
 import crushers.models.ResetPasswordClass;
@@ -154,13 +151,16 @@ public class Authenticator {
   }
 
 
-
   public void resetPassword(ResetPasswordClass resetPasswordClass) throws Exception{
-    //get collection of user email - if found
-    //in json bank storage maybe create a list of all user emails
-    //once email is found return the user and then check if the
-    //security questions match
-    //if they do use the setter of the password and set it to the
-    //resetPassword.getPassword(); then we done
+    for(String email : users.keySet()){
+      if(resetPasswordClass.getEmail().equals(email)){
+        if(Arrays.equals(resetPasswordClass.getSecurityQuestions(), resetPasswordClass.getSecurityQuestions())){
+          User user = users.get(email);
+          users.remove(email);
+          user.setPassword(resetPasswordClass.getPassword());
+          register(user);
+        }
+      }
+    }
   }
 }
