@@ -1,4 +1,4 @@
-package crushers.GUI;
+package crushers.gui;
 
 import crushers.models.users.Clerk;
 import crushers.utils.HTTPUtils;
@@ -116,7 +116,7 @@ public class dashboard {
 
     @FXML
     public void onClickedLogout(MouseEvent mouseEvent) throws IOException {
-        crushers.gui.MainController m = new crushers.gui.MainController();
+        MainController m = new MainController();
         m.changeScene("Login.fxml", mouseEvent);
     }
 
