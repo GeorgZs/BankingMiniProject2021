@@ -6,11 +6,7 @@ package crushers.models;
 import java.time.LocalTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-<<<<<<< HEAD:CrushersStaffApp/src/main/java/crushers/models/Bank.java
-import crushers.models.users.Manager;
-=======
->>>>>>> 6c000bc38e2f35a8114287d5c077d0c757c2cc04:CrushersStaffApp/src/main/java/crushers/Bank.java
+import crushers.models.users.*;
 
 public class Bank {
     private int id;

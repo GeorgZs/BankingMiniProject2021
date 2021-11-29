@@ -57,14 +57,28 @@ public class Clerk extends User {
         return paymentAccount;
     }
 
-    public double seeCustomerBalance(int customerID, String accountID) {
+    public double seeCustomerBalance(String accountID) {
         // GET http request returns desired customer
         Customer customer = new Customer(null, null, null, null, null, null);
-        if (customer == null) {
+        if (customer == null)
             return -1.0;
-        }
+
         PaymentAccount paymentAccount = new PaymentAccount(0);
         if (customer.equals(paymentAccount.getOwner()))
             return paymentAccount.getBalance();
+    }
+
+    public double depositMoneyFromCustomerAccount(int customerID, String accountID) {
+        // GET http request returns desired customer
+        Customer customer = new Customer(null, null, null, null, null, null);
+        if (customer == null)
+            return -1.0;
+    }
+
+    public double withdrawMoneyFromCustomerAccount(int customerID, String accountID) {
+        // GET http request returns desired customer
+        Customer customer = new Customer(null, null, null, null, null, null);
+        if (customer == null)
+            return -1.0;
     }
 }
