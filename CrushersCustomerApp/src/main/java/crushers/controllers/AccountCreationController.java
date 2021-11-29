@@ -51,7 +51,7 @@ public class AccountCreationController implements Initializable{
 
             if(isPayment){
                 PaymentAccount account = new PaymentAccount(accountName, 0, bank);
-                accCtrl.addAcountToList(account);
+                accCtrl.addAccountToList(account);
                 // accCtrl.addPaymentToList(account);
                 App.currentCustomer.createAccount(account);
             }else{
@@ -89,6 +89,7 @@ public class AccountCreationController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         bankSelection.getItems().addAll(App.banks);
+        bankSelection.setStyle("-fx-font-family: SansSerif");
         savingsGoalLabel.setVisible(false);
         savingsGoalField.setVisible(false);
         sekLabel.setVisible(false);

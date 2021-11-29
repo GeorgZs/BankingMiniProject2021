@@ -28,7 +28,7 @@ public class Router<Type> {
    * Adds all the endpoints to the given http server. It can be overwritten to add more customised 
    * endpoints in addition to the prewired crud endpoints.
    */
-  public void addEndpoints(HttpServer server) {
+  public void addEndpoints(HttpServer server) throws Exception {
     addCrudEndpoints(server);
   }
 

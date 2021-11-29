@@ -4,18 +4,24 @@ import java.io.IOException;
 
 import com.sun.net.httpserver.*;
 
+import crushers.models.ResetPasswordClass;
+import crushers.models.users.User;
 import crushers.server.Authenticator;
+import crushers.server.Router;
 import crushers.server.httpExceptions.HttpException;
 import crushers.server.httpExceptions.MethodNotAllowedException;
 
-public class AuthenticationRouter {
+public class AuthenticationRouter extends Router<ResetPasswordClass> {
+  public AuthenticationRouter() {
+    super("/auth");
+  }
 
   /**
    * Adds all the endpoints to the given http server. It can be overwritten to add more customised 
    * endpoints in addition to the prewired crud endpoints.
    */
   public void addEndpoints(HttpServer server) throws Exception {
-    server.createContext("/auth/login").setHandler((HttpExchange exchange) -> {
+    server.createContext(this.basePath + "/login").setHandler((HttpExchange exchange) -> {
       try {
         switch (exchange.getRequestMethod()) {
           case "POST":
@@ -36,7 +42,7 @@ public class AuthenticationRouter {
       }
     });
 
-    server.createContext("/auth/logout").setHandler((HttpExchange exchange) -> {
+    server.createContext(this.basePath + "/logout").setHandler((HttpExchange exchange) -> {
       try {
         switch (exchange.getRequestMethod()) {
           case "POST":
@@ -58,11 +64,11 @@ public class AuthenticationRouter {
       }
     });
 
-    server.createContext("/auth/password").setHandler((HttpExchange exchange) -> {
+    server.createContext(this.basePath + "/password").setHandler((HttpExchange exchange) -> {
       try {
         switch (exchange.getRequestMethod()) {
           case "PUT":
-            Authenticator.instance.resetPassword(exchange);
+            resetPassword(exchange);
             sendResponse(exchange, 200, String.format("{\"Password successfully reset\"}").getBytes());
             exchange.close();
             break;
@@ -84,11 +90,10 @@ public class AuthenticationRouter {
     /**
    * Sets the status code and sends a response.
    */
-  final protected void sendResponse(HttpExchange exchange, int statusCode, byte[] response) throws IOException {
-    exchange.getResponseHeaders().add("Content-Type", "application/json");
-    exchange.sendResponseHeaders(statusCode, response.length);
-    exchange.getResponseBody().write(response);
-    exchange.close();
+
+  final protected void resetPassword(HttpExchange exchange) throws Exception{
+    ResetPasswordClass resetPassword = getJsonBodyData(exchange, ResetPasswordClass.class);
+    Authenticator.instance.resetPassword(resetPassword);
   }
   
 }

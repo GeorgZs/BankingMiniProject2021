@@ -2,7 +2,6 @@ package crushers.models.users;
 
 import crushers.models.Bank;
 
-
 import crushers.models.Bank;
 import crushers.models.Clerk;
 

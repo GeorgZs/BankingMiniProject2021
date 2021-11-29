@@ -3,10 +3,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import crushers.models.Bank;
 import crushers.models.User;
 import crushers.models.accounts.*;
-import crushers.models.users.Customer;
-
-import java.util.ArrayList;
-
 
 public class Clerk extends User {
 

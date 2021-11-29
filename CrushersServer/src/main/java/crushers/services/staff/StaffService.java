@@ -2,6 +2,7 @@ package crushers.services.staff;
 
 import crushers.models.Bank;
 import crushers.models.users.Clerk;
+import crushers.models.users.Customer;
 import crushers.models.users.Manager;
 
 import crushers.server.Authenticator;
@@ -87,6 +88,14 @@ public class StaffService {
         clerk.setWorksAt(bank);
         Authenticator.instance.register(clerk);
         return storage.create(clerk);
+    }
+
+    public Collection<String> getAllEmail() throws Exception{
+        Collection<String> emailList = new ArrayList<>();
+        for(Clerk clerk : storage.getAll()){
+            emailList.add(clerk.getEmail());
+        }
+        return emailList;
     }
 
     public Clerk getLoggedIn(Clerk loggedInClerk) throws Exception {

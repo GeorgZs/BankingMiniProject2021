@@ -15,9 +15,9 @@
    <children>
       <AnchorPane prefHeight="400.0" prefWidth="89.0" style="-fx-background-color: F3A9A9;">
          <children>
-            <HBox fx:id="staff" layoutY="12.0" onMouseClicked="#onClickedStaff" onMouseEntered="#onHover" onMouseExited="#onHoverEnded" prefHeight="27.0" prefWidth="89.0">
+            <HBox fx:id="staff" layoutX="4.0" layoutY="12.0" onMouseClicked="#onClickedStaff" onMouseEntered="#onHover" onMouseExited="#onHoverEnded" prefHeight="27.0" prefWidth="89.0">
                <children>
-                  <ImageView fitHeight="16.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="plus" fitHeight="16.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@pesalogin/icons8-plus-48.png" />
                      </image>
@@ -34,9 +34,23 @@
                   </Label>
                </children>
             </HBox>
+            <HBox fx:id="information" layoutX="4.0" layoutY="41.0" onMouseClicked="#onClickedInformation" onMouseEntered="#onHover" onMouseExited="#onHoverEnded" prefHeight="26.0" prefWidth="89.0">
+               <children>
+                  <ImageView fx:id="plus2" fitHeight="22.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@pesalogin/icons8-plus-48.png" />
+                     </image>
+                  </ImageView>
+                  <Label prefWidth="73.0" text="Information">
+                     <font>
+                        <Font name="SansSerif Regular" size="13.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="registerPane" layoutX="89.0" prefHeight="400.0" prefWidth="512.0">
+      <AnchorPane fx:id="registerPane" layoutX="89.0" prefHeight="400.0" prefWidth="512.0" visible="false">
          <children>
             <TextField fx:id="clertkFirstName" layoutX="41.0" layoutY="61.0" promptText="First name">
                <font>
@@ -104,6 +118,15 @@
                   <Font name="SansSerif Regular" size="13.0" />
                </font>
             </Button>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="accountInformation" layoutX="89.0" prefHeight="400.0" prefWidth="512.0" visible="false">
+         <children>
+            <Label layoutX="185.0" layoutY="14.0" text="Account information:">
+               <font>
+                  <Font name="SansSerif Bold" size="14.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
    </children>

@@ -11,6 +11,7 @@ import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.Node;
 
@@ -35,10 +36,13 @@ public class MainController { // test commit
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("crushers/views/RegisterView.fxml"));
         root = loader.load();
         stage = new Stage();
-        stage.setScene(new Scene(root));
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getClassLoader().getResource("crushers/stylesheets/main.css").toExternalForm());
+        stage.setScene(scene);
 
         stage.getIcons().add(new Image("crushers/imgs/logo.jpg"));
         stage.setTitle("Registration Form");
+        stage.initModality(Modality.APPLICATION_MODAL);
         stage.show();
 
     }
@@ -63,7 +67,9 @@ public class MainController { // test commit
             accCtrl = loader.getController();
             accCtrl.displayName(customer.getFirstName() + " " + customer.getLastName());
             stage = new Stage();
-            stage.setScene(new Scene(root));
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getClassLoader().getResource("crushers/stylesheets/main.css").toExternalForm());
+            stage.setScene(scene);
             stage.getIcons().add(new Image("crushers/imgs/logo.jpg"));
             stage.setTitle("Select an Account");
             stage.show();
@@ -80,8 +86,12 @@ public class MainController { // test commit
         }
     }
 
-    public void forgottenPassword(){
-        System.out.println("lol dummy");
+    public void forgottenPassword() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("crushers/views/ChangePasswordView.fxml"));
+        root = loader.load();
+        stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setTitle("Reset password");
+        stage.show();
     }
-
 }

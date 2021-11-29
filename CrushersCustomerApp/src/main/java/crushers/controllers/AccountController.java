@@ -2,6 +2,7 @@ package crushers.controllers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 
@@ -15,8 +16,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 
@@ -40,6 +43,17 @@ public class AccountController implements Initializable{
 
     public void logout(ActionEvent e) throws IOException{
         
+        Alert alert = new Alert(AlertType.CONFIRMATION, "Are you sure you want to log-out?");
+        alert.setTitle("Logging out");
+        alert.setHeaderText("");
+        alert.setX(500);
+        alert.setY(250);
+        
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.isPresent() && result.get() == ButtonType.CANCEL){
+            return;
+        }
+
         Stage oldStage = (Stage)((Node)e.getSource()).getScene().getWindow();
         oldStage.close();
 
@@ -59,6 +73,7 @@ public class AccountController implements Initializable{
         stage.setScene(new Scene(root));
         stage.getIcons().add(new Image("crushers/imgs/logo.jpg"));
         stage.setTitle("Register new account");
+        stage.initModality(Modality.APPLICATION_MODAL);
         stage.show();
     }
 
@@ -101,7 +116,7 @@ public class AccountController implements Initializable{
     public void addPaymentToList(PaymentAccount account){
         accountList.getItems().add(account);
     }
-    public void addAcountToList(PaymentAccount account){
+    public void addAccountToList(PaymentAccount account){
         accountList.getItems().add(account);
     }
     public void displayDetails(){

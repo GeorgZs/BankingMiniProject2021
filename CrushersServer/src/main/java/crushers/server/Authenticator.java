@@ -3,12 +3,10 @@ package crushers.server;
 import com.sun.net.httpserver.HttpExchange;
 
 import java.time.LocalDateTime;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import crushers.models.Credentials;
+import crushers.models.ResetPasswordClass;
 import crushers.models.users.*;
 import crushers.server.httpExceptions.*;
 import crushers.services.staff.JsonClerkStorage;
@@ -153,27 +151,14 @@ public class Authenticator {
   }
 
 
-  //dont need to authenticate as we just have to look for the valid email address
-  // in users (storage in this class) and check if for that email the security question
-  // and answer are correct then set the password to what they give us
-  public void resetPassword(HttpExchange exchange) throws Exception{
-    Set<String> emailAddresses = users.keySet();
-    for(String emailAddress : emailAddresses){
-      // the two string is meant to get the value of that part of the put request
-      // getAttribute(email) --> with this I want to check if what someone entered
-      // matches any of the keys in the keyset
-      if(exchange.getAttribute("email").toString().equals(emailAddress)){
-        String[] userSecurityQuestions = users.get(emailAddress).getSecurityQuestions();
-        for(int i = 1; i < userSecurityQuestions.length; i++){
-          if(exchange.getAttribute("securityQuestions").toString().equals(userSecurityQuestions[i])){
-            User user = users.get(emailAddress);
-            user.setPassword(exchange.getAttribute("password").toString());
-          }
-        }
-        //this IF-statement is there to check if the user is logged in, if not then
-        // there is no need to log the user out, but if so then log them out
-        if(activeTokens.containsKey(emailAddress)){
-          logout(exchange);
+  public void resetPassword(ResetPasswordClass resetPasswordClass) throws Exception{
+    for(String email : users.keySet()){
+      if(resetPasswordClass.getEmail().equals(email)){
+        if(Arrays.equals(resetPasswordClass.getSecurityQuestions(), resetPasswordClass.getSecurityQuestions())){
+          User user = users.get(email);
+          users.remove(email);
+          user.setPassword(resetPasswordClass.getPassword());
+          register(user);
         }
       }
     }

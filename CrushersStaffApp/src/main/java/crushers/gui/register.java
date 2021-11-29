@@ -1,12 +1,8 @@
 package crushers.gui;
 
 import crushers.models.Bank;
-<<<<<<< HEAD:CrushersStaffApp/src/main/java/crushers/register.java
 import crushers.models.users.Manager;
-=======
-import crushers.models.Manager;
 import crushers.utils.HTTPUtils;
->>>>>>> 6c000bc38e2f35a8114287d5c077d0c757c2cc04:CrushersStaffApp/src/main/java/crushers/gui/register.java
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -40,7 +36,7 @@ public class register {
     @FXML
     private TextField passwordField;
     @FXML
-    private ChoiceBox securityQuestions;
+    private ChoiceBox<String> securityQuestions;
     @FXML
     private TextField answerQuestions;
     @FXML
@@ -74,7 +70,6 @@ public class register {
 
     @FXML
     public void registerUser(ActionEvent event) throws Exception {
-        MainController m = new MainController();
         String bankName = bankNameField.getText();
         String logo = logoField.getText();
         String details = bankDetails.getText();
