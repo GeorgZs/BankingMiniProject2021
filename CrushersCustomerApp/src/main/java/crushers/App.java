@@ -43,7 +43,11 @@ public class App extends Application {
         Scene scene = new Scene(root);
         stage.setScene(scene);
 
-        //scene.getStylesheets().add(getClass().getClassLoader().getResource("crushers/stylesheets/main.css").toExternalForm());
+        /*
+        stylesheet
+        */
+
+        scene.getStylesheets().add(getClass().getClassLoader().getResource("crushers/stylesheets/main.css").toExternalForm());
 
         configStage(stage, "Crushers Bank");
     }
