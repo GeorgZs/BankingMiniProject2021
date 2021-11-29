@@ -1,4 +1,4 @@
-package crushers.gui;
+package crushers.GUI;
 
 import crushers.models.Bank;
 import crushers.models.users.Manager;
