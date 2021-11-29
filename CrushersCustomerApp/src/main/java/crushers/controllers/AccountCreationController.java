@@ -89,6 +89,7 @@ public class AccountCreationController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         bankSelection.getItems().addAll(App.banks);
+        bankSelection.setStyle("-fx-font-family: SansSerif");
         savingsGoalLabel.setVisible(false);
         savingsGoalField.setVisible(false);
         sekLabel.setVisible(false);
