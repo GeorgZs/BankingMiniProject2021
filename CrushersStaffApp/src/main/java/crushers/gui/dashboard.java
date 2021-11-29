@@ -1,15 +1,18 @@
 package crushers.gui;
 
+import crushers.models.users.Clerk;
+import crushers.utils.HTTPUtils;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
-import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,7 +33,7 @@ public class dashboard {
     @FXML
     private PasswordField password;
     @FXML
-    private ChoiceBox clerkSecurityQuestion;
+    private ChoiceBox<String> clerkSecurityQuestion;
     @FXML
     private TextField clerkAnswer;
     @FXML
@@ -39,6 +42,15 @@ public class dashboard {
     private HBox logout;
     @FXML
     private Pane registerPane;
+    @FXML
+    private HBox information;
+    @FXML
+    private Pane accountInformation;
+    @FXML
+    private ImageView plus;
+    @FXML
+    private ImageView plus2;
+
 
     private String[] clerkQuestion = {
             "What's the name of your first pet?",
@@ -80,7 +92,26 @@ public class dashboard {
 
     @FXML
     private void onClickedStaff(MouseEvent mouseEvent) {
-        registerPane.setVisible(true);
+        if(registerPane.isVisible()){
+            registerPane.setVisible(false);
+            plus.setImage(new Image("file:src/main/resources/crushers/gui/pesalogin/icons8-plus-48.png"));
+
+
+        } else {
+            registerPane.setVisible(true);
+            plus.setImage(new Image("file:src/main/resources/crushers/gui/pesalogin/icons8-minus-48.png"));
+        }
+    }
+
+    @FXML
+    private void onClickedInformation(MouseEvent mouseEvent) {
+        if(accountInformation.isVisible()) {
+            accountInformation.setVisible(false);
+            plus2.setImage(new Image("file:src/main/resources/crushers/gui/pesalogin/icons8-plus-48.png"));
+        } else {
+            accountInformation.setVisible(true);
+            plus2.setImage(new Image("file:src/main/resources/crushers/gui/pesalogin/icons8-minus-48.png"));
+        }
     }
 
     @FXML
@@ -90,8 +121,7 @@ public class dashboard {
     }
 
     @FXML
-    public void registerClerk(javafx.event.ActionEvent event) {
-        MainController m = new MainController();
+    public void registerClerk(javafx.event.ActionEvent event) throws Exception {
         String clerkFirst = clertkFirstName.getText();
         String clerkLast = clerkLastName.getText();
         String clerkAddress = clerkStreetAddress.getText();
@@ -129,5 +159,10 @@ public class dashboard {
         } else {
             password.setStyle("-fx-border-color: transparent");
         }
+        String[] security = new String[10];
+        //security[0] = clerkPassword;
+        //need question at index 0 and answer index 1
+        Clerk clerk1 = new Clerk(clerkEmail, clerkFirst,clerkLast,clerkAddress, clerkPassword, null, null);
+        HTTPUtils.post("/staff", clerk1, Clerk.class);
     }
 }

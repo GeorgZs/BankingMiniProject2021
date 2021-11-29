@@ -56,12 +56,18 @@ public class TransactionService {
             if(transaction.getAccountFromID() != null){
                 invalidDataMessage.add("Account from should be the Bank!");
             }
+            if(!accountService.getAllIDs().contains(transaction.getAccountToID())){
+                System.out.println(accountService.getAllIDs().toString());
+                invalidDataMessage.add("Account does not exist for target customer");
+            }
             for(String accountNum : accountService.getAllIDs()){
                 if(!accountNum.equals(transaction.getAccountToID())){
                     System.out.println(accountService.getAllIDs().toString());
-                    // TODO: why does this if-statement NOT work -> it looks through the list
-                    // of all possible ids and check if they match
+                    // TODO: why does this if-statement NOT work -> it looks through the list of all possible ids and check if they match
                     invalidDataMessage.add("Account does not exist for target customer");
+                }
+                else{
+                    break;
                 }
             }
 
@@ -79,6 +85,8 @@ public class TransactionService {
         transaction.setDate(LocalDateTime.now().toString());
         transaction.setId(ID++);
         Account accountTo = accountService.get(transaction.getAccountToID());
+        //cannot get the account for the account num receiving the money
+        //good question
         accountTo.setBalance(accountTo.getBalance() + transaction.getAmount());
         return storage.create(transaction);
     }

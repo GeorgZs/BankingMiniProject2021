@@ -26,7 +26,7 @@ public class StaffRouter extends Router<Clerk>{
     }
 
     @Override
-    public void addEndpoints(HttpServer server) {
+    public void addEndpoints(HttpServer server) throws Exception {
         super.addEndpoints(server); // add the prewiring
         server.createContext(basePath + "/@me", (exchange) -> {
             try {

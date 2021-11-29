@@ -29,7 +29,10 @@ public class login {
             wrongLogIn.setText("Username/password wrong. Please try again.");
 
         }
-
+        //get all staff
+        //collection<Clerk>
+        //check each clerk´s email and password
+        //if both match then login else dont allow
 
         else if(username.getText().equals("Ivan") && password.getText().equals("1234")) {
             wrongLogIn.setText("Log in successfully!");

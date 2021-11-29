@@ -18,6 +18,7 @@ import crushers.services.banks.BankService;
 import crushers.services.banks.JsonBankStorage;
 import crushers.services.customers.CustomerRouter;
 import crushers.services.customers.CustomerService;
+import crushers.services.customers.JsonCustomerStorage;
 import crushers.services.staff.JsonClerkStorage;
 import crushers.services.staff.StaffRouter;
 import crushers.services.staff.StaffService;
@@ -49,10 +50,8 @@ public class Server {
 
     new AuthenticationRouter().addEndpoints(httpServer);
 
-    final CustomerService customerService = new CustomerService(new JsonStorage<Customer>(
-      new File("data/customers.json"), 
-      Customer.class
-    ));
+    final CustomerService customerService = new CustomerService(new JsonCustomerStorage(
+      new File("data/customers.json")));
     new CustomerRouter(customerService).addEndpoints(this.httpServer);
 
     final StaffService staffService = new StaffService(new JsonClerkStorage(new File("data/staff.json")
