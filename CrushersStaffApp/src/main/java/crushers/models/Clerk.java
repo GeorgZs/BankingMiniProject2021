@@ -1,5 +1,8 @@
 package crushers.models;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import crushers.models.accounts.Account;
+import crushers.models.accounts.PaymentAccount;
+import crushers.models.users.Customer;
 
 
 public class Clerk extends User {
@@ -45,6 +48,21 @@ public class Clerk extends User {
 
     public String getStaffType() {
         return staffType;
+    }
+
+    public Account createAccountForCustomer(Customer customer, double balance) {
+        // GET http request returns desired customer
+        Account account = new PaymentAccount(this.worksAt, customer, balance);
+        return account;
+    }
+
+    public double seeCustomerBalance(int customerID, String accountID) {
+        // GET http request returns desired customer
+        Customer customer = new Customer(null, null, null, null, null, null);
+        if (customer == null)
+            return -1.0;
+        PaymentAccount paymentAccount = new PaymentAccount(null, null, 0);
+        return paymentAccount.getBalance();
     }
 
 }
