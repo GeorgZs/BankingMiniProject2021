@@ -97,7 +97,7 @@
             <Font name="Malgun Gothic Semilight" size="12.0" />
          </font>
       </Label>
-      <Button layoutX="333.0" layoutY="326.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="94.0" text="Transfer funds">
+      <Button fx:id="transferButton" layoutX="333.0" layoutY="326.0" mnemonicParsing="false" onAction="#transferFunds" prefHeight="27.0" prefWidth="94.0" text="Transfer funds">
          <font>
             <Font name="SansSerif Regular" size="12.0" />
          </font>

@@ -78,9 +78,13 @@ public class AccountController implements Initializable{
         }
     }
 
-    public void transferFunds(){
+    public void transferFunds(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("crushers/views/AccountTransferView.fxml"));
-
+        root = loader.load();
+        stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setTitle("Transfer between accounts");
+        stage.show();
     }
 
     @Override

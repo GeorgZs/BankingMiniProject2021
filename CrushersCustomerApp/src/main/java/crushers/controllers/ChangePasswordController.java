@@ -23,8 +23,6 @@ public class ChangePasswordController {
 
 
     public void submitAnswers(ActionEvent event) {
-        // for()
-        // if i % 2 == 1 --- equals
         if(currentCustomer.getSecurityQuestions().get(1).equals(answer1Field.getText())) {
             if(currentCustomer.getSecurityQuestions().get(3).equals(answer2Field.getText())) {
                 if(currentCustomer.getSecurityQuestions().get(5).equals(answer3Field.getText())) {

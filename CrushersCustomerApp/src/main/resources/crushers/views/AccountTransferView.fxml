@@ -25,7 +25,7 @@
             <Font name="SansSerif Regular" size="14.0" />
          </font>
       </Label>
-      <TextField layoutX="146.0" layoutY="213.0" prefHeight="26.0" prefWidth="104.0" />
+      <TextField fx:id="amountField" layoutX="146.0" layoutY="213.0" prefHeight="26.0" prefWidth="104.0" />
       <Label layoutX="262.0" layoutY="218.0" text="SEK">
          <font>
             <Font name="SansSerif Regular" size="13.0" />
@@ -36,11 +36,11 @@
             <Font name="SansSerif Regular" size="30.0" />
          </font>
       </Label>
-      <Button layoutX="43.0" layoutY="337.0" mnemonicParsing="false" text="Transfer" />
-      <Button layoutX="519.0" layoutY="337.0" mnemonicParsing="false" text="Cancel" />
-      <ChoiceBox layoutX="148.0" layoutY="113.0" prefWidth="150.0" />
-      <ChoiceBox layoutX="148.0" layoutY="162.0" prefWidth="150.0" />
-      <TextArea layoutX="347.0" layoutY="113.0" prefHeight="200.0" prefWidth="200.0" />
+      <Button fx:id="transferButton" layoutX="43.0" layoutY="337.0" mnemonicParsing="false" text="Transfer" />
+      <Button fx:id="cancelButton" layoutX="519.0" layoutY="337.0" mnemonicParsing="false" text="Cancel" />
+      <ChoiceBox fx:id="accountFrom" layoutX="148.0" layoutY="113.0" prefWidth="150.0" />
+      <ChoiceBox fx:id="accountTo" layoutX="148.0" layoutY="162.0" prefWidth="150.0" />
+      <TextArea fx:id="commentArea" layoutX="347.0" layoutY="113.0" prefHeight="200.0" prefWidth="200.0" />
       <Label layoutX="347.0" layoutY="85.0" text="Comment">
          <font>
             <Font size="15.0" />
