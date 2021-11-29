@@ -65,7 +65,7 @@ public class MainController { // test commit
             FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("crushers/views/AccountView.fxml"));
             root = loader.load();
             accCtrl = loader.getController();
-            accCtrl.displayName(customer.getFirstName() + " " + customer.getLastName());
+            // accCtrl.displayName(customer.getFirstName() + " " + customer.getLastName());
             stage = new Stage();
             Scene scene = new Scene(root);
             scene.getStylesheets().add(getClass().getClassLoader().getResource("crushers/stylesheets/main.css").toExternalForm());
