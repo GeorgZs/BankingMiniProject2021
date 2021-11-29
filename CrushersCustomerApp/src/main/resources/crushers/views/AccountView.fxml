@@ -10,12 +10,12 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="crushers.controllers.AccountController">
    <children>
-      <Label fx:id="welcomeLabel" alignment="CENTER" layoutY="30.0" prefHeight="52.0" prefWidth="600.0" text="Welcome, {firstName} {lastName}" textFill="#311e7e">
+      <Label fx:id="welcomeLabel" alignment="CENTER" prefHeight="52.0" prefWidth="600.0" text="Welcome, {firstName} {lastName}" textFill="#311e7e">
          <font>
-            <Font name="SansSerif Regular" size="32.0" />
+            <Font name="SansSerif Regular" size="26.0" />
          </font>
       </Label>
-      <Button fx:id="logoutButton" layoutX="512.0" layoutY="337.0" mnemonicParsing="false" onAction="#logout" text="Log out">
+      <Button fx:id="logoutButton" layoutX="511.0" layoutY="328.0" mnemonicParsing="false" onAction="#logout" text="Log out">
          <font>
             <Font name="SansSerif Regular" size="12.0" />
          </font></Button>
@@ -25,7 +25,7 @@
             <Font name="SansSerif Regular" size="15.0" />
          </font>
       </Label>
-      <Button fx:id="createNewAccountButton" layoutX="33.0" layoutY="337.0" mnemonicParsing="false" onAction="#createNewAccount" text="Create new account">
+      <Button fx:id="createNewAccountButton" layoutX="177.0" layoutY="328.0" mnemonicParsing="false" onAction="#createNewAccount" text="Create new account">
          <font>
             <Font name="SansSerif Regular" size="12.0" />
          </font>
@@ -87,7 +87,7 @@
             </Label>
          </children>
       </VBox>
-      <Button fx:id="selectButton" layoutX="240.0" layoutY="336.0" mnemonicParsing="false" onAction="#select" prefHeight="26.0" prefWidth="58.0" text="Select">
+      <Button fx:id="selectButton" layoutX="33.0" layoutY="326.0" mnemonicParsing="false" onAction="#select" prefHeight="26.0" prefWidth="58.0" text="Select">
          <font>
             <Font name="SansSerif Regular" size="12.0" />
          </font>
@@ -95,6 +95,16 @@
       <Label fx:id="invalidLabel" alignment="CENTER" layoutX="342.0" layoutY="339.0" prefHeight="18.0" prefWidth="155.0" textFill="#e11616">
          <font>
             <Font name="Malgun Gothic Semilight" size="12.0" />
+         </font>
+      </Label>
+      <Button layoutX="333.0" layoutY="326.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="94.0" text="Transfer funds">
+         <font>
+            <Font name="SansSerif Regular" size="12.0" />
+         </font>
+      </Button>
+      <Label layoutX="233.0" layoutY="52.0" text="Total Balance: {totalBalance} ">
+         <font>
+            <Font name="SansSerif Regular" size="20.0" />
          </font>
       </Label>
    </children>
