@@ -1,6 +1,8 @@
 package crushers.models.users;
 
 import crushers.models.Bank;
+
+import crushers.models.Bank;
 import crushers.models.Clerk;
 
 public class Manager extends Clerk {

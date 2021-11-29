@@ -1,6 +1,7 @@
 package crushers.models.users;
+import crushers.models.User;
 
-public class Customer extends User{
+public class Customer extends User {
     // Later, not now
     // private List<StandardAccount> accountList;
     // private LinkedHashMap<Integer,Contact> contactList;
