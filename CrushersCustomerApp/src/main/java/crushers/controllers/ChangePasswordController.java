@@ -4,22 +4,27 @@ import crushers.App;
 import crushers.model.Customer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+
 import java.util.ArrayList;
 
 
 public class ChangePasswordController {
     private Customer currentCustomer;
     @FXML
-    private TextField answer1Field, answer2Field, answer3Field, emailField, newPasswordField;
+    private TextField answer1Field, answer2Field, answer3Field, emailField, newPasswordField, passwordConfirmField;
     @FXML
-    private Label question1Label,question2Label, question3Label;
+    private Label question1Label,question2Label, question3Label, invalidInput;
     @FXML
     private VBox questionsBox, passwordBox;
 
 
     public void submitAnswers(ActionEvent event) {
+        // for()
+        // if i % 2 == 1 --- equals
         if(currentCustomer.getSecurityQuestions().get(1).equals(answer1Field.getText())) {
             if(currentCustomer.getSecurityQuestions().get(3).equals(answer2Field.getText())) {
                 if(currentCustomer.getSecurityQuestions().get(5).equals(answer3Field.getText())) {
@@ -28,7 +33,7 @@ public class ChangePasswordController {
                 }
             }
         }
-            System.out.println("Incorrect answers.");
+        invalidInput.setText("Incorrect answers.");
     }
     public void submitEmail(ActionEvent event) {
         String email = emailField.getText();
@@ -43,12 +48,25 @@ public class ChangePasswordController {
                 return;
             }
         }
-        System.out.println("Email not found.");
+        invalidInput.setText("Email not found.");
     }
     public void changePassword(ActionEvent event) {
         String newPassword = newPasswordField.getText();
-        currentCustomer.setPassword(newPassword);
-        System.out.println("New password has been saved.");
+        String passwordConfirm = passwordConfirmField.getText();
+        if (newPassword.trim().isEmpty()) {
+            invalidInput.setText("Password can not be empty");
+        }
+        else if (newPassword.length() < 8) {
+            invalidInput.setText("Password can not be shorter than 6 characters.");
+        }
+        else if (!passwordConfirm.equals(newPassword)) {
+            invalidInput.setText("Passwords do not match.");
+        } else {
+            currentCustomer.setPassword(newPassword);
+            System.out.println("New password has been saved.");
+            Stage oldStage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            oldStage.close();
+        }
     }
 
 }
