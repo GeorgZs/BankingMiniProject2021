@@ -14,23 +14,23 @@
       <ChoiceBox fx:id="bankSelection" layoutX="28.0" layoutY="90.0" prefHeight="26.0" prefWidth="181.0" />
       <Label layoutX="28.0" layoutY="65.0" text="Select Bank:">
          <font>
-            <Font name="SansSerif Regular" size="13.0" />
+            <Font name="Malgun Gothic Semilight" size="13.0" />
          </font></Label>
       <Label layoutX="28.0" layoutY="145.0" text="Select Account type:">
          <font>
-            <Font name="SansSerif Regular" size="13.0" />
+            <Font name="Malgun Gothic Semilight" size="13.0" />
          </font></Label>
       <Label layoutX="30.0" layoutY="240.0" text="Account Name:">
          <font>
-            <Font name="SansSerif Regular" size="12.0" />
+            <Font name="Malgun Gothic Semilight" size="12.0" />
          </font></Label>
       <Label fx:id="savingsGoalLabel" layoutX="30.0" layoutY="309.0" text="Savings goal:">
          <font>
-            <Font name="SansSerif Regular" size="12.0" />
+            <Font name="Malgun Gothic Semilight" size="12.0" />
          </font></Label>
       <RadioButton fx:id="savingsOption" layoutX="44.0" layoutY="197.0" mnemonicParsing="false" onAction="#setGoalVisible" text="Savings Account">
          <font>
-            <Font name="SansSerif Regular" size="12.0" />
+            <Font name="Corbel" size="12.0" />
          </font>
          <toggleGroup>
             <ToggleGroup fx:id="accountType" />
@@ -38,29 +38,29 @@
       </RadioButton>
       <Button fx:id="createAccountButton" layoutX="245.0" layoutY="333.0" mnemonicParsing="false" onAction="#createAccount" text="Create Account">
          <font>
-            <Font name="SansSerif Regular" size="12.0" />
+            <Font name="Candara" size="12.0" />
          </font>
       </Button>
       <Label layoutX="97.0" layoutY="21.0" text="New account creation">
          <font>
-            <Font name="SansSerif Regular" size="18.0" />
+            <Font name="Malgun Gothic Semilight" size="18.0" />
          </font>
       </Label>
       <RadioButton fx:id="paymentOption" layoutX="44.0" layoutY="173.0" mnemonicParsing="false" onAction="#setGoalInvisible" text="Payment Account" toggleGroup="$accountType">
          <font>
-            <Font name="SansSerif Regular size="12.0" />
+            <Font name="Corbel" size="12.0" />
          </font>
       </RadioButton>
       <Label fx:id="sekLabel" layoutX="184.0" layoutY="339.0" text="SEK">
          <font>
-            <Font name="SansSerif Regular" size="12.0" />
+            <Font name="Corbel" size="12.0" />
          </font>
       </Label>
       <TextField fx:id="accountDescriptionField" layoutX="28.0" layoutY="265.0" prefHeight="26.0" prefWidth="182.0" />
       <TextField fx:id="savingsGoalField" layoutX="28.0" layoutY="332.0" prefHeight="26.0" prefWidth="146.0" />
       <Label fx:id="invalidLabel" layoutX="28.0" layoutY="371.0" textFill="#e11616">
          <font>
-            <Font name="SansSerif Regular" size="12.0" />
+            <Font name="Malgun Gothic Semilight" size="12.0" />
          </font>
       </Label>
    </children>

@@ -11,6 +11,7 @@ import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.Node;
 
@@ -39,6 +40,7 @@ public class MainController { // test commit
 
         stage.getIcons().add(new Image("crushers/imgs/logo.jpg"));
         stage.setTitle("Registration Form");
+        stage.initModality(Modality.APPLICATION_MODAL);
         stage.show();
 
     }
