@@ -36,7 +36,9 @@ public class MainController { // test commit
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("crushers/views/RegisterView.fxml"));
         root = loader.load();
         stage = new Stage();
-        stage.setScene(new Scene(root));
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getClassLoader().getResource("crushers/stylesheets/main.css").toExternalForm());
+        stage.setScene(scene);
 
         stage.getIcons().add(new Image("crushers/imgs/logo.jpg"));
         stage.setTitle("Registration Form");
@@ -65,7 +67,9 @@ public class MainController { // test commit
             accCtrl = loader.getController();
             accCtrl.displayName(customer.getFirstName() + " " + customer.getLastName());
             stage = new Stage();
-            stage.setScene(new Scene(root));
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getClassLoader().getResource("crushers/stylesheets/main.css").toExternalForm());
+            stage.setScene(scene);
             stage.getIcons().add(new Image("crushers/imgs/logo.jpg"));
             stage.setTitle("Select an Account");
             stage.show();
