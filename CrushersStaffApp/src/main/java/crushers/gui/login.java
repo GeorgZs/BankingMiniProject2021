@@ -1,4 +1,4 @@
-package crushers.GUI;
+package crushers.gui;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
