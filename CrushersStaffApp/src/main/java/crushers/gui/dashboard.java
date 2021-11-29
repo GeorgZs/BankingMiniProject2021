@@ -1,5 +1,7 @@
 package crushers.gui;
 
+import crushers.models.users.Clerk;
+import crushers.utils.HTTPUtils;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
@@ -119,7 +121,7 @@ public class dashboard {
     }
 
     @FXML
-    public void registerClerk(javafx.event.ActionEvent event) {
+    public void registerClerk(javafx.event.ActionEvent event) throws Exception {
         String clerkFirst = clertkFirstName.getText();
         String clerkLast = clerkLastName.getText();
         String clerkAddress = clerkStreetAddress.getText();
@@ -157,5 +159,10 @@ public class dashboard {
         } else {
             password.setStyle("-fx-border-color: transparent");
         }
+        String[] security = new String[10];
+        //security[0] = clerkPassword;
+        //need question at index 0 and answer index 1
+        Clerk clerk1 = new Clerk(clerkEmail, clerkFirst,clerkLast,clerkAddress, clerkPassword, null, null);
+        HTTPUtils.post("/staff", clerk1, Clerk.class);
     }
 }
