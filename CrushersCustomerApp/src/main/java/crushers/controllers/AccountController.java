@@ -18,6 +18,7 @@ import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -33,7 +34,7 @@ public class AccountController implements Initializable{
     @FXML
     private Button createNewAccountButton, selectButton, logoutButton;
     @FXML
-    private Label welcomeLabel, accountTypeLabel, accountNameLabel, accountBalanceLabel, savingsGoalLabel, accountIDLabel, accountBankLabel;
+    private Label welcomeLabel, accountTypeLabel, accountNameLabel, accountBalanceLabel, savingsGoalLabel, accountIDLabel, accountBankLabel, invalidLabel;
     @FXML
     private VBox accountDetailsBox;
 
@@ -54,16 +55,7 @@ public class AccountController implements Initializable{
             return;
         }
 
-        Stage oldStage = (Stage)((Node)e.getSource()).getScene().getWindow();
-        oldStage.close();
-
-        stage = new Stage();
-        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("crushers/views/MainView.fxml"));
-        root = loader.load();
-        stage.setScene(new Scene(root));
-        stage.show();
-        stage.setTitle("Crushers Bank");
-        stage.getIcons().add(new Image("crushers/imgs/logo.jpg"));
+        Util.closeAndShow("MainView", "Crushers Bank", e);
     }
 
     public void createNewAccount(ActionEvent e) throws IOException{
@@ -77,12 +69,20 @@ public class AccountController implements Initializable{
         stage.show();
     }
 
-    public void select(ActionEvent e){
-
+    public void select(ActionEvent e) throws IOException{
+        PaymentAccount account = accountList.getSelectionModel().getSelectedItem();
+        if(account == null){
+            invalidLabel.setText("Please select an account!");
+        }else{
+            Util.closeAndShow("SystemView", "Crushers System", e);
+        }
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        String firstName = App.currentCustomer.getFirstName();
+        String lastName = App.currentCustomer.getLastName();
+        welcomeLabel.setText("Welcome, " + firstName + " " + lastName);
         accountList.getItems().addAll(App.currentCustomer.getAccountList());
         accountDetailsBox.setVisible(false);
 
