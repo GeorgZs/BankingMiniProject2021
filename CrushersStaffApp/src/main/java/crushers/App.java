@@ -14,7 +14,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         stage.setResizable(true);
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("Login.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("crushers/gui/Login.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 600, 400);
         scene.getRoot().setStyle("-fx-font-family: SansSerif");
         stage.setTitle("PESA!");
