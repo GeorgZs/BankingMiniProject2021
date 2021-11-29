@@ -32,9 +32,9 @@ public class AccountController implements Initializable{
     @FXML
     private ListView<PaymentAccount> accountList;
     @FXML
-    private Button createNewAccountButton, selectButton, logoutButton;
+    private Button createNewAccountButton, selectButton, logoutButton, transferButton;
     @FXML
-    private Label welcomeLabel, accountTypeLabel, accountNameLabel, accountBalanceLabel, savingsGoalLabel, accountIDLabel, accountBankLabel, invalidLabel;
+    private Label welcomeLabel, accountTypeLabel, accountNameLabel, totalBalance, accountBalanceLabel, savingsGoalLabel, accountIDLabel, accountBankLabel, invalidLabel;
     @FXML
     private VBox accountDetailsBox;
 
@@ -78,6 +78,11 @@ public class AccountController implements Initializable{
         }
     }
 
+    public void transferFunds(){
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("crushers/views/AccountTransferView.fxml"));
+
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         String firstName = App.currentCustomer.getFirstName();
@@ -85,6 +90,7 @@ public class AccountController implements Initializable{
         welcomeLabel.setText("Welcome, " + firstName + " " + lastName);
         accountList.getItems().addAll(App.currentCustomer.getAccountList());
         accountDetailsBox.setVisible(false);
+
 
         accountList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<PaymentAccount>(){
 

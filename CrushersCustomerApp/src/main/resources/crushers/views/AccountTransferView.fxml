@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="crushers.controllers.AccountTransferController">
+   <children>
+      <Label layoutX="43.0" layoutY="110.0" prefHeight="32.0" prefWidth="110.0" text="From account:">
+         <font>
+            <Font name="SansSerif Regular" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="50.0" layoutY="166.0" prefHeight="17.0" prefWidth="83.0" text="To account:">
+         <font>
+            <Font name="SansSerif Regular" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="65.0" layoutY="218.0" text="Amount:">
+         <font>
+            <Font name="SansSerif Regular" size="14.0" />
+         </font>
+      </Label>
+      <TextField layoutX="146.0" layoutY="213.0" prefHeight="26.0" prefWidth="104.0" />
+      <Label layoutX="262.0" layoutY="218.0" text="SEK">
+         <font>
+            <Font name="SansSerif Regular" size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="198.0" layoutY="14.0" text="Transfer Funds">
+         <font>
+            <Font name="SansSerif Regular" size="30.0" />
+         </font>
+      </Label>
+      <Button layoutX="43.0" layoutY="337.0" mnemonicParsing="false" text="Transfer" />
+      <Button layoutX="519.0" layoutY="337.0" mnemonicParsing="false" text="Cancel" />
+      <ChoiceBox layoutX="148.0" layoutY="113.0" prefWidth="150.0" />
+      <ChoiceBox layoutX="148.0" layoutY="162.0" prefWidth="150.0" />
+      <TextArea layoutX="347.0" layoutY="113.0" prefHeight="200.0" prefWidth="200.0" />
+      <Label layoutX="347.0" layoutY="85.0" text="Description">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
