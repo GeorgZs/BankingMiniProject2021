@@ -52,7 +52,6 @@ public class AccountCreationController implements Initializable{
             if(isPayment){
                 PaymentAccount account = new PaymentAccount(accountName, 0, bank);
                 accCtrl.addAcountToList(account);
-                // accCtrl.addPaymentToList(account);
                 App.currentCustomer.createAccount(account);
             }else{
                 try{

@@ -87,10 +87,15 @@
             </Label>
          </children>
       </VBox>
-      <Button fx:id="selectButton" layoutX="334.0" layoutY="336.0" mnemonicParsing="false" onAction="#select" prefHeight="26.0" prefWidth="58.0" text="Select">
+      <Button fx:id="selectButton" layoutX="240.0" layoutY="336.0" mnemonicParsing="false" onAction="#select" prefHeight="26.0" prefWidth="58.0" text="Select">
          <font>
             <Font name="Candara" size="12.0" />
          </font>
       </Button>
+      <Label fx:id="invalidLabel" alignment="CENTER" layoutX="342.0" layoutY="339.0" prefHeight="18.0" prefWidth="155.0" textFill="#e11616">
+         <font>
+            <Font name="Malgun Gothic Semilight" size="12.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
