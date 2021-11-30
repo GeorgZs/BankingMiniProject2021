@@ -1,5 +1,7 @@
 package crushers.gui;
 
+import crushers.models.Credentials;
+import crushers.utils.HTTPUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -24,11 +26,11 @@ public class login {
     //private HBox forgotPassword;
 
     @FXML
-    public void UserLogin(ActionEvent event) throws IOException{
+    public void UserLogin(ActionEvent event) throws Exception {
         MainController m = new MainController();
         if (username.getText().isEmpty() || password.getText().isEmpty()) {
             wrongLogIn.setText("Username/password wrong. Please try again.");
-        } else if (!username.getText().equals("Ivan") || !password.getText().equals("1234")) {
+        } else if (!username.getText().equals("georg") || !password.getText().equals("Georg12312313131")) {
             wrongLogIn.setText("Username/password wrong. Please try again.");
 
         }
@@ -36,8 +38,15 @@ public class login {
         //collection<Clerk>
         //check each clerk´s email and password
         //if both match then login else dont allow
+        //for loop, email and password of clerks
+        //for loop, checking email and password match the textfield
+        //if they pass, do the login
+        //after if statement, get clerk by HTTP
+        //Using clerk collection, for loop with textfield.equals(clerk.getPassword)
 
-        else if(username.getText().equals("Ivan") && password.getText().equals("1234")) {
+        else if(username.getText().equals("georg") && password.getText().equals("Georg12312313131")) {
+            Credentials credentials = new Credentials("georg","Georg12312313131");
+            HTTPUtils.post("/auth/login", credentials, Credentials.class);
             wrongLogIn.setText("Log in successfully!");
             m.changeScene("dashboard.fxml", event);
         }

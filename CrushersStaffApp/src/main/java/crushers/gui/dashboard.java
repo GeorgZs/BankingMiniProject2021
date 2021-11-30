@@ -1,8 +1,10 @@
 package crushers.gui;
 
 import crushers.models.users.Clerk;
+import crushers.models.users.ClerkTableView;
 import crushers.utils.HTTPUtils;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -19,9 +21,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class dashboard {
     @FXML
@@ -69,7 +69,7 @@ public class dashboard {
     @FXML
     private Button searchButton;
     @FXML
-    private TableColumn<Clerk, String> clerkID;
+    private TableColumn<Clerk, Integer> clerkID;
     @FXML
     private TableColumn<Clerk, String>firstNameClerk;
     @FXML
@@ -79,7 +79,7 @@ public class dashboard {
     @FXML
     private TableColumn<Clerk, String>addressClerk;
     @FXML
-    private TableView<Clerk> tableView;
+    private TableView<ClerkTableView> tableView;
 
     private String[] clerkQuestion = {
             "What's the name of your first pet?",
@@ -93,22 +93,34 @@ public class dashboard {
 
     };
 
-    //private ObservableList<Clerk> informationClerk = FXCollections.observableArrayList();
 
-    /*@Override
-    public void initialize("URL location, ResourceBundle resources") {
+    @FXML
+    void initializeTable() {
         clerkID.setCellValueFactory(new PropertyValueFactory<>("ID"));
         firstNameClerk.setCellValueFactory(new PropertyValueFactory<>("First name"));
         lastNameClerk.setCellValueFactory(new PropertyValueFactory<>("Last name"));
         emailClerk.setCellValueFactory(new PropertyValueFactory<>("email"));
         addressClerk.setCellValueFactory(new PropertyValueFactory<>("street address"));
 
-        Clerk clerk1 = new Clerk("firstName")
-
+        tableView.setItems(createList());
 
     }
 
-     */
+    private ObservableList<ClerkTableView> createList() {
+
+            try {
+                Collection<Clerk> clerkList = HTTPUtils.get("/staff/@bank", Collection.class);
+                ObservableList<ClerkTableView> informationClerk = FXCollections.observableArrayList();;
+                for (Clerk clerk: clerkList) {
+                    informationClerk.add(new ClerkTableView(clerk.getId(),clerk.getFirstName(),clerk.getLastName(),clerk.getEmail(),clerk.getAddress()));
+                }
+                return informationClerk;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+    }
+
 
     @FXML
     void initialize(){
@@ -210,6 +222,8 @@ public class dashboard {
             password.setStyle("-fx-border-color: transparent");
         }
 
+        Clerk clerk = new Clerk(clerkEmail, clerkFirst,clerkLast,clerkAddress, clerkPassword, null, null);
+        HTTPUtils.post("/staff", clerk, Clerk.class);
     }
 
     @FXML
@@ -223,8 +237,7 @@ public class dashboard {
         String[] security = new String[10];
         //security[0] = clerkPassword;
         //need question at index 0 and answer index 1
-        Clerk clerk1 = new Clerk(clerkEmail, clerkFirst,clerkLast,clerkAddress, clerkPassword, null, null);
-        HTTPUtils.post("/staff", clerk1, Clerk.class);
+
     }
 
      */
