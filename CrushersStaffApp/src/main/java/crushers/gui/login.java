@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 
 import java.io.IOException;
 
@@ -19,6 +20,8 @@ public class login {
     private PasswordField password;
     @FXML
     private Button register;
+    //@FXML
+    //private HBox forgotPassword;
 
     @FXML
     public void UserLogin(ActionEvent event) throws IOException{
@@ -49,5 +52,11 @@ public class login {
         MainController m = new MainController();
         m.changeScene("register.fxml", event);
     }
+
+    //@FXML
+    //public void forgotPass(ActionEvent event) throws IOException {
+      //  MainController m = new MainController();
+        //m.changeScene("", event);
+    //}
 
 }
