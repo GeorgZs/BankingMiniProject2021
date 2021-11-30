@@ -66,7 +66,7 @@ public class AccountRouter extends Router<Account> {
       }
     });
 
-    server.createContext("customers/@bank", (exchange) -> {
+    server.createContext("/customers/@bank", (exchange) -> {
       try {
         switch (exchange.getRequestMethod()) {
           case "GET":
