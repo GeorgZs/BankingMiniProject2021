@@ -2,13 +2,14 @@ package crushers.models.exchangeInformation;
 
 import crushers.storage.Storable;
 
+import java.time.LocalDateTime;
+
 public class Transaction implements Storable {
     private int ID;
     private String accountFromID;
     private String accountToID;
     private double amount;
     private String description;
-    //For the date maybe use Time - to calculate age of transaction
     private String date;
 
     public Transaction(){
@@ -16,15 +17,13 @@ public class Transaction implements Storable {
     }
 
     public Transaction(String accountFromID, String accountToID,
-                       double amount, String description, String date){
-        //REMOVED ID from constructor as the ID increments everytime a transaction
-        //is created using the endpoint /transactions
+                       double amount, String description){
         this.ID = 1;
         this.accountFromID = accountFromID;
         this.accountToID = accountToID;
         this.amount = amount;
         this.description = description;
-        this.date = date;
+        this.date = LocalDateTime.now().toString();
     }
 
     @Override

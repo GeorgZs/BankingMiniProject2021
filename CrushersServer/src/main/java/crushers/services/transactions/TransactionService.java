@@ -51,9 +51,7 @@ public class TransactionService {
             account.setBalance(account.getBalance() - transaction.getAmount());
         }
         if(user instanceof Clerk){
-            //null bcs it's from the bank
-            //1st case:   Bank -> Account
-            if(transaction.getAccountFromID() != null){
+            if(!transaction.getAccountFromID().equals("")){
                 invalidDataMessage.add("Account from should be the Bank!");
             }
             if(!accountService.getAllIDs().contains(transaction.getAccountToID())){
@@ -62,17 +60,13 @@ public class TransactionService {
             }
             for(String accountNum : accountService.getAllIDs()){
                 if(!accountNum.equals(transaction.getAccountToID())){
-                    System.out.println(accountService.getAllIDs().toString());
-                    // TODO: why does this if-statement NOT work -> it looks through the list of all possible ids and check if they match
                     invalidDataMessage.add("Account does not exist for target customer");
                 }
                 else{
                     break;
                 }
             }
-
         }
-
         if(transaction.getAmount() < 0){
             invalidDataMessage.add("Transaction amount cannot be less than 0");
         }
@@ -85,8 +79,6 @@ public class TransactionService {
         transaction.setDate(LocalDateTime.now().toString());
         transaction.setId(ID++);
         Account accountTo = accountService.get(transaction.getAccountToID());
-        //cannot get the account for the account num receiving the money
-        //good question
         accountTo.setBalance(accountTo.getBalance() + transaction.getAmount());
         return storage.create(transaction);
     }
