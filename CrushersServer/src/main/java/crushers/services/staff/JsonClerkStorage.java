@@ -7,14 +7,14 @@ import crushers.storage.JsonStorage;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class JsonClerkStorage extends JsonStorage<Clerk> {
 
-    private final Map<Bank, Collection<Clerk>> bankClerks;
+    private final Map<Bank, Set<Clerk>> bankClerks;
 
     public JsonClerkStorage(File jsonFile) throws IOException {
         super(jsonFile, Clerk.class);
@@ -47,7 +47,7 @@ public class JsonClerkStorage extends JsonStorage<Clerk> {
     public Clerk create(Clerk clerk) throws Exception {
         Clerk clerkCreated = super.create(clerk);
         if(!bankClerks.containsKey(clerkCreated.getWorksAt())){
-            bankClerks.put(clerkCreated.getWorksAt(), new ArrayList<>());
+            bankClerks.put(clerkCreated.getWorksAt(), new HashSet<>());
         }
         bankClerks.get(clerkCreated.getWorksAt()).add(clerkCreated);
         return clerkCreated;
@@ -72,13 +72,13 @@ public class JsonClerkStorage extends JsonStorage<Clerk> {
         return updatedClerk;
     }
 
-    public Collection<Clerk> getClerksOfBank(Bank bank){
+    public Set<Clerk> getClerksOfBank(Bank bank){
         return bankClerks.get(bank);
     }
 
     protected void addToMap(Clerk clerk){
         if(!bankClerks.containsKey(clerk.getWorksAt())){
-            bankClerks.put(clerk.getWorksAt(), new ArrayList<>());
+            bankClerks.put(clerk.getWorksAt(), new HashSet<>());
         }
 
         bankClerks.get(clerk.getWorksAt()).add(clerk);

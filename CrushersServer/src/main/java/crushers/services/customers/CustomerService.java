@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import crushers.models.Bank;
+import crushers.models.users.Clerk;
 import crushers.models.users.Customer;
 
 import crushers.server.Authenticator;

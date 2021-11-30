@@ -89,4 +89,9 @@ public class AccountService {
     if (accounts == null) accounts = new ArrayList<>();
     return accounts;
   }
+
+  
+  public Collection<Customer> getCustomersAtBank(Bank bank) {
+    return storage.getCustomersAtBank(bank);
+  }
 }

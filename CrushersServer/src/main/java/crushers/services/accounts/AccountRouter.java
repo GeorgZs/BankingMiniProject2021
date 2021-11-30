@@ -65,6 +65,26 @@ public class AccountRouter extends Router<Account> {
         ex.printStackTrace();
       }
     });
+
+    server.createContext("customers/@bank", (exchange) -> {
+      try {
+        switch (exchange.getRequestMethod()) {
+          case "GET":
+            getCustomersAtBank(exchange);
+            break;
+        
+          default:
+            throw new MethodNotAllowedException();
+        }
+      }
+      catch (HttpException ex) {
+        sendResponse(exchange, ex.statusCode, String.format("{\"error\":\"%s\"}", ex.getMessage()).getBytes());
+      }
+      catch (Exception ex) {
+        sendResponse(exchange, 500, String.format("{\"error\":\"Internal server error, try again later.\"}").getBytes());
+        ex.printStackTrace();
+      }
+    });
   }
 
   @Override
@@ -91,6 +111,12 @@ public class AccountRouter extends Router<Account> {
   private void getOfLoggedInBank(HttpExchange exchange) throws Exception {
     final Clerk loggedInClerk = Authenticator.instance.authClerk(exchange);
     final Collection<Account> responseData = accountService.getOfBank(loggedInClerk.getWorksAt());
+    sendJsonResponse(exchange, responseData);
+  }
+
+  private void getCustomersAtBank(HttpExchange exchange) throws Exception {
+    final Clerk loggedInClerk = Authenticator.instance.authClerk(exchange);
+    final Collection<Customer> responseData = accountService.getCustomersAtBank(loggedInClerk.getWorksAt());
     sendJsonResponse(exchange, responseData);
   }
 
