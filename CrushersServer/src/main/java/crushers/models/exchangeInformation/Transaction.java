@@ -1,55 +1,55 @@
 package crushers.models.exchangeInformation;
 
+import crushers.models.accounts.Account;
 import crushers.storage.Storable;
 
 import java.time.LocalDateTime;
 
 public class Transaction implements Storable {
-    private int ID;
-    private String accountFromID;
-    private String accountToID;
+    private int id = -1;
+    private Account from;
+    private Account to;
     private double amount;
     private String description;
-    private String date;
+    private LocalDateTime date;
 
     public Transaction(){
         //for fasterXML Jackson
     }
 
-    public Transaction(String accountFromID, String accountToID,
+    public Transaction(Account accountFromID, Account accountToID,
                        double amount, String description){
-        this.ID = 1;
-        this.accountFromID = accountFromID;
-        this.accountToID = accountToID;
+        this.from = accountFromID;
+        this.to = accountToID;
         this.amount = amount;
         this.description = description;
-        this.date = LocalDateTime.now().toString();
+        this.date = LocalDateTime.now();
     }
 
     @Override
     public int getId() {
-        return this.ID;
+        return this.id;
     }
 
     @Override
     public void setId(int id) {
-        this.ID = id;
+        this.id = id;
     }
 
-    public String getAccountFromID() {
-        return accountFromID;
+    public Account getFrom() {
+        return from;
     }
 
-    public void setAccountFromID(String accountFromID) {
-        this.accountFromID = accountFromID;
+    public void setFrom(Account accountFromID) {
+        this.from = accountFromID;
     }
 
-    public String getAccountToID() {
-        return accountToID;
+    public Account getTo() {
+        return to;
     }
 
-    public void setAccountToID(String accountToID) {
-        this.accountToID = accountToID;
+    public void setTo(Account accountToID) {
+        this.to = accountToID;
     }
 
     public double getAmount() {
@@ -60,11 +60,11 @@ public class Transaction implements Storable {
         this.amount = amount;
     }
 
-    public String getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 

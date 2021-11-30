@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import crushers.models.Bank;
 import crushers.models.accounts.Account;
+import crushers.models.exchangeInformation.Transaction;
 import crushers.models.users.Clerk;
 import crushers.models.users.Customer;
 import crushers.models.users.User;
@@ -48,9 +49,8 @@ public class AccountService {
     Account account = storage.get(id);
     if (account == null) throw new ForbiddenException();
 
-    System.out.println(loggedInUser.getClass());
-    System.out.println(account.getBank().getId());
     boolean isBankStaff = (loggedInUser instanceof Clerk && account.getBank().equals(((Clerk)loggedInUser).getWorksAt()));
+
     if (!account.getOwner().equals(loggedInUser) && !isBankStaff) {
       throw new ForbiddenException();
     }
@@ -58,24 +58,24 @@ public class AccountService {
     return account;
   }
 
-  public Account get(Customer loggedInCustomer, String accountNum) throws Exception{
-    Collection<Account> customerAccounts = getOfCustomer(loggedInCustomer);
-    for(Account account : customerAccounts){
-      if(account.getNumber().equals(accountNum)){
-        return account;
-      }
-    }
-    return null;
+  public boolean exists(int id) throws Exception{
+    return (storage.get(id) != null);
   }
 
-  public Account get(String accountNum) throws Exception{
-    Collection<Account> customerAccounts = storage.getAll();
-    for(Account account : customerAccounts){
-      if(account.getNumber().equals(accountNum)){
-        return account;
-      }
+  public void commit(Transaction transaction) throws Exception {
+    if (transaction == null) throw new ForbiddenException();
+    
+    Account sender = storage.get(transaction.getFrom().getId());
+    Account receiver = storage.get(transaction.getTo().getId());
+            
+    if (sender.getBalance() <= transaction.getAmount()) {
+      throw new BadRequestException(
+        "Cannot create Transaction: Account with id: " + receiver.getId() + " does not have enough funds to create this Transaction"
+      );
     }
-    return null;
+
+    sender.setBalance(receiver.getBalance() - transaction.getAmount());
+    receiver.setBalance(receiver.getBalance() + transaction.getAmount());
   }
 
   public Collection<Account> getOfCustomer(Customer customer) throws Exception {
@@ -88,15 +88,5 @@ public class AccountService {
     Collection<Account> accounts = storage.getAccountsOfBank(bank);
     if (accounts == null) accounts = new ArrayList<>();
     return accounts;
-  }
-
-  public Collection<String> getIDs(Customer customer) throws Exception{
-    Collection<String> ids = storage.getIDsOfSpecificAccounts(customer);
-    return ids;
-  }
-
-  public Collection<String> getAllIDs() throws Exception{
-    Collection<String> ids = storage.getIDsFromAllAccounts();
-    return ids;
   }
 }

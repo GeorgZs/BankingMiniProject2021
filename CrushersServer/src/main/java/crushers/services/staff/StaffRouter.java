@@ -89,8 +89,6 @@ public class StaffRouter extends Router<Clerk>{
         sendJsonResponse(exchange, responseData);
     }
 
-    /// TODO: needs to be tested since syntax-wise it updates the logged in user
-
     @Override
     protected void put(HttpExchange exchange, int id) throws Exception{
         final Clerk loggedInClerk = Authenticator.instance.authClerk(exchange);
