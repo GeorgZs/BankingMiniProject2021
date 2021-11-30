@@ -36,6 +36,7 @@ public class App extends Application {
         crushersBank.registerCustomer(defaultCustomer);
         crushersBank.registerCustomer(emptyCustomer);
         defaultCustomer.createAccount(new PaymentAccount("Education Fund", 0.01, crushersBank));
+        defaultCustomer.createAccount(new PaymentAccount("Moolah", 7832, crushersBank));
         emptyCustomer.createAccount(new SavingsAccount("Kaylee's funds", 10, 1000, swedbank));
 
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("crushers/views/MainView.fxml"));

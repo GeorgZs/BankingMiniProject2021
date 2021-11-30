@@ -2,6 +2,7 @@ package crushers.controllers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -28,18 +29,23 @@ public class AccountController implements Initializable{
     
     private Stage stage;
     private Parent root;
+    double customerTotalBalance;
 
     @FXML
     private ListView<PaymentAccount> accountList;
     @FXML
     private Button createNewAccountButton, selectButton, logoutButton, transferButton;
     @FXML
-    private Label welcomeLabel, accountTypeLabel, accountNameLabel, totalBalance, accountBalanceLabel, savingsGoalLabel, accountIDLabel, accountBankLabel, invalidLabel;
+    private Label welcomeLabel, accountTypeLabel, accountNameLabel, totalBalanceLabel, accountBalanceLabel, savingsGoalLabel, accountIDLabel, accountBankLabel, invalidLabel;
     @FXML
     private VBox accountDetailsBox;
 
     public void displayName(String username){
         welcomeLabel.setText("Welcome, " + username);
+    }
+
+    public void displayTotalBalance(double totalBalance) {
+
     }
 
     public void logout(ActionEvent e) throws IOException{
@@ -78,12 +84,12 @@ public class AccountController implements Initializable{
         }
     }
 
-    public void transferFunds(ActionEvent event) throws IOException {
+    public void transferFunds(ActionEvent e) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("crushers/views/AccountTransferView.fxml"));
         root = loader.load();
         stage = new Stage();
         stage.setScene(new Scene(root));
-        stage.setTitle("Transfer between accounts");
+        stage.setTitle("Transfer Funds");
         stage.show();
     }
 
@@ -91,11 +97,11 @@ public class AccountController implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
         String firstName = App.currentCustomer.getFirstName();
         String lastName = App.currentCustomer.getLastName();
+        double totalBalance = getCustomerTotalBalance();
+        totalBalanceLabel.setText("Total Balance: " + totalBalance);
         welcomeLabel.setText("Welcome, " + firstName + " " + lastName);
         accountList.getItems().addAll(App.currentCustomer.getAccountList());
         accountDetailsBox.setVisible(false);
-
-
         accountList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<PaymentAccount>(){
 
             @Override
@@ -118,6 +124,14 @@ public class AccountController implements Initializable{
             
         });
 
+    }
+
+    public double getCustomerTotalBalance(){
+        ArrayList<PaymentAccount> currentCustomerAccounts = App.currentCustomer.getAccountList();
+        for (PaymentAccount currentCustomerAccount : currentCustomerAccounts) {
+            customerTotalBalance += currentCustomerAccount.getBalance();
+        }
+        return customerTotalBalance;
     }
 
     public void addSavingsToList(SavingsAccount account){
