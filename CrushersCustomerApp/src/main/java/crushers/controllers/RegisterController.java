@@ -90,7 +90,7 @@ public class RegisterController implements Initializable {
         }else if(firstAnswer.isBlank() || secondAnswer.isBlank() || thirdAnswer.isBlank()){
             invalidInputLabel.setText("You must answer all security questions!");
         }else{
-            int userID = (int) Math.floor(Math.random()*10000000);
+            // int userID = (int) Math.floor(Math.random()*10000000);
             ArrayList<String> securityQuestionsAnswers = new ArrayList<String>();
             securityQuestionsAnswers.add(firstQuestionBox.getValue());
             securityQuestionsAnswers.add(firstAnswer);
@@ -99,7 +99,7 @@ public class RegisterController implements Initializable {
             securityQuestionsAnswers.add(thirdQuestionBox.getValue());
             securityQuestionsAnswers.add(thirdAnswer);
 
-            Customer registeredCustomer = new Customer(firstName, lastName, address, email, password, securityQuestionsAnswers, userID);
+            Customer registeredCustomer = new Customer(firstName, lastName, address, email, password, securityQuestionsAnswers);
             App.crushersBank.registerCustomer(registeredCustomer);
 
             Stage oldStage = (Stage)((Node)e.getSource()).getScene().getWindow();

@@ -9,9 +9,12 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 
-import java.awt.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -69,7 +72,8 @@ public class AccountTransferController implements Initializable {
            double amountSek = Double.parseDouble(amountField.getText());
            String comment = commentArea.getText();
 
-           Transaction transaction = new Transaction(App.currentCustomer.getId(), paymentAccountFrom, paymentAccountTo, amountSek, comment,null);
+        //    Transaction transaction = new Transaction(App.currentCustomer.getId(), paymentAccountFrom, paymentAccountTo, amountSek, comment,null);
+        Transaction transaction = new Transaction(333, paymentAccountFrom, paymentAccountTo, amountSek, comment,null);
 
         }
     }

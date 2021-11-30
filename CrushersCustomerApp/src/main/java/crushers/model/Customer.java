@@ -2,7 +2,7 @@ package crushers.model;
 
 import java.util.ArrayList;
 
-public class Customer{
+public class Customer extends User{
 
     private String firstName;
     private String lastName;
@@ -10,22 +10,14 @@ public class Customer{
     private String email;
     private String password;
     private ArrayList<String> securityQuestions;
-    private int id;
 
     private ArrayList<PaymentAccount> accountList;
     private ArrayList<Contact> contactList;
 
 
     public Customer(String firstName, String lastName, String address, String email, String password,
-    ArrayList<String> securityQuestions, int id) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.address = address;
-        this.email = email;
-        this.password = password;
-        this.securityQuestions = securityQuestions;
-        this.id = id;
-
+    ArrayList<String> securityQuestions) {
+        super(firstName, lastName, address, email, password, securityQuestions);
         this.accountList = new ArrayList<PaymentAccount>();
         this.contactList = new ArrayList<Contact>();
     }
@@ -52,40 +44,16 @@ public class Customer{
         //If entered password matches current password, user may create a new password
 
     }
-
-    public String getFirstName(){
-        return this.firstName;
-    }
-    public String getLastName(){
-        return this.lastName;
-    }
-    public String getAddress(){
-        return this.address;
-    }
-    public String getEmail(){
-        return this.email;
-    }
-    public String getPassword(){
-        return this.password;
-    }
-    public void setPassword(String password) {
-        this.password = password;
-    }
-    public ArrayList<String> getSecurityQuestions(){
-        return this.securityQuestions;
-    }
-    public int getId(){
-        return this.id;
-    }
-
+    @Override
     public String toString(){
-        String result = this.firstName + " " + this.lastName + " lives at " + this.address + "\n" + this.email + " " + this.password +
-        "\n" + securityQuestions.toString() + "\nAccounts:";
+        String result = super.firstName + " " + super.lastName + " lives at " + super.address + "\n" + super.email + " " + super.password +
+        "\n" + super.securityQuestions.toString() + "\nAccounts:\n";
         for(PaymentAccount account: this.accountList){
-            result += account;
+            result += account + "\n";
         }
         return result;
     }
+
     public ArrayList<PaymentAccount> getAccountList(){
         return this.accountList;
     }
