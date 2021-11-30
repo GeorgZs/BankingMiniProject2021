@@ -2,7 +2,6 @@ package crushers.services.staff;
 
 import com.sun.net.httpserver.*;
 
-import crushers.models.Bank;
 import crushers.models.users.Clerk;
 import crushers.models.users.Manager;
 import crushers.server.Authenticator;

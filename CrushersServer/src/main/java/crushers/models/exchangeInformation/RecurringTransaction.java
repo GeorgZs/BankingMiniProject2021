@@ -1,7 +1,5 @@
 package crushers.models.exchangeInformation;
 
-import crushers.models.accounts.Account;
-
 public class RecurringTransaction extends Transaction{
     //subject to change how interval interacts
     private String interval;

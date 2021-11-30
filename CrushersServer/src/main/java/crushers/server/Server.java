@@ -5,10 +5,6 @@ import java.net.InetSocketAddress;
 
 import com.sun.net.httpserver.HttpServer;
 
-import crushers.models.Bank;
-import crushers.models.users.Clerk;
-import crushers.models.users.Customer;
-
 import crushers.services.AuthenticationRouter;
 import crushers.services.accounts.AccountRouter;
 import crushers.services.accounts.AccountService;
@@ -26,7 +22,6 @@ import crushers.services.staff.StaffService;
 import crushers.services.transactions.JsonTransactionStorage;
 import crushers.services.transactions.TransactionRouter;
 import crushers.services.transactions.TransactionService;
-import crushers.storage.JsonStorage;
 
 /**
  * The actual http server of which the port can be configured in the constructor.
@@ -62,6 +57,7 @@ public class Server {
     new BankRouter(bankService).addEndpoints(this.httpServer);
     
     final AccountService accountService = new AccountService(
+      customerService,
       bankService,
       new JsonAccountStorage(new File("data/accounts.json"))
     );

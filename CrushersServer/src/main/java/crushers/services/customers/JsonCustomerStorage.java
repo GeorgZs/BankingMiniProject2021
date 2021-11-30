@@ -1,6 +1,5 @@
 package crushers.services.customers;
 
-import crushers.models.Bank;
 import crushers.models.users.Customer;
 import crushers.storage.JsonStorage;
 

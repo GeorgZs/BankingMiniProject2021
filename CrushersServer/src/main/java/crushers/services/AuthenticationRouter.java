@@ -1,11 +1,8 @@
 package crushers.services;
 
-import java.io.IOException;
-
 import com.sun.net.httpserver.*;
 
 import crushers.models.ResetPasswordClass;
-import crushers.models.users.User;
 import crushers.server.Authenticator;
 import crushers.server.Router;
 import crushers.server.httpExceptions.HttpException;

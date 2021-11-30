@@ -10,26 +10,36 @@ import crushers.models.users.Customer;
 import crushers.models.users.User;
 import crushers.server.httpExceptions.*;
 import crushers.services.banks.BankService;
+import crushers.services.customers.CustomerService;
 
 public class AccountService {
   
   private final JsonAccountStorage storage;
+  private final CustomerService customerService;
   private final BankService bankService;
 
-  public AccountService(BankService bankService, JsonAccountStorage storage) {
+  public AccountService(CustomerService customerService, BankService bankService, JsonAccountStorage storage) {
+    this.customerService = customerService;
     this.bankService = bankService;
     this.storage = storage;
   }
 
-  public Account create(Customer owner, Account account) throws Exception {
+  public Account create(User creator, Account account) throws Exception {
     if (account.getBank() == null) {
       throw new BadRequestException("The bank, the account should be opened at, is required.");
     }
-    
-    // check if the bank exists
-    account.setBank(bankService.get(account.getBank().getId()));
 
-    account.setOwner(owner);
+    if (creator instanceof Clerk) {
+      Clerk clerk = (Clerk) creator;
+      account.setBank(bankService.get(clerk.getWorksAt().getId())); // set the bank the account is opened at
+      account.setOwner(customerService.get(account.getOwner().getId())); // check if the customer exists
+    }
+    else if (creator instanceof Customer) {
+      Customer customer = (Customer) creator;
+      account.setBank(bankService.get(account.getBank().getId())); // check if the bank exists
+      account.setOwner(customerService.get(customer.getId())); // set the owner of the account
+    }
+
     account.setNumber(account.getBank().generateAccountNumber());
     return storage.create(account);
   }

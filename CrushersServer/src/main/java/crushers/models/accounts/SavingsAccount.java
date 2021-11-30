@@ -9,6 +9,8 @@ import crushers.models.users.Customer;
 public class SavingsAccount extends Account {
     //subject to change as this is set upon creation of bank
     private final double INTEREST_RATE = 0.2;
+    
+    private String name;
 
     public SavingsAccount(){
         super(); // empty constructor for Jackson
@@ -16,5 +18,13 @@ public class SavingsAccount extends Account {
 
     public SavingsAccount(Bank bank, Customer owner, double balance){
         super(bank, owner, balance);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

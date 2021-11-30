@@ -4,13 +4,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import crushers.models.Bank;
 import crushers.models.users.Customer;
 
 import crushers.server.Authenticator;
 import crushers.server.httpExceptions.*;
 
-import crushers.storage.Storage;
 import crushers.utils.Security;
 
 public class CustomerService {
@@ -56,6 +54,16 @@ public class CustomerService {
 
   public Customer getLoggedIn(Customer loggedInCustomer) throws Exception {
     return customerStorage.get(loggedInCustomer.getId());
+  }
+
+  public Customer get(int id) throws Exception {
+    Customer customer = customerStorage.get(id);
+
+    if (customer == null) {
+      throw new NotFoundException("No customer with id " + id + " could be found.");
+    }
+
+    return customer;
   }
 
   public Collection<Customer> getAll() throws Exception {

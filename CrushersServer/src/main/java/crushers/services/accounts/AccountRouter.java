@@ -69,9 +69,9 @@ public class AccountRouter extends Router<Account> {
 
   @Override
   protected void post(HttpExchange exchange) throws Exception {
-    final Customer loggedInCustomer = Authenticator.instance.authCustomer(exchange);
+    final User loggedInUser = Authenticator.instance.authUser(exchange);
     final Account requestData = getJsonBodyData(exchange, Account.class);
-    final Account responseData = accountService.create(loggedInCustomer, requestData);
+    final Account responseData = accountService.create(loggedInUser, requestData);
     sendJsonResponse(exchange, responseData);
   }
 

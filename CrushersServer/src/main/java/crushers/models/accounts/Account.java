@@ -106,6 +106,4 @@ public abstract class Account implements Storable {
     return true;
   }
 
-  
-
 }

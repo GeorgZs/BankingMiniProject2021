@@ -2,10 +2,8 @@ package crushers.services.banks;
 
 
 import crushers.models.Bank;
-import crushers.models.users.Manager;
 import crushers.server.httpExceptions.*;
 import crushers.services.staff.StaffService;
-import crushers.storage.Storage;
 
 import java.util.Collection;
 
@@ -20,7 +18,7 @@ public class BankService {
 
     public Bank get(int id) throws Exception {
         Bank bank = storage.get(id);
-        if(bank == null){
+        if(bank == null) {
             throw new NotFoundException("No Bank found with ID: " + id);
         }
         return bank;
