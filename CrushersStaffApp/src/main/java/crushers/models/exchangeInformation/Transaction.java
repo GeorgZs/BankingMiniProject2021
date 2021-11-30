@@ -2,22 +2,19 @@ package crushers.models.exchangeInformation;
 
 import crushers.models.accounts.Account;
 
+import java.time.LocalDateTime;
+
 public class Transaction {
-    private int ID;
     private Account accountFrom;
     private Account accountTo;
     private double amount;
     private String description;
-    //For the date maybe use Time - to calculate age of transaction
-    private String date;
 
-    public Transaction(int ID, Account accountFrom, Account accountTo,
-                       double amount, String description, String date){
-        this.ID = ID;
+    public Transaction(Account accountFrom, Account accountTo,
+                       double amount, String description){
         this.accountFrom = accountFrom;
         this.accountTo = accountTo;
         this.amount = amount;
         this.description = description;
-        this.date = date;
     }
 }
