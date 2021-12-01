@@ -36,9 +36,9 @@ public class register {
     @FXML
     private TextField passwordField;
     @FXML
-    private ChoiceBox<String> securityQuestions;
+    public ChoiceBox<String> securityQuestions;
     @FXML
-    private TextField answerQuestions;
+    public TextField answerQuestions;
     @FXML
     private Button register;
     @FXML
