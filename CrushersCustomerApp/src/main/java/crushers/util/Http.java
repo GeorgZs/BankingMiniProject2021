@@ -29,7 +29,7 @@ public class Http {
     }
 
     public static HttpResponse<String> post(String source, Object body) throws IOException, InterruptedException{
-         HttpRequest request = HttpRequest
+        HttpRequest request = HttpRequest
         .newBuilder(URI.create(BASE_URL + source))
         .header("Content-Type", "application/json")
         .POST(BodyPublishers.ofString(Json.stringify(body)))
@@ -37,20 +37,24 @@ public class Http {
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         return response;
-
     }
-    public static HttpResponse<String> auth(String source, String key, String value) throws IOException, InterruptedException{
-        String plainCredentials = key + ":" + value;
-        String base64Credentials = new String(Base64.getEncoder().encode(plainCredentials.getBytes()));
-        String authorizationHeader = "Basic " + base64Credentials;
-
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(BASE_URL + source))
-                .GET()
-                .header("Authorization", authorizationHeader)
-                .header("Content-Type", "application/json")
-                .build();
-        // Send HTTP request
+    public static HttpResponse<String> authGet(String source, String token) throws IOException, InterruptedException{
+        HttpRequest request = HttpRequest
+        .newBuilder(URI.create(BASE_URL + source))
+        .header("Content-Type", "application/json")
+        .header("Authorization", "Bearer " + token)
+        .GET()
+        .build();
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        return response;
+    }
+    public static HttpResponse<String> authPost(String source, String token) throws IOException, InterruptedException{
+        HttpRequest request = HttpRequest
+        .newBuilder(URI.create(BASE_URL + source))
+        .header("Content-Type", "application/json")
+        .header("Authorization", "Bearer " + token)
+        .POST(BodyPublishers.ofString(""))
+        .build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         return response;
     }

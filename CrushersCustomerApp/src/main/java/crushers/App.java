@@ -29,21 +29,22 @@ public class App extends Application {
     public static ArrayList<Bank> banks = new ArrayList<Bank>(List.of(crushersBank, swedbank));
 
     public static Customer currentCustomer;
+    public static String currentToken;
 
-    static ArrayList<String> securityQA = new ArrayList<String>(Arrays.asList("What's the name of your first pet?", "Alfie"));
-    static Customer defaultCustomer = new Customer("John", "Smith", "Willy Street", "Smith@google.com", "Password1", securityQA);
-    static Customer emptyCustomer = new Customer("", "", "", "", "", securityQA);
+    // static ArrayList<String> securityQA = new ArrayList<String>(Arrays.asList("What's the name of your first pet?", "Alfie"));
+    // static Customer defaultCustomer = new Customer("John", "Smith", "Willy Street", "Smith@google.com", "Password1", securityQA);
+    // static Customer emptyCustomer = new Customer("", "", "", "", "", securityQA);
     
     @Override
     public void start(Stage stage) throws IOException {
 
         // Registering local defaults
         
-        defaultCustomer.createAccount(new PaymentAccount("Education Fund", 0.01, crushersBank));
-        defaultCustomer.createAccount(new PaymentAccount("Moolah", 7832, crushersBank));
-        emptyCustomer.createAccount(new SavingsAccount("Kaylee's funds", 10, 1000, swedbank));
-        crushersBank.registerCustomer(defaultCustomer);
-        crushersBank.registerCustomer(emptyCustomer);
+        // defaultCustomer.createAccount(new PaymentAccount("Education Fund", 0.01, crushersBank));
+        // defaultCustomer.createAccount(new PaymentAccount("Moolah", 7832, crushersBank));
+        // emptyCustomer.createAccount(new SavingsAccount("Kaylee's funds", 10, 1000, swedbank));
+        // crushersBank.registerCustomer(defaultCustomer);
+        // crushersBank.registerCustomer(emptyCustomer);
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("crushers/views/MainView.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);

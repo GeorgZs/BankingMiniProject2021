@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 import crushers.App;
 import crushers.model.PaymentAccount;
 import crushers.model.SavingsAccount;
+import crushers.util.Http;
 import crushers.util.Util;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -59,6 +60,14 @@ public class AccountController implements Initializable{
         Optional<ButtonType> result = alert.showAndWait();
         if(result.isPresent() && result.get() == ButtonType.CANCEL){
             return;
+        }
+
+        try {
+            Http.authPost("auth/logout", App.currentToken).body();
+            App.currentCustomer = null;
+            App.currentToken = null;
+        } catch (InterruptedException e1) {
+            e1.printStackTrace();
         }
 
         Util.closeAndShow("MainView", "Crushers Bank", e);
@@ -127,11 +136,15 @@ public class AccountController implements Initializable{
     }
 
     public double getCustomerTotalBalance(){
-        ArrayList<PaymentAccount> currentCustomerAccounts = App.currentCustomer.getAccountList();
-        for (PaymentAccount currentCustomerAccount : currentCustomerAccounts) {
-            customerTotalBalance += currentCustomerAccount.getBalance();
-        }
+        if(App.currentCustomer.getAccountList().size() == 0){
+            return 0;
+        }else{
+            ArrayList<PaymentAccount> currentCustomerAccounts = App.currentCustomer.getAccountList();
+            for (PaymentAccount currentCustomerAccount : currentCustomerAccounts) {
+                customerTotalBalance += currentCustomerAccount.getBalance();
+            }
         return customerTotalBalance;
+        }
     }
 
     public void addSavingsToList(SavingsAccount account){
@@ -142,10 +155,5 @@ public class AccountController implements Initializable{
     }
     public void addAccountToList(PaymentAccount account){
         accountList.getItems().add(account);
-    }
-    public void displayDetails(){
-        // System.out.println("displaying stuff");
-        // accountDetailsBox.setVisible(true);
-        // // accountTypeLabel.setText()
     }
 }

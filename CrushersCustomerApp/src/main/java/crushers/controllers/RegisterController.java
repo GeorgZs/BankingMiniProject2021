@@ -7,6 +7,8 @@ import java.util.ResourceBundle;
 
 import crushers.App;
 import crushers.model.Customer;
+import crushers.util.Http;
+import crushers.util.Json;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -90,7 +92,6 @@ public class RegisterController implements Initializable {
         }else if(firstAnswer.isBlank() || secondAnswer.isBlank() || thirdAnswer.isBlank()){
             invalidInputLabel.setText("You must answer all security questions!");
         }else{
-            // int userID = (int) Math.floor(Math.random()*10000000);
             ArrayList<String> securityQuestionsAnswers = new ArrayList<String>();
             securityQuestionsAnswers.add(firstQuestionBox.getValue());
             securityQuestionsAnswers.add(firstAnswer);
@@ -100,8 +101,12 @@ public class RegisterController implements Initializable {
             securityQuestionsAnswers.add(thirdAnswer);
 
             Customer registeredCustomer = new Customer(firstName, lastName, address, email, password, securityQuestionsAnswers);
-            App.crushersBank.registerCustomer(registeredCustomer);
 
+            try {
+                System.out.println(Http.post("customers", registeredCustomer).body());
+            } catch (InterruptedException e1) {
+                e1.printStackTrace();
+            }
             Stage oldStage = (Stage)((Node)e.getSource()).getScene().getWindow();
             oldStage.close();
             

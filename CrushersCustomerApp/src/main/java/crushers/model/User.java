@@ -19,6 +19,9 @@ public class User{
         this.password = password;
         this.securityQuestions = securityQuestions;
     }
+    public User(){
+
+    }
 
     public String getFirstName(){
         return this.firstName;
@@ -40,11 +43,5 @@ public class User{
     }
     public void setPassword(String password){
         this.password = password;
-    }
-
-    public String toString(){
-        String result = this.firstName + " " + this.lastName + " lives at " + this.address + "\n" + this.email + " " + this.password +
-        "\n" + securityQuestions.toString();
-        return result;
     }
 }
