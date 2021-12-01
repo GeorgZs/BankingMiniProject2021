@@ -231,6 +231,10 @@ public class dashboard {
 
     }
 
+    //@FXML
+    //public void resetPass(javafx.event.ActionEvent event) {
+    //}
+
 
 
     /*

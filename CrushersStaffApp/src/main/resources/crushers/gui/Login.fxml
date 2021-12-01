@@ -58,7 +58,7 @@
                <Font name="SansSerif Regular" size="13.0" />
             </font>
             </Label>
-            <HBox layoutX="112.0" layoutY="359.0" prefHeight="27.0" prefWidth="110.0">
+            <HBox fx:id="forgotPassword" layoutX="112.0" layoutY="359.0" onMouseClicked="#forgotPassword" onMouseEntered="#onHoverForgot" onMouseExited="#onHoverForgotExit" prefHeight="27.0" prefWidth="110.0">
                <children>
                   <Label text="Forgot password?" textFill="#6087ff">
                      <font>

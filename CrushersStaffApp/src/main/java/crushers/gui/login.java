@@ -4,12 +4,18 @@ import crushers.models.Credentials;
 import crushers.utils.HTTPUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 
 public class login {
@@ -22,8 +28,8 @@ public class login {
     private PasswordField password;
     @FXML
     private Button register;
-    //@FXML
-    //private HBox forgotPassword;
+    @FXML
+    private HBox forgotPassword;
 
     @FXML
     public void UserLogin(ActionEvent event) throws Exception {
@@ -62,10 +68,30 @@ public class login {
         m.changeScene("register.fxml", event);
     }
 
-    //@FXML
-    //public void forgotPass(ActionEvent event) throws IOException {
-      //  MainController m = new MainController();
-        //m.changeScene("", event);
-    //}
+    @FXML
+    public void forgotPassword(ActionEvent event) throws IOException {
+        MainController main = new MainController();
+        main.changeScene("ForgotPassword.fxml", event);
+    }
+
+    @FXML
+    public void onHoverForgot(MouseEvent mouseEvent) {
+        try {
+            HBox forgotPassword = (HBox) mouseEvent.getSource();
+            forgotPassword.setOpacity(0.5);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void onHoverForgotExit(MouseEvent mouseEvent) {
+        try {
+            HBox forgotPassword = (HBox) mouseEvent.getSource();
+            forgotPassword.setOpacity(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }
