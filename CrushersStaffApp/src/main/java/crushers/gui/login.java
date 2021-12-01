@@ -74,8 +74,9 @@ public class login {
         main.changeScene("ForgotPassword.fxml", event);
     }
 
+
     @FXML
-    public void onHoverForgot(MouseEvent mouseEvent) {
+    public void onHoverForgot(javafx.scene.input.MouseEvent mouseEvent) {
         try {
             HBox forgotPassword = (HBox) mouseEvent.getSource();
             forgotPassword.setOpacity(0.5);
@@ -85,7 +86,7 @@ public class login {
     }
 
     @FXML
-    public void onHoverForgotExit(MouseEvent mouseEvent) {
+    public void onHoverForgotExit(javafx.scene.input.MouseEvent mouseEvent) {
         try {
             HBox forgotPassword = (HBox) mouseEvent.getSource();
             forgotPassword.setOpacity(1);
@@ -93,5 +94,4 @@ public class login {
             e.printStackTrace();
         }
     }
-
 }
