@@ -57,23 +57,23 @@ public class MainController { // test commit
         for(Customer customer: App.crushersBank.getCustomers()){
             if(customer.getEmail().equals(email) && customer.getPassword().equals(password)){
 
-            App.currentCustomer = customer;
+                App.currentCustomer = customer;
             
-            Stage oldStage = (Stage)((Node)e.getSource()).getScene().getWindow(); // close upon login
-            oldStage.close();
-
-            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("crushers/views/AccountView.fxml"));
-            root = loader.load();
-            accCtrl = loader.getController();
-            // accCtrl.displayName(customer.getFirstName() + " " + customer.getLastName());
-            stage = new Stage();
-            Scene scene = new Scene(root);
-            scene.getStylesheets().add(getClass().getClassLoader().getResource("crushers/stylesheets/main.css").toExternalForm());
-            stage.setScene(scene);
-            stage.getIcons().add(new Image("crushers/imgs/logo.jpg"));
-            stage.setTitle("Account Overview");
-            stage.show();
-            return;
+                Stage oldStage = (Stage)((Node)e.getSource()).getScene().getWindow(); // close upon login
+                oldStage.close();
+    
+                FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("crushers/views/AccountView.fxml"));
+                root = loader.load();
+                accCtrl = loader.getController();
+                // accCtrl.displayName(customer.getFirstName() + " " + customer.getLastName());
+                stage = new Stage();
+                Scene scene = new Scene(root);
+                scene.getStylesheets().add(getClass().getClassLoader().getResource("crushers/stylesheets/main.css").toExternalForm());
+                stage.setScene(scene);
+                stage.getIcons().add(new Image("crushers/imgs/logo.jpg"));
+                stage.setTitle("Account Overview");
+                stage.show();
+                return;
             }
         }  
         invalidLoginLabel.setText("Invalid username or password!");
