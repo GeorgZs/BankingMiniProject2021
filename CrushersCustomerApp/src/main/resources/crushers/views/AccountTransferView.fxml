@@ -58,6 +58,9 @@
             <Font name="SansSerif Regular" size="15.0" />
          </font>
       </Label>
-      <Label fx:id="errorLabel" alignment="CENTER" layoutX="298.0" layoutY="341.0" textFill="#ee0e0e" />
+      <Label fx:id="errorLabel" alignment="CENTER" layoutX="133.0" layoutY="341.0" prefHeight="44.0" prefWidth="204.0" textFill="#ee0e0e">
+         <font>
+            <Font name="SansSerif Regular" size="13.0" />
+         </font></Label>
    </children>
 </AnchorPane>
