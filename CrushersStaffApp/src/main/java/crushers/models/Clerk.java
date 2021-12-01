@@ -2,7 +2,9 @@ package crushers.models;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import crushers.models.accounts.Account;
 import crushers.models.accounts.PaymentAccount;
+import crushers.models.exchangeInformation.Transaction;
 import crushers.models.users.Customer;
+import crushers.utils.HTTPUtils;
 
 
 public class Clerk extends User {
@@ -50,19 +52,27 @@ public class Clerk extends User {
         return staffType;
     }
 
-    public Account createAccountForCustomer(Customer customer, double balance) {
+    public Account createAccountForCustomer(Customer customer) throws Exception {
         // GET http request returns desired customer
-        Account account = new PaymentAccount(this.worksAt, customer, balance);
+        Account account = new PaymentAccount(this.worksAt, customer, 0.00);
+        HTTPUtils.post("/accounts", account, Account.class);
         return account;
     }
 
-    public double seeCustomerBalance(int customerID, String accountID) {
+    public double seeCustomerBalance(int customerID) throws Exception {
         // GET http request returns desired customer
-        Customer customer = new Customer(null, null, null, null, null, null);
-        if (customer == null)
-            return -1.0;
-        PaymentAccount paymentAccount = new PaymentAccount(null, null, 0);
-        return paymentAccount.getBalance();
+        Account account = HTTPUtils.get("/accounts/" + customerID, Account.class);
+        return account.getBalance();
     }
 
+    public Transaction depositToCustomerAccount(Account accountTo, Account accountFrom, String description, double balance) {
+        // Give the server these infos
+        Transaction transaction = new Transaction(null, accountTo, balance, description);
+        return transaction;
+    }
+
+    public Transaction withdrawFromCustomerAccount(Account accountTo, Account accountFrom, String description, double balance) {
+        Transaction transaction = new Transaction(accountFrom, accountTo, balance, description);
+        return transaction;
+    }
 }

@@ -231,6 +231,17 @@ public class dashboard {
 
     }
 
+    /*
+    public void createTransaction(){
+        gettexfields - from those text fields
+        find the acccont to or the one you are withdrawing from
+        call your method (___,___, balance, description)
+        Transaction transaction = new Transaction(account1, account2, amount.getTextField, description.getTextfield);
+        balance = from text field
+        description = from text field
+        HTTP.post("/transactions", transaction, Transaction.class)
+    }
+     */
 
 
     /*
