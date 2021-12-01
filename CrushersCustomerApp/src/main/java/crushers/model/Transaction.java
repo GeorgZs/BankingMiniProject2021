@@ -8,8 +8,7 @@ public class Transaction {
     private String description;
     private String date;
 
-    public Transaction(int id, PaymentAccount accountFrom, PaymentAccount accountTo, double amount, String description, String date) {
-        this.id = id;
+    public Transaction(PaymentAccount accountFrom, PaymentAccount accountTo, double amount, String description, String date) {
         this.accountFrom = accountFrom;
         this.accountTo = accountTo;
         this.amount = amount;

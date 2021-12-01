@@ -27,7 +27,6 @@ import java.util.ResourceBundle;
 
 public class AccountTransferController implements Initializable {
     private Customer currentCustomer = App.currentCustomer;
-    private String[] accounts;
 
     private Stage stage;
     private Parent root;
@@ -55,12 +54,8 @@ public class AccountTransferController implements Initializable {
         ArrayList<PaymentAccount> userAccounts = App.currentCustomer.getAccountList();
         accountFromBox.setStyle("-fx-font-family: SansSerif");
         accountToBox.setStyle("-fx-font-family: SansSerif");
-        accounts = new String[userAccounts.size()];
-        for(int i= 0; i< accounts.length; i++) {
-            accounts[i] = userAccounts.get(i).getName();
-        }
-        accountFromBox.getItems().addAll(accounts);
-        accountToBox.getItems().addAll(accounts);
+        accountFromBox.getItems().addAll(userAccounts);
+        accountToBox.getItems().addAll(userAccounts);
         accountFromBox.setOnAction(this::firstChoice);
     }
 
