@@ -39,16 +39,16 @@
             <Font name="SansSerif Regular" size="30.0" />
          </font>
       </Label>
-      <Button fx:id="transferButton" layoutX="43.0" layoutY="337.0" mnemonicParsing="false" text="Transfer">
+      <Button fx:id="transferFunds" layoutX="43.0" layoutY="337.0" mnemonicParsing="false" onAction="#transferFunds" text="Transfer">
          <font>
             <Font name="SansSerif Regular" size="13.0" />
          </font></Button>
-      <Button fx:id="cancelButton" layoutX="519.0" layoutY="337.0" mnemonicParsing="false" text="Cancel">
+      <Button fx:id="done" layoutX="360.0" layoutY="337.0" mnemonicParsing="false" onAction="#done" text="Return to account overview">
          <font>
             <Font name="SansSerif Regular" size="13.0" />
          </font></Button>
-      <ChoiceBox fx:id="accountFrom" layoutX="148.0" layoutY="113.0" prefWidth="150.0" />
-      <ChoiceBox fx:id="accountTo" layoutX="148.0" layoutY="162.0" prefWidth="150.0" />
+      <ChoiceBox fx:id="accountFromBox" layoutX="148.0" layoutY="113.0" prefWidth="150.0" />
+      <ChoiceBox fx:id="accountToBox" layoutX="148.0" layoutY="162.0" prefWidth="150.0" />
       <TextArea fx:id="commentArea" layoutX="347.0" layoutY="113.0" prefHeight="200.0" prefWidth="200.0">
          <font>
             <Font name="SansSerif Regular" size="13.0" />

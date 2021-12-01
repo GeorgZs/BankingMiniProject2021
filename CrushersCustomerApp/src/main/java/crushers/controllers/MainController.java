@@ -71,7 +71,7 @@ public class MainController { // test commit
             scene.getStylesheets().add(getClass().getClassLoader().getResource("crushers/stylesheets/main.css").toExternalForm());
             stage.setScene(scene);
             stage.getIcons().add(new Image("crushers/imgs/logo.jpg"));
-            stage.setTitle("Select an Account");
+            stage.setTitle("Account Overview");
             stage.show();
             return;
             }

@@ -17,7 +17,4 @@ public class Transaction {
         this.date = date;
     }
 
-    public void personalTransfer(PaymentAccount accountFrom, PaymentAccount accountTo, double amount, String description) {
-
-    }
 }

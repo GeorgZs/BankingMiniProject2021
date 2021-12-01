@@ -36,6 +36,11 @@ public class PaymentAccount {
     public List<Transaction> getTransactions(){
         return this.transactions;
     }
+
+    public void addTransactionToMap(Transaction transaction){
+        transactions.put(LocalDateTime.now().toString(), transaction);
+    }
+
     public String getType(){
         return "Payment";
     }
