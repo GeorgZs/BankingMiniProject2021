@@ -22,7 +22,7 @@ public class PaymentAccount {
     }
 
     public String toString(){
-        return "Payment Account (ID" + this.name + "): " + this.balance + " SEK";
+        return "Payment Account " + this.name + " (ID" + this.getID() + "): " + this.balance + " SEK";
     }
     public Bank getBank(){
         return this.bank;

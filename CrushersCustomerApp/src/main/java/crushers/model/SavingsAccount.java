@@ -11,7 +11,7 @@ public class SavingsAccount extends PaymentAccount{
 
     @Override
     public String toString(){
-        return "Savings Account (ID" + super.name + "): " + super.balance + " SEK";
+        return "Savings Account " + super.name + " (ID" + super.getID() + "): " + super.balance + " SEK";
     }
     @Override
     public String getType(){
