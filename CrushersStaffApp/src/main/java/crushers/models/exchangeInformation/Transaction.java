@@ -5,13 +5,12 @@ import crushers.models.accounts.Account;
 import java.time.LocalDateTime;
 
 public class Transaction {
-    private String accountFrom;
-    private String accountTo;
+    private Account accountFrom;
+    private Account accountTo;
     private double amount;
     private String description;
 
-    public Transaction(String accountFrom, String accountTo,
-                       double amount, String description){
+    public Transaction(Account accountFrom, Account accountTo, double amount, String description){
         this.accountFrom = accountFrom;
         this.accountTo = accountTo;
         this.amount = amount;
