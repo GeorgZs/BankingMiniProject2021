@@ -18,7 +18,7 @@ public class Bank {
     }
 
     public String toString(){
-        return this.name + ": " + this.details;
+        return this.name;
     }
     public String getName(){
         return this.name;
