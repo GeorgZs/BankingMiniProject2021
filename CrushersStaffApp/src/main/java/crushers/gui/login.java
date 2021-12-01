@@ -69,9 +69,9 @@ public class login {
     }
 
     @FXML
-    public void forgotPassword(ActionEvent event) throws IOException {
+    public void onClickedForgotPassword(javafx.scene.input.MouseEvent mouseEvent) throws IOException {
         MainController main = new MainController();
-        main.changeScene("ForgotPassword.fxml", event);
+        main.changeScene("ForgotPassword.fxml", mouseEvent);
     }
 
 
