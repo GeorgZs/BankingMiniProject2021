@@ -13,6 +13,7 @@ import javafx.scene.layout.Pane;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.sql.SQLOutput;
 import java.util.Collection;
 
 public class ForgotPassword {
@@ -40,10 +41,11 @@ public class ForgotPassword {
     @FXML
     public void onPressedContinue(javafx.event.ActionEvent actionEvent) throws Exception {
         Clerk clerk = new Clerk(emailAddress.getText(), null, null, null, null, null, null);
-        Collection<crushers.models.Clerk> clerkList = HTTPUtils.getCollection("/banks", Clerk.class);
+        Collection<crushers.models.Clerk> clerkList = HTTPUtils.getCollection("/staff", Clerk.class);
         int count = 0;
         for (Clerk clerk1: clerkList) {
-            if(clerk.getEmail() == clerk1.getEmail()) {
+            System.out.println(clerk1.getEmail());
+            if(clerk.getEmail().equals(clerk1.getEmail())) {
                 enterPassword.setVisible(true);
                 break;
             } else {
