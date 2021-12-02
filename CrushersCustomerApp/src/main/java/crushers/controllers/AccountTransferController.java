@@ -86,7 +86,7 @@ public class AccountTransferController implements Initializable {
                paymentAccountTo.deposit(amountSek);
                paymentAccountFrom.addTransactionToMap(transaction);
                paymentAccountTo.addTransactionToMap(transaction);
-               errorLabel.setStyle("-fx-font-fill: green");
+               errorLabel.setStyle("-fx-text-fill: green");
                errorLabel.setText("Transfer successful!");
                // Http.post("/transactions", transaction);
             }
