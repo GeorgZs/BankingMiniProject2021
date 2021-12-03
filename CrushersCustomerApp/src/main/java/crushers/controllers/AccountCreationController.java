@@ -1,5 +1,6 @@
 package crushers.controllers;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -35,7 +36,7 @@ public class AccountCreationController implements Initializable{
     
     private Boolean isPayment;
 
-    public void createAccount(ActionEvent e){
+    public void createAccount(ActionEvent e) throws IOException{
         if(bankSelection.getValue() == null){
             invalidLabel.setText("Please select a bank!");
         }else if(isPayment == null){
@@ -47,12 +48,14 @@ public class AccountCreationController implements Initializable{
         }else{
             String accountName = accountDescriptionField.getText();
             Bank bank = bankSelection.getValue();
-            AccountController accCtrl = MainController.accCtrl;
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("crushers/views/AccountView.fxml"));
+            loader.load();
+            AccountController accCtrl = loader.getController();
 
             if(isPayment){
                 PaymentAccount account = new PaymentAccount(accountName, 0, bank);
                 accCtrl.addAccountToList(account);
-                // accCtrl.addPaymentToList(account);
+                accCtrl.addPaymentToList(account);
                 App.currentCustomer.createAccount(account);
             }else{
                 try{

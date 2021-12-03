@@ -52,8 +52,6 @@ public class MainController { // test commit
 
     }
 
-    public static AccountController accCtrl;
-
     public void login(ActionEvent e) throws IOException{
 
         String email = usernameField.getText();
@@ -62,10 +60,9 @@ public class MainController { // test commit
 
         try {
             loginResponse = Http.post("auth/login", new Credentials(email, password)).body();
-            String tokenString = Json.parse(loginResponse, Token.class).getToken(); // parse json string to token and get attr
-            App.currentToken = tokenString;
+            App.currentToken = Json.parse(loginResponse, Token.class).getToken(); // parse json string to token and get attr
             System.out.println(loginResponse);
-        } catch (InterruptedException e1) { // idk what this is
+        } catch (InterruptedException e1) { // idk what this is but its probably bad so I added return
             e1.printStackTrace();
             return;
         } catch (UnrecognizedPropertyException upe){ // if the response is an error json, we want to print it and edit label
@@ -85,36 +82,30 @@ public class MainController { // test commit
             return;
         }
 
-        Stage oldStage = (Stage)((Node)e.getSource()).getScene().getWindow(); // close upon login
-        oldStage.close();
-
-        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("crushers/views/AccountView.fxml"));
-        root = loader.load();
-        
-        accCtrl = loader.getController();
-        stage = new Stage();
-        Scene scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getClassLoader().getResource("crushers/stylesheets/main.css").toExternalForm());
-        stage.setScene(scene);
-        stage.getIcons().add(new Image("crushers/imgs/logo.jpg"));
-        stage.setTitle("Account Overview");
+        Stage stage = Util.closeAndCreate("AccountView", "Account Overview", e);
+        stage.getScene().getStylesheets().add(getClass().getClassLoader().getResource("crushers/stylesheets/main.css").toExternalForm());
         stage.show();
-        return;
+
+        // Stage oldStage = (Stage)((Node)e.getSource()).getScene().getWindow(); // close upon login
+        // oldStage.close();
+
+        // root = loader.load();
+        
+        // stage = new Stage();
+        // Scene scene = new Scene(root);
+        // scene.getStylesheets().add(getClass().getClassLoader().getResource("crushers/stylesheets/main.css").toExternalForm());
+        // stage.setScene(scene);
+        // stage.getIcons().add(new Image("crushers/imgs/logo.jpg"));
+        // stage.setTitle("Account Overview");
+        // stage.show();
+        // return;
     }
 
     public void requestHelp(){
         System.out.println("cry about it");
-        for(Customer customer: App.crushersBank.getCustomers()){
-            System.out.println(customer);
-        }
     }
 
     public void forgottenPassword() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("crushers/views/ChangePasswordView.fxml"));
-        root = loader.load();
-        stage = new Stage();
-        stage.setScene(new Scene(root));
-        stage.setTitle("Reset password");
-        stage.show();
+        Util.showModal("ChangePasswordView", "Reset Password", new ActionEvent());
     }
 }
