@@ -14,10 +14,12 @@ import java.util.Set;
 public class JsonTransactionStorage extends JsonStorage<Transaction> {
 
     private final Map<Account, Set<Transaction>> accountTransactions;
+    private final Set<Transaction> suspiciousTransactions;
 
     public JsonTransactionStorage(File jsonFile) throws IOException {
         super(jsonFile, Transaction.class);
         this.accountTransactions = new HashMap<>();
+        this.suspiciousTransactions = new HashSet<>();
 
         for (Transaction transaction : this.data.values()) {
             this.addToMaps(transaction);
@@ -58,5 +60,10 @@ public class JsonTransactionStorage extends JsonStorage<Transaction> {
 
     public Set<Transaction> getAllOfAccount(Account account) {
       return accountTransactions.get(account);
+    }
+
+    public Transaction markSusTransaction(Transaction transaction){
+        suspiciousTransactions.add(transaction);
+        return transaction;
     }
 }

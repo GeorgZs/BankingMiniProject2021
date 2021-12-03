@@ -109,4 +109,10 @@ public class TransactionService {
         final Account account = accountService.get(loggedInUser, acccountId);
         return storage.getAllOfAccount(account);
     }
+
+    public Transaction markSusTransaction(Clerk clerk, int transactionId) throws Exception{
+        Transaction transaction = storage.get(transactionId);
+        storage.markSusTransaction(transaction);
+        return transaction;
+    }
 }
