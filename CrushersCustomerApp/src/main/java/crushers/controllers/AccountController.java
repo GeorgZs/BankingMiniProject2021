@@ -64,8 +64,6 @@ public class AccountController implements Initializable{
 
         try {
             Http.authPost("auth/logout", App.currentToken).body();
-            App.currentCustomer = null;
-            App.currentToken = null;
         } catch (InterruptedException e1) {
             e1.printStackTrace();
         }
@@ -74,19 +72,11 @@ public class AccountController implements Initializable{
     }
 
     public void createNewAccount(ActionEvent e) throws IOException{
-        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("crushers/views/AccountCreationView.fxml"));
-        root = loader.load();
-        stage = new Stage();
-        stage.setScene(new Scene(root));
-        stage.getIcons().add(new Image("crushers/imgs/logo.jpg"));
-        stage.setTitle("Register new account");
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.show();
+        Util.showModal("AccountCreationView", "Register an Account", e);
     }
 
     public void select(ActionEvent e) throws IOException{
-        PaymentAccount account = accountList.getSelectionModel().getSelectedItem();
-        if(account == null){
+        if(accountList.getSelectionModel().getSelectedItem() == null){
             invalidLabel.setText("Please select an account!");
         }else{
             Util.closeAndShow("SystemView", "Crushers System", e);
@@ -94,12 +84,7 @@ public class AccountController implements Initializable{
     }
 
     public void transferFunds(ActionEvent e) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("crushers/views/AccountTransferView.fxml"));
-        root = loader.load();
-        stage = new Stage();
-        stage.setScene(new Scene(root));
-        stage.setTitle("Transfer Funds");
-        stage.show();
+        Util.showModal("AccountTransferView", "Transfer Funds", e);
     }
 
     @Override
@@ -129,8 +114,7 @@ public class AccountController implements Initializable{
                         savingsGoalLabel.setVisible(false);
                     }
                     accountIDLabel.setText("Account ID: " + account.getID());
-            }
-            
+            } 
         });
 
     }
@@ -149,11 +133,17 @@ public class AccountController implements Initializable{
 
     public void addSavingsToList(SavingsAccount account){
         accountList.getItems().add(account);
+        System.out.println(accountList.getItems());
+        accountList.refresh();
     }
     public void addPaymentToList(PaymentAccount account){
         accountList.getItems().add(account);
+        System.out.println(accountList.getItems());
+        accountList.refresh();
     }
     public void addAccountToList(PaymentAccount account){
         accountList.getItems().add(account);
+        System.out.println(accountList.getItems());
+        accountList.refresh();
     }
 }
