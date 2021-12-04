@@ -6,15 +6,12 @@ import crushers.storage.JsonStorage;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class JsonTransactionStorage extends JsonStorage<Transaction> {
 
     private final Map<Account, Set<Transaction>> accountTransactions;
-    private final Set<Transaction> suspiciousTransactions;
+    private final Collection<Transaction> suspiciousTransactions;
 
     public JsonTransactionStorage(File jsonFile) throws IOException {
         super(jsonFile, Transaction.class);
@@ -62,8 +59,12 @@ public class JsonTransactionStorage extends JsonStorage<Transaction> {
       return accountTransactions.get(account);
     }
 
-    public Transaction markSusTransaction(Transaction transaction){
+    public Transaction addSusTransaction(Transaction transaction){
         suspiciousTransactions.add(transaction);
         return transaction;
+    }
+
+    public Collection<Transaction> getAllSusTransactions(){
+        return suspiciousTransactions;
     }
 }

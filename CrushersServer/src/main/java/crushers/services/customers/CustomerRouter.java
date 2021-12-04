@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import com.sun.net.httpserver.*;
 
+import crushers.models.exchangeInformation.Contact;
 import crushers.models.users.Clerk;
 import crushers.models.users.Customer;
 import crushers.models.users.User;
@@ -44,6 +45,46 @@ public class CustomerRouter extends Router<Customer> {
         ex.printStackTrace();
       }
     });
+
+    server.createContext(basePath + "/contact", (exchange) -> {
+      try {
+        switch (exchange.getRequestMethod()) {
+          case "POST":
+            addContact(exchange);
+            break;
+
+          default:
+            throw new MethodNotAllowedException();
+        }
+      }
+      catch (HttpException ex) {
+        sendResponse(exchange, ex.statusCode, String.format("{\"error\":\"%s\"}", ex.getMessage()).getBytes());
+      }
+      catch (Exception ex) {
+        sendResponse(exchange, 500, String.format("{\"error\":\"Internal server error, try again later.\"}").getBytes());
+        ex.printStackTrace();
+      }
+    });
+
+    server.createContext(basePath + "/@contact", (exchange) -> {
+      try {
+        switch (exchange.getRequestMethod()) {
+          case "GET":
+            getContacts(exchange);
+            break;
+
+          default:
+            throw new MethodNotAllowedException();
+        }
+      }
+      catch (HttpException ex) {
+        sendResponse(exchange, ex.statusCode, String.format("{\"error\":\"%s\"}", ex.getMessage()).getBytes());
+      }
+      catch (Exception ex) {
+        sendResponse(exchange, 500, String.format("{\"error\":\"Internal server error, try again later.\"}").getBytes());
+        ex.printStackTrace();
+      }
+    });
   }
 
   @Override
@@ -56,6 +97,19 @@ public class CustomerRouter extends Router<Customer> {
   private void getLoggedIn(HttpExchange exchange) throws Exception {
     final Customer loggedInCustomer = Authenticator.instance.authCustomer(exchange);
     final Customer responseData = customerService.getLoggedIn(loggedInCustomer);
+    sendJsonResponse(exchange, responseData);
+  }
+
+  private void addContact(HttpExchange exchange) throws Exception{
+    final Customer loggedInCustomer = Authenticator.instance.authCustomer(exchange);
+    final Contact requestData = getJsonBodyData(exchange, Contact.class);
+    final Contact responseData = customerService.createContact(loggedInCustomer, requestData);
+    sendJsonResponse(exchange, responseData);
+  }
+
+  private void getContacts(HttpExchange exchange) throws Exception{
+    final Customer loggedInCustomer = Authenticator.instance.authCustomer(exchange);
+    final Collection<Contact> responseData = customerService.getContacts(loggedInCustomer);
     sendJsonResponse(exchange, responseData);
   }
 

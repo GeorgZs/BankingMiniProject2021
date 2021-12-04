@@ -112,7 +112,10 @@ public class TransactionService {
 
     public Transaction markSusTransaction(Clerk clerk, int transactionId) throws Exception{
         Transaction transaction = storage.get(transactionId);
-        storage.markSusTransaction(transaction);
-        return transaction;
+        return storage.addSusTransaction(transaction);
+    }
+
+    public Collection<Transaction> getAllSusTransaction(Clerk clerk){
+        return storage.getAllSusTransactions();
     }
 }

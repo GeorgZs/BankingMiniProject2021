@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import crushers.models.Bank;
+import crushers.models.exchangeInformation.Contact;
 import crushers.models.users.Clerk;
 import crushers.models.users.Customer;
 
@@ -78,6 +79,36 @@ public class CustomerService {
       emailList.add(customer.getEmail());
     }
     return emailList;
+  }
+
+  public Contact createContact(Customer customer, Contact contact) throws Exception{
+    List<String> invalidDataMessage = new ArrayList<>();
+
+    if(contact == null){
+      throw new NotFoundException("Contact could not be found");
+    }
+    if(contact.getName().isBlank() || contact.getName().isEmpty()){
+      invalidDataMessage.add("Name of contact cannot be empty");
+    }
+    if(contact.getAccount() == null) {
+      invalidDataMessage.add("Account could not be found");
+    }
+    if(contact.getDescription().isBlank()){
+      invalidDataMessage.add("Description cannot be empty");
+    }
+    if(!contact.getName().equals(contact.getAccount().getOwner().getFirstName())){
+      invalidDataMessage.add("Contact name does not match Account Owner's name");
+    }
+
+    if(!invalidDataMessage.isEmpty()){
+      throw new BadRequestException(String.join("\n", invalidDataMessage));
+    }
+
+    return customerStorage.createContact(customer, contact);
+  }
+
+  public Collection<Contact> getContacts(Customer customer){
+    return customerStorage.getContacts(customer);
   }
 
 }
