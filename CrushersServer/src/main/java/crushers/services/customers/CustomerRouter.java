@@ -5,9 +5,7 @@ import java.util.Collection;
 import com.sun.net.httpserver.*;
 
 import crushers.models.exchangeInformation.Contact;
-import crushers.models.users.Clerk;
 import crushers.models.users.Customer;
-import crushers.models.users.User;
 import crushers.server.Authenticator;
 import crushers.server.Router;
 import crushers.server.httpExceptions.HttpException;

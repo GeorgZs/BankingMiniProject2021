@@ -3,26 +3,30 @@ package crushers.models.exchangeInformation;
 import crushers.models.accounts.Account;
 
 public class Contact {
-    private int ID;
+    private int id;
     private String name;
     private Account account;
     private String description;
 
-    public Contact(int ID, String name,
+    public Contact(){
+        // for jackson -- needs the empty constructor
+    }
+
+    public Contact(int id, String name,
                    Account account, String description){
         //if = ID is found in registry && name and account are found in User of that ID
-        this.ID = ID;
+        this.id = id;
         this.name = name;
         this.account = account;
         this.description = description;
     }
 
     public int getID() {
-        return ID;
+        return id;
     }
 
-    public void setID(int ID) {
-        this.ID = ID;
+    public void setID(int id) {
+        this.id = id;
     }
 
     public String getName() {

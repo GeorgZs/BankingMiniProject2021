@@ -99,16 +99,17 @@ public class CustomerService {
     if(!contact.getName().equals(contact.getAccount().getOwner().getFirstName())){
       invalidDataMessage.add("Contact name does not match Account Owner's name");
     }
-
+    /*
+    if(customer.getFirstName().equals(contact.getAccount().getOwner().getFirstName())){
+      invalidDataMessage.add("Cannot create contact with own Account");
+    }
+     */
     if(!invalidDataMessage.isEmpty()){
       throw new BadRequestException(String.join("\n", invalidDataMessage));
     }
-
     return customerStorage.createContact(customer, contact);
   }
-
   public Collection<Contact> getContacts(Customer customer){
     return customerStorage.getContacts(customer);
   }
-
 }
