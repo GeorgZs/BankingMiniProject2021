@@ -5,8 +5,10 @@ import java.util.Collection;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
 
+import crushers.models.exchangeInformation.Contact;
 import crushers.models.exchangeInformation.Transaction;
 import crushers.models.users.Clerk;
+import crushers.models.users.Customer;
 import crushers.models.users.User;
 import crushers.server.Authenticator;
 import crushers.server.Router;
@@ -91,6 +93,26 @@ public class TransactionRouter extends Router<Transaction> {
                 ex.printStackTrace();
             }
         });
+
+        server.createContext(basePath + "/contact", (exchange) -> {
+            try {
+                switch (exchange.getRequestMethod()) {
+                    case "GET":
+                        //getAllSusTransactions(exchange);
+                        break;
+
+                    default:
+                        throw new MethodNotAllowedException();
+                }
+            }
+            catch (HttpException ex) {
+                sendResponse(exchange, ex.statusCode, String.format("{\"error\":\"%s\"}", ex.getMessage()).getBytes());
+            }
+            catch (Exception ex) {
+                sendResponse(exchange, 500, String.format("{\"error\":\"Internal server error, try again later.\"}").getBytes());
+                ex.printStackTrace();
+            }
+        });
     }
 
     @Override
@@ -124,6 +146,15 @@ public class TransactionRouter extends Router<Transaction> {
         final Clerk clerk = Authenticator.instance.authClerk(exchange);
         final Collection<Transaction> responseData = transactionService.getAllSusTransaction(clerk);
         sendJsonResponse(exchange, responseData);
+    }
+
+    private void payUsingContact(HttpExchange exchange) throws Exception {
+        final Customer customer = Authenticator.instance.authCustomer(exchange);
+        final Contact requestData = getJsonBodyData(exchange, Contact.class);
+        final Transaction responseData;
+
+        //TODO: need to create a class that incorporates contact and balance so that we can create a transaction
+
     }
 
 }
