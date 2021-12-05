@@ -114,8 +114,4 @@ public class TransactionService {
         Transaction transaction = storage.get(transactionId);
         return storage.addSusTransaction(transaction);
     }
-
-    public Collection<Transaction> getAllSusTransaction(Clerk clerk){
-        return storage.getAllSusTransactions();
-    }
 }

@@ -73,26 +73,6 @@ public class TransactionRouter extends Router<Transaction> {
                 ex.printStackTrace();
             }
         });
-
-        server.createContext(basePath + "/suspicious", (exchange) -> {
-            try {
-                switch (exchange.getRequestMethod()) {
-                    case "GET":
-                        getAllSusTransactions(exchange);
-                        break;
-
-                    default:
-                        throw new MethodNotAllowedException();
-                }
-            }
-            catch (HttpException ex) {
-                sendResponse(exchange, ex.statusCode, String.format("{\"error\":\"%s\"}", ex.getMessage()).getBytes());
-            }
-            catch (Exception ex) {
-                sendResponse(exchange, 500, String.format("{\"error\":\"Internal server error, try again later.\"}").getBytes());
-                ex.printStackTrace();
-            }
-        });
     }
 
     @Override
@@ -119,12 +99,6 @@ public class TransactionRouter extends Router<Transaction> {
     private void markSusTransaction(HttpExchange exchange, int transactionID) throws Exception{
         final Clerk clerk = Authenticator.instance.authClerk(exchange);
         final Transaction responseData = transactionService.markSusTransaction(clerk, transactionID);
-        sendJsonResponse(exchange, responseData);
-    }
-
-    private void getAllSusTransactions(HttpExchange exchange) throws Exception{
-        final Clerk clerk = Authenticator.instance.authClerk(exchange);
-        final Collection<Transaction> responseData = transactionService.getAllSusTransaction(clerk);
         sendJsonResponse(exchange, responseData);
     }
 }
