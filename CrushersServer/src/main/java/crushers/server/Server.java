@@ -50,12 +50,12 @@ public class Server {
     new CustomerRouter(customerService).addEndpoints(this.httpServer);
 
     final StaffService staffService = new StaffService(new JsonClerkStorage(new File("data/staff.json")
-    ));
+    ), new JsonAccountStorage(new File("data/accounts.json")));
     new StaffRouter(staffService).addEndpoints(this.httpServer);
 
     final BankService bankService = new BankService(new JsonBankStorage(new File("data/bank.json")), staffService);
     new BankRouter(bankService).addEndpoints(this.httpServer);
-    
+
     final AccountService accountService = new AccountService(
       customerService,
       bankService,
