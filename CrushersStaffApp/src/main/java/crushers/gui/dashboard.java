@@ -3,6 +3,7 @@ package crushers.gui;
 import crushers.models.users.Clerk;
 import crushers.models.users.ClerkTableView;
 import crushers.utils.HTTPUtils;
+import crushers.utils.Util;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
@@ -43,6 +44,16 @@ public class dashboard {
     @FXML
     private Pane creatingStaff;
     @FXML
+    private Pane transactions;
+    @FXML
+    private Pane transactionBar;
+    @FXML
+    private Pane deposit;
+    @FXML
+    private Pane withdraw;
+    @FXML
+    private Pane transferBetween;
+    @FXML
     private TextField clerkFirstName;
     @FXML
     private TextField clerkLastName;
@@ -64,6 +75,8 @@ public class dashboard {
     private ImageView plus;
     @FXML
     private ImageView plus2;
+    @FXML
+    private ImageView plus3;
     @FXML
     private TextField searchField;
     @FXML
@@ -167,6 +180,20 @@ public class dashboard {
     }
 
     @FXML
+    private void onClickedTransaction(javafx.event.ActionEvent event) throws Exception {
+        if(transactions.isVisible() || transactionBar.isVisible()) {
+            transactions.setVisible(false);
+            transactionBar.setVisible(false);
+            plus3.setImage(new Image("file:src/main/resources/crushers/gui/pesalogin/icons8-plus-48.png"));
+        } else {
+            transactions.setVisible(true);
+            transactionBar.setVisible(true);
+            plus3.setImage(new Image("file:src/main/resources/crushers/gui/pesalogin/icons8-minus-48.png"));
+        }
+
+    }
+
+    @FXML
     public void onClickedLogout(MouseEvent mouseEvent) throws IOException {
         MainController m = new MainController();
         m.changeScene("Login.fxml", mouseEvent);
@@ -225,6 +252,78 @@ public class dashboard {
         Clerk clerk = new Clerk(clerkEmail, clerkFirst,clerkLast,clerkAddress, clerkPassword, null, null);
         HTTPUtils.post("/staff", clerk, Clerk.class);
     }
+
+    @FXML
+    private void onHoverDeposit(MouseEvent mouseEvent) {
+        try {
+            Pane deposit = (Pane)mouseEvent.getSource();
+            deposit.setOpacity(0.5);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @FXML
+    private void onHoverEndedDeposit(MouseEvent mouseEvent) {
+        try{
+            Pane deposit = (Pane)mouseEvent.getSource();
+            deposit.setOpacity(1);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @FXML
+    private void onHoverWithdraw(MouseEvent mouseEvent) {
+        try {
+            Pane withdraw = (Pane) mouseEvent.getSource();
+            withdraw.setOpacity(0.5);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @FXML
+    private void onHoverEndedWithdraw(MouseEvent mouseEvent) {
+        try {
+            Pane withdraw = (Pane) mouseEvent.getSource();
+            withdraw.setOpacity(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void onHoverTransBetween(MouseEvent mouseEvent) {
+        try {
+            Pane transferBetween = (Pane) mouseEvent.getSource();
+            transferBetween.setOpacity(0.5);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void onHoverTransBetweenEnded(MouseEvent mouseEvent) {
+        try {
+            Pane transferBetween = (Pane) mouseEvent.getSource();
+            transferBetween.setOpacity(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void onClickedDeposit(MouseEvent mouseEvent) throws IOException {
+        Util.showModal("Deposit", "Deposit", mouseEvent);
+    }
+
+
+
+
 
     @FXML
     public void searchStaff() {

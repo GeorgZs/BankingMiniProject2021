@@ -56,6 +56,18 @@
                   </ImageView>
                </graphic>
             </Button>
+            <Button alignment="BASELINE_LEFT" layoutX="10.0" layoutY="192.0" mnemonicParsing="false" onAction="#onClickedTransaction" prefHeight="32.0" prefWidth="234.0" style="-fx-background-color: #429bb8;" text="Transaction" textFill="WHITE">
+               <font>
+                  <Font name="SansSerif Regular" size="13.0" />
+               </font>
+               <graphic>
+                  <ImageView fx:id="plus3" fitHeight="18.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@pesalogin/icons8-plus-48.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
          </children>
       </VBox>
       <Pane layoutY="650.0" prefHeight="150.0" prefWidth="229.0" style="-fx-background-color: #429bb8;">
@@ -193,6 +205,62 @@
                   <Font name="SansSerif Regular" size="20.0" />
                </font>
             </Text>
+         </children>
+      </Pane>
+      <Pane fx:id="transactionBar" layoutX="229.0" layoutY="122.0" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: #90c1d7;" visible="false" AnchorPane.bottomAnchor="528.0" AnchorPane.leftAnchor="229.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="122.0">
+         <children>
+            <Text fill="WHITE" layoutX="52.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Transaction" wrappingWidth="165.0000078380108">
+               <font>
+                  <Font name="SansSerif Regular" size="20.0" />
+               </font>
+            </Text>
+         </children>
+      </Pane>
+      <Pane fx:id="transactions" layoutX="229.0" layoutY="325.0" prefHeight="410.0" prefWidth="200.0" visible="false" AnchorPane.leftAnchor="229.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <Pane fx:id="deposit" layoutX="46.0" layoutY="83.0" onMouseClicked="#onClickedDeposit" onMouseEntered="#onHoverDeposit" onMouseExited="#onHoverEndedDeposit" prefHeight="240.0" prefWidth="262.0" style="-fx-background-color: #EBEBEB;">
+               <children>
+                  <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="31.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fitHeight="125.0" fitWidth="142.0" layoutX="69.0" layoutY="58.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@pesalogin/icons8-deposit-50.png" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="101.0" layoutY="192.0" text="Deposit">
+                     <font>
+                        <Font name="SansSerif Regular" size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <Pane fx:id="transferBetween" layoutX="369.0" layoutY="83.0" onMouseEntered="#onHoverTransBetween" onMouseExited="#onHoverTransBetweenEnded" prefHeight="240.0" prefWidth="262.0" style="-fx-background-color: #EBEBEB;">
+               <children>
+                  <ImageView fitHeight="125.0" fitWidth="142.0" layoutX="60.0" layoutY="58.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@pesalogin/icons8-data-transfer-50.png" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="61.0" layoutY="192.0" text="Transfer between">
+                     <font>
+                        <Font name="SansSerif Regular" size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <Pane fx:id="withdraw" layoutX="681.0" layoutY="83.0" onMouseEntered="#onHoverWithdraw" onMouseExited="#onHoverEndedWithdraw" prefHeight="240.0" prefWidth="262.0" style="-fx-background-color: #EBEBEB;">
+               <children>
+                  <ImageView fitHeight="125.0" fitWidth="142.0" layoutX="60.0" layoutY="58.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@pesalogin/icons8-withdrawal-50.png" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="93.0" layoutY="192.0" text="Withdraw">
+                     <font>
+                        <Font name="SansSerif Regular" size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
          </children>
       </Pane>
    </children>
