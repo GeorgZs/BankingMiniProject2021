@@ -93,26 +93,6 @@ public class TransactionRouter extends Router<Transaction> {
                 ex.printStackTrace();
             }
         });
-
-        server.createContext(basePath + "/contact", (exchange) -> {
-            try {
-                switch (exchange.getRequestMethod()) {
-                    case "GET":
-                        //getAllSusTransactions(exchange);
-                        break;
-
-                    default:
-                        throw new MethodNotAllowedException();
-                }
-            }
-            catch (HttpException ex) {
-                sendResponse(exchange, ex.statusCode, String.format("{\"error\":\"%s\"}", ex.getMessage()).getBytes());
-            }
-            catch (Exception ex) {
-                sendResponse(exchange, 500, String.format("{\"error\":\"Internal server error, try again later.\"}").getBytes());
-                ex.printStackTrace();
-            }
-        });
     }
 
     @Override
@@ -147,14 +127,4 @@ public class TransactionRouter extends Router<Transaction> {
         final Collection<Transaction> responseData = transactionService.getAllSusTransaction(clerk);
         sendJsonResponse(exchange, responseData);
     }
-
-    private void payUsingContact(HttpExchange exchange) throws Exception {
-        final Customer customer = Authenticator.instance.authCustomer(exchange);
-        final Contact requestData = getJsonBodyData(exchange, Contact.class);
-        final Transaction responseData;
-
-        //TODO: need to create a class that incorporates contact and balance so that we can create a transaction
-
-    }
-
 }
