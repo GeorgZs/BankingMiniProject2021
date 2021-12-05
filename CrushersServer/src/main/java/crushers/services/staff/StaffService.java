@@ -1,10 +1,15 @@
 package crushers.services.staff;
 
 import crushers.models.Bank;
+import crushers.models.accounts.Account;
+import crushers.models.accounts.SavingsAccount;
+import crushers.models.exchangeInformation.InterestRate;
 import crushers.models.users.Clerk;
 
+import crushers.models.users.Manager;
 import crushers.server.Authenticator;
 import crushers.server.httpExceptions.*;
+import crushers.services.accounts.JsonAccountStorage;
 import crushers.utils.Security;
 
 import java.util.ArrayList;
@@ -13,10 +18,12 @@ import java.util.List;
 
 public class StaffService {
     private final JsonClerkStorage storage;
+    private final JsonAccountStorage accountStorage;
     private final Security security = new Security();
 
-    public StaffService(JsonClerkStorage storage) throws Exception {
+    public StaffService(JsonClerkStorage storage, JsonAccountStorage accountStorage) throws Exception {
         this.storage = storage;
+        this.accountStorage = accountStorage;
 
         for (Clerk clerk : storage.getAll()) {
             Authenticator.instance.register(clerk);
@@ -105,5 +112,15 @@ public class StaffService {
             clerks = new ArrayList<>();
         }
         return clerks;
+    }
+
+    public double changeInterestRate(Manager manager, InterestRate newInterestRate) throws Exception {
+        Collection<Account> accounts = accountStorage.getAccountsOfBank(manager.getWorksAt());
+        for (Account account : accounts) {
+            if (account instanceof SavingsAccount) {
+                ((SavingsAccount) account).setINTEREST_RATE(newInterestRate.getRate());
+            }
+        }
+        return newInterestRate.getRate();
     }
 }
