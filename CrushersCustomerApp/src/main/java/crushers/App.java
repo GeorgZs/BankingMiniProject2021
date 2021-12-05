@@ -31,6 +31,7 @@ public class App extends Application {
     public static Customer currentCustomer;
     public static String currentToken;
 
+    public static long lastRefreshTime = 0;
     // static ArrayList<String> securityQA = new ArrayList<String>(Arrays.asList("What's the name of your first pet?", "Alfie"));
     // static Customer defaultCustomer = new Customer("John", "Smith", "Willy Street", "Smith@google.com", "Password1", securityQA);
     // static Customer emptyCustomer = new Customer("", "", "", "", "", securityQA);

@@ -14,15 +14,15 @@ import crushers.util.Http;
 import crushers.util.Util;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 
@@ -31,7 +31,8 @@ public class AccountController implements Initializable{
     private Stage stage;
     private Parent root;
     double customerTotalBalance;
-
+    @FXML
+    static AnchorPane accountAnchor;
     @FXML
     private ListView<PaymentAccount> accountList;
     @FXML
@@ -40,6 +41,8 @@ public class AccountController implements Initializable{
     private Label welcomeLabel, accountTypeLabel, accountNameLabel, totalBalanceLabel, accountBalanceLabel, savingsGoalLabel, accountIDLabel, accountBankLabel, invalidLabel;
     @FXML
     private VBox accountDetailsBox;
+
+    private ObservableList<PaymentAccount> observableAccount;
 
     public void displayName(String username){
         welcomeLabel.setText("Welcome, " + username);
@@ -89,13 +92,21 @@ public class AccountController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        
+        observableAccount = FXCollections.observableArrayList();
         String firstName = App.currentCustomer.getFirstName();
         String lastName = App.currentCustomer.getLastName();
         double totalBalance = getCustomerTotalBalance();
         totalBalanceLabel.setText("Total Balance: " + totalBalance);
         welcomeLabel.setText("Welcome, " + firstName + " " + lastName);
-        accountList.getItems().addAll(App.currentCustomer.getAccountList());
+
+        System.out.println("Accounts: " + App.currentCustomer.getAccountList());
+
+        observableAccount.addAll(App.currentCustomer.getAccountList());
+        accountList.setItems(observableAccount);
+
         accountDetailsBox.setVisible(false);
+        
         accountList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<PaymentAccount>(){
 
             @Override
@@ -132,18 +143,9 @@ public class AccountController implements Initializable{
     }
 
     public void addSavingsToList(SavingsAccount account){
-        accountList.getItems().add(account);
-        System.out.println(accountList.getItems());
-        accountList.refresh();
+        observableAccount.add(account);
     }
     public void addPaymentToList(PaymentAccount account){
-        accountList.getItems().add(account);
-        System.out.println(accountList.getItems());
-        accountList.refresh();
-    }
-    public void addAccountToList(PaymentAccount account){
-        accountList.getItems().add(account);
-        System.out.println(accountList.getItems());
-        accountList.refresh();
+        observableAccount.add(account);
     }
 }

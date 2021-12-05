@@ -35,6 +35,8 @@ public class MainController { // test commit
     private Label forgottenPasswordLabel, requestHelpLabel, invalidLoginLabel;
     @FXML
     private ImageView loginScreenImage;
+
+    public static AccountController accCtrl;
     
     public void register(ActionEvent e) throws IOException{
 
@@ -82,23 +84,21 @@ public class MainController { // test commit
             return;
         }
 
-        Stage stage = Util.closeAndCreate("AccountView", "Account Overview", e);
-        stage.getScene().getStylesheets().add(getClass().getClassLoader().getResource("crushers/stylesheets/main.css").toExternalForm());
+        Stage oldStage = (Stage)((Node)e.getSource()).getScene().getWindow();
+        oldStage.close();
+        FXMLLoader loader = new FXMLLoader(Util.class.getClassLoader().getResource("crushers/views/AccountView.fxml"));
+        Stage stage = new Stage();
+        Parent root = loader.load();
+        stage.setScene(new Scene(root));
+        stage.getIcons().add(new Image("crushers/imgs/logo.jpg"));
+        stage.setTitle("Account Overview");
         stage.show();
 
-        // Stage oldStage = (Stage)((Node)e.getSource()).getScene().getWindow(); // close upon login
-        // oldStage.close();
+        accCtrl = loader.getController();
 
-        // root = loader.load();
-        
-        // stage = new Stage();
-        // Scene scene = new Scene(root);
-        // scene.getStylesheets().add(getClass().getClassLoader().getResource("crushers/stylesheets/main.css").toExternalForm());
-        // stage.setScene(scene);
-        // stage.getIcons().add(new Image("crushers/imgs/logo.jpg"));
-        // stage.setTitle("Account Overview");
-        // stage.show();
-        // return;
+        // Stage stage = Util.closeAndCreate("AccountView", "Account Overview", e);
+        stage.getScene().getStylesheets().add(getClass().getClassLoader().getResource("crushers/stylesheets/main.css").toExternalForm());
+        stage.show();
     }
 
     public void requestHelp(){
