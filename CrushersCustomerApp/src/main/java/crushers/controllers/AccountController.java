@@ -6,11 +6,13 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 import crushers.App;
 import crushers.model.PaymentAccount;
 import crushers.model.SavingsAccount;
 import crushers.util.Http;
+import crushers.util.Json;
 import crushers.util.Util;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -66,7 +68,7 @@ public class AccountController implements Initializable{
         }
 
         try {
-            Http.authPost("auth/logout", App.currentToken).body();
+            Http.authPost("auth/logout", App.currentToken, "").body();
         } catch (InterruptedException e1) {
             e1.printStackTrace();
         }
@@ -112,6 +114,12 @@ public class AccountController implements Initializable{
             @Override
             public void changed(ObservableValue<? extends PaymentAccount> observable, PaymentAccount oldValue, PaymentAccount newValue) {               
                     PaymentAccount account = accountList.getSelectionModel().getSelectedItem();
+                    try {
+                        System.out.println(Json.stringify(account));
+                    } catch (JsonProcessingException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
                     accountDetailsBox.setVisible(true);
                     accountBankLabel.setText("Bank: " + account.getBank().toString());
                     accountTypeLabel.setText("Account type: " + account.getType());
@@ -124,7 +132,7 @@ public class AccountController implements Initializable{
                         savingsGoalLabel.setText("");
                         savingsGoalLabel.setVisible(false);
                     }
-                    accountIDLabel.setText("Account ID: " + account.getID());
+                    accountIDLabel.setText("Account ID: " + account.getId());
             } 
         });
 

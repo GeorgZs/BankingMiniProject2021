@@ -19,4 +19,9 @@ public class Json {
         return json.readValue(jsonString, type);
     }
 
+    public static <T> List<T> parseList(String jsonString, Class<T> type) throws JsonProcessingException {
+        final CollectionType collType = json.getTypeFactory().constructCollectionType(List.class, type);
+        return json.readValue(jsonString, collType);
+      }
+
 }

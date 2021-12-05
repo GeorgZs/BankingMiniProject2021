@@ -6,32 +6,59 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PaymentAccount {
+    protected int id;
+    protected String number;
+    protected Customer owner;
+    protected String type;
+
     protected Bank bank;
     protected String name;
-    protected String ID;
     protected double balance;
     protected Map<String ,Transaction> transactions;
 
     public PaymentAccount(String name, double balance, Bank bank) {
         this.name = name;
-        this.ID = String.valueOf((int)Math.floor((Math.random()*100000)));
         this.balance = balance;
         this.bank = bank;
         this.transactions = new HashMap<>();
     }
+    public PaymentAccount(Bank bank, String type, String name){ // http post constructor
+        this.bank = bank;
+        this.type = type;
+        this.name = name;
+    }
+    public PaymentAccount(int id, Bank bank, Customer owner, String type, String number, double balance){ // http get constructor
+        this.id = id;
+        this.bank = bank;
+        this.owner = owner;
+        this.type = type;
+        this.number = number;
+        this.balance = balance;
+    }
+    public PaymentAccount(){ // for http
+        
+    }
 
     public String toString(){
-        return "Payment Account " + this.name + " (ID" + this.getID() + "): " + this.balance + " SEK";
+        return "Payment Account " + this.name + " (ID" + this.getId() + "): " + this.balance + " SEK";
     }
     public Bank getBank(){
         return this.bank;
     }
+    public int getId(){
+        return this.id;
+    }
+    public String getNumber(){
+        return this.number;
+    }
+    public Customer getOwner(){
+        return this.owner;
+    }
     public String getName(){
         return this.name;
-    }
-    public String getID(){
-        return this.ID;
     }
     public double getBalance(){
         return this.balance;
@@ -50,6 +77,6 @@ public class PaymentAccount {
     }
 
     public String getType(){
-        return "Payment";
+        return this.type;
     }
 }

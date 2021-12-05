@@ -1,12 +1,16 @@
 package crushers.controllers;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 
 import crushers.App;
 import crushers.model.Credentials;
 import crushers.model.Customer;
+import crushers.model.PaymentAccount;
 import crushers.util.Http;
 import crushers.util.Json;
 import crushers.util.Util;
@@ -79,6 +83,10 @@ public class MainController { // test commit
             System.out.println(Http.authGet("customers/@me", App.currentToken).body());
             System.out.println(App.currentCustomer);
             System.out.println(App.currentToken);
+            
+            List<PaymentAccount> accounts = Json.parseList(Http.authGet("accounts/@me", App.currentToken).body(), PaymentAccount.class);
+            App.currentCustomer.setAccountList(new ArrayList<PaymentAccount>(accounts));
+            
         } catch (InterruptedException e1) {
             e1.printStackTrace();
             return;

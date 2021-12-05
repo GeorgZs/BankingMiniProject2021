@@ -85,8 +85,8 @@ public class RegisterController implements Initializable {
             invalidInputLabel.setText("Address cannot be empty!");
         }else if(!email.contains("@")){
             invalidInputLabel.setText("Invalid E-Mail!");
-        }else if(password.length() < 6){
-            invalidInputLabel.setText("Password must be at least 6 characters");
+        }else if(password.length() < 8){
+            invalidInputLabel.setText("Password must be at least 8 characters");
         }else if(!password.equals(repeatedPassword)){
             invalidInputLabel.setText("Passwords don't match!");
         }else if(firstAnswer.isBlank() || secondAnswer.isBlank() || thirdAnswer.isBlank()){

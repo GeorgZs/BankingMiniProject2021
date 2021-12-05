@@ -48,12 +48,12 @@ public class Http {
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         return response;
     }
-    public static HttpResponse<String> authPost(String source, String token) throws IOException, InterruptedException{
+    public static HttpResponse<String> authPost(String source, String token, Object body) throws IOException, InterruptedException{
         HttpRequest request = HttpRequest
         .newBuilder(URI.create(BASE_URL + source))
         .header("Content-Type", "application/json")
         .header("Authorization", "Bearer " + token)
-        .POST(BodyPublishers.ofString(""))
+        .POST(BodyPublishers.ofString(Json.stringify(body)))
         .build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         return response;

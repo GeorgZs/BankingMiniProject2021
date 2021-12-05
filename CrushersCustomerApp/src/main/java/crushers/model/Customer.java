@@ -101,6 +101,9 @@ public class Customer extends User{
     public ArrayList<PaymentAccount> getAccountList(){
         return this.accountList;
     }
+    public void setAccountList(ArrayList<PaymentAccount> accounts){
+        this.accountList = accounts;
+    }
     public int getId(){
         return this.id;
     }

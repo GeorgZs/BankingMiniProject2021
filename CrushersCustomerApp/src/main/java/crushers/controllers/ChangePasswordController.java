@@ -34,19 +34,21 @@ public class ChangePasswordController {
         invalidInput.setText("Incorrect answers.");
     }
     public void submitEmail(ActionEvent event) {
-        String email = emailField.getText();
-        ArrayList<Customer> customers = App.crushersBank.getCustomers();
-        for(Customer customer : customers) {
-            if(email.equals(customer.getEmail())) {
-                currentCustomer = customer;
-                questionsBox.setVisible(true);
-                question1Label.setText(customer.getSecurityQuestions().get(0));
-                question2Label.setText(customer.getSecurityQuestions().get(2));
-                question3Label.setText(customer.getSecurityQuestions().get(4));
-                return;
-            }
-        }
-        invalidInput.setText("Email not found.");
+        // String email = emailField.getText();
+        // ArrayList<Customer> customers = App.crushersBank.getCustomers();
+        // for(Customer customer : customers) {
+        //     if(email.equals(customer.getEmail())) {
+        //         currentCustomer = customer;
+        //         questionsBox.setVisible(true);
+        //         question1Label.setText(customer.getSecurityQuestions().get(0));
+        //         question2Label.setText(customer.getSecurityQuestions().get(2));
+        //         question3Label.setText(customer.getSecurityQuestions().get(4));
+        //         return;
+        //     }
+        // }
+        // invalidInput.setText("Email not found.");
+        
+        // send get request to auth/login and see if email exists
     }
     public void changePassword(ActionEvent event) {
         String newPassword = newPasswordField.getText();

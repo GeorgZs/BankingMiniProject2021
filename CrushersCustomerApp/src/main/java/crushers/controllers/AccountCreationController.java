@@ -8,6 +8,8 @@ import crushers.App;
 import crushers.model.Bank;
 import crushers.model.PaymentAccount;
 import crushers.model.SavingsAccount;
+import crushers.util.Http;
+import crushers.util.Json;
 import crushers.util.Util;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -36,7 +38,7 @@ public class AccountCreationController implements Initializable{
     
     private Boolean isPayment;
 
-    public void createAccount(ActionEvent e) throws IOException{
+    public void createAccount(ActionEvent e) throws IOException, InterruptedException{
         if(bankSelection.getValue() == null){
             invalidLabel.setText("Please select a bank!");
         }else if(isPayment == null){
@@ -52,8 +54,12 @@ public class AccountCreationController implements Initializable{
             AccountController accCtrl = MainController.accCtrl;
             
             if(isPayment){
-                PaymentAccount account = new PaymentAccount(accountName, 0, bank);
-                System.out.println(accCtrl);
+
+                PaymentAccount account = new PaymentAccount(new Bank(bank.getId()), "payment", accountName);
+                // PaymentAccount account = new PaymentAccount(bank, "payment", accountName);
+                System.out.println(Json.stringify(account));
+                System.out.println(Http.authPost("accounts", App.currentToken, Json.stringify(account)).body());
+
                 accCtrl.addPaymentToList(account);
                 App.currentCustomer.createAccount(account);
             }else{
@@ -94,7 +100,13 @@ public class AccountCreationController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        bankSelection.getItems().addAll(App.banks);
+        try {
+            System.out.println(Http.get("banks").body());
+            System.out.println(Json.parseList(Http.get("banks").body(), Bank.class));
+            bankSelection.getItems().addAll(Json.parseList(Http.get("banks").body(), Bank.class));
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
         bankSelection.setStyle("-fx-font-family: SansSerif");
         savingsGoalLabel.setVisible(false);
         savingsGoalField.setVisible(false);
