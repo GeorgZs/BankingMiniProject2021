@@ -48,13 +48,12 @@ public class AccountCreationController implements Initializable{
         }else{
             String accountName = accountDescriptionField.getText();
             Bank bank = bankSelection.getValue();
-            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("crushers/views/AccountView.fxml"));
-            loader.load();
-            AccountController accCtrl = loader.getController();
 
+            AccountController accCtrl = MainController.accCtrl;
+            
             if(isPayment){
                 PaymentAccount account = new PaymentAccount(accountName, 0, bank);
-                accCtrl.addAccountToList(account);
+                System.out.println(accCtrl);
                 accCtrl.addPaymentToList(account);
                 App.currentCustomer.createAccount(account);
             }else{
@@ -70,6 +69,10 @@ public class AccountCreationController implements Initializable{
                     return;
                 }
             }
+
+            
+            // FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("crushers/views/AccountView.fxml"));
+            // loader.load();
 
             Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
             stage.close();

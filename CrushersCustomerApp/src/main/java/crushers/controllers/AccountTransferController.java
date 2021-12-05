@@ -6,6 +6,7 @@ import crushers.model.Customer;
 import crushers.model.PaymentAccount;
 import crushers.model.Transaction;
 import crushers.util.Http;
+import crushers.util.Util;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -19,6 +20,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.scene.Node;
 
 import java.io.IOException;
 import java.net.URL;
@@ -94,12 +96,9 @@ public class AccountTransferController implements Initializable {
     }
     @FXML
     public void done(ActionEvent e) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("crushers/views/AccountView.fxml"));
-        root = loader.load();
-        stage = new Stage();
-        stage.setScene(new Scene(root));
-        stage.setTitle("Account Overview");
-        stage.show();
+        // Util.closeAndShow("AccountView", "Account Overview", e);
+        Stage oldStage = (Stage)((Node)e.getSource()).getScene().getWindow();
+        oldStage.close();
     }
 }
 
