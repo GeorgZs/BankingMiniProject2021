@@ -64,18 +64,25 @@ public class AccountService {
 
   public void commit(Transaction transaction) throws Exception {
     if (transaction == null) throw new ForbiddenException();
-    
-    Account sender = storage.get(transaction.getFrom().getId());
-    Account receiver = storage.get(transaction.getTo().getId());
-            
-    if (sender.getBalance() <= transaction.getAmount()) {
-      throw new BadRequestException(
-        "Cannot create Transaction: Account with id: " + receiver.getId() + " does not have enough funds to create this Transaction"
-      );
+
+    if(transaction.getFrom() != (null)){
+      Account sender = storage.get(transaction.getFrom().getId());
+      Account receiver = storage.get(transaction.getTo().getId());
+
+      if (sender.getBalance() <= transaction.getAmount()) {
+        throw new BadRequestException(
+                "Cannot create Transaction: Account with id: " + receiver.getId() + " does not have enough funds to create this Transaction"
+        );
+      }
+
+      sender.setBalance(receiver.getBalance() - transaction.getAmount());
+      receiver.setBalance(receiver.getBalance() + transaction.getAmount());
+    }
+    else{
+      Account receiver = storage.get(transaction.getTo().getId());
+      receiver.setBalance(receiver.getBalance() + transaction.getAmount());
     }
 
-    sender.setBalance(receiver.getBalance() - transaction.getAmount());
-    receiver.setBalance(receiver.getBalance() + transaction.getAmount());
   }
 
   public Collection<Account> getOfCustomer(Customer customer) throws Exception {

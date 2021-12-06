@@ -117,24 +117,27 @@ public class TransactionService {
 
     public Transaction getInterestRate(Customer customer, int id) throws Exception {
         Account account = accountService.get(customer, id);
+        List<String> invalidDataMessage = new ArrayList<>();
         if (account instanceof SavingsAccount) {
             SavingsAccount savingsAccount = (SavingsAccount) account;
-            List<String> invalidDataMessage = new ArrayList<>();
             if(savingsAccount.getBalance() <= 2.00){
                 invalidDataMessage.add("Transaction description cannot be empty or blank");
-            }
-            if (!invalidDataMessage.isEmpty()) {
-                throw new BadRequestException(String.join("\n", invalidDataMessage));
             }
 
             //interest calculations: A = P(1 + rt) -> I = A - P                       1 here means after 1 year: 1/2 half year, 1/12 monthly
             double placeHolder = savingsAccount.getBalance() * (1 + (savingsAccount.getINTEREST_RATE() * 1));
             double interestAmount = placeHolder - savingsAccount.getBalance();
             //Transaction: from bank, to customer, amount interestCalculation, description: "yearly interest rate"
-            Transaction transaction = new Transaction(null, accountService.get(customer, id), interestAmount, "Yearly Interest Rate");
+            Transaction transaction = new Transaction(null, accountService.get(customer, id),
+                                    interestAmount, "Yearly Interest Rate based on account balance");
+                                    // apparently when creating this transaction it does not work bcs the
+                                    // the description is BlAnK or eMpTy -- fucker
+            if (!invalidDataMessage.isEmpty()) {
+                throw new BadRequestException(String.join("\n", invalidDataMessage));
+            }
             return create(transaction, customer);
         } else {
-            return null;
+            throw new BadRequestException(String.join("\n", "Not a savings account - cannot receive interest"));
         }
     }
 }
