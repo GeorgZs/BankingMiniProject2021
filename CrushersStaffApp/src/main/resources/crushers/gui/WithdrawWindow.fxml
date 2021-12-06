@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Reflection?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="427.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="crushers.gui.WithdrawController">
+   <children>
+      <Pane layoutY="36.0" prefHeight="91.0" prefWidth="600.0" style="-fx-border-color: #90c1d7;" AnchorPane.bottomAnchor="300.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="36.0">
+         <children>
+            <Pane layoutY="19.0" prefHeight="28.0" prefWidth="600.0" style="-fx-background-color: #90c1d7;">
+               <effect>
+                  <Reflection />
+               </effect>
+               <children>
+                  <Text layoutX="30.0" layoutY="16.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Withdraw">
+                     <font>
+                        <Font name="SansSerif Regular" size="18.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
+         </children>
+      </Pane>
+      <ChoiceBox fx:id="accountFrom" layoutX="300.0" layoutY="159.0" prefHeight="27.0" prefWidth="214.0" AnchorPane.leftAnchor="300.0" AnchorPane.topAnchor="159.0" />
+      <Text layoutX="97.0" layoutY="178.0" strokeType="OUTSIDE" strokeWidth="0.0" text="From:" AnchorPane.topAnchor="163.515625">
+         <font>
+            <Font name="SansSerif Regular" size="16.0" />
+         </font>
+      </Text>
+      <Text layoutX="99.0" layoutY="226.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Amount:" AnchorPane.topAnchor="211.515625">
+         <font>
+            <Font name="SansSerif Regular" size="16.0" />
+         </font>
+      </Text>
+      <Text layoutX="96.0" layoutY="278.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description:" AnchorPane.leftAnchor="96.0" AnchorPane.topAnchor="263.515625">
+         <font>
+            <Font name="SansSerif Regular" size="16.0" />
+         </font>
+      </Text>
+      <Text layoutX="98.0" layoutY="348.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date:" AnchorPane.leftAnchor="98.0" AnchorPane.topAnchor="333.515625">
+         <font>
+            <Font name="SansSerif Regular" size="16.0" />
+         </font>
+      </Text>
+      <TextField fx:id="amount" layoutX="300.0" layoutY="206.0" prefHeight="27.0" prefWidth="214.0" promptText="Amount" AnchorPane.topAnchor="206.0">
+         <font>
+            <Font name="SansSerif Regular" size="14.0" />
+         </font>
+      </TextField>
+      <TextArea fx:id="description" layoutX="300.0" layoutY="251.0" prefHeight="60.0" prefWidth="214.0" promptText="*Optional message" AnchorPane.topAnchor="251.0">
+         <font>
+            <Font name="SansSerif Regular" size="14.0" />
+         </font>
+      </TextArea>
+      <DatePicker fx:id="dateOnWithdraw" layoutX="300.0" layoutY="330.0" prefHeight="27.0" prefWidth="214.0" promptText="Date" AnchorPane.topAnchor="330.0" />
+      <Button fx:id="withdrawButton" layoutX="194.0" layoutY="380.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="75.0" text="Withdraw" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="194.0">
+         <font>
+            <Font name="SansSerif Regular" size="13.0" />
+         </font>
+      </Button>
+      <Button fx:id="cancelButton" layoutX="313.0" layoutY="380.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="75.0" text="Cancel" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="313.0">
+         <font>
+            <Font name="SansSerif Regular" size="13.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

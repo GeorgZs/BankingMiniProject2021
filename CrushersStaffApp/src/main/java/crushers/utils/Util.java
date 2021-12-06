@@ -27,4 +27,20 @@ public class Util {
         }
 
     }
+
+    public static void showModal(String name, String title, ActionEvent e) { // consumes e and shows modal stage
+        FXMLLoader loader = new FXMLLoader(Util.class.getClassLoader().getResource("crushers/gui/" + name + ".fxml"));
+        Stage stage = new Stage();
+        try {
+            Parent root = loader.load();
+            stage.setScene(new Scene(root));
+            //stage.getIcons().add(new Image("crushers/imgs/logo.jpg"));
+            stage.setTitle(title);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.show();
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+
+    }
 }

@@ -321,6 +321,11 @@ public class dashboard {
         Util.showModal("Deposit", "Deposit", mouseEvent);
     }
 
+    @FXML
+    private void onClickedWithdraw(MouseEvent mouseEvent) throws IOException {
+        Util.showModal("WithdrawWindow", "Withdraw", mouseEvent);
+    }
+
 
 
 

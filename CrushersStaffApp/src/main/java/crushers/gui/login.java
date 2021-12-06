@@ -74,7 +74,6 @@ public class login {
         main.changeScene("ForgotPassword.fxml", mouseEvent);
     }
 
-
     @FXML
     public void onHoverForgot(javafx.scene.input.MouseEvent mouseEvent) {
         try {

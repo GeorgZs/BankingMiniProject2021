@@ -247,7 +247,7 @@
                   </Label>
                </children>
             </Pane>
-            <Pane fx:id="withdraw" layoutX="681.0" layoutY="83.0" onMouseEntered="#onHoverWithdraw" onMouseExited="#onHoverEndedWithdraw" prefHeight="240.0" prefWidth="262.0" style="-fx-background-color: #EBEBEB;">
+            <Pane fx:id="withdraw" layoutX="681.0" layoutY="83.0" onMouseClicked="#onClickedWithdraw" onMouseEntered="#onHoverWithdraw" onMouseExited="#onHoverEndedWithdraw" prefHeight="240.0" prefWidth="262.0" style="-fx-background-color: #EBEBEB;">
                <children>
                   <ImageView fitHeight="125.0" fitWidth="142.0" layoutX="60.0" layoutY="58.0" pickOnBounds="true" preserveRatio="true">
                      <image>
