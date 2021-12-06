@@ -12,9 +12,7 @@ import crushers.server.httpExceptions.*;
 import crushers.services.accounts.JsonAccountStorage;
 import crushers.utils.Security;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 public class StaffService {
     private final JsonClerkStorage storage;
@@ -114,13 +112,7 @@ public class StaffService {
         return clerks;
     }
 
-    public double changeInterestRate(Manager manager, InterestRate newInterestRate) throws Exception {
-        Collection<Account> accounts = accountStorage.getAccountsOfBank(manager.getWorksAt());
-        for (Account account : accounts) {
-            if (account instanceof SavingsAccount) {
-                ((SavingsAccount) account).setINTEREST_RATE(newInterestRate.getRate());
-            }
-        }
-        return newInterestRate.getRate();
+    public JsonAccountStorage getAccountStorage() {
+        return accountStorage;
     }
 }

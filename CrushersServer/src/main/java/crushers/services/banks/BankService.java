@@ -2,10 +2,14 @@ package crushers.services.banks;
 
 
 import crushers.models.Bank;
+import crushers.models.accounts.Account;
+import crushers.models.accounts.SavingsAccount;
+import crushers.models.exchangeInformation.InterestRate;
+import crushers.models.users.Manager;
 import crushers.server.httpExceptions.*;
 import crushers.services.staff.StaffService;
 
-import java.util.Collection;
+import java.util.*;
 
 public class BankService {
     private final JsonBankStorage storage;
@@ -41,5 +45,15 @@ public class BankService {
     public Bank updateBank(int id, Bank bank) throws Exception {
         storage.update(id, bank);
         return bank;
+    }
+
+    public double changeInterestRate(Manager manager, InterestRate newInterestRate) throws Exception {
+        Collection<Account> accounts = staffService.getAccountStorage().getAccountsOfBank(manager.getWorksAt());
+        for (Account account : accounts) {
+            if (account instanceof SavingsAccount) {
+                ((SavingsAccount) account).setINTEREST_RATE(newInterestRate.getRate());
+            }
+        }
+        return newInterestRate.getRate();
     }
 }

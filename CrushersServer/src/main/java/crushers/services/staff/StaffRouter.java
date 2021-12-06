@@ -68,27 +68,6 @@ public class StaffRouter extends Router<Clerk>{
                 ex.printStackTrace();
             }
         });
-
-        server.createContext(basePath + "/@interestRate", (exchange) -> {
-            try {
-                switch (exchange.getRequestMethod()) {
-                    case "PUT":
-                        changeInterestRate(exchange);
-                        break;
-
-                    default:
-                        throw new MethodNotAllowedException();
-                }
-            }
-            catch (HttpException ex) {
-                sendResponse(exchange, ex.statusCode, String.format("{\"error\":\"%s\"}", ex.getMessage()).getBytes());
-            }
-            catch (Exception ex) {
-                sendResponse(exchange, 500, String.format("{\"error\":\"Internal server error, try again later.\"}").getBytes());
-                ex.printStackTrace();
-            }
-        });
-
     }
 
     @Override
@@ -129,12 +108,4 @@ public class StaffRouter extends Router<Clerk>{
         final Collection<Clerk> responseData = staffService.getClerksOfBank(manager.getWorksAt());
         sendJsonResponse(exchange, responseData);
     }
-
-    private void changeInterestRate(HttpExchange exchange) throws Exception {
-        final Manager loggedInManager = Authenticator.instance.authManager(exchange);
-        final InterestRate requestData = getJsonBodyData(exchange, InterestRate.class);
-        final double responseData = staffService.changeInterestRate(loggedInManager, requestData);
-        sendJsonResponse(exchange, responseData);
-    }
-
 }
