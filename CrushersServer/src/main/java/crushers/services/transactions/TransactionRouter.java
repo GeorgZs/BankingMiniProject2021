@@ -31,11 +31,11 @@ public class TransactionRouter extends Router<Transaction> {
         server.createContext(this.basePath + "/accounts/", (HttpExchange exchange) -> {
             try {
                 final String[] pathParams = exchange.getRequestURI().getPath().split("/");
-                final int acccountId = Integer.parseInt(pathParams[pathParams.length - 1]);
+                final int accountId = Integer.parseInt(pathParams[pathParams.length - 1]);
           
                 switch (exchange.getRequestMethod()) {
                     case "GET":
-                        getAllOfAccount(exchange, acccountId);
+                        getAllOfAccount(exchange, accountId);
                         break;
 
                     default:
@@ -54,11 +54,34 @@ public class TransactionRouter extends Router<Transaction> {
         server.createContext(basePath + "/suspicious/", (HttpExchange exchange) -> {
             try {
                 final String[] pathParams = exchange.getRequestURI().getPath().split("/");
-                final int acccountId = Integer.parseInt(pathParams[pathParams.length - 1]);
+                final int accountId = Integer.parseInt(pathParams[pathParams.length - 1]);
 
                 switch (exchange.getRequestMethod()) {
                     case "POST":
-                        markSusTransaction(exchange, acccountId);
+                        markSusTransaction(exchange, accountId);
+                        break;
+
+                    default:
+                        throw new MethodNotAllowedException();
+                }
+            }
+            catch (HttpException ex) {
+                sendResponse(exchange, ex.statusCode, String.format("{\"error\":\"%s\"}", ex.getMessage()).getBytes());
+            }
+            catch (Exception ex) {
+                sendResponse(exchange, 500, String.format("{\"error\":\"Internal server error, try again later.\"}").getBytes());
+                ex.printStackTrace();
+            }
+        });
+
+        server.createContext(basePath + "/interestRate/", (HttpExchange exchange) -> {
+            try {
+                final String[] pathParams = exchange.getRequestURI().getPath().split("/");
+                final int accountId = Integer.parseInt(pathParams[pathParams.length - 1]);
+
+                switch (exchange.getRequestMethod()) {
+                    case "POST":
+                        getInterestRate(exchange, accountId);
                         break;
 
                     default:
@@ -99,6 +122,12 @@ public class TransactionRouter extends Router<Transaction> {
     private void markSusTransaction(HttpExchange exchange, int transactionID) throws Exception{
         final Clerk clerk = Authenticator.instance.authClerk(exchange);
         final Transaction responseData = transactionService.markSusTransaction(clerk, transactionID);
+        sendJsonResponse(exchange, responseData);
+    }
+
+    private void getInterestRate(HttpExchange exchange, int acccountId) throws Exception{
+        final Customer customer = Authenticator.instance.authCustomer(exchange);
+        final Transaction responseData = transactionService.getInterestRate(customer, acccountId);
         sendJsonResponse(exchange, responseData);
     }
 }

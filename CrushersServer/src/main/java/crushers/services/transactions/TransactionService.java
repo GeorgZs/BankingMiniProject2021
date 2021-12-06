@@ -1,6 +1,7 @@
 package crushers.services.transactions;
 
 import crushers.models.accounts.Account;
+import crushers.models.accounts.SavingsAccount;
 import crushers.models.exchangeInformation.Transaction;
 import crushers.models.users.Clerk;
 import crushers.models.users.Customer;
@@ -27,13 +28,13 @@ public class TransactionService {
 
     public Transaction create(Transaction transaction, User user) throws Exception {
         List<String> invalidDataMessage = new ArrayList<>();
-        if (transaction == null){
+        if (transaction == null) {
             throw new BadRequestException("Transaction invalid!");
         }
 
         if (user instanceof Customer) {
             Customer customer = (Customer) user;
-            
+
             if (transaction.getFrom().equals(transaction.getTo())) {
                 throw new BadRequestException("Accounts to and from are the same");
             }
@@ -46,14 +47,13 @@ public class TransactionService {
 
             if (customerAccount.getBalance() <= transaction.getAmount()) {
                 throw new BadRequestException(
-                    "Cannot create Transaction: Account with id: " + customerAccount.getId() + " does not have enough funds to create this Transaction"
+                        "Cannot create Transaction: Account with id: " + customerAccount.getId() + " does not have enough funds to create this Transaction"
                 );
             }
-        }
-        else if (user instanceof Clerk) {
+        } else if (user instanceof Clerk) {
             if (transaction.getFrom() != null) {
                 invalidDataMessage.add("Account from should be the Bank!");
-            }            
+            }
         }
 
         if (!accountService.exists(transaction.getTo().getId())) {
@@ -67,7 +67,7 @@ public class TransactionService {
         if (transaction.getDescription().isBlank() || transaction.getDescription().isEmpty()) {
             invalidDataMessage.add("Transaction description cannot be empty or blank");
         }
-        
+
         if (!invalidDataMessage.isEmpty()) {
             throw new BadRequestException(String.join("\n", invalidDataMessage));
         }
@@ -110,8 +110,31 @@ public class TransactionService {
         return storage.getAllOfAccount(account);
     }
 
-    public Transaction markSusTransaction(Clerk clerk, int transactionId) throws Exception{
+    public Transaction markSusTransaction(Clerk clerk, int transactionId) throws Exception {
         Transaction transaction = storage.get(transactionId);
         return storage.addSusTransaction(transaction);
+    }
+
+    public Transaction getInterestRate(Customer customer, int id) throws Exception {
+        Account account = accountService.get(customer, id);
+        if (account instanceof SavingsAccount) {
+            SavingsAccount savingsAccount = (SavingsAccount) account;
+            List<String> invalidDataMessage = new ArrayList<>();
+            if(savingsAccount.getBalance() <= 2.00){
+                invalidDataMessage.add("Transaction description cannot be empty or blank");
+            }
+            if (!invalidDataMessage.isEmpty()) {
+                throw new BadRequestException(String.join("\n", invalidDataMessage));
+            }
+
+            //interest calculations: A = P(1 + rt) -> I = A - P                       1 here means after 1 year: 1/2 half year, 1/12 monthly
+            double placeHolder = savingsAccount.getBalance() * (1 + (savingsAccount.getINTEREST_RATE() * 1));
+            double interestAmmount = placeHolder - savingsAccount.getBalance();
+            //Transaction: from bank, to customer, amount interestCalculation, description: "yearly interest rate"
+            Transaction transaction = new Transaction(null, accountService.get(customer, id), interestAmmount, "Yearly Interest Rate");
+            return create(transaction, customer);
+        } else {
+            return null;
+        }
     }
 }
