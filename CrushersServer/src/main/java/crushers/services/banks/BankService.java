@@ -50,13 +50,8 @@ public class BankService {
     public double changeInterestRate(Manager manager, InterestRate newInterestRate) throws Exception {
         Collection<Account> accounts = staffService.getAccountStorage().getAccountsOfBank(manager.getWorksAt());
         for (Account account : accounts) {
-            if (account instanceof SavingsAccount) {
-                ((SavingsAccount) account).setINTEREST_RATE(newInterestRate.getRate());
-            }
-            else{
-                //it will always throw this exception
-                //cannot find the account type
-                throw new NotFoundException("No saving accounts found - process aborted");
+            if (account.getInterestRate() != 0.00) {
+                account.setInterestRate(newInterestRate.getRate());
             }
         }
         return newInterestRate.getRate();

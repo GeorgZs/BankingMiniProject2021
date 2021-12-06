@@ -14,8 +14,8 @@ import crushers.storage.Storable;
   include = JsonTypeInfo.As.PROPERTY, 
   property = "type"
 )
-@JsonSubTypes({ 
-  @Type(value = PaymentAccount.class, name = "payment"), 
+@JsonSubTypes({
+  @Type(value = PaymentAccount.class, name = "payment"),
   @Type(value = SavingsAccount.class, name = "savings") 
 })
 public abstract class Account implements Storable {
@@ -28,6 +28,7 @@ public abstract class Account implements Storable {
   @JsonIgnoreProperties({ "password", "securityQuestions", "lastLoginAt" })
   private Customer owner;
   private double balance = 0.0;
+  private double interestRate = 0.00;
 
   // for later, but not now
   // private LinkedHashMap<Time, Transaction> transactions;
@@ -82,6 +83,14 @@ public abstract class Account implements Storable {
 
   public void setBalance(double balance) {
     this.balance = balance;
+  }
+
+  public double getInterestRate() {
+    return interestRate;
+  }
+
+  public void setInterestRate(double interestRate) {
+    this.interestRate = interestRate;
   }
 
   @Override
