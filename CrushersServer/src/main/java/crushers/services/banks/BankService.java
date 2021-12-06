@@ -53,6 +53,11 @@ public class BankService {
             if (account instanceof SavingsAccount) {
                 ((SavingsAccount) account).setINTEREST_RATE(newInterestRate.getRate());
             }
+            else{
+                //it will always throw this exception
+                //cannot find the account type
+                throw new NotFoundException("No saving accounts found - process aborted");
+            }
         }
         return newInterestRate.getRate();
     }
