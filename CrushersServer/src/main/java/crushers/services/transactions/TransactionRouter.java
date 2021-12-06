@@ -113,9 +113,9 @@ public class TransactionRouter extends Router<Transaction> {
         sendJsonResponse(exchange, responseData);
     }
 
-    private void getAllOfAccount(HttpExchange exchange, int acccountId) throws Exception {
+    private void getAllOfAccount(HttpExchange exchange, int accountId) throws Exception {
         final User loggedInUser = Authenticator.instance.authUser(exchange);
-        final Collection<Transaction> responseData = transactionService.getAllOfAccount(loggedInUser, acccountId);
+        final Collection<Transaction> responseData = transactionService.getAllOfAccount(loggedInUser, accountId);
         sendJsonResponse(exchange, responseData);
     }
 
@@ -125,9 +125,9 @@ public class TransactionRouter extends Router<Transaction> {
         sendJsonResponse(exchange, responseData);
     }
 
-    private void getInterestRate(HttpExchange exchange, int acccountId) throws Exception{
+    private void getInterestRate(HttpExchange exchange, int accountId) throws Exception{
         final Customer customer = Authenticator.instance.authCustomer(exchange);
-        final Transaction responseData = transactionService.getInterestRate(customer, acccountId);
+        final Transaction responseData = transactionService.getInterestRate(customer, accountId);
         sendJsonResponse(exchange, responseData);
     }
 }

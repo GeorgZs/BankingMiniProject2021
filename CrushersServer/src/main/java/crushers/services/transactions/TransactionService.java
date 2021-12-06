@@ -105,8 +105,8 @@ public class TransactionService {
         return transaction;
     }
 
-    public Collection<Transaction> getAllOfAccount(User loggedInUser, int acccountId) throws Exception {
-        final Account account = accountService.get(loggedInUser, acccountId);
+    public Collection<Transaction> getAllOfAccount(User loggedInUser, int accountId) throws Exception {
+        final Account account = accountService.get(loggedInUser, accountId);
         return storage.getAllOfAccount(account);
     }
 
@@ -129,9 +129,9 @@ public class TransactionService {
 
             //interest calculations: A = P(1 + rt) -> I = A - P                       1 here means after 1 year: 1/2 half year, 1/12 monthly
             double placeHolder = savingsAccount.getBalance() * (1 + (savingsAccount.getINTEREST_RATE() * 1));
-            double interestAmmount = placeHolder - savingsAccount.getBalance();
+            double interestAmount = placeHolder - savingsAccount.getBalance();
             //Transaction: from bank, to customer, amount interestCalculation, description: "yearly interest rate"
-            Transaction transaction = new Transaction(null, accountService.get(customer, id), interestAmmount, "Yearly Interest Rate");
+            Transaction transaction = new Transaction(null, accountService.get(customer, id), interestAmount, "Yearly Interest Rate");
             return create(transaction, customer);
         } else {
             return null;
