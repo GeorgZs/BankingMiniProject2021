@@ -26,7 +26,7 @@ public class AccountRouter extends Router<Account> {
   public void addEndpoints(HttpServer server) throws Exception {
     super.addEndpoints(server); // add the prewiring
 
-    server.createContext("/accounts/@me", (exchange) -> {
+    server.createContext(basePath + "/@me", (exchange) -> {
       try {
         switch (exchange.getRequestMethod()) {
           case "GET":
@@ -46,7 +46,7 @@ public class AccountRouter extends Router<Account> {
       }
     });
 
-    server.createContext("/accounts/@bank", (exchange) -> {
+    server.createContext(basePath + "/@bank", (exchange) -> {
       try {
         switch (exchange.getRequestMethod()) {
           case "GET":
