@@ -27,11 +27,4 @@ public class SavingsAccount extends Account {
         this.name = name;
     }
 
-    public double getInterestRate() {
-        return interestRate;
-    }
-
-    public void setInterestRate(double newInterestRate) {
-        interestRate = newInterestRate;
-    }
 }
