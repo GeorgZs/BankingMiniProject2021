@@ -35,4 +35,8 @@ public class Customer extends User{
         this.notification.add(notification);
     }
 
+    public LinkedList<Notification> getNotification(){
+        return this.notification;
+    }
+
 }
