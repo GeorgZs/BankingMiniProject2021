@@ -1,14 +1,17 @@
 package crushers.services.customers;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import crushers.models.Bank;
 import crushers.models.exchangeInformation.Contact;
+import crushers.models.exchangeInformation.Notification;
 import crushers.models.users.Clerk;
 import crushers.models.users.Customer;
 
+import crushers.models.users.Manager;
 import crushers.server.Authenticator;
 import crushers.server.httpExceptions.*;
 
@@ -112,4 +115,14 @@ public class CustomerService {
   public Collection<Contact> getContacts(Customer customer){
     return customerStorage.getContacts(customer);
   }
+
+
+  public Notification sendNotification(Manager loggedInManager, Notification requestData) throws IOException {
+    Collection<Customer> customers = customerStorage.getAll();
+    for (Customer customer : customers){
+      customer.addNotification(requestData);
+    }
+    return requestData;
+  }
+
 }
