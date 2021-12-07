@@ -63,4 +63,8 @@ public class JsonTransactionStorage extends JsonStorage<Transaction> {
         suspiciousTransactions.add(transaction);
         return transaction;
     }
+
+    public Collection<Transaction> getSuspiciousTransactions() {
+        return suspiciousTransactions;
+    }
 }
