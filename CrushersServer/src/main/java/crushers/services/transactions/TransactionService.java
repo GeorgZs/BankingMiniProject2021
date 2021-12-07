@@ -140,4 +140,8 @@ public class TransactionService {
             throw new BadRequestException(String.join("\n", "Not a savings account - cannot receive interest"));
         }
     }
+
+    public Collection<Transaction> getAllSuspiciousTransactions(Clerk clerk) {
+        return storage.getSuspiciousTransactions();
+    }
 }
