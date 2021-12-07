@@ -29,6 +29,7 @@ public class BankRouter extends Router<Bank> {
 
     @Override
     public void addEndpoints(HttpServer server) throws Exception {
+        super.addEndpoints(server);
         server.createContext(basePath + "/@interestRate", (exchange) -> {
             try {
                 switch (exchange.getRequestMethod()) {
