@@ -89,7 +89,7 @@ public class CustomerRouter extends Router<Customer> {
     server.createContext(basePath + "/notification", (exchange) -> {
       try {
         switch (exchange.getRequestMethod()) {
-          case "GET":
+          case "POST":
             sendNotification(exchange);
             break;
 

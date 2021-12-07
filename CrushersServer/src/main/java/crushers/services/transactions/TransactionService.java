@@ -34,21 +34,24 @@ public class TransactionService {
 
         if (user instanceof Customer) {
             Customer customer = (Customer) user;
+            //this if statement is for getting the interest rate
+            //as it comes from the bank and so the accountFrom is null
+            if(transaction.getFrom() != null){
+                if (transaction.getFrom().equals(transaction.getTo())) {
+                    throw new BadRequestException("Accounts to and from are the same");
+                }
 
-            if (transaction.getFrom().equals(transaction.getTo())) {
-                throw new BadRequestException("Accounts to and from are the same");
-            }
+                Account customerAccount = accountService.get(customer, transaction.getFrom().getId());
 
-            Account customerAccount = accountService.get(customer, transaction.getFrom().getId());
+                if (customerAccount == null) {
+                    invalidDataMessage.add("Account does not exist for selected customer");
+                }
 
-            if (customerAccount == null) {
-                invalidDataMessage.add("Account does not exist for selected customer");
-            }
-
-            if (customerAccount.getBalance() <= transaction.getAmount()) {
-                throw new BadRequestException(
-                        "Cannot create Transaction: Account with id: " + customerAccount.getId() + " does not have enough funds to create this Transaction"
-                );
+                if (customerAccount.getBalance() <= transaction.getAmount()) {
+                    throw new BadRequestException(
+                            "Cannot create Transaction: Account with id: " + customerAccount.getId() + " does not have enough funds to create this Transaction"
+                    );
+                }
             }
         } else if (user instanceof Clerk) {
             if (transaction.getFrom() != null) {
@@ -117,13 +120,11 @@ public class TransactionService {
 
     public Transaction getInterestRate(Customer customer, int id) throws Exception {
         Account account = accountService.get(customer, id);
-        List<String> invalidDataMessage = new ArrayList<>();
         if (account instanceof SavingsAccount) {
             SavingsAccount savingsAccount = (SavingsAccount) account;
-            if(savingsAccount.getBalance() <= 2.00){
-                invalidDataMessage.add("Transaction description cannot be empty or blank");
+            if(savingsAccount.getBalance() <= 500.00){
+                throw new BadRequestException(String.join("\n", "Cannot receive interest - account doesnt meet requirements: balance too low"));
             }
-
             //interest calculations: A = P(1 + rt) -> I = A - P                       1 here means after 1 year: 1/2 half year, 1/12 monthly
             double placeHolder = savingsAccount.getBalance() * (1 + (savingsAccount.getInterestRate() * 1));
             double interestAmount = placeHolder - savingsAccount.getBalance();
@@ -132,9 +133,6 @@ public class TransactionService {
                                     interestAmount, "Yearly Interest Rate based on account balance");
                                     // apparently when creating this transaction it does not work bcs the
                                     // the description is BlAnK or eMpTy -- fucker
-            if (!invalidDataMessage.isEmpty()) {
-                throw new BadRequestException(String.join("\n", invalidDataMessage));
-            }
             return create(transaction, customer);
         } else {
             throw new BadRequestException(String.join("\n", "Not a savings account - cannot receive interest"));

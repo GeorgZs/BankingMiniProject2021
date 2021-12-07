@@ -4,24 +4,30 @@ import java.time.LocalDateTime;
 
 public class Notification {
     private String notification;
-    private String time;
+    private LocalDateTime time;
 
-    public Notification(){}
+    public Notification(){
+        //for jackson
+    }
 
     public Notification(String notification){
         this.notification = notification;
-        this.time = LocalDateTime.now().toString();
+        this.time = LocalDateTime.now();
     }
 
     public String getNotification() {
         return notification;
     }
 
-    public String getTime() {
+    public LocalDateTime getTime() {
         return time;
     }
 
     public void setNotification(String notification) {
         this.notification = notification;
+    }
+
+    public void setTime(LocalDateTime time) {
+        this.time = time;
     }
 }
