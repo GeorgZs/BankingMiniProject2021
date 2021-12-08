@@ -9,7 +9,7 @@ public class Customer extends User{
     // Later, not now
     // private List<StandardAccount> accountList;
     // private LinkedHashMap<Integer,Contact> contactList;
-    private LinkedHashMap<LocalDateTime, String> notifications;
+    private LinkedHashMap<LocalDateTime, String> notifications = new LinkedHashMap<>();
 
     public Customer() {
         // empty constructor for Jackson
@@ -26,7 +26,6 @@ public class Customer extends User{
         super(emailAddress, firstName, lastName, address, password, securityQuestions);
         // this.accountList = new ArrayList<>();
         // this.contactList = new LinkedHashMap<>();
-        this.notifications = new LinkedHashMap<>();
     }
 
     public void addNotification(Notification notification){
