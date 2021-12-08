@@ -8,7 +8,6 @@ import crushers.models.users.Customer;
 @JsonTypeName("savings")
 public class SavingsAccount extends Account {
     //subject to change as this is set upon creation of bank
-    private double interestRate = 0.20;
     private String name;
 
     public SavingsAccount(){
@@ -27,4 +26,17 @@ public class SavingsAccount extends Account {
         this.name = name;
     }
 
+    public double getInterestRate() {
+        if(super.getInterestRate() == 0.00){
+            super.setInterestRate(0.20);
+            return super.getInterestRate();
+        }
+        else{
+            return super.getInterestRate();
+        }
+    }
+
+    public void setInterestRate(double interestRate){
+        super.setInterestRate(interestRate);
+    }
 }

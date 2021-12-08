@@ -118,7 +118,7 @@ public class TransactionService {
         return storage.addSusTransaction(transaction);
     }
 
-    public Transaction getInterestRate(Customer customer, int id) throws Exception {
+    public Transaction getInterest(Customer customer, int id) throws Exception {
         Account account = accountService.get(customer, id);
         if (account instanceof SavingsAccount) {
             SavingsAccount savingsAccount = (SavingsAccount) account;

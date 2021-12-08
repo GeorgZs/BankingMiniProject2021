@@ -4,12 +4,11 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.List;
 
-import crushers.models.Bank;
 import crushers.models.exchangeInformation.Contact;
 import crushers.models.exchangeInformation.Notification;
-import crushers.models.users.Clerk;
 import crushers.models.users.Customer;
 
 import crushers.models.users.Manager;
@@ -119,11 +118,12 @@ public class CustomerService {
 
 
   public Notification sendNotification(Manager loggedInManager, Notification requestData) throws IOException {
+    Notification newNotification = new Notification(requestData.getNotification());
     Collection<Customer> customers = customerStorage.getAll();
     for (Customer customer : customers){
-      customer.addNotification(requestData);
+      customer.addNotification(newNotification);
     }
-    return requestData;
+    return newNotification;
   }
 
 }

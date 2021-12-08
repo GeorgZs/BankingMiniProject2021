@@ -3,16 +3,13 @@ package crushers.models.users;
 import crushers.models.exchangeInformation.Notification;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 
 public class Customer extends User{
     // Later, not now
     // private List<StandardAccount> accountList;
     // private LinkedHashMap<Integer,Contact> contactList;
-    private LinkedHashMap<LocalDateTime, String> notification;
+    private LinkedHashMap<LocalDateTime, String> notifications;
 
     public Customer() {
         // empty constructor for Jackson
@@ -29,19 +26,19 @@ public class Customer extends User{
         super(emailAddress, firstName, lastName, address, password, securityQuestions);
         // this.accountList = new ArrayList<>();
         // this.contactList = new LinkedHashMap<>();
-        this.notification = new LinkedHashMap<>();
+        this.notifications = new LinkedHashMap<>();
     }
 
     public void addNotification(Notification notification){
-        Notification newNotification = new Notification(notification.getNotification());
+        notification.setTime(LocalDateTime.now());
         //                      its saying that the getter for time is null
         //                      which is weird bcs upon object creation it should set
         //                      the time to LocalDateTime.now()
-        this.notification.put(newNotification.getTime(), newNotification.getNotification());
+        this.notifications.put(notification.getTime(), notification.getNotification());
     }
 
     public LinkedHashMap<LocalDateTime, String> getNotification(){
-        return this.notification;
+        return this.notifications;
     }
 
 }

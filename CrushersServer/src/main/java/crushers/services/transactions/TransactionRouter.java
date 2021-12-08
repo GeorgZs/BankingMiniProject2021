@@ -5,7 +5,6 @@ import java.util.Collection;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
 
-import crushers.models.exchangeInformation.Contact;
 import crushers.models.exchangeInformation.Transaction;
 import crushers.models.users.Clerk;
 import crushers.models.users.Customer;
@@ -81,7 +80,7 @@ public class TransactionRouter extends Router<Transaction> {
 
                 switch (exchange.getRequestMethod()) {
                     case "POST":
-                        getInterestRate(exchange, accountId);
+                        getInterest(exchange, accountId);
                         break;
 
                     default:
@@ -145,9 +144,9 @@ public class TransactionRouter extends Router<Transaction> {
         sendJsonResponse(exchange, responseData);
     }
 
-    private void getInterestRate(HttpExchange exchange, int accountId) throws Exception{
+    private void getInterest(HttpExchange exchange, int accountId) throws Exception{
         final Customer customer = Authenticator.instance.authCustomer(exchange);
-        final Transaction responseData = transactionService.getInterestRate(customer, accountId);
+        final Transaction responseData = transactionService.getInterest(customer, accountId);
         sendJsonResponse(exchange, responseData);
     }
 

@@ -50,12 +50,12 @@ public class BankService {
     public double changeInterestRate(Manager manager, InterestRate newInterestRate) throws Exception {
         Collection<Account> accounts = staffService.getAccountStorage().getAccountsOfBank(manager.getWorksAt());
         for (Account account : accounts) {
+            if(newInterestRate.getRate() == account.getInterestRate()){
+                throw new BadRequestException("Bank Interest Rate already equals input number");
+            }
             if (account.getInterestRate() != 0.00) {
                 account.setInterestRate(newInterestRate.getRate());
                 staffService.getAccountStorage().update(account.getId(), account);
-            }
-            if(newInterestRate.getRate() == account.getInterestRate()){
-                throw new BadRequestException("Bank Interest Rate already equals input number");
             }
         }
         return newInterestRate.getRate();

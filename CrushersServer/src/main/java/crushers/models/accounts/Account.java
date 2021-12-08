@@ -27,8 +27,8 @@ public abstract class Account implements Storable {
   
   @JsonIgnoreProperties({ "password", "securityQuestions", "lastLoginAt" })
   private Customer owner;
-  private double balance = 0.0;
-  private double interestRate = 0.00;
+  private double balance = 0.00;
+  protected double interestRate = 0.00;
 
   // for later, but not now
   // private LinkedHashMap<Time, Transaction> transactions;
