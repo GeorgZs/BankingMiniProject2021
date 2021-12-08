@@ -2,6 +2,7 @@ package crushers.services.transactions;
 
 import crushers.models.accounts.Account;
 import crushers.models.accounts.SavingsAccount;
+import crushers.models.exchangeInformation.RecurringTransaction;
 import crushers.models.exchangeInformation.Transaction;
 import crushers.models.users.Clerk;
 import crushers.models.users.Customer;
@@ -16,10 +17,15 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class TransactionService {
     private final JsonTransactionStorage storage;
     private final AccountService accountService;
+
+    private ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
 
     public TransactionService(JsonTransactionStorage storage, AccountService accountService) throws IOException {
         this.storage = storage;
@@ -139,7 +145,22 @@ public class TransactionService {
         }
     }
 
-    public Collection<Transaction> getAllSuspiciousTransactions(Clerk clerk) {
+    public Collection<Transaction> getAllSuspiciousTransactions(Clerk clerk) throws Exception {
         return storage.getSuspiciousTransactions();
+    }
+
+    public RecurringTransaction createRecurringDeposit(Customer customer, RecurringTransaction recurringTransaction) throws Exception {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    create(recurringTransaction, customer);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        scheduledExecutorService.scheduleAtFixedRate(runnable, 0, recurringTransaction.getInterval(), TimeUnit.SECONDS);
+        return recurringTransaction;
     }
 }
