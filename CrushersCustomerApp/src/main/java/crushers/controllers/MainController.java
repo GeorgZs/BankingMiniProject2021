@@ -107,6 +107,7 @@ public class MainController { // test commit
         // Stage stage = Util.closeAndCreate("AccountView", "Account Overview", e);
         stage.getScene().getStylesheets().add(getClass().getClassLoader().getResource("crushers/stylesheets/main.css").toExternalForm());
         stage.show();
+
     }
 
     public void requestHelp(){

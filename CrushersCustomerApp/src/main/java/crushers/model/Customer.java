@@ -16,6 +16,7 @@ public class Customer extends User{
     private String password;
     private ArrayList<String> securityQuestions;
     private LocalDateTime lastLoginAt;
+    private String notification;
 
     private ArrayList<PaymentAccount> accountList;
     private ArrayList<Contact> contactList;
@@ -109,6 +110,9 @@ public class Customer extends User{
     }
     public LocalDateTime getLastLoginAt(){
         return this.lastLoginAt;
+    }
+    public String getNotification(){
+        return this.notification;
     }
     
 }
