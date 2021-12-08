@@ -55,11 +55,12 @@ public class AccountCreationController implements Initializable{
             
             if(isPayment){
 
-                PaymentAccount account = new PaymentAccount(new Bank(bank.getId()), "payment", accountName);
+                PaymentAccount account = new PaymentAccount(bank, "payment", accountName);
                 // PaymentAccount account = new PaymentAccount(bank, "payment", accountName);
                 System.out.println(Json.stringify(account));
-                System.out.println(Http.authPost("accounts", App.currentToken, Json.stringify(account)).body());
+                System.out.println(Http.authPost("accounts", App.currentToken, account));
 
+                //PaymentAccount serveAccount = (PaymentAccount) Http.authPost("accounts", App.currentToken, account);
                 accCtrl.addPaymentToList(account);
                 App.currentCustomer.createAccount(account);
             }else{

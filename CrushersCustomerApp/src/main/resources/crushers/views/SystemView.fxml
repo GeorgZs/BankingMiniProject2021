@@ -8,7 +8,6 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
 <Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="488.0" prefWidth="721.0" style="-fx-background-color: pink;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="crushers.controllers.SystemController">
    <children>
       <TabPane fx:id="tabpane" layoutX="6.0" layoutY="45.0" prefHeight="368.0" prefWidth="709.0" style="-fx-background-color: pink;" stylesheets="@../stylesheets/tabpane.css" tabClosingPolicy="UNAVAILABLE">
@@ -20,7 +19,11 @@
           </Tab>
           <Tab text="My Account">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: white; -fx-border-color: black;" />
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: white; -fx-border-color: black;">
+                     <children>
+                        <Button layoutX="25.0" layoutY="24.0" mnemonicParsing="false" onAction="#getInterest" text="Get interest" />
+                        <Label fx:id="errorLabel" layoutX="14.0" layoutY="65.0" prefHeight="18.0" prefWidth="132.0" />
+                     </children></AnchorPane>
             </content>
           </Tab>
             <Tab text="My Loans">

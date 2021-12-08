@@ -5,6 +5,8 @@ import java.util.Collection;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
 
+import crushers.models.exchangeInformation.Contact;
+import crushers.models.exchangeInformation.RecurringTransaction;
 import crushers.models.exchangeInformation.Transaction;
 import crushers.models.users.Clerk;
 import crushers.models.users.Customer;
@@ -115,6 +117,26 @@ public class TransactionRouter extends Router<Transaction> {
                 ex.printStackTrace();
             }
         });
+
+        server.createContext(basePath + "/recurring", (exchange) -> {
+            try {
+                switch (exchange.getRequestMethod()) {
+                    case "POST":
+                        createRecurringDeposit(exchange);
+                        break;
+
+                    default:
+                        throw new MethodNotAllowedException();
+                }
+            }
+            catch (HttpException ex) {
+                sendResponse(exchange, ex.statusCode, String.format("{\"error\":\"%s\"}", ex.getMessage()).getBytes());
+            }
+            catch (Exception ex) {
+                sendResponse(exchange, 500, String.format("{\"error\":\"Internal server error, try again later.\"}").getBytes());
+                ex.printStackTrace();
+            }
+        });
     }
 
     @Override
@@ -153,6 +175,13 @@ public class TransactionRouter extends Router<Transaction> {
     private void getAllSuspiciousTransactions(HttpExchange exchange) throws Exception {
         final Clerk clerk = Authenticator.instance.authClerk(exchange);
         final Collection<Transaction> responseData = transactionService.getAllSuspiciousTransactions(clerk);
+        sendJsonResponse(exchange, responseData);
+    }
+
+    private void createRecurringDeposit(HttpExchange exchange) throws Exception {
+        final Customer loggedInCustomer = Authenticator.instance.authCustomer(exchange);
+        final RecurringTransaction requestData = getJsonBodyData(exchange, RecurringTransaction.class);
+        final RecurringTransaction responseData = transactionService.createRecurringDeposit(loggedInCustomer, requestData);
         sendJsonResponse(exchange, responseData);
     }
 }
