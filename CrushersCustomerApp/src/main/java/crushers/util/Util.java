@@ -1,11 +1,16 @@
 package crushers.util;
 
 import java.io.IOException;
+import java.util.Optional;
 
+import crushers.App;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -72,6 +77,7 @@ public class Util {
             e1.printStackTrace();
         }
     }
+    
     public static void createStage(String name, String title, ActionEvent e){
         FXMLLoader loader = new FXMLLoader(Util.class.getClassLoader().getResource("crushers/views/" + name + ".fxml"));
         Stage stage = new Stage();
@@ -84,5 +90,28 @@ public class Util {
         } catch (IOException e1) {
             e1.printStackTrace();
         }
+    }
+
+    public static void showAlert(String title, String body, ActionEvent e){
+        Alert alert = new Alert(AlertType.CONFIRMATION, body);
+        alert.setTitle(title);
+        alert.setHeaderText("");
+        alert.setX(500);
+        alert.setY(250);
+        
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.isPresent() && result.get() == ButtonType.CANCEL){
+            return;
+        }
+
+        try {
+            Http.authPost("auth/logout", App.currentToken, "").body();
+        } catch (InterruptedException e1) {
+            e1.printStackTrace();
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+
+        Util.closeAndShow("MainView", "Crushers Bank", e);
     }
 }

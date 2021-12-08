@@ -55,25 +55,7 @@ public class AccountController implements Initializable{
     }
 
     public void logout(ActionEvent e) throws IOException{
-        
-        Alert alert = new Alert(AlertType.CONFIRMATION, "Are you sure you want to log-out?");
-        alert.setTitle("Logging out");
-        alert.setHeaderText("");
-        alert.setX(500);
-        alert.setY(250);
-        
-        Optional<ButtonType> result = alert.showAndWait();
-        if(result.isPresent() && result.get() == ButtonType.CANCEL){
-            return;
-        }
-
-        try {
-            Http.authPost("auth/logout", App.currentToken, "").body();
-        } catch (InterruptedException e1) {
-            e1.printStackTrace();
-        }
-
-        Util.closeAndShow("MainView", "Crushers Bank", e);
+        Util.showAlert("Logging out?", "Are you sure you want to log-out?", e);
     }
 
     public void createNewAccount(ActionEvent e) throws IOException{

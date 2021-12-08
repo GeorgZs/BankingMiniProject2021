@@ -8,15 +8,6 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.net.http.HttpRequest.BodyPublishers;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import crushers.model.Bank;
 import crushers.model.Customer;
 
 
