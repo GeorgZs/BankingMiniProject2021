@@ -1,25 +1,25 @@
-package crushers.gui;
+package crushers.models;
 
 import crushers.models.accounts.Account;
 
 import java.time.LocalDateTime;
 
-public class Withdraw {
-    public Account from;
+public class HamiltonSucksRealHard {
+    public Account to;
     public double amount;
     public String description;
     public LocalDateTime date;
 
-    public Withdraw() {
-        //Empty constructor for jackson
+    public HamiltonSucksRealHard() {
+        //Empty for jackson
     }
 
-    public Account getFrom() {
-        return from;
+    public Account getTo() {
+        return to;
     }
 
-    public void setFrom(Account from) {
-        this.from = from;
+    public void setTo(Account to) {
+        this.to = to;
     }
 
     public double getAmount() {

@@ -1,8 +1,9 @@
-package crushers.gui;
+package crushers.controllers;
 
-import crushers.models.Bank;
-import crushers.models.users.Manager;
-import crushers.utils.HTTPUtils;
+import crushers.WindowManager;
+import crushers.api.HttpError;
+import crushers.api.ServerFacade;
+import crushers.datamodels.*;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 
-public class register {
+public class RegisterController {
 
     @FXML
     private TextField bankNameField;
@@ -64,8 +65,7 @@ public class register {
 
     @FXML
     private void cancelRegistration(ActionEvent event) throws IOException {
-        MainController h = new MainController();
-        h.changeScene("Login.fxml", event);
+        WindowManager.showPage(WindowManager.Pages.Login);
     }
 
     @FXML
@@ -151,11 +151,28 @@ public class register {
         }
 
         //resetAllBorders("-fx-border-color: black ; -fx-border-width: 1px ;");
-        Bank bank = new Bank(new Manager(firstName, lastName,  streetAddress,  email,  password, null, null));
+
+        User manager = new User();
+        manager.setFirstName(firstName);
+        manager.setLastName(lastName);
+        manager.setEmail(email);
+        manager.setPassword(password);
+        manager.setAddress(streetAddress);
+
+        Bank bank = new Bank();
         bank.setName(bankName);
         bank.setDetails(details);
         bank.setLogo(logo);
-        HTTPUtils.post("/banks", bank, Bank.class);
+        bank.setManager(manager);
+
+        try {
+            ServerFacade.instance.createBank(bank);
+            WindowManager.showPage(WindowManager.Pages.Login);
+        } 
+        catch (Exception ex) {
+            if (ex instanceof HttpError) showAlert(((HttpError)ex).getError());
+            ex.printStackTrace();
+        }
     }
 
     private void showAlert(String message){

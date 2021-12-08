@@ -1,11 +1,10 @@
-package crushers.gui;
+package crushers.controllers;
 
+import crushers.WindowManager;
+import crushers.api.Http;
 import crushers.models.users.Clerk;
 import crushers.models.users.ClerkTableView;
-import crushers.utils.HTTPUtils;
-import crushers.utils.Util;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -18,13 +17,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
-import javax.swing.*;
-import java.awt.event.ActionEvent;
 import java.io.IOException;
-import java.net.URL;
 import java.util.*;
 
-public class dashboard {
+public class DashboardController {
     @FXML
     private VBox sidebar;
     @FXML
@@ -134,7 +130,7 @@ public class dashboard {
     private ObservableList<ClerkTableView> createList() {
 
             try {
-                Collection<Clerk> clerkList = HTTPUtils.get("/staff/@bank", Collection.class);
+                Collection<Clerk> clerkList = new ArrayList<>(); // Http.get("/staff/@bank", Collection.class);
                 ObservableList<ClerkTableView> informationClerk = FXCollections.observableArrayList();;
                 for (Clerk clerk: clerkList) {
                     informationClerk.add(new ClerkTableView(clerk.getId(),clerk.getFirstName(),clerk.getLastName(),clerk.getEmail(),clerk.getAddress()));
@@ -168,13 +164,13 @@ public class dashboard {
         if(addClerk.isVisible() || creatingStaff.isVisible()){
             addClerk.setVisible(false);
             creatingStaff.setVisible(false);
-            plus.setImage(new Image("file:src/main/resources/crushers/gui/pesalogin/icons8-plus-48.png"));
+            plus.setImage(new Image("file:src/main/resources/crushers/images/icons8-plus-48.png"));
 
 
         } else {
             addClerk.setVisible(true);
             creatingStaff.setVisible(true);
-            plus.setImage(new Image("file:src/main/resources/crushers/gui/pesalogin/icons8-minus-48.png"));
+            plus.setImage(new Image("file:src/main/resources/crushers/images/icons8-minus-48.png"));
         }
     }
 
@@ -183,11 +179,11 @@ public class dashboard {
         if(staffOverview.isVisible() || staffInformation.isVisible()) {
             staffOverview.setVisible(false);
             staffInformation.setVisible(false);
-            plus2.setImage(new Image("file:src/main/resources/crushers/gui/pesalogin/icons8-plus-48.png"));
+            plus2.setImage(new Image("file:src/main/resources/crushers/images/icons8-plus-48.png"));
         } else {
             staffOverview.setVisible(true);
             staffInformation.setVisible(true);
-            plus2.setImage(new Image("file:src/main/resources/crushers/gui/pesalogin/icons8-minus-48.png"));
+            plus2.setImage(new Image("file:src/main/resources/crushers/images/icons8-minus-48.png"));
         }
     }
 
@@ -196,11 +192,11 @@ public class dashboard {
         if(transactions.isVisible() || transactionBar.isVisible()) {
             transactions.setVisible(false);
             transactionBar.setVisible(false);
-            plus3.setImage(new Image("file:src/main/resources/crushers/gui/pesalogin/icons8-plus-48.png"));
+            plus3.setImage(new Image("file:src/main/resources/crushers/images/icons8-plus-48.png"));
         } else {
             transactions.setVisible(true);
             transactionBar.setVisible(true);
-            plus3.setImage(new Image("file:src/main/resources/crushers/gui/pesalogin/icons8-minus-48.png"));
+            plus3.setImage(new Image("file:src/main/resources/crushers/images/icons8-minus-48.png"));
         }
 
     }
@@ -210,11 +206,11 @@ public class dashboard {
         if(createAccounts.isVisible() || accountBar.isVisible()) {
             createAccounts.setVisible(false);
             accountBar.setVisible(false);
-            plus4.setImage(new Image("file:src/main/resources/crushers/gui/pesalogin/icons8-plus-48.png"));
+            plus4.setImage(new Image("file:src/main/resources/crushers/images/icons8-plus-48.png"));
         } else {
             createAccounts.setVisible(true);
             accountBar.setVisible(true);
-            plus4.setImage(new Image("file:src/main/resources/crushers/gui/pesalogin/icons8-minus-48.png"));
+            plus4.setImage(new Image("file:src/main/resources/crushers/images/icons8-minus-48.png"));
 
 
 
@@ -226,8 +222,7 @@ public class dashboard {
 
     @FXML
     public void onClickedLogout(MouseEvent mouseEvent) throws IOException {
-        MainController m = new MainController();
-        m.changeScene("Login.fxml", mouseEvent);
+        WindowManager.showPage(WindowManager.Pages.Login);
     }
 
     @FXML
@@ -281,7 +276,7 @@ public class dashboard {
         }
 
         Clerk clerk = new Clerk(clerkEmail, clerkFirst,clerkLast,clerkAddress, clerkPassword, null, null);
-        HTTPUtils.post("/staff", clerk, Clerk.class);
+        // Http.post("/staff", clerk, Clerk.class);
     }
 
     @FXML
@@ -349,12 +344,12 @@ public class dashboard {
 
     @FXML
     private void onClickedDeposit(MouseEvent mouseEvent) throws IOException {
-        Util.showModal("Deposit", "Deposit", mouseEvent);
+        WindowManager.showModal(WindowManager.Pages.Deposit, "Crushers Bank - Deposit");
     }
 
     @FXML
     private void onClickedWithdraw(MouseEvent mouseEvent) throws IOException {
-        Util.showModal("WithdrawWindow", "Withdraw", mouseEvent);
+        WindowManager.showModal(WindowManager.Pages.Withdraw, "Crushers Bank - Withdraw");
     }
 
     @FXML
@@ -380,7 +375,7 @@ public class dashboard {
 
     @FXML
     private void onClickedPayment(MouseEvent mouseEvent) throws IOException {
-        //Util.showModal();
+        // WindowManager.showModal();
 
     }
 
@@ -406,7 +401,7 @@ public class dashboard {
 
     @FXML
     private void onClickedSavings(MouseEvent mouseEvent) throws IOException {
-        //Util.showModal();
+        // WindowManager.showModal();
     }
 
 

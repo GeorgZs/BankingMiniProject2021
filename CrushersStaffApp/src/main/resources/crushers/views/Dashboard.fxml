@@ -19,7 +19,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="crushers.gui.dashboard">
+<AnchorPane prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="crushers.controllers.DashboardController">
    <children>
       <VBox fx:id="sidebar" prefHeight="650.0" prefWidth="229.0" style="-fx-background-color: #429bb8;">
          <children>
@@ -39,7 +39,7 @@
                <graphic>
                   <ImageView fx:id="plus" fitHeight="18.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@pesalogin/icons8-plus-48.png" />
+                        <Image url="@../images/icons8-plus-48.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -51,7 +51,7 @@
                <graphic>
                   <ImageView fx:id="plus2" fitHeight="18.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@pesalogin/icons8-plus-48.png" />
+                        <Image url="@../images/icons8-plus-48.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -63,7 +63,7 @@
                <graphic>
                   <ImageView fx:id="plus3" fitHeight="18.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@pesalogin/icons8-plus-48.png" />
+                        <Image url="@../images/icons8-plus-48.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -75,7 +75,7 @@
                <graphic>
                   <ImageView fx:id="plus4" fitHeight="18.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@pesalogin/icons8-plus-48.png" />
+                        <Image url="@../images/icons8-plus-48.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -127,7 +127,7 @@
                      <graphic>
                         <ImageView fitHeight="17.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@pesalogin/icons8-search-50.png" />
+                              <Image url="@../images/icons8-search-50.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -234,7 +234,7 @@
                <children>
                   <ImageView fitHeight="125.0" fitWidth="142.0" layoutX="39.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@pesalogin/icons8-deposit-50.png" />
+                        <Image url="@../images/icons8-deposit-50.png" />
                      </image>
                   </ImageView>
                   <Label layoutX="71.0" layoutY="157.0" text="Deposit">
@@ -248,7 +248,7 @@
                <children>
                   <ImageView fitHeight="125.0" fitWidth="142.0" layoutX="44.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@pesalogin/icons8-data-transfer-50.png" />
+                        <Image url="@../images/icons8-data-transfer-50.png" />
                      </image>
                   </ImageView>
                   <Label layoutX="44.0" layoutY="157.0" text="Transfer between">
@@ -262,7 +262,7 @@
                <children>
                   <ImageView fitHeight="125.0" fitWidth="142.0" layoutX="44.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@pesalogin/icons8-withdrawal-50.png" />
+                        <Image url="@../images/icons8-withdrawal-50.png" />
                      </image>
                   </ImageView>
                   <Label layoutX="73.0" layoutY="157.0" text="Withdraw">
@@ -277,7 +277,7 @@
                   <ImageView fitHeight="150.0" fitWidth="177.0" layoutX="31.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true" />
                   <ImageView fitHeight="109.0" fitWidth="125.0" layoutX="43.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@pesalogin/icons8-magnifying-glass-64.png" />
+                        <Image url="@../images/icons8-magnifying-glass-64.png" />
                      </image>
                   </ImageView>
                   <Label layoutX="35.0" layoutY="170.0" text="List of transaction">

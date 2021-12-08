@@ -2,8 +2,6 @@ package crushers.models.exchangeInformation;
 
 import crushers.models.accounts.Account;
 
-import java.time.LocalDateTime;
-
 public class Transaction {
     private Account accountFrom;
     private Account accountTo;

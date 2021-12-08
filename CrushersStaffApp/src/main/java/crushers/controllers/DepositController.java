@@ -1,9 +1,9 @@
-package crushers.gui;
+package crushers.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
-public class MercedesSucks {
+public class DepositController {
     @FXML
     private TextField amount;
     @FXML

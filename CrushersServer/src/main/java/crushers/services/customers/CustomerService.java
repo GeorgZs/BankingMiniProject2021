@@ -49,7 +49,7 @@ public class CustomerService {
     }
 
     // build the error message if there are any errors
-    if (!invalidDataMessage.isEmpty()) throw new BadRequestException(String.join("\n", invalidDataMessage));
+    if (!invalidDataMessage.isEmpty()) throw new BadRequestException(String.join("\\n", invalidDataMessage));
 
     //for testing out commented
     //customer.setPassword(security.passwordEncryption(customer.getPassword(), "MD5"));

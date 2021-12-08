@@ -1,18 +1,12 @@
-package crushers.models;
+package crushers.datamodels;
 
-public class ResetPassword {
+public class ResetPasswordRequest {
     private String email;
     private String password;
     private String[] securityQuestions;
 
-    public ResetPassword(){
-        //for jackson!
-    }
-
-    public ResetPassword(String email, String password, String[] securityQuestions){
-        this.email = email;
-        this.password = password;
-        this.securityQuestions = securityQuestions;
+    public ResetPasswordRequest(){
+        // empty for jackson
     }
 
     public String getPassword() {
@@ -39,4 +33,3 @@ public class ResetPassword {
         this.securityQuestions = securityQuestions;
     }
 }
-

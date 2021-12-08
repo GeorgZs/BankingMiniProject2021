@@ -1,6 +1,5 @@
-package crushers.gui;
+package crushers.controllers;
 
-import crushers.utils.Util;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;

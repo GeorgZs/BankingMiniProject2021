@@ -75,7 +75,7 @@ public class StaffService {
             invalidDataMessage.add("Password cannot contain an empty character");}
 
         if (!invalidDataMessage.isEmpty()) {
-            throw new BadRequestException(String.join("\n", invalidDataMessage));
+            throw new BadRequestException(String.join("\\n", invalidDataMessage));
         }
 
 
