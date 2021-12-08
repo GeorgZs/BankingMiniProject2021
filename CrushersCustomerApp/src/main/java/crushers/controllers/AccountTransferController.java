@@ -66,7 +66,7 @@ public class AccountTransferController implements Initializable {
     }
 
     @FXML
-    private void transferFunds(ActionEvent e) throws IOException {
+    private void transferFunds(ActionEvent e) throws IOException, InterruptedException {
         if (accountFromBox.getValue() == null) {
             errorLabel.setText("Please select an account to transfer funds from.");
         } else if (accountToBox.getValue() == null) {
@@ -90,7 +90,7 @@ public class AccountTransferController implements Initializable {
                paymentAccountTo.addTransactionToMap(transaction);
                errorLabel.setStyle("-fx-text-fill: green");
                errorLabel.setText("Transfer successful!");
-               // Http.post("/transactions", transaction);
+               Http.post("/transactions", transaction);
             }
         }
     }

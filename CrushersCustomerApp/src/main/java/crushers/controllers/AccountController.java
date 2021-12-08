@@ -32,6 +32,7 @@ public class AccountController implements Initializable{
     
     private Stage stage;
     private Parent root;
+    private PaymentAccount account;
     double customerTotalBalance;
     @FXML
     static AnchorPane accountAnchor;
@@ -62,10 +63,15 @@ public class AccountController implements Initializable{
         Util.showModal("AccountCreationView", "Register an Account", e);
     }
 
+    public PaymentAccount getAccount() {
+        return account;
+    }
+
     public void select(ActionEvent e) throws IOException{
         if(accountList.getSelectionModel().getSelectedItem() == null){
             invalidLabel.setText("Please select an account!");
         }else{
+            account = accountList.getSelectionModel().getSelectedItem();
             Util.closeAndShow("SystemView", "Crushers System", e);
         }
     }
