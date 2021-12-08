@@ -40,6 +40,7 @@ public class WithdrawController {
     public void onPressedCancel(javafx.event.ActionEvent actionEvent) throws Exception {}
 
     @FXML
-    public void onPressedWithdraw(javafx.event.ActionEvent actionEvent) throws Exception {}
+    public void onPressedWithdraw(javafx.event.ActionEvent actionEvent) throws Exception {
+    }
 
 }
