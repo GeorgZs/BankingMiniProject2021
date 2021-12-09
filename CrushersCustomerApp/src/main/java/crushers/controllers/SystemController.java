@@ -50,7 +50,7 @@ public class SystemController implements Initializable{
     private ListView<Transaction> transactionHistory;
     
     public void logout(ActionEvent e) throws IOException{
-        Util.showAlert("Logging out?", "Are you sure you want to log-out?", e);
+        Util.logOutAlert("Logging out?", "Are you sure you want to log-out?", e);
     }
     public void selectDifferentAccount(ActionEvent e) throws IOException{
         Util.closeAndShow("AccountView", "Select an Account", e);
@@ -74,5 +74,8 @@ public class SystemController implements Initializable{
     }
     public void createContact(ActionEvent e) throws IOException, InterruptedException {
 
+    }
+    public void addMoney(ActionEvent e){
+        Util.getAccountWithID(App.currentAccountID).deposit(100);
     }
 }

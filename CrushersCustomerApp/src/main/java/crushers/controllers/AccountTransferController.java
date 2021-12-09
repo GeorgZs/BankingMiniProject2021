@@ -14,17 +14,22 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import javafx.scene.Node;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class AccountTransferController implements Initializable {
@@ -81,16 +86,25 @@ public class AccountTransferController implements Initializable {
            double amountSek = Double.parseDouble(amountField.getText());
            String comment = commentArea.getText();
            if (Double.parseDouble(amountField.getText()) > paymentAccountFrom.getBalance()) {
-               errorLabel.setText("Amount to transfer can not be greater than the account balance. Please enter a smaller amount.");
+               errorLabel.setText("Insufficient funds!");
            } else {
-               Transaction transaction = new Transaction(paymentAccountFrom, paymentAccountTo, amountSek, comment,null);
-               paymentAccountFrom.withdraw(amountSek);
-               paymentAccountTo.deposit(amountSek);
-               paymentAccountFrom.addTransactionToMap(transaction);
-               paymentAccountTo.addTransactionToMap(transaction);
-               errorLabel.setStyle("-fx-text-fill: green");
-               errorLabel.setText("Transfer successful!");
-               Http.post("/transactions", transaction);
+                Transaction transaction = new Transaction(paymentAccountFrom, paymentAccountTo, amountSek, comment,LocalDateTime.now());
+                paymentAccountFrom.withdraw(amountSek);
+                paymentAccountTo.deposit(amountSek);
+                paymentAccountFrom.addTransactionToMap(transaction);
+                paymentAccountTo.addTransactionToMap(transaction);
+                errorLabel.setStyle("-fx-text-fill: green");
+                errorLabel.setText("Transfer successful!");
+
+                Alert alert = new Alert(AlertType.INFORMATION, "Transfer successful!");
+                alert.setHeaderText("");
+                Optional<ButtonType> result = alert.showAndWait();
+                if(result.isPresent() && result.get() == ButtonType.OK){
+                    Stage oldStage = (Stage)((Node)e.getSource()).getScene().getWindow();
+                    oldStage.close();
+                }
+                // add custom alerts to util
+            //    System.out.println(Http.post("transactions", transaction));
             }
         }
     }

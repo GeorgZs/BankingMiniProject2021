@@ -70,7 +70,6 @@ public class MainController { // test commit
 
         try { // this block sends the email and password to the api and stores the token
             String responseString = Http.post("auth/login", new Credentials(email, password)); // json string resposne
-            System.out.println(responseString);
             if(responseString.contains("error")){ // if the response is an error, print its value
                 System.out.println(Json.toNode(responseString).get("error").asText());
                 invalidLoginLabel.setText("Invalid E-mail or Password!");
@@ -84,11 +83,6 @@ public class MainController { // test commit
         try { // this block uses the token to find the logged in customer and set their account list
             App.currentCustomer = Json.parse(Http.authGet("customers/@me", App.currentToken), Customer.class);
             List<PaymentAccount> accounts = Json.parseList(Http.authGet("accounts/@me", App.currentToken), PaymentAccount.class);
-            for(PaymentAccount account: accounts){
-                if(account instanceof SavingsAccount){
-                    System.out.println("Savings detected");
-                }
-            }
             App.currentCustomer.setAccountList(new ArrayList<>(accounts));
         } catch (InterruptedException e1) {
             e1.printStackTrace();

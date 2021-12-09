@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Optional;
 
 import crushers.App;
+import crushers.model.PaymentAccount;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -92,7 +93,7 @@ public class Util {
         }
     }
 
-    public static void showAlert(String title, String body, ActionEvent e){
+    public static void logOutAlert(String title, String body, ActionEvent e){
         Alert alert = new Alert(AlertType.CONFIRMATION, body);
         alert.setTitle(title);
         alert.setHeaderText("");
@@ -113,5 +114,14 @@ public class Util {
         }
 
         Util.closeAndShow("MainView", "Crushers Bank", e);
+    }
+
+    public static PaymentAccount getAccountWithID(int id){
+        for(PaymentAccount account: App.currentCustomer.getAccountList()){
+            if(account.getId() == id){
+                return account;
+            }
+        }
+        return null;
     }
 }

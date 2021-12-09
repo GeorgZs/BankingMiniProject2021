@@ -26,6 +26,7 @@
                      <children>
                         <Button layoutX="25.0" layoutY="24.0" mnemonicParsing="false" onAction="#getInterest" text="Get interest" />
                         <Label fx:id="errorLabel" layoutX="14.0" layoutY="65.0" prefHeight="18.0" prefWidth="132.0" />
+                        <Button layoutX="216.0" layoutY="23.0" mnemonicParsing="false" onAction="#addMoney" text="Obtain some $$$" />
                      </children></AnchorPane>
             </content>
           </Tab>

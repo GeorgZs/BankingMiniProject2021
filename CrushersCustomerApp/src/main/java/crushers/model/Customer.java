@@ -103,7 +103,17 @@ public class Customer extends User{
         return this.contactList;
     }
     public void setAccountList(ArrayList<PaymentAccount> accounts){
-        this.accountList = accounts;
+        ArrayList<PaymentAccount> all = new ArrayList<PaymentAccount>();
+        for(PaymentAccount account: accounts){
+            if(account.getInterestRate() == 0.0){
+                account.setType("Payment");
+                all.add(account);
+            }else{
+                account.setType("Savings");
+                all.add(account);
+            }
+        }
+        this.accountList = all;
     }
     public int getId(){
         return this.id;
@@ -113,6 +123,13 @@ public class Customer extends User{
     }
     public Notification getNotification(){
         return this.notification;
+    }
+    public void addAccount(PaymentAccount account){
+        if(account.getInterestRate() == 0.0){
+            this.accountList.add(account);
+        }else{
+            this.accountList.add((SavingsAccount)account);
+        }
     }
     
 }

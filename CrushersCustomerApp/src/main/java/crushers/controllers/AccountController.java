@@ -57,7 +57,7 @@ public class AccountController implements Initializable{
     }
 
     public void logout(ActionEvent e) throws IOException{
-        Util.showAlert("Logging out?", "Are you sure you want to log-out?", e);
+        Util.logOutAlert("Logging out?", "Are you sure you want to log-out?", e);
     }
 
     public void createNewAccount(ActionEvent e) throws IOException{
@@ -93,9 +93,6 @@ public class AccountController implements Initializable{
         totalBalanceLabel.setText("Total Balance: " + totalBalance);
         welcomeLabel.setText("Welcome, " + firstName + " " + lastName);
 
-        // List<PaymentAccount> accounts = Json.parseList()
-        System.out.println("Accounts: " + App.currentCustomer.getAccountList());
-
         observableAccount.addAll(App.currentCustomer.getAccountList());
         accountList.setItems(observableAccount);
 
@@ -106,18 +103,20 @@ public class AccountController implements Initializable{
             @Override
             public void changed(ObservableValue<? extends PaymentAccount> observable, PaymentAccount oldValue, PaymentAccount newValue) {               
                     PaymentAccount account = accountList.getSelectionModel().getSelectedItem();
+                    if(account.getInterestRate() == 0.0){
+                        accountTypeLabel.setText("Account type: Payment");
+                        savingsGoalLabel.setVisible(false);
+                    }else{
+                        accountTypeLabel.setText("Account type: Savings");
+                        // savingsGoalLabel.setText("Savings goal: " + getGoalFromMap + " SEK");
+                        savingsGoalLabel.setText("Savings goal: " + 1337 + " SEK");
+                        savingsGoalLabel.setVisible(true);
+                    }
                     accountDetailsBox.setVisible(true);
                     accountBankLabel.setText("Bank: " + account.getBank().getName());
-                    accountTypeLabel.setText("Account type: " + account.getType());
+                    
                     accountNameLabel.setText("Account name: " + account.getName());
                     accountBalanceLabel.setText("Account balance: " + account.getBalance() + " SEK");
-                    // if(account.getType() == "Savings"){
-                    //     savingsGoalLabel.setText("Savings goal: " + ((SavingsAccount)account).getSavingsGoal() + " SEK");
-                    //     savingsGoalLabel.setVisible(true);
-                    // }else{
-                    //     savingsGoalLabel.setText("");
-                    //     savingsGoalLabel.setVisible(false);
-                    // }
                     accountIDLabel.setText("Account ID: " + account.getId());
             } 
         });
