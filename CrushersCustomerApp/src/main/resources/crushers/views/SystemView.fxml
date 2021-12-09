@@ -43,7 +43,7 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: white;" stylesheets="@../stylesheets/main.css">
                      <children>
-                        <Button layoutX="29.0" layoutY="280.0" mnemonicParsing="false" text="Create contact" />
+                        <Button layoutX="29.0" layoutY="280.0" mnemonicParsing="false" onAction="#createContact" text="Create contact" />
                         <ListView layoutX="389.0" layoutY="56.0" prefHeight="205.0" prefWidth="256.0" />
                         <Label layoutX="476.0" layoutY="25.0" text="My Contacts">
                            <font>
@@ -65,15 +65,14 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: white;">
                      <children>
-                        <Label layoutX="452.0" layoutY="27.0" text="Payment History">
+                        <Label layoutX="442.0" layoutY="27.0" text="Transaction History">
                            <font>
                               <Font size="17.0" />
                            </font>
                         </Label>
                         <ListView layoutX="400.0" layoutY="58.0" prefHeight="207.0" prefWidth="230.0" />
-                        <Button layoutX="405.0" layoutY="277.0" mnemonicParsing="false" text="Select" />
-                        <Button layoutX="474.0" layoutY="277.0" mnemonicParsing="false" text="View transaction details" />
-                        <Button layoutX="153.0" layoutY="86.0" mnemonicParsing="false" text="Make a new payment" />
+                        <Button layoutX="438.0" layoutY="275.0" mnemonicParsing="false" text="View transaction details" />
+                        <Button fx:id="makeAPayment" layoutX="153.0" layoutY="86.0" mnemonicParsing="false" onAction="#makeAPayment" text="Make a new payment" />
                         <Button layoutX="125.0" layoutY="183.0" mnemonicParsing="false" text="Report a suspicious transaction" />
                         <Button layoutX="144.0" layoutY="133.0" mnemonicParsing="false" text="Make a payment request" />
                      </children></AnchorPane>
