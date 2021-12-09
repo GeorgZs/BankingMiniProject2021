@@ -39,4 +39,7 @@ public class Json {
     public static String toString(JsonNode node) throws JsonProcessingException{
         return json.writeValueAsString(node);
     }
+    public static JsonNode getEmptyNode(){
+        return json.createObjectNode();
+    }
 }

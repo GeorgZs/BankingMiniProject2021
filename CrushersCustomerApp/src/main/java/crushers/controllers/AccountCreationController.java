@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
 import crushers.App;
 import crushers.model.Bank;
 import crushers.model.PaymentAccount;
@@ -50,13 +53,24 @@ public class AccountCreationController implements Initializable{
         }else{
             String accountName = accountDescriptionField.getText();
             Bank bank = bankSelection.getValue();
-
+            String accType = isPayment ? "payment" : "savings";
+            String accName = accountDescriptionField.getText();
             AccountController accCtrl = MainController.accCtrl;
             
+            String bankString = "{\"bank\": {\"id\": " + bank.getId() + " },";
+            bankString += "\"type\": \"" + accType + "\",";
+            bankString += "\"name\": \"" + accName + "\"}";
+
+            // String bankString = {
+            //     "bank": { "id": 1003 },
+            //     "type": "payment",
+            //     "name": "testing stuff"
+            // }
+
             if(isPayment){
 
-                PaymentAccount account = new PaymentAccount(bank, "payment", accountName);
-                String createResponse = Http.authPost("accounts", App.currentToken, account);
+
+                String createResponse = Http.authPost("accounts", App.currentToken, Json.toNode(bankString));
                 System.out.println("Response:\n" + createResponse);
                 PaymentAccount createdAccount = Json.parse(createResponse, PaymentAccount.class);
 
@@ -68,8 +82,10 @@ public class AccountCreationController implements Initializable{
                 try{
 
                 double savingsGoal = Double.parseDouble(savingsGoalField.getText());
-                SavingsAccount account = new SavingsAccount(bank, "savings", accountName, savingsGoal);
-                SavingsAccount createdAccount = Json.parse(Http.authPost("accounts", App.currentToken, account), SavingsAccount.class);
+                
+                String createResponse = Http.authPost("accounts", App.currentToken, Json.toNode(bankString));
+
+                SavingsAccount createdAccount = Json.parse(createResponse, SavingsAccount.class);
                 accCtrl.addSavingsToList(createdAccount);
                 App.currentCustomer.createAccount(createdAccount);
 
