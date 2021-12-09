@@ -15,6 +15,7 @@ public class App extends Application {
 
     public static Customer currentCustomer;
     public static String currentToken;
+    public static int currentAccountID;
     
     @Override
     public void start(Stage stage) throws IOException {

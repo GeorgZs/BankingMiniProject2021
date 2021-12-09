@@ -12,6 +12,7 @@ import crushers.App;
 import crushers.model.Credentials;
 import crushers.model.Customer;
 import crushers.model.PaymentAccount;
+import crushers.model.SavingsAccount;
 import crushers.util.Http;
 import crushers.util.Json;
 import crushers.util.Util;
@@ -83,6 +84,11 @@ public class MainController { // test commit
         try { // this block uses the token to find the logged in customer and set their account list
             App.currentCustomer = Json.parse(Http.authGet("customers/@me", App.currentToken), Customer.class);
             List<PaymentAccount> accounts = Json.parseList(Http.authGet("accounts/@me", App.currentToken), PaymentAccount.class);
+            for(PaymentAccount account: accounts){
+                if(account instanceof SavingsAccount){
+                    System.out.println("Savings detected");
+                }
+            }
             App.currentCustomer.setAccountList(new ArrayList<>(accounts));
         } catch (InterruptedException e1) {
             e1.printStackTrace();

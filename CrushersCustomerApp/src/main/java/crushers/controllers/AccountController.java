@@ -73,6 +73,8 @@ public class AccountController implements Initializable{
             invalidLabel.setText("Please select an account!");
         }else{
             account = accountList.getSelectionModel().getSelectedItem();
+            App.currentAccountID = account.getId();
+            System.out.println(App.currentAccountID);
             Util.closeAndShow("SystemView", "Crushers System", e);
         }
     }
@@ -104,11 +106,6 @@ public class AccountController implements Initializable{
             @Override
             public void changed(ObservableValue<? extends PaymentAccount> observable, PaymentAccount oldValue, PaymentAccount newValue) {               
                     PaymentAccount account = accountList.getSelectionModel().getSelectedItem();
-                    try {
-                        System.out.println(Json.stringify(account));
-                    } catch (JsonProcessingException e) {
-                        e.printStackTrace();
-                    }
                     accountDetailsBox.setVisible(true);
                     accountBankLabel.setText("Bank: " + account.getBank().getName());
                     accountTypeLabel.setText("Account type: " + account.getType());
@@ -141,8 +138,10 @@ public class AccountController implements Initializable{
 
     public void addSavingsToList(SavingsAccount account){
         observableAccount.add(account);
+        accountList.refresh();
     }
     public void addPaymentToList(PaymentAccount account){
         observableAccount.add(account);
+        accountList.refresh();
     }
 }

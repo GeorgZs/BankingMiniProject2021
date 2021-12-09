@@ -51,7 +51,6 @@ public class AccountCreationController implements Initializable{
         }else if(accountDescriptionField.getText().isBlank()){
             invalidLabel.setText("Please enter an account name!");
         }else{
-            String accountName = accountDescriptionField.getText();
             Bank bank = bankSelection.getValue();
             String accType = isPayment ? "payment" : "savings";
             String accName = accountDescriptionField.getText();
@@ -82,7 +81,7 @@ public class AccountCreationController implements Initializable{
                 try{
 
                 double savingsGoal = Double.parseDouble(savingsGoalField.getText());
-                
+
                 String createResponse = Http.authPost("accounts", App.currentToken, Json.toNode(bankString));
 
                 SavingsAccount createdAccount = Json.parse(createResponse, SavingsAccount.class);
@@ -121,5 +120,8 @@ public class AccountCreationController implements Initializable{
             e.printStackTrace();
         }
         bankSelection.setStyle("-fx-font-family: SansSerif");
+        savingsGoalLabel.setVisible(false);
+        savingsGoalField.setVisible(false);
+        sekLabel.setVisible(false);
     }
 }

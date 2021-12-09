@@ -38,7 +38,7 @@ public class PaymentAccount {
     }
 
     public String toString(){
-        return "Payment Account (ID" + this.getId() + "): " + this.bank;
+        return this.bank + " Payment account (ID" + this.id + "): " + this.balance + " SEK";
     }
     public Bank getBank(){
         return this.bank;

@@ -59,7 +59,6 @@ public class Customer extends User{
         }else{
             System.out.println("Invalid type");
         }
-        System.out.println("Created account");
     }
 
     public void resetPassword(){
