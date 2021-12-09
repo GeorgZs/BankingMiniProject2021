@@ -1,6 +1,7 @@
 package crushers.services.customers;
 
 import java.io.IOException;
+import java.sql.Time;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -124,6 +125,11 @@ public class CustomerService {
       customer.addNotification(newNotification);
     }
     return newNotification;
+  }
+
+  public LinkedHashMap<LocalDateTime, String> getNotifications(Customer customer){
+    Customer customer1 = customerStorage.get(customer.getId());
+    return customer1.getNotification();
   }
 
 }
