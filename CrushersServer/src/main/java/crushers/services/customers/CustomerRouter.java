@@ -1,6 +1,8 @@
 package crushers.services.customers;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.LinkedHashMap;
 
 import com.sun.net.httpserver.*;
 
@@ -105,6 +107,26 @@ public class CustomerRouter extends Router<Customer> {
         ex.printStackTrace();
       }
     });
+
+    server.createContext(basePath + "/notification", (exchange) -> {
+      try {
+        switch (exchange.getRequestMethod()) {
+          case "GET":
+            getNotifications(exchange);
+            break;
+
+          default:
+            throw new MethodNotAllowedException();
+        }
+      }
+      catch (HttpException ex) {
+        sendResponse(exchange, ex.statusCode, String.format("{\"error\":\"%s\"}", ex.getMessage()).getBytes());
+      }
+      catch (Exception ex) {
+        sendResponse(exchange, 500, String.format("{\"error\":\"Internal server error, try again later.\"}").getBytes());
+        ex.printStackTrace();
+      }
+    });
   }
 
   @Override
@@ -137,6 +159,12 @@ public class CustomerRouter extends Router<Customer> {
     final Manager loggedInManager = Authenticator.instance.authManager(exchange);
     final Notification requestData = getJsonBodyData(exchange, Notification.class);
     final Notification responseData = customerService.sendNotification(loggedInManager, requestData);
+    sendJsonResponse(exchange, responseData);
+  }
+
+  private void getNotifications(HttpExchange exchange) throws Exception{
+    final Customer loggedInCustomer = Authenticator.instance.authCustomer(exchange);
+    final LinkedHashMap<LocalDateTime, String> responseData = customerService.getNotifications(loggedInCustomer);
     sendJsonResponse(exchange, responseData);
   }
 
