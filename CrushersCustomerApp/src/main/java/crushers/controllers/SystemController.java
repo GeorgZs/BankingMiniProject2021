@@ -7,15 +7,17 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import crushers.App;
+import crushers.model.Contact;
 import crushers.model.Customer;
+import crushers.model.Transaction;
 import crushers.util.Http;
 import crushers.util.Util;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.control.Label;
-import javafx.scene.control.TabPane;
+import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -28,6 +30,24 @@ public class SystemController implements Initializable{
     private Pane pane;
     @FXML
     private TabPane tabPane;
+
+    // Contacts
+    @FXML
+    private AnchorPane contactsAnchor;
+    @FXML
+    private Button createContact, deleteContact, makePayment;
+    @FXML
+    private ListView<Contact> contactList;
+    @FXML
+    private TextField name, accountID;
+    @FXML
+    private TextArea description;
+
+    // Payments
+    @FXML
+    private Button makeANewPayment, makeAPaymentRequest, reportTransaction, viewTransactionDetails;
+    @FXML
+    private ListView<Transaction> transactionHistory;
     
     public void logout(ActionEvent e) throws IOException{
         Util.showAlert("Logging out?", "Are you sure you want to log-out?", e);
@@ -38,6 +58,7 @@ public class SystemController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         welcomeLabel.setText("Welcome " + App.currentCustomer.getFirstName() + " " + App.currentCustomer.getLastName());
+
     }
     public void getInterest(ActionEvent e) throws IOException, InterruptedException {
         ArrayList<Integer> years = new ArrayList<>();
