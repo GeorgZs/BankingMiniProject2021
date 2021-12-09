@@ -105,7 +105,7 @@ public class Util {
         }
 
         try {
-            Http.authPost("auth/logout", App.currentToken, "").body();
+            Http.authPost("auth/logout", App.currentToken, "");
         } catch (InterruptedException e1) {
             e1.printStackTrace();
         } catch (IOException e1) {

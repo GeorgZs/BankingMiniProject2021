@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 
 import crushers.App;
@@ -44,6 +45,9 @@ public class MainController { // test commit
     
     public void register(ActionEvent e) throws IOException{
 
+        // Util.showModal("RegisterView", "Registration Form", e);
+        // we need to set stylesheet so this is commented. Uncomment in the future
+
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("crushers/views/RegisterView.fxml"));
         root = loader.load();
         stage = new Stage();
@@ -62,39 +66,33 @@ public class MainController { // test commit
 
         String email = usernameField.getText();
         String password = passwordField.getText();
-        String loginResponse = "";
 
-        try {
-            loginResponse = Http.post("auth/login", new Credentials(email, password)).body();
-            App.currentToken = Json.parse(loginResponse, Token.class).getToken(); // parse json string to token and get attr
-            System.out.println(loginResponse);
-        } catch (InterruptedException e1) { // idk what this is but its probably bad so I added return
-            e1.printStackTrace();
-            return;
-        } catch (UnrecognizedPropertyException upe){ // if the response is an error json, we want to print it and edit label
-            System.out.println(Json.stringify(loginResponse));
-            invalidLoginLabel.setText("Invalid username or password!");
-            return;
-        }
-
-        try {
-            Customer loggedInCustomer = Json.parse(Http.authGet("customers/@me", App.currentToken).body(), Customer.class);
-            App.currentCustomer = loggedInCustomer;
-            System.out.println(Http.authGet("customers/@me", App.currentToken).body());
-            System.out.println(App.currentCustomer);
-            System.out.println(App.currentToken);
-            
-            List<PaymentAccount> accounts = Json.parseList(Http.authGet("accounts/@me", App.currentToken).body(), PaymentAccount.class);
-            App.currentCustomer.setAccountList(new ArrayList<PaymentAccount>(accounts));
-            
+        try { // this block sends the email and password to the api and stores the token
+            String responseString = Http.post("auth/login", new Credentials(email, password)); // json string resposne
+            System.out.println(responseString);
+            if(responseString.contains("error")){ // if the response is an error, print its value
+                System.out.println(Json.toNode(responseString).get("error").asText());
+                invalidLoginLabel.setText("Invalid E-mail or Password!");
+                return;
+            }
+            App.currentToken = Json.toNode(responseString).get("token").asText(); // else we get a valid token
         } catch (InterruptedException e1) {
             e1.printStackTrace();
-            return;
         }
+
+        try { // this block uses the token to find the logged in customer and set their account list
+            App.currentCustomer = Json.parse(Http.authGet("customers/@me", App.currentToken), Customer.class);
+            List<PaymentAccount> accounts = Json.parseList(Http.authGet("accounts/@me", App.currentToken), PaymentAccount.class);
+            App.currentCustomer.setAccountList(new ArrayList<>(accounts));
+        } catch (InterruptedException e1) {
+            e1.printStackTrace();
+        }
+
+        // Util.closeAndShow("AccountView", "Account Overview", e); same spiel
 
         Stage oldStage = (Stage)((Node)e.getSource()).getScene().getWindow();
         oldStage.close();
-        FXMLLoader loader = new FXMLLoader(Util.class.getClassLoader().getResource("crushers/views/AccountView.fxml"));
+        FXMLLoader loader = new FXMLLoader(App.class.getClassLoader().getResource("crushers/views/AccountView.fxml"));
         Stage stage = new Stage();
         Parent root = loader.load();
         stage.setScene(new Scene(root));
@@ -104,7 +102,6 @@ public class MainController { // test commit
 
         accCtrl = loader.getController();
 
-        // Stage stage = Util.closeAndCreate("AccountView", "Account Overview", e);
         stage.getScene().getStylesheets().add(getClass().getClassLoader().getResource("crushers/stylesheets/main.css").toExternalForm());
         stage.show();
 

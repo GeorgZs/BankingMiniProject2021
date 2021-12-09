@@ -9,6 +9,7 @@ import java.net.http.HttpRequest.BodyPublishers;
 import java.util.Base64;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 
 
 public class Http {
@@ -17,7 +18,7 @@ public class Http {
 
     public static HttpClient client = HttpClient.newHttpClient();
 
-    public static HttpResponse<String> get(String source) throws IOException, InterruptedException{
+    public static String get(String source) throws IOException, InterruptedException{
         HttpRequest request = HttpRequest.newBuilder()
         .GET()
         .header("accept", "application/json")
@@ -25,10 +26,10 @@ public class Http {
         .build();
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        return response;
+        return response.body();
     }
 
-    public static HttpResponse<String> post(String source, Object body) throws IOException, InterruptedException{
+    public static String post(String source, Object body) throws IOException, InterruptedException{
         HttpRequest request = HttpRequest
         .newBuilder(URI.create(BASE_URL + source))
         .header("Content-Type", "application/json")
@@ -36,9 +37,9 @@ public class Http {
         .build();
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        return response;
+        return response.body();
     }
-    public static HttpResponse<String> authGet(String source, String token) throws IOException, InterruptedException{
+    public static String authGet(String source, String token) throws IOException, InterruptedException{
         HttpRequest request = HttpRequest
         .newBuilder(URI.create(BASE_URL + source))
         .header("Content-Type", "application/json")
@@ -46,9 +47,9 @@ public class Http {
         .GET()
         .build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        return response;
+        return response.body();
     }
-    public static HttpResponse<String> authPost(String source, String token, Object body) throws IOException, InterruptedException{
+    public static String authPost(String source, String token, Object body) throws IOException, InterruptedException{
         HttpRequest request = HttpRequest
         .newBuilder(URI.create(BASE_URL + source))
         .header("Content-Type", "application/json")
@@ -56,7 +57,7 @@ public class Http {
         .POST(BodyPublishers.ofString(Json.stringify(body)))
         .build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        return response;
+        return response.body();
     }
 
 }

@@ -35,7 +35,7 @@ public class Bank {
     }
 
     public String toString(){
-        return this.name + "(" + this.id + ")";
+        return this.name;
     }
     public String getName(){
         return this.name;

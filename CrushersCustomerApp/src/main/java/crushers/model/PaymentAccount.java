@@ -19,12 +19,7 @@ public class PaymentAccount {
     protected double balance;
     protected Map<String ,Transaction> transactions;
 
-    public PaymentAccount(String name, double balance, Bank bank) {
-        this.name = name;
-        this.balance = balance;
-        this.bank = bank;
-        this.transactions = new HashMap<>();
-    }
+    
     public PaymentAccount(Bank bank, String type, String name){ // http post constructor
         this.bank = bank;
         this.type = type;
@@ -43,7 +38,7 @@ public class PaymentAccount {
     }
 
     public String toString(){
-        return "Payment Account " + this.name + " (ID" + this.getId() + "): " + this.balance + " SEK";
+        return "Payment Account (ID" + this.getId() + "): " + this.bank;
     }
     public Bank getBank(){
         return this.bank;
@@ -77,6 +72,6 @@ public class PaymentAccount {
     }
 
     public String getType(){
-        return this.type;
+        return "Payment";
     }
 }

@@ -3,6 +3,7 @@ package crushers.controllers;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -90,6 +91,7 @@ public class AccountController implements Initializable{
         totalBalanceLabel.setText("Total Balance: " + totalBalance);
         welcomeLabel.setText("Welcome, " + firstName + " " + lastName);
 
+        // List<PaymentAccount> accounts = Json.parseList()
         System.out.println("Accounts: " + App.currentCustomer.getAccountList());
 
         observableAccount.addAll(App.currentCustomer.getAccountList());
@@ -105,21 +107,20 @@ public class AccountController implements Initializable{
                     try {
                         System.out.println(Json.stringify(account));
                     } catch (JsonProcessingException e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
                     accountDetailsBox.setVisible(true);
-                    accountBankLabel.setText("Bank: " + account.getBank().toString());
+                    accountBankLabel.setText("Bank: " + account.getBank().getName());
                     accountTypeLabel.setText("Account type: " + account.getType());
                     accountNameLabel.setText("Account name: " + account.getName());
                     accountBalanceLabel.setText("Account balance: " + account.getBalance() + " SEK");
-                    if(account.getType() == "Savings"){
-                        savingsGoalLabel.setText("Savings goal: " + ((SavingsAccount)account).getSavingsGoal() + " SEK");
-                        savingsGoalLabel.setVisible(true);
-                    }else{
-                        savingsGoalLabel.setText("");
-                        savingsGoalLabel.setVisible(false);
-                    }
+                    // if(account.getType() == "Savings"){
+                    //     savingsGoalLabel.setText("Savings goal: " + ((SavingsAccount)account).getSavingsGoal() + " SEK");
+                    //     savingsGoalLabel.setVisible(true);
+                    // }else{
+                    //     savingsGoalLabel.setText("");
+                    //     savingsGoalLabel.setVisible(false);
+                    // }
                     accountIDLabel.setText("Account ID: " + account.getId());
             } 
         });

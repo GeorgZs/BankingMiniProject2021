@@ -69,6 +69,9 @@ public class SystemController implements Initializable{
             Http.post("transactions/interestRate/" + accountController.getAccount().getId(), Customer.class);
         }
     }
+    public void makeAPayment(ActionEvent e){
+        
+    }
     public void createContact(ActionEvent e) throws IOException, InterruptedException {
 
     }

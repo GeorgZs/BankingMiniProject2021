@@ -92,21 +92,22 @@ public class RegisterController implements Initializable {
         }else if(firstAnswer.isBlank() || secondAnswer.isBlank() || thirdAnswer.isBlank()){
             invalidInputLabel.setText("You must answer all security questions!");
         }else{
-            ArrayList<String> securityQuestionsAnswers = new ArrayList<String>();
-            securityQuestionsAnswers.add(firstQuestionBox.getValue());
-            securityQuestionsAnswers.add(firstAnswer);
-            securityQuestionsAnswers.add(secondQuestionBox.getValue());
-            securityQuestionsAnswers.add(secondAnswer);
-            securityQuestionsAnswers.add(thirdQuestionBox.getValue());
-            securityQuestionsAnswers.add(thirdAnswer);
+            ArrayList<String> securityQuestions = new ArrayList<String>();
+            securityQuestions.add(firstQuestionBox.getValue());
+            securityQuestions.add(firstAnswer);
+            securityQuestions.add(secondQuestionBox.getValue());
+            securityQuestions.add(secondAnswer);
+            securityQuestions.add(thirdQuestionBox.getValue());
+            securityQuestions.add(thirdAnswer);
 
-            Customer registeredCustomer = new Customer(firstName, lastName, address, email, password, securityQuestionsAnswers);
+            Customer registeredCustomer = new Customer(email, firstName, lastName, address, password, securityQuestions);
 
             try {
-                System.out.println(Http.post("customers", registeredCustomer).body());
+                System.out.println(Http.post("customers", registeredCustomer));
             } catch (InterruptedException e1) {
                 e1.printStackTrace();
             }
+
             Stage oldStage = (Stage)((Node)e.getSource()).getScene().getWindow();
             oldStage.close();
             

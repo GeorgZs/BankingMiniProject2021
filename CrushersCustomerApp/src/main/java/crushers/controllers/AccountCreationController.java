@@ -36,7 +36,7 @@ public class AccountCreationController implements Initializable{
     @FXML
     private Button createAccountButton;
     
-    private Boolean isPayment;
+    private Boolean isPayment = true;
 
     public void createAccount(ActionEvent e) throws IOException, InterruptedException{
         if(bankSelection.getValue() == null){
@@ -56,30 +56,28 @@ public class AccountCreationController implements Initializable{
             if(isPayment){
 
                 PaymentAccount account = new PaymentAccount(bank, "payment", accountName);
-                // PaymentAccount account = new PaymentAccount(bank, "payment", accountName);
-                System.out.println(Json.stringify(account));
-                System.out.println(Http.authPost("accounts", App.currentToken, account));
+                String createResponse = Http.authPost("accounts", App.currentToken, account);
+                System.out.println("Response:\n" + createResponse);
+                PaymentAccount createdAccount = Json.parse(createResponse, PaymentAccount.class);
 
-                //PaymentAccount serveAccount = (PaymentAccount) Http.authPost("accounts", App.currentToken, account);
-                accCtrl.addPaymentToList(account);
-                App.currentCustomer.createAccount(account);
+                System.out.println("Created account: " + createdAccount);
+                accCtrl.addPaymentToList(createdAccount);
+                App.currentCustomer.createAccount(createdAccount);
+
             }else{
                 try{
 
                 double savingsGoal = Double.parseDouble(savingsGoalField.getText());
-                SavingsAccount account = new SavingsAccount(accountName, 0, savingsGoal, bank);
-                accCtrl.addSavingsToList(account);
-                App.currentCustomer.createAccount(account);
+                SavingsAccount account = new SavingsAccount(bank, "savings", accountName, savingsGoal);
+                SavingsAccount createdAccount = Json.parse(Http.authPost("accounts", App.currentToken, account), SavingsAccount.class);
+                accCtrl.addSavingsToList(createdAccount);
+                App.currentCustomer.createAccount(createdAccount);
 
                 }catch(NumberFormatException nfe){
                     invalidLabel.setText("Please enter a valid savings goal!");
                     return;
                 }
             }
-
-            
-            // FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("crushers/views/AccountView.fxml"));
-            // loader.load();
 
             Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
             stage.close();
@@ -102,15 +100,10 @@ public class AccountCreationController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
-            System.out.println(Http.get("banks").body());
-            System.out.println(Json.parseList(Http.get("banks").body(), Bank.class));
-            bankSelection.getItems().addAll(Json.parseList(Http.get("banks").body(), Bank.class));
+            bankSelection.getItems().addAll(Json.parseList(Http.get("banks"), Bank.class));
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
         bankSelection.setStyle("-fx-font-family: SansSerif");
-        savingsGoalLabel.setVisible(false);
-        savingsGoalField.setVisible(false);
-        sekLabel.setVisible(false);
     }
 }

@@ -33,29 +33,23 @@ public class Customer extends User{
         this.securityQuestions = securityQuestions;
         this.lastLoginAt = lastLoginAt;
         this.notification = notification;
-        //super(firstName, lastName, address, email, password, securityQuestions);
         this.accountList = new ArrayList<PaymentAccount>();
         this.contactList = new ArrayList<Contact>();
-    } // default constructor
+    } // full constructor
 
-    // public Customer(int id, String email, String firstName, String lastName, String address, String password, ArrayList<String> securityQuestions, LocalDateTime lastLoginAt){
-    //     super(firstName, lastName, address, email, password, securityQuestions);
-    //     this.id = id;
-    //     this.lastLoginAt = lastLoginAt;
-    //     this.accountList = new ArrayList<PaymentAccount>();
-    //     this.contactList = new ArrayList<Contact>();
-    // } // response customer
+    public Customer(String email, String firstName, String lastName, String address, String password, ArrayList<String> securityQuestions){
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.password = password;
+        this.securityQuestions = securityQuestions;
+        this.accountList = new ArrayList<PaymentAccount>();
+        this.contactList = new ArrayList<Contact>();
+    } // creation constructor
 
     public Customer(){
     } // empty constructor for json
-
-    public void createPaymentAccount(String name, Bank bank) {
-        this.accountList.add(new PaymentAccount(name, 0, bank));
-    }
-    public void createSavingsAccount(String name, double savingsGoal, Bank bank) {
-        PaymentAccount savingsAccount = new SavingsAccount(name, 0, savingsGoal, bank);
-        this.accountList.add(savingsAccount);
-    }
 
     public void createAccount(Object acc){
         if(acc instanceof SavingsAccount){
