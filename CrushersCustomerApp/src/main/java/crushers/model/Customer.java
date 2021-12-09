@@ -16,36 +16,37 @@ public class Customer extends User{
     private String password;
     private ArrayList<String> securityQuestions;
     private LocalDateTime lastLoginAt;
-    private String notification;
+    private Notification notification;
 
     private ArrayList<PaymentAccount> accountList;
     private ArrayList<Contact> contactList;
 
 
-    public Customer(String firstName, String lastName, String address, String email, String password,
-    ArrayList<String> securityQuestions) {
+    public Customer(int id, String firstName, String lastName, String address, String email, String password,
+    ArrayList<String> securityQuestions, LocalDateTime lastLoginAt, Notification notification) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
         this.email = email;
         this.password = password;
         this.securityQuestions = securityQuestions;
+        this.lastLoginAt = lastLoginAt;
+        this.notification = notification;
         //super(firstName, lastName, address, email, password, securityQuestions);
         this.accountList = new ArrayList<PaymentAccount>();
         this.contactList = new ArrayList<Contact>();
     } // default constructor
 
-    public Customer(int id, String email, String firstName, String lastName, String address, String password, ArrayList<String> securityQuestions, LocalDateTime lastLoginAt){
-        super(firstName, lastName, address, email, password, securityQuestions);
-        this.id = id;
-        this.lastLoginAt = lastLoginAt;
-        this.accountList = new ArrayList<PaymentAccount>();
-        this.contactList = new ArrayList<Contact>();
-    } // response customer
+    // public Customer(int id, String email, String firstName, String lastName, String address, String password, ArrayList<String> securityQuestions, LocalDateTime lastLoginAt){
+    //     super(firstName, lastName, address, email, password, securityQuestions);
+    //     this.id = id;
+    //     this.lastLoginAt = lastLoginAt;
+    //     this.accountList = new ArrayList<PaymentAccount>();
+    //     this.contactList = new ArrayList<Contact>();
+    // } // response customer
 
     public Customer(){
-        super();
-        this.accountList = new ArrayList<PaymentAccount>();
     } // empty constructor for json
 
     public void createPaymentAccount(String name, Bank bank) {
@@ -75,7 +76,10 @@ public class Customer extends User{
     @Override
     public String toString(){
         String result = this.id + ": " + this.firstName + " " + this.lastName + " lives at " + this.address + "\n" + this.email + " " + this.password +
-        "\n" + this.securityQuestions;
+        "\n" + this.securityQuestions + "\nAccounts:\n";
+        for(PaymentAccount account: this.accountList){
+            result += account + "\n";
+        }
         return result;
     }
     public String getFirstName(){
@@ -111,7 +115,7 @@ public class Customer extends User{
     public LocalDateTime getLastLoginAt(){
         return this.lastLoginAt;
     }
-    public String getNotification(){
+    public Notification getNotification(){
         return this.notification;
     }
     
