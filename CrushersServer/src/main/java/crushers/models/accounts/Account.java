@@ -86,11 +86,20 @@ public abstract class Account implements Storable {
   }
 
   public double getInterestRate() {
-    return interestRate;
+    if(this.interestRate == 0.00){
+      this.interestRate = 0.20;
+      return this.interestRate;
+    }
+    else{
+      return this.interestRate;
+    }
   }
 
   public void setInterestRate(double interestRate) {
-    this.interestRate = interestRate;
+    if(this.interestRate != 0.00){
+      this.interestRate = interestRate;
+    }
+
   }
 
   @Override

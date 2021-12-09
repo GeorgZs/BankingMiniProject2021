@@ -26,17 +26,4 @@ public class SavingsAccount extends Account {
         this.name = name;
     }
 
-    public double getInterestRate() {
-        if(super.getInterestRate() == 0.00){
-            super.setInterestRate(0.20);
-            return super.getInterestRate();
-        }
-        else{
-            return super.getInterestRate();
-        }
-    }
-
-    public void setInterestRate(double interestRate){
-        super.setInterestRate(interestRate);
-    }
 }
