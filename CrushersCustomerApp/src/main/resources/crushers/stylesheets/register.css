@@ -1,0 +1,30 @@
+#submitButton{
+    -fx-background-color: #43A047;
+    -fx-text-fill: white;
+}
+#cancelButton{
+    -fx-background-color: #E53935;
+    -fx-text-fill: white;
+}
+#submitButton:hover{
+    -fx-background-color: #66BB6A;
+}
+#cancelButton:hover{
+    -fx-background-color: #EF5350;
+}
+VBox {
+    -fx-background-color: #e7e7e7;
+    /* -fx-border-color: black; */
+    /* -fx-border-width: 1; */
+    /* -fx-border-radius: 5; */
+    /* -fx-effect: dropshadow(three-pass-box, grey, 10, 0, 0, 15); */
+
+}
+#leftBoxLabel{
+    -fx-background-color: black;
+    -fx-text-fill: white;
+}
+#rightBoxLabel{
+    -fx-background-color: black;
+    -fx-text-fill: white;
+}

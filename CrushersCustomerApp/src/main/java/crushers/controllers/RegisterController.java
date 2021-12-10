@@ -5,6 +5,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import com.jfoenix.controls.JFXButton;
+
 import crushers.App;
 import crushers.model.Customer;
 import crushers.util.Http;
@@ -17,6 +19,11 @@ import javafx.scene.*;
 import javafx.stage.Stage;
 
 public class RegisterController implements Initializable {
+
+    // @FXML
+    // private JFXButton cancelButton;
+    // @FXML
+    // private JFXButton submitButton;
 
     @FXML
     private Button registerButton;

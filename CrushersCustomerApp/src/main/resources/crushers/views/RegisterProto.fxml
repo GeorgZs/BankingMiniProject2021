@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="536.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox layoutY="56.0" prefHeight="333.0" prefWidth="600.0" AnchorPane.bottomAnchor="147.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="56.0">
+         <children>
+            <VBox fx:id="leftBox" prefHeight="290.0" prefWidth="300.0" stylesheets="@../stylesheets/register.css">
+               <children>
+                  <Label fx:id="leftBoxLabel" alignment="CENTER" prefHeight="32.0" prefWidth="300.0" text="User Information" />
+                  <JFXTextField fx:id="firstNameField" promptText="First Name">
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="40.0" right="40.0" top="10.0" />
+                     </VBox.margin>
+                  </JFXTextField>
+                  <JFXTextField fx:id="lastNameField" layoutX="50.0" layoutY="20.0" prefWidth="249.0" promptText="Last Name">
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="40.0" right="40.0" top="10.0" />
+                     </VBox.margin>
+                  </JFXTextField>
+                  <JFXTextField fx:id="addressField" prefWidth="249.0" promptText="Address">
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="40.0" right="40.0" top="10.0" />
+                     </VBox.margin>
+                  </JFXTextField>
+                  <JFXTextField fx:id="emailField" layoutX="50.0" layoutY="113.0" prefWidth="249.0" promptText="E-Mail">
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="40.0" right="40.0" top="10.0" />
+                     </VBox.margin>
+                  </JFXTextField>
+                  <JFXPasswordField fx:id="passwordField" promptText="Password">
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="40.0" right="40.0" top="10.0" />
+                     </VBox.margin>
+                  </JFXPasswordField>
+                  <JFXPasswordField fx:id="repeatedPasswordField" promptText="Password (repeated)">
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="40.0" right="40.0" top="10.0" />
+                     </VBox.margin>
+                  </JFXPasswordField>
+               </children>
+               <HBox.margin>
+                  <Insets bottom="10.0" left="5.0" right="5.0" />
+               </HBox.margin>
+            </VBox>
+            <VBox fx:id="rightBox" prefHeight="400.0" prefWidth="300.0" stylesheets="@../stylesheets/register.css">
+               <children>
+                  <Label fx:id="rightBoxLabel" alignment="CENTER" prefHeight="32.0" prefWidth="300.0" text="Security Questions" />
+                  <JFXComboBox fx:id="firstQuestionBox" prefHeight="26.0" prefWidth="273.0">
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="40.0" right="40.0" top="10.0" />
+                     </VBox.margin>
+                  </JFXComboBox>
+                  <JFXTextField fx:id="firstAnswerField" promptText="First answer">
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="40.0" right="40.0" top="10.0" />
+                     </VBox.margin>
+                  </JFXTextField>
+                  <JFXComboBox fx:id="secondQuestionBox" prefHeight="26.0" prefWidth="273.0">
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="40.0" right="40.0" top="10.0" />
+                     </VBox.margin>
+                  </JFXComboBox>
+                  <JFXTextField fx:id="secondAnswerField" promptText="Second answer">
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="40.0" right="40.0" top="10.0" />
+                     </VBox.margin>
+                  </JFXTextField>
+                  <JFXComboBox fx:id="thirdQuestionBox" layoutX="10.0" layoutY="83.0" prefHeight="26.0" prefWidth="273.0">
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="40.0" right="40.0" top="10.0" />
+                     </VBox.margin>
+                  </JFXComboBox>
+                  <JFXTextField fx:id="thirdAnswerField" layoutX="10.0" layoutY="109.0" promptText="Third answer">
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="40.0" right="40.0" top="10.0" />
+                     </VBox.margin>
+                  </JFXTextField>
+               </children>
+               <HBox.margin>
+                  <Insets bottom="10.0" left="5.0" right="5.0" />
+               </HBox.margin>
+            </VBox>
+         </children>
+      </HBox>
+      <HBox layoutY="411.0" prefHeight="81.0" prefWidth="600.0">
+         <children>
+            <JFXButton fx:id="cancelButton" onAction="#cancel" prefHeight="58.0" prefWidth="300.0" stylesheets="@../stylesheets/register.css" text="Cancel">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="submitButton" onAction="#submit" prefHeight="58.0" prefWidth="302.0" stylesheets="@../stylesheets/register.css" text="Submit">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </JFXButton>
+         </children>
+      </HBox>
+      <Label layoutX="230.0" layoutY="14.0" text="Registration Form">
+         <font>
+            <Font name="Malgun Gothic Semilight" size="18.0" />
+         </font>
+      </Label>
+      <JFXButton fx:id="testButton" layoutX="37.0" layoutY="493.0" prefHeight="26.0" prefWidth="290.0" stylesheets="@../stylesheets/register.css" />
+   </children>
+</AnchorPane>
