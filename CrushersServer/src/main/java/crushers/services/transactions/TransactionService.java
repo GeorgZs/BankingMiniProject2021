@@ -170,6 +170,7 @@ public class TransactionService {
         Transaction transaction = new Transaction(null, loan.getAccount(), loan.getAmount(), loan.getPurpose());
         transaction.setLabel("Loan");
         loggedIn.addLoans(loan);
+        transaction.setAmount(loan.getAmount());
         create(transaction, loggedIn);
         return transaction;
     }

@@ -12,7 +12,7 @@ public class Customer extends User{
     // private List<StandardAccount> accountList;
     // private LinkedHashMap<Integer,Contact> contactList;
     private LinkedHashMap<LocalDateTime, String> notifications = new LinkedHashMap<>();
-    private ArrayList<Loan> loans = new ArrayList<Loan>();
+    private ArrayList<Loan> loans = new ArrayList<>();
 
     public Customer() {
         // empty constructor for Jackson
@@ -29,6 +29,8 @@ public class Customer extends User{
         super(emailAddress, firstName, lastName, address, password, securityQuestions);
         // this.accountList = new ArrayList<>();
         // this.contactList = new LinkedHashMap<>();
+        this.loans = new ArrayList<>();
+        this.notifications = new LinkedHashMap<>();
     }
 
     public void addNotification(Notification notification){
@@ -43,11 +45,19 @@ public class Customer extends User{
         return this.notifications;
     }
 
+    public void setNotifications(LinkedHashMap<LocalDateTime, String> notifications) {
+        this.notifications = notifications;
+    }
+
     public ArrayList<Loan> getLoans() {
         return loans;
     }
 
     public void addLoans(Loan loan){
         this.loans.add(loan);
+    }
+
+    public void setLoans(ArrayList<Loan> loans) {
+        this.loans = loans;
     }
 }
