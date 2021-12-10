@@ -18,6 +18,7 @@ import crushers.storage.Storable;
   @Type(value = PaymentAccount.class, name = "payment"),
   @Type(value = SavingsAccount.class, name = "savings") 
 })
+
 public abstract class Account implements Storable {
   private int id = -1;
   private String number;
@@ -28,7 +29,7 @@ public abstract class Account implements Storable {
   @JsonIgnoreProperties({ "password", "securityQuestions", "lastLoginAt" })
   private Customer owner;
   private double balance = 0.00;
-  protected double interestRate = 0.00;
+  protected double interestRate = 0.20;
 
   // for later, but not now
   // private LinkedHashMap<Time, Transaction> transactions;
@@ -86,20 +87,11 @@ public abstract class Account implements Storable {
   }
 
   public double getInterestRate() {
-    if(this.interestRate == 0.00){
-      this.interestRate = 0.20;
-      return this.interestRate;
-    }
-    else{
-      return this.interestRate;
-    }
+    return this.interestRate;
   }
 
   public void setInterestRate(double interestRate) {
-    if(this.interestRate != 0.00){
-      this.interestRate = interestRate;
-    }
-
+    this.interestRate = interestRate;
   }
 
   @Override
