@@ -97,8 +97,19 @@ public class AccountService {
     return accounts;
   }
 
-  
   public Collection<Customer> getCustomersAtBank(Bank bank) {
     return storage.getCustomersAtBank(bank);
+  }
+
+  public Account getAccountWithId(Customer loggedIn, int id) throws Exception{
+    for(Account account : storage.getAll()){
+      if(account.getId() == id){
+        return account;
+      }
+      else{
+        throw new BadRequestException("Account with id " + id + " does not exist for this bank");
+      }
+    }
+    return null;
   }
 }

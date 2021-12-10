@@ -5,9 +5,7 @@ import java.util.Collection;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
 
-import crushers.models.exchangeInformation.Contact;
-import crushers.models.exchangeInformation.RecurringTransaction;
-import crushers.models.exchangeInformation.Transaction;
+import crushers.models.exchangeInformation.*;
 import crushers.models.users.Clerk;
 import crushers.models.users.Customer;
 import crushers.models.users.User;
@@ -137,6 +135,66 @@ public class TransactionRouter extends Router<Transaction> {
                 ex.printStackTrace();
             }
         });
+
+        server.createContext(basePath + "/loan", (exchange) -> {
+            try {
+                switch (exchange.getRequestMethod()) {
+                    case "POST":
+                        getLoan(exchange);
+                        break;
+
+                    default:
+                        throw new MethodNotAllowedException();
+                }
+            }
+            catch (HttpException ex) {
+                sendResponse(exchange, ex.statusCode, String.format("{\"error\":\"%s\"}", ex.getMessage()).getBytes());
+            }
+            catch (Exception ex) {
+                sendResponse(exchange, 500, String.format("{\"error\":\"Internal server error, try again later.\"}").getBytes());
+                ex.printStackTrace();
+            }
+        });
+
+        server.createContext(basePath + "/loan", (exchange) -> {
+            try {
+                switch (exchange.getRequestMethod()) {
+                    case "PUT":
+                        payBackLoan(exchange);
+                        break;
+
+                    default:
+                        throw new MethodNotAllowedException();
+                }
+            }
+            catch (HttpException ex) {
+                sendResponse(exchange, ex.statusCode, String.format("{\"error\":\"%s\"}", ex.getMessage()).getBytes());
+            }
+            catch (Exception ex) {
+                sendResponse(exchange, 500, String.format("{\"error\":\"Internal server error, try again later.\"}").getBytes());
+                ex.printStackTrace();
+            }
+        });
+
+        server.createContext(basePath + "/label", (exchange) -> {
+            try {
+                switch (exchange.getRequestMethod()) {
+                    case "PUT":
+                        setLabel(exchange);
+                        break;
+
+                    default:
+                        throw new MethodNotAllowedException();
+                }
+            }
+            catch (HttpException ex) {
+                sendResponse(exchange, ex.statusCode, String.format("{\"error\":\"%s\"}", ex.getMessage()).getBytes());
+            }
+            catch (Exception ex) {
+                sendResponse(exchange, 500, String.format("{\"error\":\"Internal server error, try again later.\"}").getBytes());
+                ex.printStackTrace();
+            }
+        });
     }
 
     @Override
@@ -182,6 +240,27 @@ public class TransactionRouter extends Router<Transaction> {
         final Customer loggedInCustomer = Authenticator.instance.authCustomer(exchange);
         final RecurringTransaction requestData = getJsonBodyData(exchange, RecurringTransaction.class);
         final RecurringTransaction responseData = transactionService.createRecurringDeposit(loggedInCustomer, requestData);
+        sendJsonResponse(exchange, responseData);
+    }
+
+    private void getLoan(HttpExchange exchange) throws Exception{
+        final Customer loggedInCustomer = Authenticator.instance.authCustomer(exchange);
+        final Loan requestData = getJsonBodyData(exchange, Loan.class);
+        final Transaction responseData = transactionService.getLoan(loggedInCustomer, requestData);
+        sendJsonResponse(exchange, responseData);
+    }
+
+    private void payBackLoan(HttpExchange exchange) throws Exception{
+        final Customer loggedInCustomer = Authenticator.instance.authCustomer(exchange);
+        final Transaction requestData = getJsonBodyData(exchange, Transaction.class);
+        final Loan responseData = transactionService.payBackLoan(loggedInCustomer, requestData);
+        sendJsonResponse(exchange, responseData);
+    }
+
+    private void setLabel(HttpExchange exchange) throws Exception{
+        final Customer loggedInCustomer = Authenticator.instance.authCustomer(exchange);
+        final TransactionLabel requestData = getJsonBodyData(exchange, TransactionLabel.class);
+        final Transaction responseData = transactionService.setLabel(loggedInCustomer, requestData);
         sendJsonResponse(exchange, responseData);
     }
 }
