@@ -9,17 +9,13 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="434.0" prefWidth="505.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="crushers.controllers.RegisterController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="434.0" prefWidth="505.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="crushers.controllers.RegisterController">
    <children>
       <Label layoutX="155.0" layoutY="28.0" text="New Account Registration">
          <font>
             <Font name="SansSerif Regular" size="17.0" />
          </font>
       </Label>
-      <TextField fx:id="firstNameField" layoutX="35.0" layoutY="93.0" prefHeight="26.0" prefWidth="186.0" promptText="First Name">
-         <font>
-            <Font name="SansSerif Regular" size="13.0" />
-         </font></TextField>
       <TextField fx:id="lastNameField" layoutX="34.0" layoutY="137.0" prefHeight="26.0" prefWidth="186.0" promptText="Last Name">
          <font>
             <Font name="SansSerif Regular" size="13.0" />
@@ -75,5 +71,10 @@
          <font>
             <Font name="SansSerif Regular" size="13.0" />
          </font></PasswordField>
+      <TextField fx:id="firstNameField" layoutX="35.0" layoutY="93.0" prefHeight="26.0" prefWidth="186.0" promptText="First Name">
+         <font>
+            <Font name="SansSerif Regular" size="13.0" />
+         </font>
+      </TextField>
    </children>
 </AnchorPane>

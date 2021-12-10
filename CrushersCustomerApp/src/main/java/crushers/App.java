@@ -8,6 +8,9 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+
+import com.jfoenix.controls.JFXTextField;
+
 import crushers.model.Customer;
 
 
@@ -24,6 +27,7 @@ public class App extends Application {
         Parent root = loader.load();
         Scene scene = new Scene(root);
         stage.setScene(scene);
+    
 
         /*
         stylesheet
