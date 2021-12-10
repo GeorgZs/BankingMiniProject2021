@@ -2,10 +2,7 @@ package crushers.services.transactions;
 
 import crushers.models.accounts.Account;
 import crushers.models.accounts.SavingsAccount;
-import crushers.models.exchangeInformation.Loan;
-import crushers.models.exchangeInformation.Notification;
-import crushers.models.exchangeInformation.RecurringTransaction;
-import crushers.models.exchangeInformation.Transaction;
+import crushers.models.exchangeInformation.*;
 import crushers.models.users.Clerk;
 import crushers.models.users.Customer;
 import crushers.models.users.User;
@@ -196,5 +193,13 @@ public class TransactionService {
             throw new BadRequestException("Customer does not have Loans");
         }
         return null;
+    }
+
+    public Transaction setLabel(Customer loggedIn, TransactionLabel transactionLabel) throws Exception{
+        Transaction transaction = storage.get(transactionLabel.getTransaction().getId());
+        storage.delete(transaction.getId());
+        transaction.setLabel(transactionLabel.getLabel());
+        storage.create(transaction);
+        return transaction;
     }
 }
