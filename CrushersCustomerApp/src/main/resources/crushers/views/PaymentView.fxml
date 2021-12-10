@@ -10,21 +10,22 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../stylesheets/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="crushers.controllers.PaymentController">
    <children>
-      <Button layoutX="51.0" layoutY="339.0" mnemonicParsing="false" text="Confirm payment" />
-      <Button layoutX="483.0" layoutY="340.0" mnemonicParsing="false" text="Cancel" />
+      <Button fx:id="confirmPayment" layoutX="51.0" layoutY="339.0" mnemonicParsing="false" onAction="#confirmPayment" text="Confirm payment" />
+      <Button fx:id="cancel" layoutX="483.0" layoutY="340.0" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
       <Label layoutX="35.0" layoutY="139.0" text="From account:" />
       <Label layoutX="43.0" layoutY="188.0" text="To account:" />
       <Label layoutX="53.0" layoutY="237.0" text="Amount:" />
       <Label layoutX="286.0" layoutY="237.0" text="SEK" />
-      <ChoiceBox layoutX="129.0" layoutY="135.0" prefWidth="150.0" />
-      <ChoiceBox layoutX="129.0" layoutY="184.0" prefWidth="150.0" />
-      <TextField layoutX="129.0" layoutY="233.0" prefHeight="25.0" prefWidth="150.0" />
+      <ChoiceBox fx:id="fromAccountBox" layoutX="129.0" layoutY="135.0" prefWidth="150.0" />
+      <ChoiceBox fx:id="toAccountBox" layoutX="129.0" layoutY="184.0" prefWidth="150.0" />
+      <TextField fx:id="amountField" layoutX="129.0" layoutY="233.0" prefHeight="25.0" prefWidth="150.0" />
       <Label alignment="CENTER" layoutX="232.0" layoutY="27.0" text="Make a Payment">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <TextArea layoutX="353.0" layoutY="109.0" prefHeight="200.0" prefWidth="200.0" />
+      <TextArea fx:id="descriptionArea" layoutX="353.0" layoutY="109.0" prefHeight="200.0" prefWidth="200.0" />
       <Label layoutX="353.0" layoutY="84.0" text="Description:" />
+      <Label fx:id="errorLabel" layoutX="284.0" layoutY="344.0" textFill="RED" />
    </children>
 </AnchorPane>

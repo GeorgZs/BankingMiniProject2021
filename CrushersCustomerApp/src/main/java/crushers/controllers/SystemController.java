@@ -7,11 +7,12 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import crushers.App;
-import crushers.model.Contact;
-import crushers.model.Customer;
-import crushers.model.Transaction;
+import crushers.model.*;
 import crushers.util.Http;
+import crushers.util.Json;
 import crushers.util.Util;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -39,9 +40,42 @@ public class SystemController implements Initializable{
     @FXML
     private ListView<Contact> contactList;
     @FXML
-    private TextField name, accountID;
+    private TextField nameField, contactID, accountID;
     @FXML
-    private TextArea description;
+    private TextArea descriptionArea;
+    @FXML
+    private Label contactErrorLabel;
+
+    public void makeAPayment(ActionEvent e){
+        Util.showModal("PaymentView", "Make a payment", e);
+    }
+    public void createContact(ActionEvent e) throws IOException, InterruptedException {
+    if (nameField.getText() == null) {
+        contactErrorLabel.setText("Please enter a contact name!");
+        } else if (nameField.getText().matches("^[0-9]+$")) {
+        contactErrorLabel.setText("Please enter alphabetical characters only!");
+        } else if (accountID.getText() == null) {
+        contactErrorLabel.setText("Please enter an account ID!");
+        } else if (contactID.getText() == null) {
+        contactErrorLabel.setText("Please enter a 4-digit contact ID of your choosing!");
+        } else if (!contactID.getText().matches("^[0-9]+$")) {
+        contactErrorLabel.setText("Contact ID must be comprised of 4-digits!");
+        } else if (contactID.getText().length() < 4 || contactID.getText().length() > 4) {
+        contactErrorLabel.setText("Contact ID must be 4-digits in length!");
+    } else {
+        String name = nameField.getText();
+        String accID = accountID.getText();
+        int ID = Integer.parseInt(contactID.getText());
+        String account = Http.get("account/"+accID);
+        PaymentAccount account1 = Json.parse(account, PaymentAccount.class);
+        String description = descriptionArea.getText();
+        Contact contact = new Contact(ID, name, account1, description);
+        }
+    }
+
+    public void deleteContact(ActionEvent e) throws IOException, InterruptedException {
+
+    }
 
     // Payments
     @FXML
@@ -58,6 +92,10 @@ public class SystemController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         welcomeLabel.setText("Welcome " + App.currentCustomer.getFirstName() + " " + App.currentCustomer.getLastName());
+        //Contacts
+        ObservableList<Contact> observableContact = FXCollections.observableArrayList();
+        observableContact.addAll(App.currentCustomer.getContactList());
+        contactList.setItems(observableContact);
 
     }
     public void getInterest(ActionEvent e) throws IOException, InterruptedException {
@@ -69,12 +107,7 @@ public class SystemController implements Initializable{
             Http.post("transactions/interestRate/" + accountController.getAccount().getId(), Customer.class);
         }
     }
-    public void makeAPayment(ActionEvent e){
-        
-    }
-    public void createContact(ActionEvent e) throws IOException, InterruptedException {
 
-    }
     public void addMoney(ActionEvent e){
         Util.getAccountWithID(App.currentAccountID).deposit(100);
     }

@@ -51,14 +51,17 @@
                               <Font size="15.0" />
                            </font>
                         </Label>
-                        <Label layoutX="64.0" layoutY="34.0" text="Name:" />
-                        <Label layoutX="50.0" layoutY="78.0" text="Account ID:" />
-                        <Label layoutX="49.0" layoutY="126.0" text="Description:" />
-                        <TextField layoutX="145.0" layoutY="29.0" prefHeight="25.0" prefWidth="132.0" />
-                        <TextArea layoutX="145.0" layoutY="126.0" prefHeight="127.0" prefWidth="131.0" />
-                        <Button layoutX="534.0" layoutY="279.0" mnemonicParsing="false" text="Delete contact" />
-                        <Button layoutX="397.0" layoutY="280.0" mnemonicParsing="false" text="Make payment" />
-                        <TextField layoutX="145.0" layoutY="74.0" prefHeight="25.0" prefWidth="131.0" />
+                        <Label layoutX="61.0" layoutY="56.0" text="Name:" />
+                        <Label layoutX="50.0" layoutY="131.0" text="Account ID:" />
+                        <Label layoutX="49.0" layoutY="171.0" text="Description:" />
+                        <TextField fx:id="nameField" layoutX="145.0" layoutY="52.0" prefHeight="25.0" prefWidth="132.0" />
+                        <TextArea fx:id="descriptionArea" layoutX="145.0" layoutY="171.0" prefHeight="82.0" prefWidth="131.0" />
+                        <Button layoutX="534.0" layoutY="279.0" mnemonicParsing="false" onAction="#deleteContact" text="Delete contact" />
+                        <Button layoutX="397.0" layoutY="279.0" mnemonicParsing="false" text="Make payment" />
+                        <TextField fx:id="accountID" layoutX="145.0" layoutY="127.0" prefHeight="25.0" prefWidth="131.0" />
+                        <Label fx:id="contactErrorLabel" layoutX="191.0" layoutY="274.0" prefHeight="36.0" prefWidth="172.0" style="-fx-text-fill: red;" />
+                        <Label layoutX="29.0" layoutY="95.0" text="Create contact ID:" />
+                        <TextField fx:id="contactID" layoutX="145.0" layoutY="90.0" prefHeight="25.0" prefWidth="132.0" />
                      </children></AnchorPane>
               </content>
             </Tab>
