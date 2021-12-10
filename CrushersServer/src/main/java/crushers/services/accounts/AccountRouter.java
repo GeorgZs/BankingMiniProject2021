@@ -85,6 +85,29 @@ public class AccountRouter extends Router<Account> {
         ex.printStackTrace();
       }
     });
+
+    server.createContext(basePath + "/", (HttpExchange exchange) -> {
+      try {
+        final String[] pathParams = exchange.getRequestURI().getPath().split("/");
+        final int accountId = Integer.parseInt(pathParams[pathParams.length - 1]);
+
+        switch (exchange.getRequestMethod()) {
+          case "GET":
+            getAccountWithId(exchange, accountId);
+            break;
+
+          default:
+            throw new MethodNotAllowedException();
+        }
+      }
+      catch (HttpException ex) {
+        sendResponse(exchange, ex.statusCode, String.format("{\"error\":\"%s\"}", ex.getMessage()).getBytes());
+      }
+      catch (Exception ex) {
+        sendResponse(exchange, 500, String.format("{\"error\":\"Internal server error, try again later.\"}").getBytes());
+        ex.printStackTrace();
+      }
+    });
   }
 
   @Override
@@ -117,6 +140,12 @@ public class AccountRouter extends Router<Account> {
   private void getCustomersAtBank(HttpExchange exchange) throws Exception {
     final Clerk loggedInClerk = Authenticator.instance.authClerk(exchange);
     final Collection<Customer> responseData = accountService.getCustomersAtBank(loggedInClerk.getWorksAt());
+    sendJsonResponse(exchange, responseData);
+  }
+
+  private void getAccountWithId(HttpExchange exchange, int id) throws Exception {
+    final Customer loggedInClerk = Authenticator.instance.authCustomer(exchange);
+    final Account responseData = accountService.getAccountWithId(loggedInClerk, id);
     sendJsonResponse(exchange, responseData);
   }
 
