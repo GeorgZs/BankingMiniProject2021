@@ -2,6 +2,8 @@ package crushers.services.transactions;
 
 import crushers.models.accounts.Account;
 import crushers.models.accounts.SavingsAccount;
+import crushers.models.exchangeInformation.Loan;
+import crushers.models.exchangeInformation.Notification;
 import crushers.models.exchangeInformation.RecurringTransaction;
 import crushers.models.exchangeInformation.Transaction;
 import crushers.models.users.Clerk;
@@ -162,5 +164,37 @@ public class TransactionService {
         };
         scheduledExecutorService.scheduleAtFixedRate(runnable, 0, recurringTransaction.getInterval(), TimeUnit.SECONDS);
         return recurringTransaction;
+    }
+
+
+
+    public Transaction getLoan(Customer loggedIn, Loan loan) throws Exception{
+        loggedIn.addNotification(new Notification("Loan has been requested - money deposited"));
+        Transaction transaction = new Transaction(null, loan.getAccount(), loan.getAmount(), loan.getPurpose());
+        transaction.setLabel("Loan");
+        loggedIn.addLoans(loan);
+        create(transaction, loggedIn);
+        return transaction;
+    }
+
+    public Loan payBackLoan(Customer loggedIn, Transaction transaction) throws Exception{
+        if(!loggedIn.getLoans().isEmpty()){
+            for(Loan loan : loggedIn.getLoans()){
+                if(transaction.getLabel().equals(loan.getPurpose())){
+                    loggedIn.getLoans().remove(loan);
+                    double newAmount = loan.getAmount() - transaction.getAmount();
+                    loan.setAmount(newAmount);
+                    loggedIn.getLoans().add(loan);
+                    return loan;
+                }
+                else{
+                    throw new BadRequestException("Transaction label did not match Loan");
+                }
+            }
+        }
+        else {
+            throw new BadRequestException("Customer does not have Loans");
+        }
+        return null;
     }
 }

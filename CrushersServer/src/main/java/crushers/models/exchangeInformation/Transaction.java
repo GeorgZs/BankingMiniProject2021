@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 
 public class Transaction implements Storable {
     private int id = -1;
+    private String label = "";
     private Account from;
     private Account to;
     private double amount;
@@ -34,6 +35,15 @@ public class Transaction implements Storable {
     @Override
     public void setId(int id) {
         this.id = id;
+    }
+
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
     }
 
     public Account getFrom() {
@@ -75,4 +85,5 @@ public class Transaction implements Storable {
     public void setDescription(String description) {
         this.description = description;
     }
+
 }
