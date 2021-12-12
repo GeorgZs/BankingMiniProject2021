@@ -88,7 +88,7 @@ public class AccountTransferController implements Initializable {
            if (Double.parseDouble(amountField.getText()) > paymentAccountFrom.getBalance()) {
                errorLabel.setText("Insufficient funds!");
            } else {
-                Transaction transaction = new Transaction(paymentAccountFrom, paymentAccountTo, amountSek, comment,LocalDateTime.now());
+                Transaction transaction = new Transaction(paymentAccountFrom, paymentAccountTo, amountSek, comment);
                 paymentAccountFrom.withdraw(amountSek);
                 paymentAccountTo.deposit(amountSek);
                 paymentAccountFrom.addTransactionToMap(transaction);

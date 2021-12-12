@@ -33,7 +33,6 @@ public class AccountController implements Initializable{
     
     private Stage stage;
     private Parent root;
-    private PaymentAccount account;
     double customerTotalBalance;
     @FXML
     static AnchorPane accountAnchor;
@@ -64,16 +63,12 @@ public class AccountController implements Initializable{
         Util.showModal("AccountCreationView", "Register an Account", e);
     }
 
-    public PaymentAccount getAccount() {
-        return account;
-    }
-
     public void select(ActionEvent e) throws IOException{
         if(accountList.getSelectionModel().getSelectedItem() == null){
             invalidLabel.setText("Please select an account!");
         }else{
-            account = accountList.getSelectionModel().getSelectedItem();
-            App.currentAccountID = account.getId();
+            App.currentAccount = accountList.getSelectionModel().getSelectedItem();;
+            App.currentAccountID = App.currentAccount.getId();
             System.out.println(App.currentAccountID);
             Util.closeAndShow("SystemView", "Crushers System", e);
         }
@@ -92,7 +87,6 @@ public class AccountController implements Initializable{
         double totalBalance = getCustomerTotalBalance();
         totalBalanceLabel.setText("Total Balance: " + totalBalance);
         welcomeLabel.setText("Welcome, " + firstName + " " + lastName);
-
         observableAccount.addAll(App.currentCustomer.getAccountList());
         accountList.setItems(observableAccount);
 

@@ -1,5 +1,7 @@
 package crushers;
 
+import crushers.model.PaymentAccount;
+import crushers.model.Transaction;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,6 +19,8 @@ import crushers.model.Customer;
 public class App extends Application {
 
     public static Customer currentCustomer;
+    public static PaymentAccount currentAccount;
+    public static Transaction currentTransaction;
     public static String currentToken;
     public static int currentAccountID;
     

@@ -74,11 +74,17 @@
                               <Font size="17.0" />
                            </font>
                         </Label>
-                        <ListView layoutX="400.0" layoutY="58.0" prefHeight="207.0" prefWidth="230.0" />
-                        <Button layoutX="438.0" layoutY="275.0" mnemonicParsing="false" text="View transaction details" />
+                        <ListView fx:id="transactionHistory" layoutX="489.0" layoutY="58.0" prefHeight="207.0" prefWidth="213.0" />
+                        <Button layoutX="438.0" layoutY="275.0" mnemonicParsing="false" onAction="#transactionDetails" text="View transaction details" />
                         <Button fx:id="makeAPayment" layoutX="153.0" layoutY="86.0" mnemonicParsing="false" onAction="#makeAPayment" text="Make a new payment" />
                         <Button layoutX="125.0" layoutY="183.0" mnemonicParsing="false" text="Report a suspicious transaction" />
                         <Button layoutX="144.0" layoutY="133.0" mnemonicParsing="false" text="Make a payment request" />
+                        <ListView fx:id="timeList" layoutX="352.0" layoutY="58.0" prefHeight="206.0" prefWidth="131.0" />
+                        <Label fx:id="transactionError" layoutX="283.0" layoutY="279.0" textFill="#e10000">
+                           <font>
+                              <Font name="SansSerif Regular" size="12.0" />
+                           </font>
+                        </Label>
                      </children></AnchorPane>
               </content>
             </Tab>

@@ -13,6 +13,7 @@ import crushers.util.Json;
 import crushers.util.Util;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -24,9 +25,8 @@ import javafx.stage.Stage;
 
 public class SystemController implements Initializable{
 
-    AccountController accountController = new AccountController();
     @FXML
-    private Label welcomeLabel, errorLabel;
+    private Label welcomeLabel, errorLabel, transactionError;
     @FXML
     private Pane pane;
     @FXML
@@ -82,6 +82,8 @@ public class SystemController implements Initializable{
     private Button makeANewPayment, makeAPaymentRequest, reportTransaction, viewTransactionDetails;
     @FXML
     private ListView<Transaction> transactionHistory;
+    @FXML
+    private ListView<String> timeList;
     
     public void logout(ActionEvent e) throws IOException{
         Util.logOutAlert("Logging out?", "Are you sure you want to log-out?", e);
@@ -92,19 +94,40 @@ public class SystemController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         welcomeLabel.setText("Welcome " + App.currentCustomer.getFirstName() + " " + App.currentCustomer.getLastName());
+        //Payments
+        ObservableList<String> observableTimeList = FXCollections.observableArrayList();
+        ObservableList<Transaction> observableTransactionList = FXCollections.observableArrayList();
+        if(App.currentAccount.getTransactions() != null) {
+            observableTimeList.addAll(App.currentAccount.getTransactions().keySet());
+            observableTransactionList.addAll(App.currentAccount.getTransactions().values());
+            timeList.setItems(observableTimeList);
+            transactionHistory.setItems(observableTransactionList);
+        }
+
         //Contacts
         ObservableList<Contact> observableContact = FXCollections.observableArrayList();
-        observableContact.addAll(App.currentCustomer.getContactList());
-        contactList.setItems(observableContact);
-
+        if(App.currentCustomer.getContactList() != null) {
+            observableContact.addAll(App.currentCustomer.getContactList());
+            contactList.setItems(observableContact);
+        }
     }
     public void getInterest(ActionEvent e) throws IOException, InterruptedException {
         ArrayList<Integer> years = new ArrayList<>();
         if (years.contains(LocalDateTime.now().getYear())){
+            System.out.println("no");
             errorLabel.setText("Already received interest this year");
         } else {
             years.add(LocalDateTime.now().getYear());
-            Http.post("transactions/interestRate/" + accountController.getAccount().getId(), Customer.class);
+            Http.post("transactions/interestRate/" + App.currentAccount.getId(), Customer.class);
+            System.out.println("done");
+        }
+    }
+    public void transactionDetails(ActionEvent e) {
+        if(transactionHistory.getSelectionModel().getSelectedItem() == null){
+            transactionError.setText("Please select a transaction");
+        }else{
+            App.currentTransaction = transactionHistory.getSelectionModel().getSelectedItem();;
+            Util.showModal("TransactionDescriptionView", "Transaction Description",e);
         }
     }
 
