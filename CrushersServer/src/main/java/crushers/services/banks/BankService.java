@@ -4,6 +4,7 @@ package crushers.services.banks;
 import crushers.models.Bank;
 import crushers.models.accounts.Account;
 import crushers.models.accounts.SavingsAccount;
+import crushers.models.exchangeInformation.BankDetails;
 import crushers.models.exchangeInformation.InterestRate;
 import crushers.models.users.Manager;
 import crushers.server.httpExceptions.*;
@@ -59,5 +60,16 @@ public class BankService {
             }
         }
         return newInterestRate.getRate();
+    }
+
+    public BankDetails editBank(Manager manager, BankDetails updatedInformation) throws Exception {
+        Bank bank = new Bank(manager);
+        bank.setId(manager.getWorksAt().getId());
+        bank.setName(updatedInformation.getName());
+        bank.setLogo(updatedInformation.getLogo());
+        bank.setDetails(updatedInformation.getDetails());
+        staffService.getStorage().update(manager.getId(), manager);
+        storage.update(manager.getWorksAt().getId(), bank);
+        return updatedInformation;
     }
 }

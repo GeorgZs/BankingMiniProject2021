@@ -111,4 +111,8 @@ public class StaffService {
     public JsonAccountStorage getAccountStorage() {
         return accountStorage;
     }
+
+    public JsonClerkStorage getStorage() {
+        return storage;
+    }
 }
