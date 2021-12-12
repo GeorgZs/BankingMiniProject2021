@@ -211,12 +211,7 @@ public class DashboardController {
             createAccounts.setVisible(true);
             accountBar.setVisible(true);
             plus4.setImage(new Image("file:src/main/resources/crushers/images/icons8-minus-48.png"));
-
-
-
-
         }
-
 
     }
 
@@ -277,6 +272,13 @@ public class DashboardController {
 
         Clerk clerk = new Clerk(clerkEmail, clerkFirst,clerkLast,clerkAddress, clerkPassword, null, null);
         // Http.post("/staff", clerk, Clerk.class);
+
+        // User clerk = new User();
+        // clerk.setFirstName(clerkFirst)
+        // clerk.setLastName(clerkLast)
+        // clerk.setAddress(clerkAddress)
+        // clerk.setEmail(clerkEmail)
+        // ServerFacade.instance.createClerk(clerk)
     }
 
     @FXML
@@ -375,9 +377,10 @@ public class DashboardController {
 
     @FXML
     private void onClickedPayment(MouseEvent mouseEvent) throws IOException {
-        // WindowManager.showModal();
-
+        WindowManager.showModal(WindowManager.Pages.Payment, "Crushers Bank - Payment account");
     }
+
+
 
     @FXML
     private void onHoverSavings(MouseEvent mouseEvent) throws IOException {
@@ -401,11 +404,8 @@ public class DashboardController {
 
     @FXML
     private void onClickedSavings(MouseEvent mouseEvent) throws IOException {
-        // WindowManager.showModal();
+        WindowManager.showModal(WindowManager.Pages.Savings, "Crushers Bank - Savings account");
     }
-
-
-
 
 
 

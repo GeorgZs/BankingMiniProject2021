@@ -1,6 +1,6 @@
 package crushers.datamodels;
 
-import crushers.models.Bank;
+import crushers.datamodels.Bank;
 import crushers.models.users.Customer;
 
 public class BankAccount {

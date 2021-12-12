@@ -52,12 +52,13 @@ public class ServerFacade {
 
   // Staff
 
-  public User createClerk(User clerkData) {
+  public User createClerk(User clerkData) throws Exception {
     return null;
+    //return Http.instance.post("/staff", clerkData, User.class, this.authToken);
   }
 
-  public User getLoggedInClerk() {
-    return null;
+  public User getLoggedInClerk() throws Exception {
+    return Http.instance.get("/staff/@me", User.class, this.authToken);
   }
 
   public List<User> listAllClerks() {
@@ -67,8 +68,8 @@ public class ServerFacade {
 
   // Bank Accounts
 
-  public BankAccount createBankAccount(BankAccount bankAccountData) {
-    return null;
+  public BankAccount createBankAccount(BankAccount bankAccountData) throws Exception {
+    return Http.instance.post("/accounts", bankAccountData, BankAccount.class);
   }
 
   public List<BankAccount> listAllBankAccountsAtThisBank() {

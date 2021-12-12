@@ -320,7 +320,7 @@
       </Pane>
       <Pane fx:id="createAccounts" layoutX="229.0" layoutY="320.0" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="229.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="320.0">
          <children>
-            <Pane fx:id="paymentAccount" layoutX="131.0" layoutY="88.0" onMouseEntered="#onHoverPayment" onMouseExited="#onHoverPaymentEnded" prefHeight="229.0" prefWidth="251.0" style="-fx-background-color: #EBEBEB;">
+            <Pane fx:id="paymentAccount" layoutX="131.0" layoutY="88.0" onMouseClicked="#onClickedPayment" onMouseEntered="#onHoverPayment" onMouseExited="#onHoverPaymentEnded" prefHeight="229.0" prefWidth="251.0" style="-fx-background-color: #EBEBEB;">
                <children>
                   <Label layoutX="64.0" layoutY="205.0" text="Payment account">
                      <font>
@@ -329,7 +329,7 @@
                   </Label>
                </children>
             </Pane>
-            <Pane fx:id="savingAccount" layoutX="532.0" layoutY="88.0" onMouseEntered="#onHoverSavings" onMouseExited="#onHoverSavingsEnded" prefHeight="229.0" prefWidth="251.0" style="-fx-background-color: #EBEBEB;">
+            <Pane fx:id="savingAccount" layoutX="532.0" layoutY="88.0" onMouseClicked="#onClickedSavings" onMouseEntered="#onHoverSavings" onMouseExited="#onHoverSavingsEnded" prefHeight="229.0" prefWidth="251.0" style="-fx-background-color: #EBEBEB;">
                <children>
                   <Label layoutX="67.0" layoutY="205.0" text="Savings account">
                      <font>
