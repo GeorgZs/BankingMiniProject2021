@@ -6,6 +6,7 @@ import crushers.models.accounts.Account;
 import crushers.models.accounts.SavingsAccount;
 import crushers.models.exchangeInformation.BankDetails;
 import crushers.models.exchangeInformation.InterestRate;
+import crushers.models.users.Clerk;
 import crushers.models.users.Manager;
 import crushers.server.httpExceptions.*;
 import crushers.services.staff.StaffService;
@@ -68,7 +69,12 @@ public class BankService {
         bank.setName(updatedInformation.getName());
         bank.setLogo(updatedInformation.getLogo());
         bank.setDetails(updatedInformation.getDetails());
+        manager.setWorksAt(bank);
         staffService.getStorage().update(manager.getId(), manager);
+        for(Clerk clerk : staffService.getClerksOfBank(bank)){
+            clerk.setWorksAt(bank);
+            staffService.getStorage().update(clerk.getId(), clerk);
+        }
         storage.update(manager.getWorksAt().getId(), bank);
         return updatedInformation;
     }
