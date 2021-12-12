@@ -156,10 +156,10 @@ public class TransactionRouter extends Router<Transaction> {
             }
         });
 
-        server.createContext(basePath + "/loan", (exchange) -> {
+        server.createContext(basePath + "/payBackLoan", (exchange) -> {
             try {
                 switch (exchange.getRequestMethod()) {
-                    case "PUT":
+                    case "POST":
                         payBackLoan(exchange);
                         break;
 

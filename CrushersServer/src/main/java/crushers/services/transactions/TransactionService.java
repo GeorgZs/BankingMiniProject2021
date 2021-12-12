@@ -57,19 +57,25 @@ public class TransactionService {
                             "Cannot create Transaction: Account with id: " + customerAccount.getId() + " does not have enough funds to create this Transaction"
                     );
                 }
+                if(customer.getLoans().isEmpty()){
+                    if (!accountService.exists(transaction.getTo().getId())) {
+                    //reason being is that the transaction goes from account to NULL account (Bank)
+                    //paying back the bank requires us to break the pre-existing checker for accounts
+                        invalidDataMessage.add("Account does not exist for target customer");
+                    }
+                }
             }
         } else if (user instanceof Clerk) {
             if (transaction.getFrom() != null) {
                 invalidDataMessage.add("Account from should be the Bank!");
             }
+            if (!accountService.exists(transaction.getTo().getId())) {
+                invalidDataMessage.add("Account does not exist for target customer");
+            }
         }
 
-        if (!accountService.exists(transaction.getTo().getId())) {
-            invalidDataMessage.add("Account does not exist for target customer");
-        }
-
-        if (transaction.getAmount() < 0) {
-            invalidDataMessage.add("Transaction amount cannot be less than 0");
+        if (transaction.getAmount() <= 0) {
+            invalidDataMessage.add("Transaction amount must be greater than 0");
         }
 
         if (transaction.getDescription().isBlank() || transaction.getDescription().isEmpty()) {
@@ -167,7 +173,7 @@ public class TransactionService {
 
     public Transaction getLoan(Customer loggedIn, Loan loan) throws Exception{
         loggedIn.addNotification(new Notification("Loan has been requested - money deposited"));
-        Transaction transaction = new Transaction(null, loan.getAccount(), loan.getAmount(), loan.getPurpose());
+        Transaction transaction = new Transaction(null, loan.getAccount(), 100, loan.getPurpose());
         transaction.setLabel("Loan");
         loggedIn.addLoans(loan);
         transaction.setAmount(loan.getAmount());
@@ -178,12 +184,17 @@ public class TransactionService {
     public Loan payBackLoan(Customer loggedIn, Transaction transaction) throws Exception{
         if(!loggedIn.getLoans().isEmpty()){
             for(Loan loan : loggedIn.getLoans()){
-                if(transaction.getLabel().equals(loan.getPurpose())){
+                if(transaction.getDescription().equals(loan.getPurpose())){
                     loggedIn.getLoans().remove(loan);
                     double newAmount = loan.getAmount() - transaction.getAmount();
                     loan.setAmount(newAmount);
                     loggedIn.getLoans().add(loan);
-                    return loan;
+                    if(loan.getAmount() > 0){
+                        return loan;
+                    }
+                    else{
+                        create(transaction, loggedIn);
+                    }
                 }
                 else{
                     throw new BadRequestException("Transaction label did not match Loan");

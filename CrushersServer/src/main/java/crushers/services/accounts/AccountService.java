@@ -75,14 +75,15 @@ public class AccountService {
         );
       }
 
+      if(receiver != null){
+        receiver.setBalance(receiver.getBalance() + transaction.getAmount());
+      }
       sender.setBalance(receiver.getBalance() - transaction.getAmount());
-      receiver.setBalance(receiver.getBalance() + transaction.getAmount());
     }
     else{
       Account receiver = storage.get(transaction.getTo().getId());
       receiver.setBalance(receiver.getBalance() + transaction.getAmount());
     }
-
   }
 
   public Collection<Account> getOfCustomer(Customer customer) throws Exception {
