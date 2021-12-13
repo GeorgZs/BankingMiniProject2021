@@ -3,6 +3,8 @@ package crushers.controllers;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
+import java.awt.event.ActionEvent;
+
 public class DepositController {
     @FXML
     private TextField amount;
@@ -17,5 +19,9 @@ public class DepositController {
     @FXML
     private Button cancelButton;
 
+    //@FXML
+    //private void onPressedDeposit(ActionEvent actionEvent) throws Exception {
+      //  if()
+    
 
 }

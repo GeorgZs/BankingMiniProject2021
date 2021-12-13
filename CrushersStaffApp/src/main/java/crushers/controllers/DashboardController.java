@@ -281,6 +281,7 @@ public class DashboardController {
         clerk.setLastName(clerkLast);
         clerk.setAddress(clerkAddress);
         clerk.setEmail(clerkEmail);
+        clerk.setPassword(clerkPassword);
 
         try {
             ServerFacade.instance.createClerk(clerk);

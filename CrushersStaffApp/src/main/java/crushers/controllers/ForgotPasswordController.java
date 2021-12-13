@@ -66,6 +66,8 @@ public class ForgotPasswordController {
 
     @FXML
     public void onPressedReset(javafx.event.ActionEvent actionEvent) throws Exception {
+
+
         // Clerk clerk = Http.get("/banks/" + emailAddress.getText(), Clerk.class);
         // String[] securityQuestion1 = clerk.getSecurityQuestions();
         // securityQuestion.setText(securityQuestion1[0]);

@@ -26,8 +26,8 @@ public class ServerFacade {
     this.authToken = null;
   }
 
-  public void resetUserPassword(ResetPasswordRequest resetPasswordRequest) {
-
+  public void resetUserPassword(ResetPasswordRequest resetPasswordRequest) throws Exception {
+    Http.instance.put("/auth/password", resetPasswordRequest, ResetPasswordRequest.class);
   }
 
 
@@ -83,10 +83,12 @@ public class ServerFacade {
   // Transactions
 
   public Transaction withdraw(Transaction transactionData) {
+    // return Http.instance.post("/transactions", transactionData, Transaction.class);
     return null;
   }
 
   public Transaction deposit(Transaction transactionData) {
+    // return Http.instance.post("/transactions", transactionData, Transaction.class);
     return null;
   }
 
