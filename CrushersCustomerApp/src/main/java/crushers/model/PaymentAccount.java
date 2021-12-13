@@ -1,13 +1,15 @@
 package crushers.model;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import crushers.App;
+import crushers.util.Http;
+import crushers.util.Json;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PaymentAccount {
     protected int id;
@@ -66,8 +68,10 @@ public class PaymentAccount {
     public double getBalance(){
         return this.balance;
     }
-    public Map<String,Transaction> getTransactions(){
-        return this.transactions;
+    public List<Transaction> getTransactions() throws IOException, InterruptedException {
+        List<Transaction> transactionCollection = Json.parseList(
+                Http.authGet("/transactions/accounts/" + this.id, App.currentToken), Transaction.class);
+        return transactionCollection;
     }
     public void withdraw(double amountToWithdraw){
         this.balance = this.balance - amountToWithdraw;

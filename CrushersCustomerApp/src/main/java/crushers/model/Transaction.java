@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 
 public class Transaction {
     private int id;
+    private String label = "";
     private PaymentAccount accountFrom;
     private PaymentAccount accountTo;
     private double amount;
@@ -19,13 +20,19 @@ public class Transaction {
         this.date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
     public String toString(){
-        return "Amount: " + this.amount + " SEK.";
+        return this.amount + " SEK." ;
     }
 
     public String getDate() {
         return date;
     }
+    public String getLabel() {
+        return label;
+    }
 
+    public void setLabel(String label) {
+        this.label = label;
+    }
     public String getDescription() {
         return description;
     }

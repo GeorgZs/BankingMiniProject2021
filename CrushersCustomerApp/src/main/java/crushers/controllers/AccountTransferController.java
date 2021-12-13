@@ -95,6 +95,7 @@ public class AccountTransferController implements Initializable {
                 paymentAccountTo.addTransactionToMap(transaction);
                 errorLabel.setStyle("-fx-text-fill: green");
                 errorLabel.setText("Transfer successful!");
+                Http.authPost("/transactions",App.currentToken ,transaction);
 
                 Alert alert = new Alert(AlertType.INFORMATION, "Transfer successful!");
                 alert.setHeaderText("");

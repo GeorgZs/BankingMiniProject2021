@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import crushers.App;
@@ -97,11 +98,21 @@ public class SystemController implements Initializable{
         //Payments
         ObservableList<String> observableTimeList = FXCollections.observableArrayList();
         ObservableList<Transaction> observableTransactionList = FXCollections.observableArrayList();
-        if(App.currentAccount.getTransactions() != null) {
-            observableTimeList.addAll(App.currentAccount.getTransactions().keySet());
-            observableTransactionList.addAll(App.currentAccount.getTransactions().values());
-            timeList.setItems(observableTimeList);
-            transactionHistory.setItems(observableTransactionList);
+        try {
+            List<Transaction> transactionList = App.currentAccount.getTransactions();
+            System.out.println(transactionList);
+            if(App.currentAccount.getTransactions() != null) {
+                observableTransactionList.addAll(App.currentAccount.getTransactions());
+                for(Transaction transaction : App.currentAccount.getTransactions()) {
+                    observableTimeList.add(transaction.getDate());
+                }
+                timeList.setItems(observableTimeList);
+                transactionHistory.setItems(observableTransactionList);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
 
         //Contacts
