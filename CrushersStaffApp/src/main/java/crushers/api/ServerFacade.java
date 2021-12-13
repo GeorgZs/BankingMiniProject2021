@@ -53,8 +53,7 @@ public class ServerFacade {
   // Staff
 
   public User createClerk(User clerkData) throws Exception {
-    return null;
-    //return Http.instance.post("/staff", clerkData, User.class, this.authToken);
+    return Http.instance.post("/staff", clerkData, User.class, this.authToken);
   }
 
   public User getLoggedInClerk() throws Exception {

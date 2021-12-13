@@ -2,6 +2,9 @@ package crushers.controllers;
 
 import crushers.WindowManager;
 import crushers.api.Http;
+import crushers.api.HttpError;
+import crushers.api.ServerFacade;
+import crushers.datamodels.User;
 import crushers.models.users.Clerk;
 import crushers.models.users.ClerkTableView;
 import javafx.collections.FXCollections;
@@ -270,15 +273,23 @@ public class DashboardController {
             password.setStyle("-fx-border-color: transparent");
         }
 
-        Clerk clerk = new Clerk(clerkEmail, clerkFirst,clerkLast,clerkAddress, clerkPassword, null, null);
+        //Clerk clerk = new Clerk(clerkEmail, clerkFirst,clerkLast,clerkAddress, clerkPassword, null, null);
         // Http.post("/staff", clerk, Clerk.class);
 
-        // User clerk = new User();
-        // clerk.setFirstName(clerkFirst)
-        // clerk.setLastName(clerkLast)
-        // clerk.setAddress(clerkAddress)
-        // clerk.setEmail(clerkEmail)
-        // ServerFacade.instance.createClerk(clerk)
+        User clerk = new User();
+        clerk.setFirstName(clerkFirst);
+        clerk.setLastName(clerkLast);
+        clerk.setAddress(clerkAddress);
+        clerk.setEmail(clerkEmail);
+
+        try {
+            ServerFacade.instance.createClerk(clerk);
+
+        } catch (Exception e) {
+            if(e instanceof HttpError) showAlert(((HttpError)e).getError());
+            e.printStackTrace();
+        }
+
     }
 
     @FXML
@@ -405,6 +416,14 @@ public class DashboardController {
     @FXML
     private void onClickedSavings(MouseEvent mouseEvent) throws IOException {
         WindowManager.showModal(WindowManager.Pages.Savings, "Crushers Bank - Savings account");
+    }
+
+    private void showAlert(String message){
+        Alert a = new Alert(Alert.AlertType.INFORMATION);
+        a.setTitle("Warning");
+        a.setHeaderText(message);
+        a.getDialogPane().setStyle("-fx-font-family: SansSerif");
+        a.show();
     }
 
 
