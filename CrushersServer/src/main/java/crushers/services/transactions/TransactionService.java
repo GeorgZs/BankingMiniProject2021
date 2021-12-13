@@ -150,17 +150,8 @@ public class TransactionService {
     }
 
     public RecurringTransaction createRecurringDeposit(Customer customer, RecurringTransaction recurringTransaction) throws Exception {
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    create(recurringTransaction, customer);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-        scheduledExecutorService.scheduleAtFixedRate(runnable, 0, recurringTransaction.getInterval(), TimeUnit.SECONDS);
-        return recurringTransaction;
+        create(recurringTransaction, customer);
+        Thread.sleep(recurringTransaction.getInterval() * 1000);
+        return createRecurringDeposit(customer, recurringTransaction);
     }
 }
