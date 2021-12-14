@@ -2,15 +2,15 @@ package crushers.models.exchangeInformation;
 
 import java.time.LocalDateTime;
 
-public class Notification {
+public class ManagerNotification {
     private String notification;
     private LocalDateTime time;
 
-    public Notification(){
+    public ManagerNotification(){
         //for jackson
     }
 
-    public Notification(String notification){
+    public ManagerNotification(String notification){
         this.notification = notification;
         this.time = LocalDateTime.now();
     }

@@ -1,7 +1,6 @@
 package crushers.services.customers;
 
 import java.io.IOException;
-import java.sql.Time;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,7 +8,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import crushers.models.exchangeInformation.Contact;
-import crushers.models.exchangeInformation.Notification;
+import crushers.models.exchangeInformation.CustomerNotification;
+import crushers.models.exchangeInformation.ManagerNotification;
 import crushers.models.users.Customer;
 
 import crushers.models.users.Manager;
@@ -118,13 +118,25 @@ public class CustomerService {
   }
 
 
-  public Notification sendNotification(Manager loggedInManager, Notification requestData) throws IOException {
-    Notification newNotification = new Notification(requestData.getNotification());
+  public ManagerNotification sendNotificationToUsers(Manager loggedInManager, ManagerNotification requestData) throws IOException {
+    ManagerNotification newNotification = new ManagerNotification(requestData.getNotification());
     Collection<Customer> customers = customerStorage.getAll();
     for (Customer customer : customers){
       customer.addNotification(newNotification);
     }
     return newNotification;
+  }
+
+  public CustomerNotification sendNotification(Customer customer, CustomerNotification requestData) throws Exception{
+    CustomerNotification customerNotification = new CustomerNotification(requestData.getNotification(), requestData.getTargetCustomer());
+    if(requestData.getTargetCustomer() != null){
+      Customer targetCustomer = customerStorage.get(requestData.getTargetCustomer().getId());
+      targetCustomer.addNotification(requestData);
+    }
+    else{
+      throw new BadRequestException("Customer specified in Notification cannot be found");
+    }
+    return requestData;
   }
 
   public LinkedHashMap<LocalDateTime, String> getNotifications(Customer customer){

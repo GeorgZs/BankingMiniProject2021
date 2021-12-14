@@ -170,7 +170,7 @@ public class TransactionService {
 
 
     public Transaction getLoan(Customer loggedIn, Loan loan) throws Exception{
-        loggedIn.addNotification(new Notification("Loan has been requested - money deposited"));
+        loggedIn.addNotification(new ManagerNotification("Loan has been requested - money deposited"));
         Transaction transaction = new Transaction(null, loan.getAccount(), 100, loan.getPurpose());
         transaction.setLabel("Loan");
         loggedIn.addLoans(loan);

@@ -1,9 +1,7 @@
 package crushers.services.banks;
 
-
 import crushers.models.Bank;
 import crushers.models.accounts.Account;
-import crushers.models.accounts.SavingsAccount;
 import crushers.models.exchangeInformation.BankDetails;
 import crushers.models.exchangeInformation.InterestRate;
 import crushers.models.users.Clerk;

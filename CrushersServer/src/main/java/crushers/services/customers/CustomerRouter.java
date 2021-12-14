@@ -7,7 +7,8 @@ import java.util.LinkedHashMap;
 import com.sun.net.httpserver.*;
 
 import crushers.models.exchangeInformation.Contact;
-import crushers.models.exchangeInformation.Notification;
+import crushers.models.exchangeInformation.CustomerNotification;
+import crushers.models.exchangeInformation.ManagerNotification;
 import crushers.models.users.Customer;
 import crushers.models.users.Manager;
 import crushers.server.Authenticator;
@@ -88,6 +89,28 @@ public class CustomerRouter extends Router<Customer> {
       }
     });
 
+    server.createContext(basePath + "/notificationToUsers", (exchange) -> {
+      try {
+        switch (exchange.getRequestMethod()) {
+          case "POST":
+            sendNotificationToUsers(exchange);
+            break;
+
+          default:
+            throw new MethodNotAllowedException();
+        }
+      }
+      catch (HttpException ex) {
+        sendResponse(exchange, ex.statusCode, String.format("{\"error\":\"%s\"}", ex.getMessage()).getBytes());
+      }
+      catch (Exception ex) {
+        sendResponse(exchange, 500, String.format("{\"error\":\"Internal server error, try again later.\"}").getBytes());
+        ex.printStackTrace();
+      }
+    });
+
+
+
     server.createContext(basePath + "/notification", (exchange) -> {
       try {
         switch (exchange.getRequestMethod()) {
@@ -155,10 +178,17 @@ public class CustomerRouter extends Router<Customer> {
     sendJsonResponse(exchange, responseData);
   }
 
-  private void sendNotification(HttpExchange exchange) throws Exception{
+  private void sendNotificationToUsers(HttpExchange exchange) throws Exception{
     final Manager loggedInManager = Authenticator.instance.authManager(exchange);
-    final Notification requestData = getJsonBodyData(exchange, Notification.class);
-    final Notification responseData = customerService.sendNotification(loggedInManager, requestData);
+    final ManagerNotification requestData = getJsonBodyData(exchange, ManagerNotification.class);
+    final ManagerNotification responseData = customerService.sendNotificationToUsers(loggedInManager, requestData);
+    sendJsonResponse(exchange, responseData);
+  }
+
+  private void sendNotification(HttpExchange exchange) throws Exception{
+    final Customer loggedInCustomer = Authenticator.instance.authCustomer(exchange);
+    final CustomerNotification requestData = getJsonBodyData(exchange, CustomerNotification.class);
+    final CustomerNotification responseData = customerService.sendNotification(loggedInCustomer, requestData);
     sendJsonResponse(exchange, responseData);
   }
 
@@ -167,5 +197,4 @@ public class CustomerRouter extends Router<Customer> {
     final LinkedHashMap<LocalDateTime, String> responseData = customerService.getNotifications(loggedInCustomer);
     sendJsonResponse(exchange, responseData);
   }
-
 }

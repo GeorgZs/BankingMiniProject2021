@@ -1,7 +1,7 @@
 package crushers.models.users;
 
 import crushers.models.exchangeInformation.Loan;
-import crushers.models.exchangeInformation.Notification;
+import crushers.models.exchangeInformation.ManagerNotification;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ public class Customer extends User{
         this.notifications = new LinkedHashMap<>();
     }
 
-    public void addNotification(Notification notification){
+    public void addNotification(ManagerNotification notification){
         notification.setTime(LocalDateTime.now());
         //                      its saying that the getter for time is null
         //                      which is weird bcs upon object creation it should set
