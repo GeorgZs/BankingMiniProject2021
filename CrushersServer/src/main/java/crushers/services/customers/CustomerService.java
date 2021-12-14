@@ -123,20 +123,24 @@ public class CustomerService {
     Collection<Customer> customers = customerStorage.getAll();
     for (Customer customer : customers){
       customer.addNotification(newNotification);
+      System.out.println(customer.getNotification());
+      customerStorage.update(customer.getId(), customer);
     }
     return newNotification;
   }
 
   public CustomerNotification sendNotification(Customer customer, CustomerNotification requestData) throws Exception{
     CustomerNotification customerNotification = new CustomerNotification(requestData.getNotification(), requestData.getTargetCustomer());
-    if(requestData.getTargetCustomer() != null){
-      Customer targetCustomer = customerStorage.get(requestData.getTargetCustomer().getId());
-      targetCustomer.addNotification(requestData);
+    if(customerNotification.getTargetCustomer() != null){
+      Customer targetCustomer = customerStorage.get(customerNotification.getTargetCustomer().getId());
+      customerNotification.setNotification(customerNotification.getNotification() + " ---- Kind regards, " + customer.getFirstName());
+      targetCustomer.addNotification(customerNotification);
+      customerStorage.update(targetCustomer.getId(), targetCustomer);
     }
     else{
       throw new BadRequestException("Customer specified in Notification cannot be found");
     }
-    return requestData;
+    return customerNotification;
   }
 
   public LinkedHashMap<LocalDateTime, String> getNotifications(Customer customer){

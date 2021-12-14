@@ -49,6 +49,9 @@ public class JsonAccountStorage extends JsonStorage<Account> {
   }
 
   public Set<Account> getAccountsOfCustomer(Customer customer) {
+    for(Account account : customerAccounts.get(customer)){
+      account.setOwner(customer);
+    }
     return customerAccounts.get(customer);
   }
 

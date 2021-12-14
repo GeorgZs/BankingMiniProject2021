@@ -5,6 +5,10 @@ import crushers.models.users.Customer;
 public class CustomerNotification extends ManagerNotification{
     private Customer targetCustomer;
 
+    public CustomerNotification(){
+        //for jackson
+    }
+
     public CustomerNotification(String notification, Customer customer){
         super(notification);
         this.targetCustomer = customer;
