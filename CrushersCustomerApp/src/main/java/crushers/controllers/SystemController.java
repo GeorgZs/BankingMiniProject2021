@@ -99,6 +99,12 @@ public class SystemController implements Initializable{
         ObservableList<String> observableTimeList = FXCollections.observableArrayList();
         ObservableList<Transaction> observableTransactionList = FXCollections.observableArrayList();
         try {
+            ArrayList<Transaction> transactions = Json.parseList(Http.authGet("transactions/accounts/" + App.currentAccountID, App.currentToken), Transaction.class);
+            System.out.println(transactions);
+        } catch (IOException | InterruptedException e1) {
+            e1.printStackTrace();
+        }
+        try {
             List<Transaction> transactionList = App.currentAccount.getTransactions();
             System.out.println(transactionList);
             if(App.currentAccount.getTransactions() != null) {

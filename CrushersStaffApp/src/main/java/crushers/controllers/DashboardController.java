@@ -4,6 +4,7 @@ import crushers.WindowManager;
 import crushers.api.Http;
 import crushers.api.HttpError;
 import crushers.api.ServerFacade;
+import crushers.datamodels.Notification;
 import crushers.datamodels.User;
 import crushers.models.users.Clerk;
 import crushers.models.users.ClerkTableView;
@@ -20,6 +21,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
+import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.util.*;
 
@@ -35,6 +37,8 @@ public class DashboardController {
     @FXML
     private Button createAccount;
     @FXML
+    private Button notificationButton;
+    @FXML
     private HBox logout;
     @FXML
     private GridPane staffOverview;
@@ -48,6 +52,10 @@ public class DashboardController {
     private Pane transactions;
     @FXML
     private Pane transactionBar;
+    @FXML
+    private Pane notificationBar;
+    @FXML
+    private Pane notification;
     @FXML
     private Pane deposit;
     @FXML
@@ -89,6 +97,8 @@ public class DashboardController {
     @FXML
     private ImageView plus4;
     @FXML
+    private ImageView plus5;
+    @FXML
     private TextField searchField;
     @FXML
     private Button searchButton;
@@ -104,6 +114,12 @@ public class DashboardController {
     private TableColumn<Clerk, String>addressClerk;
     @FXML
     private TableView<ClerkTableView> tableView;
+    @FXML
+    private Button sendNotificationButton;
+    @FXML
+    private Button cancelNotificationButton;
+    @FXML
+    private TextArea notificationMessage;
 
     private String[] clerkQuestion = {
             "What's the name of your first pet?",
@@ -144,7 +160,6 @@ public class DashboardController {
             }
             return null;
     }
-
 
     @FXML
     void initialize(){
@@ -392,8 +407,6 @@ public class DashboardController {
         WindowManager.showModal(WindowManager.Pages.Payment, "Crushers Bank - Payment account");
     }
 
-
-
     @FXML
     private void onHoverSavings(MouseEvent mouseEvent) throws IOException {
         try {
@@ -417,6 +430,40 @@ public class DashboardController {
     @FXML
     private void onClickedSavings(MouseEvent mouseEvent) throws IOException {
         WindowManager.showModal(WindowManager.Pages.Savings, "Crushers Bank - Savings account");
+    }
+
+    @FXML
+    private void onClickedNotification(javafx.event.ActionEvent actionEvent) throws Exception {
+        if (notification.isVisible() || notificationBar.isVisible()) {
+            notification.setVisible(false);
+            notificationBar.setVisible(false);
+            plus5.setImage(new Image("file:src/main/resources/crushers/images/icons8-plus-48.png"));
+        } else {
+            notification.setVisible(true);
+            notificationBar.setVisible(true);
+            plus5.setImage(new Image("file:src/main/resources/crushers/images/icons8-minus-48.png"));
+        }
+
+    }
+
+    @FXML
+    private void sendNotification(javafx.event.ActionEvent event) throws Exception {
+        if(notificationMessage.getText().isEmpty() || notificationMessage.getText().isBlank()) {
+            notificationMessage.setStyle("-fx-border-color: red ; -fx-border-width: 1px");
+        } else {
+            notificationMessage.setStyle("-fx-border-color: transparent");
+        }
+
+        Notification notification = new Notification();
+        notification.setNotification(notificationMessage.getText());
+
+        try {
+            ServerFacade.instance.sendNotification(notification);
+        } catch (Exception e) {
+            if(e instanceof HttpError) showAlert(((HttpError)e).getError());
+            e.printStackTrace();
+        }
+
     }
 
     private void showAlert(String message){

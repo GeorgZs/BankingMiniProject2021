@@ -6,6 +6,7 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -74,6 +75,18 @@
                </font>
                <graphic>
                   <ImageView fx:id="plus4" fitHeight="18.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/icons8-plus-48.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="notificationButton" alignment="BASELINE_LEFT" layoutX="10.0" layoutY="256.0" mnemonicParsing="false" onAction="#onClickedNotification" prefHeight="32.0" prefWidth="234.0" style="-fx-background-color: #429bb8;" text="Notification" textFill="WHITE">
+               <font>
+                  <Font name="SansSerif Regular" size="13.0" />
+               </font>
+               <graphic>
+                  <ImageView fx:id="plus5" fitHeight="18.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/icons8-plus-48.png" />
                      </image>
@@ -338,6 +351,44 @@
                   </Label>
                </children>
             </Pane>
+         </children>
+      </Pane>
+      <Pane fx:id="notificationBar" layoutX="229.0" layoutY="122.0" prefHeight="150.0" prefWidth="1000.0" style="-fx-background-color: #90c1d7;" visible="false" AnchorPane.bottomAnchor="528.0" AnchorPane.leftAnchor="229.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="122.0">
+         <children>
+            <Text fill="WHITE" layoutX="51.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Notification">
+               <font>
+                  <Font name="SansSerif Regular" size="20.0" />
+               </font>
+            </Text>
+         </children>
+      </Pane>
+      <Pane fx:id="notification" layoutX="229.0" layoutY="338.0" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: #90c1d7;" visible="false" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="229.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="320.0">
+         <children>
+            <TextField disable="true" layoutX="242.0" layoutY="14.0" prefHeight="27.0" prefWidth="425.0" promptText="\@all customers">
+               <font>
+                  <Font name="SansSerif Regular" size="14.0" />
+               </font>
+            </TextField>
+            <Button disable="true" layoutX="202.0" layoutY="14.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="40.0" text="To:">
+               <font>
+                  <Font name="SansSerif Regular" size="13.0" />
+               </font>
+            </Button>
+            <TextArea fx:id="notificationMessage" layoutX="202.0" layoutY="74.0" prefHeight="262.0" prefWidth="466.0" promptText="*your message here">
+               <font>
+                  <Font name="SansSerif Regular" size="13.0" />
+               </font>
+            </TextArea>
+            <Button fx:id="sendNotificationButton" layoutX="301.0" layoutY="355.0" mnemonicParsing="false" onAction="#sendNotification" prefHeight="26.0" prefWidth="87.0" text="Send">
+               <font>
+                  <Font name="SansSerif Regular" size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="cancelNotificationButton" layoutX="457.0" layoutY="355.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="87.0" text="Cancel">
+               <font>
+                  <Font name="SansSerif Regular" size="14.0" />
+               </font>
+            </Button>
          </children>
       </Pane>
    </children>
