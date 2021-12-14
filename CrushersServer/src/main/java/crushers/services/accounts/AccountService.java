@@ -67,18 +67,21 @@ public class AccountService {
 
     if(transaction.getFrom() != (null)){
       Account sender = storage.get(transaction.getFrom().getId());
-      Account receiver = storage.get(transaction.getTo().getId());
 
-      if (sender.getBalance() <= transaction.getAmount()) {
-        throw new BadRequestException(
-                "Cannot create Transaction: Account with id: " + receiver.getId() + " does not have enough funds to create this Transaction"
-        );
-      }
-
-      if(receiver != null){
+      if(transaction.getTo() != null){
+        Account receiver = storage.get(transaction.getTo().getId());
         receiver.setBalance(receiver.getBalance() + transaction.getAmount());
+
+        if (sender.getBalance() <= transaction.getAmount()) {
+          throw new BadRequestException(
+                  "Cannot create Transaction: Account with id: " + receiver.getId() + " does not have enough funds to create this Transaction"
+          );
+        }
+        sender.setBalance(receiver.getBalance() - transaction.getAmount());
       }
-      sender.setBalance(receiver.getBalance() - transaction.getAmount());
+      else{
+        sender.setBalance(sender.getBalance() - transaction.getAmount());
+      }
     }
     else{
       Account receiver = storage.get(transaction.getTo().getId());

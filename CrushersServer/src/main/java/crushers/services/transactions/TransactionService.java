@@ -187,11 +187,12 @@ public class TransactionService {
                     double newAmount = loan.getAmount() - transaction.getAmount();
                     loan.setAmount(newAmount);
                     loggedIn.getLoans().add(loan);
-                    if(loan.getAmount() > 0){
+                    if(loan.getAmount() >= transaction.getAmount()){
+                        create(transaction, loggedIn);
                         return loan;
                     }
                     else{
-                        create(transaction, loggedIn);
+                        throw new BadRequestException("Transaction amount is greater than Loan amount");
                     }
                 }
                 else{
