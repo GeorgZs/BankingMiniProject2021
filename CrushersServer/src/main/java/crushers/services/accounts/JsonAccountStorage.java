@@ -2,10 +2,7 @@ package crushers.services.accounts;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import crushers.models.Bank;
 import crushers.models.accounts.Account;
@@ -55,12 +52,12 @@ public class JsonAccountStorage extends JsonStorage<Account> {
     return customerAccounts.get(customer);
   }
 
-  public Set<Account> getAccountsOfBank(Bank bank) {
-    return bankAccounts.get(bank);
-  }
-
   public Set<Customer> getCustomersAtBank(Bank bank) {
     return bankCustomers.get(bank);
+  }
+
+  public Set<Account> getAccountsOfBank(Bank bank) {
+    return bankAccounts.get(bank);
   }
 
   protected void addToMaps(Account account) {

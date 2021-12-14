@@ -50,26 +50,6 @@ public class CustomerRouter extends Router<Customer> {
       }
     });
 
-    server.createContext(basePath + "/@bank", (exchange) -> {
-      try {
-        switch (exchange.getRequestMethod()) {
-          case "GET":
-            getCustomersOfBank(exchange);
-            break;
-
-          default:
-            throw new MethodNotAllowedException();
-        }
-      }
-      catch (HttpException ex) {
-        sendResponse(exchange, ex.statusCode, String.format("{\"error\":\"%s\"}", ex.getMessage()).getBytes());
-      }
-      catch (Exception ex) {
-        sendResponse(exchange, 500, String.format("{\"error\":\"Internal server error, try again later.\"}").getBytes());
-        ex.printStackTrace();
-      }
-    });
-
     server.createContext(basePath + "/contact", (exchange) -> {
       try {
         switch (exchange.getRequestMethod()) {
@@ -183,12 +163,6 @@ public class CustomerRouter extends Router<Customer> {
   private void getLoggedIn(HttpExchange exchange) throws Exception {
     final Customer loggedInCustomer = Authenticator.instance.authCustomer(exchange);
     final Customer responseData = customerService.getLoggedIn(loggedInCustomer);
-    sendJsonResponse(exchange, responseData);
-  }
-
-  private void getCustomersOfBank(HttpExchange exchange) throws Exception {
-    Authenticator.instance.authClerk(exchange);
-    final Collection<Customer> responseData = customerService.getAll();
     sendJsonResponse(exchange, responseData);
   }
 

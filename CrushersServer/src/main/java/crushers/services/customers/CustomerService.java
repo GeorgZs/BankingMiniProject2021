@@ -118,9 +118,12 @@ public class CustomerService {
   }
 
 
-  public ManagerNotification sendNotificationToUsers(Manager loggedInManager, ManagerNotification requestData) throws IOException {
+  public ManagerNotification sendNotificationToUsers(Manager loggedInManager, ManagerNotification requestData) throws Exception {
     ManagerNotification newNotification = new ManagerNotification(requestData.getNotification());
     Collection<Customer> customers = customerStorage.getAll();
+    if(customers.isEmpty()){
+      throw new BadRequestException("Cannot send notifications to customers as there are none registered");
+    }
     for (Customer customer : customers){
       customer.addNotification(newNotification);
       System.out.println(customer.getNotification());

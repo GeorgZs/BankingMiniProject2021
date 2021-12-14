@@ -1,5 +1,6 @@
 package crushers.services.customers;
 
+import crushers.models.Bank;
 import crushers.models.exchangeInformation.Contact;
 import crushers.models.users.Customer;
 import crushers.storage.JsonStorage;
@@ -17,13 +18,19 @@ public class JsonCustomerStorage extends JsonStorage<Customer> {
         this.contactList = new HashMap<>();
 
         for(Customer customer : this.data.values()){
-            //addToMaps(customer, contact);
+            //addToMaps(customer);
+            //needs implementing so that notifications show correctly
         }
-        // this seems very sketch
     }
 
 
     protected Contact createContact(Customer customer, Contact contact) throws Exception{
+        /*
+        if (!contactList.containsKey(customer)) {
+            contactList.put(customer, new ArrayList<>());
+        }
+        contactList.get(customer).add(contact);
+         */
         addToMaps(customer, contact);
         return contact;
     }
