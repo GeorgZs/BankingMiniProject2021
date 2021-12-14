@@ -1,5 +1,6 @@
 package crushers.util;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -27,8 +28,8 @@ public class Json {
         return json.readValue(jsonString, type);
     }
 
-    public static <T> List<T> parseList(String jsonString, Class<T> type) throws JsonProcessingException {
-        final CollectionType collType = json.getTypeFactory().constructCollectionType(List.class, type);
+    public static <T> ArrayList<T> parseList(String jsonString, Class<T> type) throws JsonProcessingException {
+        final CollectionType collType = json.getTypeFactory().constructCollectionType(ArrayList.class, type);
         return json.readValue(jsonString, collType);
     }
     

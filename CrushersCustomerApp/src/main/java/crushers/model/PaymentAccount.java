@@ -20,7 +20,7 @@ public class PaymentAccount {
     protected Bank bank;
     protected String name;
     protected double balance;
-    protected Map<String ,Transaction> transactions;
+    protected ArrayList<Transaction> transactions;
     protected double interestRate;
 
     
@@ -28,7 +28,7 @@ public class PaymentAccount {
         this.bank = bank;
         this.type = type;
         this.name = name;
-        this.transactions = new HashMap<String, Transaction>();
+        this.transactions = new ArrayList<Transaction>();
     }
     public PaymentAccount(int id, Bank bank, Customer owner, String type, String number, double balance, double interestRate){ // http get constructor
         this.id = id;
@@ -38,10 +38,10 @@ public class PaymentAccount {
         this.number = number;
         this.balance = balance;
         this.interestRate = interestRate;
-        this.transactions = new HashMap<String, Transaction>();
+        this.transactions = new ArrayList<Transaction>();
     }
     public PaymentAccount(){ // for http
-        this.transactions = new HashMap<String, Transaction>();
+        this.transactions = new ArrayList<Transaction>();
     }
 
     public String capitalize(String str){ // the creation of this method shows just how little I give a f... i mean smile and wave :) /
@@ -68,10 +68,11 @@ public class PaymentAccount {
     public double getBalance(){
         return this.balance;
     }
-    public List<Transaction> getTransactions() throws IOException, InterruptedException {
-        List<Transaction> transactionCollection = Json.parseList(
-                Http.authGet("/transactions/accounts/" + this.id, App.currentToken), Transaction.class);
-        return transactionCollection;
+    public ArrayList<Transaction> getTransactions() throws IOException, InterruptedException {
+        // ArrayList<Transaction> transactionCollection = Json.parseList(
+        //         Http.authGet("/transactions/accounts/" + this.id, App.currentToken), Transaction.class);
+        // return transactionCollection;
+        return this.transactions;
     }
     public void withdraw(double amountToWithdraw){
         this.balance = this.balance - amountToWithdraw;
@@ -79,8 +80,11 @@ public class PaymentAccount {
     public void deposit(double amountToDeposit) {
         this.balance = this.balance + amountToDeposit;
     }
-    public void addTransactionToMap(Transaction transaction){
-        transactions.put(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")), transaction);
+    // public void addTransactionToMap(Transaction transaction){
+    //     transactions.put(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")), transaction);
+    // }
+    public void addTransaction(Transaction transaction){
+        this.transactions.add(transaction);
     }
     public double getInterestRate(){
         return this.interestRate;
