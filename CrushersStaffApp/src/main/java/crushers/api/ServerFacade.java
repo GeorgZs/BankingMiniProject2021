@@ -68,7 +68,7 @@ public class ServerFacade {
   // Bank Accounts
 
   public BankAccount createBankAccount(BankAccount bankAccountData) throws Exception {
-    return Http.instance.post("/accounts", bankAccountData, BankAccount.class);
+    return Http.instance.post("/accounts", bankAccountData, BankAccount.class, this.authToken);
   }
 
   public List<BankAccount> listAllBankAccountsAtThisBank() {
@@ -103,8 +103,8 @@ public class ServerFacade {
 
   // Notifications
 
-  public Notification sendNotification(Notification notificationData) {
-    return null;
+  public Notification sendNotification(Notification notificationData) throws Exception {
+    return Http.instance.post("/customers/notificationToUsers", notificationData, Notification.class, this.authToken);
   }
 
 }
