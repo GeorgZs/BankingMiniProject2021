@@ -20,9 +20,15 @@ public class TransactionDescriptionController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         if(App.currentTransaction.getFrom().getNumber() == App.currentAccount.getNumber()) {
             fromAccount.setText(" Me");
+            amount.setText("-" + App.currentTransaction.getAmount() + " SEK");
         }
         else {
+<<<<<<< HEAD
             fromAccount.setText(App.currentTransaction.getFrom().getNumber());
+=======
+            amount.setText("+" + App.currentTransaction.getAmount() + " SEK");
+            fromAccount.setText(App.currentTransaction.getAccountFrom().getNumber());
+>>>>>>> a353cbd92c22e28dd065f6cfac517715584839dd
         }
         if(App.currentTransaction.getTo().getNumber() == App.currentAccount.getNumber()) {
             toAccount.setText(" Me");
