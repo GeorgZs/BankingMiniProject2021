@@ -92,19 +92,8 @@ public class SystemController implements Initializable{
     private ListView<Transaction> transactionHistory;
     @FXML
     private ListView<String> timeList;
-<<<<<<< HEAD
-=======
     @FXML
     private ListView<String> labelList;
-    
-    public void logout(ActionEvent e) throws IOException{
-        Util.logOutAlert("Logging out?", "Are you sure you want to log-out?", e);
-    }
-
-    public void selectDifferentAccount(ActionEvent e) throws IOException{
-        Util.closeAndShow("AccountView", "Select an Account", e);
-    }
->>>>>>> a353cbd92c22e28dd065f6cfac517715584839dd
 
     @Override
     public void initialize(URL location, ResourceBundle resources){

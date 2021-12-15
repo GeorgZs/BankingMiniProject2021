@@ -46,4 +46,7 @@ public class setLabelController {
             Util.closeAndShow("SystemView", "System",e);
         }
     }
+    public void cancel(ActionEvent e) {
+        Util.showModal("SystemView", "System view", e);
+    }
 }

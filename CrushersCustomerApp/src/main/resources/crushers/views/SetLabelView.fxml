@@ -15,6 +15,7 @@
          </font>
       </Label>
       <Label fx:id="errorLabel" layoutX="14.0" layoutY="95.0" />
-      <Button layoutX="237.0" layoutY="91.0" mnemonicParsing="false" onAction="#submitLabel" text="Submit" />
+      <Button layoutX="200.0" layoutY="91.0" mnemonicParsing="false" onAction="#submitLabel" text="Submit" />
+      <Button layoutX="276.0" layoutY="91.0" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
    </children>
 </AnchorPane>
