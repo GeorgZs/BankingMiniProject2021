@@ -67,21 +67,22 @@
                               <Font size="17.0" />
                            </font>
                         </Label>
-                        <ListView fx:id="transactionHistory" layoutX="411.0" layoutY="68.0" prefHeight="199.0" prefWidth="214.0" />
-                        <Button layoutX="441.0" layoutY="274.0" mnemonicParsing="false" onAction="#transactionDetails" text="View transaction details" />
+                        <ListView fx:id="transactionHistory" layoutX="411.0" layoutY="68.0" prefHeight="192.0" prefWidth="100.0" />
+                        <Button layoutX="478.0" layoutY="267.0" mnemonicParsing="false" onAction="#transactionDetails" text="View transaction details" />
                         <Button fx:id="makeAPayment" layoutX="75.0" layoutY="96.0" mnemonicParsing="false" onAction="#makeAPayment" text="Make a new payment" />
                         <Button layoutX="47.0" layoutY="193.0" mnemonicParsing="false" text="Report a suspicious transaction" />
                         <Button layoutX="66.0" layoutY="143.0" mnemonicParsing="false" text="Make a payment request" />
-                        <ListView fx:id="timeList" layoutX="274.0" layoutY="68.0" prefHeight="199.0" prefWidth="131.0" />
+                        <ListView fx:id="timeList" layoutX="274.0" layoutY="68.0" prefHeight="192.0" prefWidth="131.0" />
                         <Label fx:id="transactionError" layoutX="283.0" layoutY="279.0" textFill="#e10000">
                            <font>
                               <Font name="SansSerif Regular" size="12.0" />
                            </font>
                         </Label>
-                        <Button layoutX="278.0" layoutY="274.0" mnemonicParsing="false" prefHeight="15.0" prefWidth="125.0" text="Set transaction label" />
+                        <Button layoutX="478.0" layoutY="301.0" mnemonicParsing="false" onAction="#setLabel" prefHeight="15.0" prefWidth="125.0" text="Set transaction label" />
                         <Label layoutX="326.0" layoutY="43.0" text="Time" />
                         <Label layoutX="442.0" layoutY="43.0" text="Amount" />
                         <Label layoutX="541.0" layoutY="42.0" text="Label" />
+                        <ListView fx:id="labelList" layoutX="521.0" layoutY="68.0" prefHeight="191.0" prefWidth="100.0" />
                      </children></AnchorPane>
               </content>
             </Tab>

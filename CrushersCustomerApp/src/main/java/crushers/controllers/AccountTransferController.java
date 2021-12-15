@@ -65,11 +65,9 @@ public class AccountTransferController implements Initializable {
         accountToBox.getItems().addAll(userAccounts);
         accountFromBox.setOnAction(this::firstChoice);
     }
-
     private void firstChoice(Event event) {
         accountToBox.getItems().remove(accountFromBox.getValue());
     }
-
     @FXML
     private void transferFunds(ActionEvent e) throws IOException, InterruptedException {
         if (accountFromBox.getValue() == null) {
