@@ -5,8 +5,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-import crushers.api.Json;
-
 public class App extends Application {
 
     protected Stage stage;

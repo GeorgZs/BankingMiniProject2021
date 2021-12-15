@@ -1,7 +1,6 @@
 package crushers.controllers;
 
 import crushers.WindowManager;
-import crushers.api.Http;
 import crushers.api.ServerFacade;
 import crushers.datamodels.Credentials;
 import javafx.event.ActionEvent;

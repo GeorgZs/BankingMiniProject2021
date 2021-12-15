@@ -1,8 +1,7 @@
 package crushers.controllers;
 
 import crushers.WindowManager;
-import crushers.api.Http;
-import crushers.models.Clerk;
+import crushers.datamodels.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -37,10 +36,11 @@ public class ForgotPasswordController {
 
     @FXML
     public void onPressedContinue(javafx.event.ActionEvent actionEvent) throws Exception {
-        Clerk clerk = new Clerk(emailAddress.getText(), null, null, null, null, null, null);
-        Collection<crushers.models.Clerk> clerkList = new ArrayList<>(); // Http.getCollection("/staff", Clerk.class);
+        User clerk = new User();
+        clerk.setEmail(emailAddress.getText());
+        Collection<User> clerkList = new ArrayList<>(); // Http.getCollection("/staff", User.class);
         int count = 0;
-        for (Clerk clerk1: clerkList) {
+        for (User clerk1: clerkList) {
             System.out.println(clerk1.getEmail());
             if(clerk.getEmail().equals(clerk1.getEmail())) {
                 enterPassword.setVisible(true);
@@ -53,7 +53,7 @@ public class ForgotPasswordController {
             emailError.setVisible(true);
             emailAddress.setStyle("-fx-border-color: red; -fx-border-width: 1px");
         }
-        //Collection<Clerk> clerks = HTTPUtils.getCollection("/staff", clerk);
+        //Collection<User> clerks = HTTPUtils.getCollection("/staff", clerk);
 
         
 
@@ -68,7 +68,7 @@ public class ForgotPasswordController {
     public void onPressedReset(javafx.event.ActionEvent actionEvent) throws Exception {
 
 
-        // Clerk clerk = Http.get("/banks/" + emailAddress.getText(), Clerk.class);
+        // User clerk = Http.get("/banks/" + emailAddress.getText(), User.class);
         // String[] securityQuestion1 = clerk.getSecurityQuestions();
         // securityQuestion.setText(securityQuestion1[0]);
     }

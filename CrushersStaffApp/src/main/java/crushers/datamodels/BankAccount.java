@@ -1,14 +1,11 @@
 package crushers.datamodels;
 
-import crushers.datamodels.Bank;
-import crushers.models.users.Customer;
-
 public class BankAccount {
   private int id = -1;
   private String type; // payment / savings
   private String number;
   private Bank bank;
-  private Customer owner;
+  private User owner;
   private double balance = 0.00;
 
   // savings account only
@@ -51,11 +48,11 @@ public class BankAccount {
     this.bank = bank;
   }
 
-  public Customer getOwner() {
+  public User getOwner() {
     return owner;
   }
 
-  public void setOwner(Customer owner) {
+  public void setOwner(User owner) {
     this.owner = owner;
   }
 

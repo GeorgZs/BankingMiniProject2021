@@ -37,14 +37,6 @@ public class ServerFacade {
     return Http.instance.post("/banks", bankData, Bank.class);
   }
 
-  public List<Bank> listAllBanks() {
-    return null;
-  }
-
-  public Bank getBankById(int id) {
-    return null;
-  }
-
   public void updateBankInterestRate(int id, double interestRate) {
 
   }
@@ -83,12 +75,12 @@ public class ServerFacade {
   // Transactions
 
   public Transaction withdraw(Transaction transactionData) {
-    // return Http.instance.post("/transactions", transactionData, Transaction.class);
+    // return Http.instance.post("/transactions", transactionData, Transaction.class, this.authToken);
     return null;
   }
 
   public Transaction deposit(Transaction transactionData) {
-    // return Http.instance.post("/transactions", transactionData, Transaction.class);
+    // return Http.instance.post("/transactions", transactionData, Transaction.class, this.authToken);
     return null;
   }
 

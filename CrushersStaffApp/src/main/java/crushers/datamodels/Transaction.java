@@ -1,13 +1,11 @@
 package crushers.datamodels;
 
-import crushers.models.accounts.Account;
-
 import java.time.LocalDateTime;
 
 public class Transaction {
     private int id = -1;
-    private Account from;
-    private Account to;
+    private BankAccount from;
+    private BankAccount to;
     private double amount;
     private String description;
     private LocalDateTime date;
@@ -24,19 +22,19 @@ public class Transaction {
         this.id = id;
     }
 
-    public Account getFrom() {
+    public BankAccount getFrom() {
         return from;
     }
 
-    public void setFrom(Account accountFromID) {
+    public void setFrom(BankAccount accountFromID) {
         this.from = accountFromID;
     }
 
-    public Account getTo() {
+    public BankAccount getTo() {
         return to;
     }
 
-    public void setTo(Account accountToID) {
+    public void setTo(BankAccount accountToID) {
         this.to = accountToID;
     }
 

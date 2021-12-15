@@ -26,10 +26,6 @@ public class AccountService {
   }
 
   public Account create(User creator, Account account) throws Exception {
-    if (account.getBank() == null) {
-      throw new BadRequestException("The bank, the account should be opened at, is required.");
-    }
-
     if (creator instanceof Clerk) {
       Clerk clerk = (Clerk) creator;
       account.setBank(bankService.get(clerk.getWorksAt().getId())); // set the bank the account is opened at

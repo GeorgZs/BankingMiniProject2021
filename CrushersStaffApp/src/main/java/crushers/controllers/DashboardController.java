@@ -1,13 +1,10 @@
 package crushers.controllers;
 
 import crushers.WindowManager;
-import crushers.api.Http;
 import crushers.api.HttpError;
 import crushers.api.ServerFacade;
 import crushers.datamodels.Notification;
 import crushers.datamodels.User;
-import crushers.models.users.Clerk;
-import crushers.models.users.ClerkTableView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -21,7 +18,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
-import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.util.*;
 
@@ -103,17 +99,17 @@ public class DashboardController {
     @FXML
     private Button searchButton;
     @FXML
-    private TableColumn<Clerk, Integer> clerkID;
+    private TableColumn<User, Integer> clerkID;
     @FXML
-    private TableColumn<Clerk, String>firstNameClerk;
+    private TableColumn<User, String>firstNameClerk;
     @FXML
-    private TableColumn<Clerk, String>lastNameClerk;
+    private TableColumn<User, String>lastNameClerk;
     @FXML
-    private TableColumn<Clerk, String>emailClerk;
+    private TableColumn<User, String>emailClerk;
     @FXML
-    private TableColumn<Clerk, String>addressClerk;
+    private TableColumn<User, String>addressClerk;
     @FXML
-    private TableView<ClerkTableView> tableView;
+    private TableView tableView;
     @FXML
     private Button sendNotificationButton;
     @FXML
@@ -146,19 +142,19 @@ public class DashboardController {
 
     }
 
-    private ObservableList<ClerkTableView> createList() {
+    private ObservableList createList() {
 
-            try {
-                Collection<Clerk> clerkList = new ArrayList<>(); // Http.get("/staff/@bank", Collection.class);
-                ObservableList<ClerkTableView> informationClerk = FXCollections.observableArrayList();;
-                for (Clerk clerk: clerkList) {
-                    informationClerk.add(new ClerkTableView(clerk.getId(),clerk.getFirstName(),clerk.getLastName(),clerk.getEmail(),clerk.getAddress()));
-                }
+            // try {
+                // Collection<Clerk> clerkList = new ArrayList<>(); // Http.get("/staff/@bank", Collection.class);
+                ObservableList informationClerk = FXCollections.observableArrayList();;
+            //     for (Clerk clerk: clerkList) {
+            //         informationClerk.add(new ClerkTableView(clerk.getId(),clerk.getFirstName(),clerk.getLastName(),clerk.getEmail(),clerk.getAddress()));
+            //     }
                 return informationClerk;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
+            // } catch (Exception e) {
+            //     e.printStackTrace();
+            // }
+            // return null;
     }
 
     @FXML
@@ -234,7 +230,8 @@ public class DashboardController {
     }
 
     @FXML
-    public void onClickedLogout(MouseEvent mouseEvent) throws IOException {
+    public void onClickedLogout(MouseEvent mouseEvent) throws Exception {
+        ServerFacade.instance.logoutUser();
         WindowManager.showPage(WindowManager.Pages.Login);
     }
 

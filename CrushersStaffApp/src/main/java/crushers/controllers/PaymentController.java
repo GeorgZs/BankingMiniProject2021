@@ -1,7 +1,6 @@
 package crushers.controllers;
 
 import crushers.WindowManager;
-import crushers.api.Http;
 import crushers.api.HttpError;
 import crushers.api.ServerFacade;
 import crushers.datamodels.BankAccount;
@@ -55,15 +54,17 @@ public class PaymentController {
 
          */
         //accountNumber.setText(String.valueOf(Math.random()));
-        User user = ServerFacade.instance.getLoggedInClerk();
         BankAccount payment = new BankAccount();
-        //payment.setName(firstName.getText() + " " + lastName.getText());
-        //payment.setNumber(accountNumber.getText());
-        payment.setBank(user.getWorksAt());
-        //payment.setBalance(Double.parseDouble(balance.getText()));
+        payment.setType("payment");
+
+        User owner = new User();
+        owner.setId(Integer.parseInt(customerID.getText()));
+        payment.setOwner(owner);
 
         try {
-            ServerFacade.instance.createBankAccount(payment);
+            BankAccount createdAccount = ServerFacade.instance.createBankAccount(payment);
+            System.out.println("BANK ACCOUNT: " + createdAccount.getNumber());
+
             WindowManager.closeModal();
         } catch (Exception e) {
             if(e instanceof HttpError) showAlert(((HttpError)e).getError());
