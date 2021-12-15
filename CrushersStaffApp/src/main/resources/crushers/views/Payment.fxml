@@ -8,9 +8,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="427.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="crushers.controllers.PaymentController">
+<AnchorPane prefHeight="391.0" prefWidth="534.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="crushers.controllers.PaymentController">
    <children>
-      <Pane layoutY="46.0" prefHeight="91.0" prefWidth="600.0" style="-fx-border-color: #90c1d7;" AnchorPane.bottomAnchor="300.0" AnchorPane.topAnchor="36.0">
+      <Pane layoutY="46.0" prefHeight="79.0" prefWidth="600.0" style="-fx-border-color: #90c1d7;" AnchorPane.bottomAnchor="276.0" AnchorPane.topAnchor="36.0">
          <children>
             <Pane layoutY="19.0" prefHeight="28.0" prefWidth="600.0" style="-fx-background-color: #90c1d7;">
                <children>
@@ -26,42 +26,17 @@
             </Pane>
          </children>
       </Pane>
-      <TextField disable="true" layoutX="44.0" layoutY="166.0" promptText="First name">
+      <TextField fx:id="customerID" layoutX="181.0" layoutY="221.0" promptText="Customer ID">
          <font>
             <Font name="SansSerif Regular" size="14.0" />
          </font>
       </TextField>
-      <TextField disable="true" layoutX="277.0" layoutY="166.0" promptText="Last name">
-         <font>
-            <Font name="SansSerif Regular" size="14.0" />
-         </font>
-      </TextField>
-      <TextField fx:id="customerID" layoutX="44.0" layoutY="214.0" promptText="Customer ID">
-         <font>
-            <Font name="SansSerif Regular" size="14.0" />
-         </font>
-      </TextField>
-      <TextField layoutX="277.0" layoutY="214.0" promptText="Bank">
-         <font>
-            <Font name="SansSerif Regular" size="14.0" />
-         </font>
-      </TextField>
-      <TextField layoutX="44.0" layoutY="276.0" promptText="Account number">
-         <font>
-            <Font name="SansSerif Regular" size="14.0" />
-         </font>
-      </TextField>
-      <TextField layoutX="277.0" layoutY="276.0" promptText="Balance">
-         <font>
-            <Font name="SansSerif Regular" size="14.0" />
-         </font>
-      </TextField>
-      <Button layoutX="139.0" layoutY="365.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="82.0" onAction="#registerPayment" text="Create ">
+      <Button fx:id="create" layoutX="140.0" layoutY="339.0" mnemonicParsing="false" onAction="#registerPayment" prefHeight="26.0" prefWidth="82.0" text="Create ">
          <font>
             <Font name="SansSerif Regular" size="14.0" />
          </font>
       </Button>
-      <Button layoutX="293.0" layoutY="365.0" mnemonicParsing="false" onAction="#cancelPayment" text="Cancel">
+      <Button fx:id="cancel" layoutX="293.0" layoutY="339.0" mnemonicParsing="false" onAction="#cancelPayment" text="Cancel">
          <font>
             <Font name="SansSerif Regular" size="14.0" />
          </font>

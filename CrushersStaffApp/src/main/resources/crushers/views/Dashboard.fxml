@@ -69,7 +69,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="createAccount" alignment="BASELINE_LEFT" layoutX="10.0" layoutY="224.0" mnemonicParsing="false" onAction="#onClickedCreateAccount" prefHeight="32.0" prefWidth="234.0" style="-fx-background-color: #429bb8;" text="Create account" textFill="WHITE">
+            <Button fx:id="bankAccounts" alignment="BASELINE_LEFT" layoutX="10.0" layoutY="224.0" mnemonicParsing="false" onAction="#onClickedBankAccounts" prefHeight="32.0" prefWidth="234.0" style="-fx-background-color: #429bb8;" text="Bank Accounts" textFill="WHITE">
                <font>
                   <Font name="SansSerif Regular" size="13.0" />
                </font>
@@ -257,20 +257,6 @@
                   </Label>
                </children>
             </Pane>
-            <Pane fx:id="transferBetween" layoutX="337.0" layoutY="46.0" onMouseEntered="#onHoverTransBetween" onMouseExited="#onHoverTransBetweenEnded" prefHeight="181.0" prefWidth="213.0" style="-fx-background-color: #EBEBEB; -fx-border-color: #90c1d7;">
-               <children>
-                  <ImageView fitHeight="125.0" fitWidth="142.0" layoutX="44.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/icons8-data-transfer-50.png" />
-                     </image>
-                  </ImageView>
-                  <Label layoutX="44.0" layoutY="157.0" text="Transfer between">
-                     <font>
-                        <Font name="SansSerif Regular" size="16.0" />
-                     </font>
-                  </Label>
-               </children>
-            </Pane>
             <Pane fx:id="withdraw" layoutX="576.0" layoutY="46.0" onMouseClicked="#onClickedWithdraw" onMouseEntered="#onHoverWithdraw" onMouseExited="#onHoverEndedWithdraw" prefHeight="181.0" prefWidth="213.0" style="-fx-background-color: #EBEBEB; -fx-border-color: #90c1d7;">
                <children>
                   <ImageView fitHeight="125.0" fitWidth="142.0" layoutX="44.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
@@ -310,16 +296,6 @@
                   </Label>
                </children>
             </Pane>
-            <Pane layoutX="337.0" layoutY="264.0" prefHeight="194.0" prefWidth="213.0" style="-fx-background-color: #EBEBEB; -fx-border-color: #90c1d7;">
-               <children>
-                  <ImageView fitHeight="125.0" fitWidth="142.0" layoutX="36.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" />
-                  <Label layoutX="8.0" layoutY="170.0" text="Mark suspicious transaction">
-                     <font>
-                        <Font name="SansSerif Regular" size="16.0" />
-                     </font>
-                  </Label>
-               </children>
-            </Pane>
          </children>
       </Pane>
       <Pane fx:id="accountBar" layoutX="229.0" layoutY="122.0" prefHeight="150.0" prefWidth="198.0" style="-fx-background-color: #90c1d7;" visible="false" AnchorPane.leftAnchor="229.0" AnchorPane.rightAnchor="0.0">
@@ -331,7 +307,7 @@
             </Label>
          </children>
       </Pane>
-      <Pane fx:id="createAccounts" layoutX="229.0" layoutY="320.0" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="229.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="320.0">
+      <Pane fx:id="bankAccount" layoutX="229.0" layoutY="320.0" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="229.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="320.0">
          <children>
             <Pane fx:id="paymentAccount" layoutX="131.0" layoutY="88.0" onMouseClicked="#onClickedPayment" onMouseEntered="#onHoverPayment" onMouseExited="#onHoverPaymentEnded" prefHeight="229.0" prefWidth="251.0" style="-fx-background-color: #EBEBEB;">
                <children>
@@ -374,7 +350,7 @@
                   <Font name="SansSerif Regular" size="13.0" />
                </font>
             </Button>
-            <TextArea fx:id="notificationMessage" layoutX="202.0" layoutY="74.0" prefHeight="262.0" prefWidth="466.0" promptText="*your message here">
+            <TextArea layoutX="202.0" layoutY="74.0" prefHeight="262.0" prefWidth="466.0" promptText="*your message here">
                <font>
                   <Font name="SansSerif Regular" size="13.0" />
                </font>
@@ -384,7 +360,7 @@
                   <Font name="SansSerif Regular" size="14.0" />
                </font>
             </Button>
-            <Button fx:id="cancelNotificationButton" layoutX="457.0" layoutY="355.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="87.0" text="Cancel">
+            <Button layoutX="457.0" layoutY="355.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="87.0" text="Cancel">
                <font>
                   <Font name="SansSerif Regular" size="14.0" />
                </font>

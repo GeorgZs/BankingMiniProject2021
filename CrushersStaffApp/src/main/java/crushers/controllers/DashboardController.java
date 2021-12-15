@@ -31,7 +31,7 @@ public class DashboardController {
     @FXML
     private Button registerStaff;
     @FXML
-    private Button createAccount;
+    private Button bankAccounts;
     @FXML
     private Button notificationButton;
     @FXML
@@ -59,7 +59,7 @@ public class DashboardController {
     @FXML
     private Pane transferBetween;
     @FXML
-    private Pane createAccounts;
+    private Pane bankAccount;
     @FXML
     private Pane savingAccount;
     @FXML
@@ -216,13 +216,13 @@ public class DashboardController {
     }
 
     @FXML
-    private void onClickedCreateAccount(javafx.event.ActionEvent event) throws Exception {
-        if(createAccounts.isVisible() || accountBar.isVisible()) {
-            createAccounts.setVisible(false);
+    private void onClickedBankAccounts(javafx.event.ActionEvent event) throws Exception {
+        if(bankAccount.isVisible() || accountBar.isVisible()) {
+            bankAccount.setVisible(false);
             accountBar.setVisible(false);
             plus4.setImage(new Image("file:src/main/resources/crushers/images/icons8-plus-48.png"));
         } else {
-            createAccounts.setVisible(true);
+            bankAccount.setVisible(true);
             accountBar.setVisible(true);
             plus4.setImage(new Image("file:src/main/resources/crushers/images/icons8-minus-48.png"));
         }
@@ -348,25 +348,6 @@ public class DashboardController {
         }
     }
 
-    @FXML
-    private void onHoverTransBetween(MouseEvent mouseEvent) {
-        try {
-            Pane transferBetween = (Pane) mouseEvent.getSource();
-            transferBetween.setOpacity(0.5);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    private void onHoverTransBetweenEnded(MouseEvent mouseEvent) {
-        try {
-            Pane transferBetween = (Pane) mouseEvent.getSource();
-            transferBetween.setOpacity(1);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     @FXML
     private void onClickedDeposit(MouseEvent mouseEvent) throws IOException {
