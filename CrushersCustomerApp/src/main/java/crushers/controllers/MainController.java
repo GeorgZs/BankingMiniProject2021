@@ -7,8 +7,10 @@ import java.util.List;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import crushers.App;
+import crushers.model.Contact;
 import crushers.model.Credentials;
 import crushers.model.Customer;
 import crushers.model.PaymentAccount;
@@ -63,7 +65,7 @@ public class MainController { // test commit
 
     }
 
-    public void login(ActionEvent e) throws IOException{
+    public void login(ActionEvent e) throws IOException, InterruptedException{
 
         String email = usernameField.getText();
         String password = passwordField.getText();
@@ -88,6 +90,10 @@ public class MainController { // test commit
             e1.printStackTrace();
         }
 
+        
+        ArrayList<Contact> contacts = Json.parseList(Http.authGet("customers/@contacts", App.currentToken), Contact.class);
+        System.out.println(contacts);
+        App.currentCustomer.setContactList(contacts);
         // Util.closeAndShow("AccountView", "Account Overview", e); same spiel
 
         Stage oldStage = (Stage)((Node)e.getSource()).getScene().getWindow();

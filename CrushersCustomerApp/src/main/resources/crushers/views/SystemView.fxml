@@ -5,13 +5,14 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="488.0" prefWidth="721.0" style="-fx-background-color: pink;" stylesheets="@../stylesheets/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="crushers.controllers.SystemController">
+<Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="488.0" prefWidth="721.0" style="-fx-background-color: pink;" stylesheets="@../stylesheets/main.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="crushers.controllers.SystemController">
    <children>
       <TabPane fx:id="tabpane" layoutX="6.0" layoutY="45.0" prefHeight="368.0" prefWidth="709.0" style="-fx-background-color: pink;" stylesheets="@../stylesheets/tabpane.css" tabClosingPolicy="UNAVAILABLE">
         <tabs>
@@ -35,33 +36,25 @@
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: white; -fx-border-color: black;" />
               </content>
             </Tab>
-            <Tab text="Investments">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-              </content>
-            </Tab>
             <Tab text="Contacts">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: white;" stylesheets="@../stylesheets/main.css">
                      <children>
                         <Button layoutX="29.0" layoutY="280.0" mnemonicParsing="false" onAction="#createContact" text="Create contact" />
-                        <ListView layoutX="389.0" layoutY="56.0" prefHeight="205.0" prefWidth="256.0" />
                         <Label layoutX="476.0" layoutY="25.0" text="My Contacts">
                            <font>
                               <Font size="15.0" />
                            </font>
                         </Label>
                         <Label layoutX="61.0" layoutY="56.0" text="Name:" />
-                        <Label layoutX="50.0" layoutY="131.0" text="Account ID:" />
-                        <Label layoutX="49.0" layoutY="171.0" text="Description:" />
+                        <Label layoutX="45.0" layoutY="89.0" text="Account ID:" />
+                        <Label layoutX="47.0" layoutY="129.0" text="Description:" />
                         <TextField fx:id="nameField" layoutX="145.0" layoutY="52.0" prefHeight="25.0" prefWidth="132.0" />
-                        <TextArea fx:id="descriptionArea" layoutX="145.0" layoutY="171.0" prefHeight="82.0" prefWidth="131.0" />
-                        <Button layoutX="534.0" layoutY="279.0" mnemonicParsing="false" onAction="#deleteContact" text="Delete contact" />
+                        <TextArea fx:id="descriptionArea" layoutX="145.0" layoutY="117.0" prefHeight="82.0" prefWidth="131.0" />
                         <Button layoutX="397.0" layoutY="279.0" mnemonicParsing="false" text="Make payment" />
-                        <TextField fx:id="accountID" layoutX="145.0" layoutY="127.0" prefHeight="25.0" prefWidth="131.0" />
+                        <TextField fx:id="accountID" layoutX="145.0" layoutY="84.0" prefHeight="25.0" prefWidth="131.0" />
                         <Label fx:id="contactErrorLabel" layoutX="191.0" layoutY="274.0" prefHeight="36.0" prefWidth="172.0" style="-fx-text-fill: red;" />
-                        <Label layoutX="29.0" layoutY="95.0" text="Create contact ID:" />
-                        <TextField fx:id="contactID" layoutX="145.0" layoutY="90.0" prefHeight="25.0" prefWidth="132.0" />
+                        <TableView fx:id="contactTableView" layoutX="327.0" layoutY="58.0" prefHeight="200.0" prefWidth="356.0" />
                      </children></AnchorPane>
               </content>
             </Tab>
@@ -90,11 +83,6 @@
                         <Label layoutX="442.0" layoutY="43.0" text="Amount" />
                         <Label layoutX="541.0" layoutY="42.0" text="Label" />
                      </children></AnchorPane>
-              </content>
-            </Tab>
-            <Tab text="Request support">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
               </content>
             </Tab>
         </tabs>

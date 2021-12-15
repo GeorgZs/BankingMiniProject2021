@@ -102,6 +102,9 @@ public class Customer extends User{
     public ArrayList<Contact> getContactList(){
         return this.contactList;
     }
+    public void setContactList(ArrayList<Contact> contacts){
+        this.contactList = contacts;
+    }
     public void setAccountList(ArrayList<PaymentAccount> accounts){
         ArrayList<PaymentAccount> all = new ArrayList<PaymentAccount>();
         for(PaymentAccount account: accounts){

@@ -43,6 +43,10 @@ public class PaymentAccount {
     public PaymentAccount(){ // for http
         this.transactions = new ArrayList<Transaction>();
     }
+    public PaymentAccount(int id, String type){
+        this.id = id;
+        this.type = type;
+    }
 
     public String capitalize(String str){ // the creation of this method shows just how little I give a f... i mean smile and wave :) /
         return str.substring(0, 1).toUpperCase() + str.substring(1);
@@ -91,7 +95,7 @@ public class PaymentAccount {
     }
 
     public String getType(){
-        return "Payment";
+        return "payment";
     }
     public void setType(String type){
         this.type = type;
