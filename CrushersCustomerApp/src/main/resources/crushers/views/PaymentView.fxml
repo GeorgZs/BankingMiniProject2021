@@ -6,6 +6,9 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../stylesheets/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="crushers.controllers.PaymentController">
@@ -27,5 +30,26 @@
       <TextArea fx:id="descriptionArea" layoutX="353.0" layoutY="109.0" prefHeight="200.0" prefWidth="200.0" />
       <Label layoutX="353.0" layoutY="84.0" text="Description:" />
       <Label fx:id="errorLabel" layoutX="284.0" layoutY="344.0" textFill="RED" />
+      <Label layoutX="285.0" layoutY="344.0">
+         <font>
+            <Font name="SansSerif Regular" size="13.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.8552631735801697" green="0.03959551826119423" blue="0.03959551826119423" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="1.0" green="1.0" blue="1.0" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Label>
    </children>
 </AnchorPane>

@@ -69,26 +69,26 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: white;">
                      <children>
-                        <Label layoutX="431.0" layoutY="4.0" text="Transaction History">
+                        <Label layoutX="353.0" layoutY="14.0" text="Transaction History">
                            <font>
                               <Font size="17.0" />
                            </font>
                         </Label>
-                        <ListView fx:id="transactionHistory" layoutX="489.0" layoutY="58.0" prefHeight="199.0" prefWidth="214.0" />
-                        <Button layoutX="562.0" layoutY="301.0" mnemonicParsing="false" onAction="#transactionDetails" text="View transaction details" />
-                        <Button fx:id="makeAPayment" layoutX="153.0" layoutY="86.0" mnemonicParsing="false" onAction="#makeAPayment" text="Make a new payment" />
-                        <Button layoutX="125.0" layoutY="183.0" mnemonicParsing="false" text="Report a suspicious transaction" />
-                        <Button layoutX="144.0" layoutY="133.0" mnemonicParsing="false" text="Make a payment request" />
-                        <ListView fx:id="timeList" layoutX="352.0" layoutY="58.0" prefHeight="199.0" prefWidth="131.0" />
+                        <ListView fx:id="transactionHistory" layoutX="411.0" layoutY="68.0" prefHeight="199.0" prefWidth="214.0" />
+                        <Button layoutX="441.0" layoutY="274.0" mnemonicParsing="false" onAction="#transactionDetails" text="View transaction details" />
+                        <Button fx:id="makeAPayment" layoutX="75.0" layoutY="96.0" mnemonicParsing="false" onAction="#makeAPayment" text="Make a new payment" />
+                        <Button layoutX="47.0" layoutY="193.0" mnemonicParsing="false" text="Report a suspicious transaction" />
+                        <Button layoutX="66.0" layoutY="143.0" mnemonicParsing="false" text="Make a payment request" />
+                        <ListView fx:id="timeList" layoutX="274.0" layoutY="68.0" prefHeight="199.0" prefWidth="131.0" />
                         <Label fx:id="transactionError" layoutX="283.0" layoutY="279.0" textFill="#e10000">
                            <font>
                               <Font name="SansSerif Regular" size="12.0" />
                            </font>
                         </Label>
-                        <Button layoutX="562.0" layoutY="267.0" mnemonicParsing="false" prefHeight="15.0" prefWidth="125.0" text="Set transaction label" />
-                        <Label layoutX="404.0" layoutY="33.0" text="Time" />
-                        <Label layoutX="520.0" layoutY="33.0" text="Amount" />
-                        <Label layoutX="619.0" layoutY="32.0" text="Label" />
+                        <Button layoutX="278.0" layoutY="274.0" mnemonicParsing="false" prefHeight="15.0" prefWidth="125.0" text="Set transaction label" />
+                        <Label layoutX="326.0" layoutY="43.0" text="Time" />
+                        <Label layoutX="442.0" layoutY="43.0" text="Amount" />
+                        <Label layoutX="541.0" layoutY="42.0" text="Label" />
                      </children></AnchorPane>
               </content>
             </Tab>

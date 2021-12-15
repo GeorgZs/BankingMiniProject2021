@@ -12,4 +12,8 @@ public class Contact {
         this.account = account;
         this.description = description;
     }
+
+    public PaymentAccount getContactAccount() {
+        return this.account;
+    }
 }
