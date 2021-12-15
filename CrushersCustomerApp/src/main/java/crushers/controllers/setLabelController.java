@@ -19,6 +19,7 @@ public class setLabelController {
 
     public void submitLabel(ActionEvent e) throws IOException, InterruptedException {
         String theLabel = labelField.getText();
+        String automaticLabel;
         if(theLabel.trim().isEmpty()){
             errorLabel.setText("Label can not be empty.");
         }
@@ -27,8 +28,20 @@ public class setLabelController {
             errorLabel.setText("Label can not contain only numbers.");
         }
         else {
-            TransactionLabel transactionLabel = new TransactionLabel(theLabel, App.currentTransaction);
-            App.currentTransaction.setLabel(theLabel);
+            if (theLabel.contains("pharmacy") || theLabel.contains("gym") || theLabel.contains("doctor")) {
+                automaticLabel = "Health & fitness";
+            } else if (theLabel.contains("restaurant") || theLabel.contains("coffee") || theLabel.contains("food") || theLabel.contains("cafe")) {
+                automaticLabel = "Food";
+            } else if (theLabel.contains("rent") || theLabel.contains("bills")) {
+                automaticLabel = "Housing & Utilities";
+            } else if (theLabel.contains("car") || theLabel.contains("gas") || theLabel.contains("bus")) {
+                automaticLabel = "Transportation";
+            }
+            else {
+                automaticLabel = "Other";;
+            }
+            TransactionLabel transactionLabel = new TransactionLabel(automaticLabel, App.currentTransaction);
+            App.currentTransaction.setLabel(automaticLabel);
             // Http.post("/transactions/label", transactionLabel);
             Util.closeAndShow("SystemView", "System",e);
         }
