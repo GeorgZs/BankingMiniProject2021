@@ -100,9 +100,9 @@ public class CustomerService {
     if(contact.getDescription().isBlank()){
       invalidDataMessage.add("Description cannot be empty");
     }
-    if(!contact.getName().equals(contact.getAccount().getOwner().getFirstName())){
-      invalidDataMessage.add("Contact name does not match Account Owner's name");
-    }
+    // if(!contact.getName().equals(contact.getAccount().getOwner().getFirstName())){
+    //   invalidDataMessage.add("Contact name does not match Account Owner's name");
+    // }
     /*
     if(customer.getFirstName().equals(contact.getAccount().getOwner().getFirstName())){
       invalidDataMessage.add("Cannot create contact with own Account");
