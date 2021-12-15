@@ -12,10 +12,10 @@ public class Contact {
         // for jackson -- needs the empty constructor
     }
 
-    public Contact(int id, String name,
+    public Contact(String name,
                    Account account, String description){
         //if = ID is found in registry && name and account are found in User of that ID
-        this.id = id;
+        this.id = 0;
         this.name = name;
         this.account = account;
         this.description = description;
