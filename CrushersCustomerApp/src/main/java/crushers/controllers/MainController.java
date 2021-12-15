@@ -1,11 +1,14 @@
 package crushers.controllers;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.InputMismatchException;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -15,6 +18,7 @@ import crushers.model.Credentials;
 import crushers.model.Customer;
 import crushers.model.PaymentAccount;
 import crushers.model.SavingsAccount;
+import crushers.model.Transaction;
 import crushers.util.Http;
 import crushers.util.Json;
 import crushers.util.Util;
@@ -88,12 +92,33 @@ public class MainController { // test commit
             App.currentCustomer.setAccountList(new ArrayList<>(accounts));
         } catch (InterruptedException e1) {
             e1.printStackTrace();
+        } catch(MismatchedInputException mie){
+            App.currentCustomer.setAccountList(new ArrayList<PaymentAccount>());
         }
 
         
         ArrayList<Contact> contacts = Json.parseList(Http.authGet("customers/@contacts", App.currentToken), Contact.class);
         System.out.println(contacts);
         App.currentCustomer.setContactList(contacts);
+
+        JsonNode toNode = Json.getEmptyNode();
+        ((ObjectNode)toNode).put("id", 1001);
+        ((ObjectNode)toNode).put("type", "payment");
+        JsonNode fromNode = Json.getEmptyNode();
+        ((ObjectNode)fromNode).put("id", 1002);
+        ((ObjectNode)fromNode).put("type", "payment");
+
+        JsonNode transactionNode = Json.getEmptyNode();
+        ((ObjectNode)transactionNode).put("id", 691337);
+        ((ObjectNode)transactionNode).set("from", fromNode);
+        ((ObjectNode)transactionNode).set("to", toNode);
+        ((ObjectNode)transactionNode).put("amount", 69.0);
+        ((ObjectNode)transactionNode).put("description", "kekler");
+        ((ObjectNode)transactionNode).set("date", Json.objectToNode(LocalDateTime.now()));
+        System.out.println(Json.stringify(LocalDateTime.now()));
+
+        System.out.println(Http.authPost("transactions", App.currentToken, transactionNode));
+
         // Util.closeAndShow("AccountView", "Account Overview", e); same spiel
 
         Stage oldStage = (Stage)((Node)e.getSource()).getScene().getWindow();

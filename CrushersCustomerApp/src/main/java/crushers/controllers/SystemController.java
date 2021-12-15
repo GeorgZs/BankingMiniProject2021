@@ -92,14 +92,6 @@ public class SystemController implements Initializable{
     private ListView<Transaction> transactionHistory;
     @FXML
     private ListView<String> timeList;
-    
-    public void logout(ActionEvent e) throws IOException{
-        Util.logOutAlert("Logging out?", "Are you sure you want to log-out?", e);
-    }
-
-    public void selectDifferentAccount(ActionEvent e) throws IOException{
-        Util.closeAndShow("AccountView", "Select an Account", e);
-    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources){
@@ -154,6 +146,11 @@ public class SystemController implements Initializable{
         }
     }
     
+    /*
+    
+    */
+
+
     public void getInterest(ActionEvent e) throws IOException, InterruptedException {
         ArrayList<Integer> years = new ArrayList<>();
         if (years.contains(LocalDateTime.now().getYear())){
@@ -177,5 +174,13 @@ public class SystemController implements Initializable{
 
     public void addMoney(ActionEvent e){
         Util.getAccountWithID(App.currentAccountID).deposit(100);
+    }
+
+    public void logout(ActionEvent e) throws IOException{
+        Util.logOutAlert("Logging out?", "Are you sure you want to log-out?", e);
+    }
+
+    public void selectDifferentAccount(ActionEvent e) throws IOException{
+        Util.closeAndShow("AccountView", "Select an Account", e);
     }
 }

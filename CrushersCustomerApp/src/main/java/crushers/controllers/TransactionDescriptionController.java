@@ -18,17 +18,17 @@ public class TransactionDescriptionController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        if(App.currentTransaction.getAccountFrom().getNumber() == App.currentAccount.getNumber()) {
+        if(App.currentTransaction.getFrom().getNumber() == App.currentAccount.getNumber()) {
             fromAccount.setText(" Me");
         }
         else {
-            fromAccount.setText(App.currentTransaction.getAccountFrom().getNumber());
+            fromAccount.setText(App.currentTransaction.getFrom().getNumber());
         }
-        if(App.currentTransaction.getAccountTo().getNumber() == App.currentAccount.getNumber()) {
+        if(App.currentTransaction.getTo().getNumber() == App.currentAccount.getNumber()) {
             toAccount.setText(" Me");
         }
         else {
-            toAccount.setText(App.currentTransaction.getAccountTo().getNumber());
+            toAccount.setText(App.currentTransaction.getTo().getNumber());
         }
         amount.setText(App.currentTransaction.getAmount() + " SEK");
         date.setText(App.currentTransaction.getDate());
