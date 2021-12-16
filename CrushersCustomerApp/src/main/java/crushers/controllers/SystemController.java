@@ -79,6 +79,7 @@ public class SystemController implements Initializable{
             ((ObjectNode)contactNode).put("description", descriptionArea.getText());
             Contact createdContact = Json.parse(Http.authPost("customers/contact", App.currentToken, contactNode), Contact.class);
             contactTableView.getItems().add(createdContact);
+            App.currentCustomer.addContact(createdContact);
             }
         }
 
@@ -91,13 +92,7 @@ public class SystemController implements Initializable{
     @FXML
     private ListView<Transaction> transactionHistory;
     @FXML
-<<<<<<< HEAD
     private ListView<String> timeList, labelList;
-=======
-    private ListView<String> timeList;
-    @FXML
-    private ListView<String> labelList;
->>>>>>> d1950b46aa6035e951a4ac58df00cfaaa18a8d69
 
     @Override
     public void initialize(URL location, ResourceBundle resources){

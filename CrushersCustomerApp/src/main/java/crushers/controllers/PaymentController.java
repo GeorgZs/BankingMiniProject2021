@@ -49,7 +49,9 @@ public class PaymentController implements Initializable {
         ArrayList<PaymentAccount> userAccounts = App.currentCustomer.getAccountList();
         ArrayList<Contact> contacts = App.currentCustomer.getContactList();
         fromAccountBox.getItems().addAll(userAccounts);
-        toAccountBox.getItems().addAll(contacts);
+        if(contacts != null){
+            toAccountBox.getItems().addAll(contacts);
+        }
     }
 
     public void confirmPayment(ActionEvent e) throws IOException, InterruptedException {
