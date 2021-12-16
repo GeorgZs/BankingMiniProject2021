@@ -86,26 +86,16 @@ public class MainController { // test commit
 
         try { // this block uses the token to find the logged in customer and set their account list
             App.currentCustomer = Json.parse(Http.authGet("customers/@me", App.currentToken), Customer.class);
-            List<PaymentAccount> accounts = Json.parseList(Http.authGet("accounts/@me", App.currentToken), PaymentAccount.class);
-            App.currentCustomer.setAccountList(new ArrayList<>(accounts));
+            ArrayList<PaymentAccount> accounts = Json.parseList(Http.authGet("accounts/@me", App.currentToken), PaymentAccount.class);
+            App.currentCustomer.setAccountList(accounts);
         } catch (InterruptedException e1) {
             e1.printStackTrace();
         } catch(MismatchedInputException mie){
             App.currentCustomer.setAccountList(new ArrayList<PaymentAccount>());
         }
-
         
         ArrayList<Contact> contacts = Json.parseList(Http.authGet("customers/@contacts", App.currentToken), Contact.class);
-        System.out.println(contacts);
         App.currentCustomer.setContactList(contacts);
-
-        JsonNode toNode = Json.nodeWithFields("id", 1001, "type", "payment");
-        JsonNode fromNode = Json.nodeWithFields("id", 1002, "type", "payment");
-
-        JsonNode transactionNode = Json.nodeWithFields("id", 1337, "from", fromNode, "to", toNode, "amount", 69.0, "description", "kekler");
-        ((ObjectNode)transactionNode).set("date", Json.objectToNode(LocalDateTime.now()));
-
-        System.out.println(Http.authPost("transactions", App.currentToken, transactionNode));
 
         // Util.closeAndShow("AccountView", "Account Overview", e); same spiel
 

@@ -181,7 +181,7 @@ public class SystemController implements Initializable{
     }
 
     public void addMoney(ActionEvent e){
-        Util.getAccountWithID(App.currentAccountID).deposit(100);
+        
     }
 
     public void logout(ActionEvent e) throws IOException{

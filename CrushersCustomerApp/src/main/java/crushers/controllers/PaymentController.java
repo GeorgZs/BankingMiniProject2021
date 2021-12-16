@@ -73,8 +73,21 @@ public class PaymentController implements Initializable {
                 errorLabel.setText("Insufficient funds!");
             } else {
 
+                //
+
+                // JsonNode toNode = Json.nodeWithFields("id", 1001, "type", "payment");
+                // JsonNode fromNode = Json.nodeWithFields("id", 1002, "type", "payment");
+
+                // JsonNode transactionNode = Json.nodeWithFields("id", 1337, "from", fromNode, "to", toNode, "amount", 69.0, "description", "kekler");
+                // ((ObjectNode)transactionNode).set("date", Json.objectToNode(LocalDateTime.now()));
+
+                // System.out.println(Http.authPost("transactions", App.currentToken, transactionNode));
+
+                //
+
+
                 JsonNode toNode = Json.nodeWithFields("id", accountTo.getId(), "type", "payment");
-                JsonNode fromNode = Json.nodeWithFields("id", accountFrom.getId(), "type", "payment");
+                JsonNode fromNode = Json.nodeWithFields("id", accountFrom.getId(), "type", "payment", "balance", accountFrom.getBalance());
 
                 int transactionId = Integer.parseInt(transactionIdTextField.getText());
 
@@ -82,13 +95,6 @@ public class PaymentController implements Initializable {
                 ((ObjectNode)transactionNode).set("date", Json.objectToNode(LocalDateTime.now()));
 
                 System.out.println(Http.authPost("transactions", App.currentToken, transactionNode));
-
-                Transaction transaction = new Transaction(accountFrom, accountTo, amountSEK, description);
-                accountFrom.withdraw(amountSEK);
-                accountTo.deposit(amountSEK);
-                accountFrom.addTransaction(transaction);
-                accountTo.addTransaction(transaction);
-                Http.authPost("/transactions", App.currentToken, transaction);
 
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Transfer successful!");
                 alert.setHeaderText("");
