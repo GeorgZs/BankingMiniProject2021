@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="488.0" prefWidth="721.0" style="-fx-background-color: pink;" stylesheets="@../stylesheets/main.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="crushers.controllers.SystemController">
+<Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="488.0" prefWidth="721.0" style="-fx-background-color: pink;" stylesheets="@../stylesheets/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="crushers.controllers.SystemController">
    <children>
       <TabPane fx:id="tabpane" layoutX="6.0" layoutY="45.0" prefHeight="368.0" prefWidth="709.0" style="-fx-background-color: pink;" stylesheets="@../stylesheets/tabpane.css" tabClosingPolicy="UNAVAILABLE">
         <tabs>
@@ -31,9 +31,27 @@
                      </children></AnchorPane>
             </content>
           </Tab>
-            <Tab text="My Loans">
+            <Tab text="Loans">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: white; -fx-border-color: black;" />
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: white; -fx-border-color: black;">
+                     <children>
+                        <Button layoutX="142.0" layoutY="268.0" mnemonicParsing="false" text="Apply" />
+                        <TextField layoutX="69.0" layoutY="68.0" prefHeight="25.0" prefWidth="208.0" promptText="Loan amount (SEK)" />
+                        <TableView layoutX="351.0" layoutY="68.0" prefHeight="189.0" prefWidth="320.0" />
+                        <TextArea layoutX="68.0" layoutY="103.0" prefHeight="152.0" prefWidth="209.0" promptText="Reason(s) for application" />
+                        <Label layoutX="475.0" layoutY="22.0" text="My Loans">
+                           <font>
+                              <Font name="SansSerif Regular" size="15.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="119.0" layoutY="22.0" text="Apply for Loan">
+                           <font>
+                              <Font name="SansSerif Regular" size="15.0" />
+                           </font>
+                        </Label>
+                        <Button layoutX="546.0" layoutY="268.0" mnemonicParsing="false" text="Payback loan" />
+                        <TextField layoutX="372.0" layoutY="268.0" promptText="Amount to payback" />
+                     </children></AnchorPane>
               </content>
             </Tab>
             <Tab text="Contacts">
@@ -63,7 +81,7 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: white;">
                      <children>
-                        <Label layoutX="353.0" layoutY="14.0" text="Transaction History">
+                        <Label layoutX="388.0" layoutY="14.0" text="Transaction History">
                            <font>
                               <Font size="17.0" />
                            </font>
