@@ -91,20 +91,7 @@ public class SystemController implements Initializable{
     @FXML
     private ListView<Transaction> transactionHistory;
     @FXML
-    private ListView<String> timeList;
-<<<<<<< HEAD
-=======
-    @FXML
-    private ListView<String> labelList;
-    
-    public void logout(ActionEvent e) throws IOException{
-        Util.logOutAlert("Logging out?", "Are you sure you want to log-out?", e);
-    }
-
-    public void selectDifferentAccount(ActionEvent e) throws IOException{
-        Util.closeAndShow("AccountView", "Select an Account", e);
-    }
->>>>>>> a353cbd92c22e28dd065f6cfac517715584839dd
+    private ListView<String> timeList, labelList;
 
     @Override
     public void initialize(URL location, ResourceBundle resources){
@@ -116,7 +103,7 @@ public class SystemController implements Initializable{
         try {
             ArrayList<Transaction> transactions = Json.parseList(Http.authGet("transactions/accounts/" + App.currentAccountID, App.currentToken), Transaction.class);
             System.out.println(transactions);
-            List<Transaction> transactionList = App.currentAccount.getTransactions();;
+            List<Transaction> transactionList = App.currentAccount.getTransactions();
             if(transactionList != null) {
                 observableTransactionList.addAll(transactionList);
                 for (Transaction transaction : transactionList) {

@@ -23,12 +23,8 @@ public class TransactionDescriptionController implements Initializable {
             amount.setText("-" + App.currentTransaction.getAmount() + " SEK");
         }
         else {
-<<<<<<< HEAD
-            fromAccount.setText(App.currentTransaction.getFrom().getNumber());
-=======
             amount.setText("+" + App.currentTransaction.getAmount() + " SEK");
-            fromAccount.setText(App.currentTransaction.getAccountFrom().getNumber());
->>>>>>> a353cbd92c22e28dd065f6cfac517715584839dd
+            fromAccount.setText(App.currentTransaction.getFrom().getNumber());
         }
         if(App.currentTransaction.getTo().getNumber() == App.currentAccount.getNumber()) {
             toAccount.setText(" Me");

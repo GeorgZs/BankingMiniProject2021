@@ -52,13 +52,14 @@ public class Json {
     public static JsonNode getEmptyNode(){
         return json.createObjectNode();
     }
-    // public static JsonNode nodeWithFields(Object... keyValuePair){
-    //     JsonNode node = getEmptyNode();
-    //     for(int i=0; i<keyValuePair.length; i=i+2){
-    //         String key = String.valueOf(keyValuePair[i]);
-    //         Object value = keyValuePair[i+1];
-    //         ((ObjectNode)node).set(key, objectToNode(value));
-    //     }
-    // }
+    public static JsonNode nodeWithFields(Object... keyValuePair) throws JsonMappingException, JsonProcessingException{
+        JsonNode node = getEmptyNode();
+        for(int i=0; i<keyValuePair.length; i=i+2){
+            String key = String.valueOf(keyValuePair[i]);
+            Object value = keyValuePair[i+1];
+            ((ObjectNode)node).set(key, objectToNode(value));
+        }
+        return node;
+    }
 
 }

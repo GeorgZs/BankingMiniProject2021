@@ -1,15 +1,13 @@
 package crushers.controllers;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.InputMismatchException;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
-import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import crushers.App;
@@ -101,21 +99,11 @@ public class MainController { // test commit
         System.out.println(contacts);
         App.currentCustomer.setContactList(contacts);
 
-        JsonNode toNode = Json.getEmptyNode();
-        ((ObjectNode)toNode).put("id", 1001);
-        ((ObjectNode)toNode).put("type", "payment");
-        JsonNode fromNode = Json.getEmptyNode();
-        ((ObjectNode)fromNode).put("id", 1002);
-        ((ObjectNode)fromNode).put("type", "payment");
+        JsonNode toNode = Json.nodeWithFields("id", 1001, "type", "payment");
+        JsonNode fromNode = Json.nodeWithFields("id", 1002, "type", "payment");
 
-        JsonNode transactionNode = Json.getEmptyNode();
-        ((ObjectNode)transactionNode).put("id", 691337);
-        ((ObjectNode)transactionNode).set("from", fromNode);
-        ((ObjectNode)transactionNode).set("to", toNode);
-        ((ObjectNode)transactionNode).put("amount", 69.0);
-        ((ObjectNode)transactionNode).put("description", "kekler");
+        JsonNode transactionNode = Json.nodeWithFields("id", 1337, "from", fromNode, "to", toNode, "amount", 69.0, "description", "kekler");
         ((ObjectNode)transactionNode).set("date", Json.objectToNode(LocalDateTime.now()));
-        System.out.println(Json.stringify(LocalDateTime.now()));
 
         System.out.println(Http.authPost("transactions", App.currentToken, transactionNode));
 

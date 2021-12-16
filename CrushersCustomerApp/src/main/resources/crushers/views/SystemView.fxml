@@ -40,21 +40,22 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: white;" stylesheets="@../stylesheets/main.css">
                      <children>
-                        <Button layoutX="29.0" layoutY="280.0" mnemonicParsing="false" onAction="#createContact" text="Create contact" />
-                        <Label layoutX="476.0" layoutY="25.0" text="My Contacts">
+                        <Button layoutX="182.0" layoutY="274.0" mnemonicParsing="false" onAction="#createContact" text="Create contact" />
+                        <Label layoutX="463.0" layoutY="25.0" text="My Contacts">
                            <font>
                               <Font size="15.0" />
                            </font>
                         </Label>
-                        <Label layoutX="61.0" layoutY="56.0" text="Name:" />
-                        <Label layoutX="45.0" layoutY="89.0" text="Account ID:" />
-                        <Label layoutX="47.0" layoutY="129.0" text="Description:" />
-                        <TextField fx:id="nameField" layoutX="145.0" layoutY="52.0" prefHeight="25.0" prefWidth="132.0" />
-                        <TextArea fx:id="descriptionArea" layoutX="145.0" layoutY="117.0" prefHeight="82.0" prefWidth="131.0" />
-                        <Button layoutX="397.0" layoutY="279.0" mnemonicParsing="false" text="Make payment" />
-                        <TextField fx:id="accountID" layoutX="145.0" layoutY="84.0" prefHeight="25.0" prefWidth="131.0" />
-                        <Label fx:id="contactErrorLabel" layoutX="191.0" layoutY="274.0" prefHeight="36.0" prefWidth="172.0" style="-fx-text-fill: red;" />
+                        <TextField fx:id="nameField" layoutX="44.0" layoutY="69.0" prefHeight="26.0" prefWidth="231.0" promptText="Contact Name" />
+                        <TextArea fx:id="descriptionArea" layoutX="46.0" layoutY="145.0" prefHeight="111.0" prefWidth="230.0" promptText="Description" />
+                        <TextField fx:id="accountID" layoutX="45.0" layoutY="106.0" prefHeight="26.0" prefWidth="230.0" promptText="Contact Account ID" />
+                        <Label fx:id="contactErrorLabel" layoutX="44.0" layoutY="268.0" prefHeight="36.0" prefWidth="129.0" style="-fx-text-fill: red;" />
                         <TableView fx:id="contactTableView" layoutX="327.0" layoutY="58.0" prefHeight="200.0" prefWidth="356.0" />
+                        <Label layoutX="111.0" layoutY="25.0" text="Create contact">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
                      </children></AnchorPane>
               </content>
             </Tab>

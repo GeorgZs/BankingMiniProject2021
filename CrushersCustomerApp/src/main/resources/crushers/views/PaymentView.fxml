@@ -11,9 +11,9 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../stylesheets/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="crushers.controllers.PaymentController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../stylesheets/main.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="crushers.controllers.PaymentController">
    <children>
-      <Button fx:id="confirmPayment" layoutX="51.0" layoutY="339.0" mnemonicParsing="false" onAction="#confirmPayment" text="Confirm payment" />
+      <Button layoutX="51.0" layoutY="339.0" mnemonicParsing="false" onAction="#confirmPayment" text="Confirm payment" />
       <Button fx:id="cancel" layoutX="483.0" layoutY="340.0" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
       <Label layoutX="35.0" layoutY="139.0" text="From account:" />
       <Label layoutX="43.0" layoutY="188.0" text="To account:" />
@@ -51,5 +51,6 @@
             </LinearGradient>
          </textFill>
       </Label>
+      <TextField fx:id="transactionIdTextField" layoutX="130.0" layoutY="87.0" promptText="Transaction ID" />
    </children>
 </AnchorPane>
