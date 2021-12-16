@@ -73,7 +73,7 @@ public class AccountService {
                   "Cannot create Transaction: Account with id: " + receiver.getId() + " does not have enough funds to create this Transaction"
           );
         }
-        sender.setBalance(receiver.getBalance() - transaction.getAmount());
+        sender.setBalance(sender.getBalance() - transaction.getAmount());
       }
       else{
         sender.setBalance(sender.getBalance() - transaction.getAmount());
