@@ -12,7 +12,6 @@ public class Contact {
         this.name = name;
         this.account = account;
         this.description = description;
-        this.accountId = this.account.getId();
     }
     public Contact(){
 

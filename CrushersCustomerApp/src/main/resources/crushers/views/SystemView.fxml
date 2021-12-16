@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="488.0" prefWidth="721.0" style="-fx-background-color: pink;" stylesheets="@../stylesheets/main.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="crushers.controllers.SystemController">
+<Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="488.0" prefWidth="721.0" style="-fx-background-color: pink;" stylesheets="@../stylesheets/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="crushers.controllers.SystemController">
    <children>
       <TabPane fx:id="tabpane" layoutX="6.0" layoutY="45.0" prefHeight="368.0" prefWidth="709.0" style="-fx-background-color: pink;" stylesheets="@../stylesheets/tabpane.css" tabClosingPolicy="UNAVAILABLE">
         <tabs>
@@ -31,30 +31,49 @@
                      </children></AnchorPane>
             </content>
           </Tab>
-            <Tab text="My Loans">
+            <Tab text="Loans">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: white; -fx-border-color: black;" />
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: white; -fx-border-color: black;">
+                     <children>
+                        <Button layoutX="142.0" layoutY="268.0" mnemonicParsing="false" text="Apply" />
+                        <TextField layoutX="69.0" layoutY="68.0" prefHeight="25.0" prefWidth="208.0" promptText="Loan amount (SEK)" />
+                        <TableView layoutX="351.0" layoutY="68.0" prefHeight="189.0" prefWidth="320.0" />
+                        <TextArea layoutX="68.0" layoutY="103.0" prefHeight="152.0" prefWidth="209.0" promptText="Reason(s) for application" />
+                        <Label layoutX="475.0" layoutY="22.0" text="My Loans">
+                           <font>
+                              <Font name="SansSerif Regular" size="15.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="119.0" layoutY="22.0" text="Apply for Loan">
+                           <font>
+                              <Font name="SansSerif Regular" size="15.0" />
+                           </font>
+                        </Label>
+                        <Button layoutX="546.0" layoutY="268.0" mnemonicParsing="false" text="Payback loan" />
+                        <TextField layoutX="372.0" layoutY="268.0" promptText="Amount to payback" />
+                     </children></AnchorPane>
               </content>
             </Tab>
             <Tab text="Contacts">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: white;" stylesheets="@../stylesheets/main.css">
                      <children>
-                        <Button layoutX="29.0" layoutY="280.0" mnemonicParsing="false" onAction="#createContact" text="Create contact" />
-                        <Label layoutX="476.0" layoutY="25.0" text="My Contacts">
+                        <Button layoutX="182.0" layoutY="274.0" mnemonicParsing="false" onAction="#createContact" text="Create contact" />
+                        <Label layoutX="463.0" layoutY="25.0" text="My Contacts">
                            <font>
                               <Font size="15.0" />
                            </font>
                         </Label>
-                        <Label layoutX="61.0" layoutY="56.0" text="Name:" />
-                        <Label layoutX="45.0" layoutY="89.0" text="Account ID:" />
-                        <Label layoutX="47.0" layoutY="129.0" text="Description:" />
-                        <TextField fx:id="nameField" layoutX="145.0" layoutY="52.0" prefHeight="25.0" prefWidth="132.0" />
-                        <TextArea fx:id="descriptionArea" layoutX="145.0" layoutY="117.0" prefHeight="82.0" prefWidth="131.0" />
-                        <Button layoutX="397.0" layoutY="279.0" mnemonicParsing="false" text="Make payment" />
-                        <TextField fx:id="accountID" layoutX="145.0" layoutY="84.0" prefHeight="25.0" prefWidth="131.0" />
-                        <Label fx:id="contactErrorLabel" layoutX="191.0" layoutY="274.0" prefHeight="36.0" prefWidth="172.0" style="-fx-text-fill: red;" />
+                        <TextField fx:id="nameField" layoutX="44.0" layoutY="69.0" prefHeight="26.0" prefWidth="231.0" promptText="Contact Name" />
+                        <TextArea fx:id="descriptionArea" layoutX="46.0" layoutY="145.0" prefHeight="111.0" prefWidth="230.0" promptText="Description" />
+                        <TextField fx:id="accountID" layoutX="45.0" layoutY="106.0" prefHeight="26.0" prefWidth="230.0" promptText="Contact Account ID" />
+                        <Label fx:id="contactErrorLabel" layoutX="44.0" layoutY="268.0" prefHeight="36.0" prefWidth="129.0" style="-fx-text-fill: red;" />
                         <TableView fx:id="contactTableView" layoutX="327.0" layoutY="58.0" prefHeight="200.0" prefWidth="356.0" />
+                        <Label layoutX="111.0" layoutY="25.0" text="Create contact">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
                      </children></AnchorPane>
               </content>
             </Tab>
@@ -62,26 +81,27 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: white;">
                      <children>
-                        <Label layoutX="353.0" layoutY="14.0" text="Transaction History">
+                        <Label layoutX="388.0" layoutY="14.0" text="Transaction History">
                            <font>
                               <Font size="17.0" />
                            </font>
                         </Label>
-                        <ListView fx:id="transactionHistory" layoutX="411.0" layoutY="68.0" prefHeight="199.0" prefWidth="214.0" />
-                        <Button layoutX="441.0" layoutY="274.0" mnemonicParsing="false" onAction="#transactionDetails" text="View transaction details" />
+                        <ListView fx:id="transactionHistory" layoutX="411.0" layoutY="68.0" prefHeight="192.0" prefWidth="100.0" />
+                        <Button layoutX="478.0" layoutY="267.0" mnemonicParsing="false" onAction="#transactionDetails" text="View transaction details" />
                         <Button fx:id="makeAPayment" layoutX="75.0" layoutY="96.0" mnemonicParsing="false" onAction="#makeAPayment" text="Make a new payment" />
                         <Button layoutX="47.0" layoutY="193.0" mnemonicParsing="false" text="Report a suspicious transaction" />
                         <Button layoutX="66.0" layoutY="143.0" mnemonicParsing="false" text="Make a payment request" />
-                        <ListView fx:id="timeList" layoutX="274.0" layoutY="68.0" prefHeight="199.0" prefWidth="131.0" />
+                        <ListView fx:id="timeList" layoutX="274.0" layoutY="68.0" prefHeight="192.0" prefWidth="131.0" />
                         <Label fx:id="transactionError" layoutX="283.0" layoutY="279.0" textFill="#e10000">
                            <font>
                               <Font name="SansSerif Regular" size="12.0" />
                            </font>
                         </Label>
-                        <Button layoutX="278.0" layoutY="274.0" mnemonicParsing="false" prefHeight="15.0" prefWidth="125.0" text="Set transaction label" />
+                        <Button layoutX="478.0" layoutY="301.0" mnemonicParsing="false" onAction="#setLabel" prefHeight="15.0" prefWidth="125.0" text="Set transaction label" />
                         <Label layoutX="326.0" layoutY="43.0" text="Time" />
                         <Label layoutX="442.0" layoutY="43.0" text="Amount" />
                         <Label layoutX="541.0" layoutY="42.0" text="Label" />
+                        <ListView fx:id="labelList" layoutX="521.0" layoutY="68.0" prefHeight="191.0" prefWidth="100.0" />
                      </children></AnchorPane>
               </content>
             </Tab>

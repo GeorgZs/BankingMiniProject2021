@@ -49,6 +49,7 @@ public class Customer extends User{
     } // creation constructor
 
     public Customer(){
+        this.contactList = new ArrayList<Contact>();
     } // empty constructor for json
 
     public void createAccount(Object acc){
@@ -104,6 +105,12 @@ public class Customer extends User{
     }
     public void setContactList(ArrayList<Contact> contacts){
         this.contactList = contacts;
+    }
+    public void addContact(Contact contact){
+        if(this.contactList == null){
+            this.contactList = new ArrayList<Contact>();
+        }
+        this.contactList.add(contact);
     }
     public void setAccountList(ArrayList<PaymentAccount> accounts){
         ArrayList<PaymentAccount> all = new ArrayList<PaymentAccount>();

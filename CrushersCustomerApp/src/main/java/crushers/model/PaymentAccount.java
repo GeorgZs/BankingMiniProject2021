@@ -46,7 +46,12 @@ public class PaymentAccount {
     public PaymentAccount(int id, String type){
         this.id = id;
         this.type = type;
-    }
+    } // Constructor for contacts
+    public PaymentAccount(int id, String type, double balance){
+        this.id = id;
+        this.type = type;
+        this.balance = balance;
+    } // Constructor for transactions
 
     public String capitalize(String str){ // the creation of this method shows just how little I give a f... i mean smile and wave :) /
         return str.substring(0, 1).toUpperCase() + str.substring(1);
@@ -72,21 +77,12 @@ public class PaymentAccount {
     public double getBalance(){
         return this.balance;
     }
+    public void setBalance(double balance){
+        this.balance = balance;
+    }
     public ArrayList<Transaction> getTransactions() throws IOException, InterruptedException {
-        // ArrayList<Transaction> transactionCollection = Json.parseList(
-        //         Http.authGet("/transactions/accounts/" + this.id, App.currentToken), Transaction.class);
-        // return transactionCollection;
         return this.transactions;
     }
-    public void withdraw(double amountToWithdraw){
-        this.balance = this.balance - amountToWithdraw;
-    }
-    public void deposit(double amountToDeposit) {
-        this.balance = this.balance + amountToDeposit;
-    }
-    // public void addTransactionToMap(Transaction transaction){
-    //     transactions.put(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")), transaction);
-    // }
     public void addTransaction(Transaction transaction){
         this.transactions.add(transaction);
     }

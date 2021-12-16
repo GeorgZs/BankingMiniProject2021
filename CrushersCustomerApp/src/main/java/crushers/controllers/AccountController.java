@@ -99,12 +99,8 @@ public class AccountController implements Initializable{
                     PaymentAccount account = accountList.getSelectionModel().getSelectedItem();
                     if(account.getInterestRate() == 0.0){
                         accountTypeLabel.setText("Account type: Payment");
-                        savingsGoalLabel.setVisible(false);
                     }else{
                         accountTypeLabel.setText("Account type: Savings");
-                        // savingsGoalLabel.setText("Savings goal: " + getGoalFromMap + " SEK");
-                        savingsGoalLabel.setText("Savings goal: " + 1337 + " SEK");
-                        savingsGoalLabel.setVisible(true);
                     }
                     accountDetailsBox.setVisible(true);
                     accountBankLabel.setText("Bank: " + account.getBank().getName());

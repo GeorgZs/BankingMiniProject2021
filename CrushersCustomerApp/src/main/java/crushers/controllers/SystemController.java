@@ -79,6 +79,7 @@ public class SystemController implements Initializable{
             ((ObjectNode)contactNode).put("description", descriptionArea.getText());
             Contact createdContact = Json.parse(Http.authPost("customers/contact", App.currentToken, contactNode), Contact.class);
             contactTableView.getItems().add(createdContact);
+            App.currentCustomer.addContact(createdContact);
             }
         }
 
@@ -91,15 +92,7 @@ public class SystemController implements Initializable{
     @FXML
     private ListView<Transaction> transactionHistory;
     @FXML
-    private ListView<String> timeList;
-    
-    public void logout(ActionEvent e) throws IOException{
-        Util.logOutAlert("Logging out?", "Are you sure you want to log-out?", e);
-    }
-
-    public void selectDifferentAccount(ActionEvent e) throws IOException{
-        Util.closeAndShow("AccountView", "Select an Account", e);
-    }
+    private ListView<String> timeList, labelList;
 
     @Override
     public void initialize(URL location, ResourceBundle resources){
@@ -107,29 +100,28 @@ public class SystemController implements Initializable{
         //Payments
         ObservableList<String> observableTimeList = FXCollections.observableArrayList();
         ObservableList<Transaction> observableTransactionList = FXCollections.observableArrayList();
+        ObservableList<String> observableLabelList = FXCollections.observableArrayList();
         try {
             ArrayList<Transaction> transactions = Json.parseList(Http.authGet("transactions/accounts/" + App.currentAccountID, App.currentToken), Transaction.class);
             System.out.println(transactions);
+            List<Transaction> transactionList = App.currentAccount.getTransactions();
+            if(transactionList != null) {
+                observableTransactionList.addAll(transactionList);
+                for (Transaction transaction : transactionList) {
+                    observableTimeList.add(transaction.getDate());
+                    if (!transaction.getLabel().isEmpty()) {
+                        observableLabelList.add(transaction.getLabel());
+                    } else {
+                        observableLabelList.add("");
+                    }
+                }
+            }
+            timeList.setItems(observableTimeList);
+            transactionHistory.setItems(observableTransactionList);
+            labelList.setItems(observableLabelList);
         } catch (IOException | InterruptedException e1) {
             e1.printStackTrace();
         }
-        try {
-            List<Transaction> transactionList = App.currentAccount.getTransactions();
-            System.out.println(transactionList);
-            if(App.currentAccount.getTransactions() != null) {
-                observableTransactionList.addAll(App.currentAccount.getTransactions());
-                for(Transaction transaction : App.currentAccount.getTransactions()) {
-                    observableTimeList.add(transaction.getDate());
-                }
-                timeList.setItems(observableTimeList);
-                transactionHistory.setItems(observableTransactionList);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
         //Contacts
         ArrayList<Contact> contacts = new ArrayList<Contact>();
         try {
@@ -154,6 +146,11 @@ public class SystemController implements Initializable{
         }
     }
     
+    /*
+    
+    */
+
+
     public void getInterest(ActionEvent e) throws IOException, InterruptedException {
         ArrayList<Integer> years = new ArrayList<>();
         if (years.contains(LocalDateTime.now().getYear())){
@@ -174,8 +171,24 @@ public class SystemController implements Initializable{
             Util.showModal("TransactionDescriptionView", "Transaction Description",e);
         }
     }
+    public void setLabel(ActionEvent e) {
+        if(transactionHistory.getSelectionModel().getSelectedItem() == null){
+            transactionError.setText("Please select a transaction");
+        }else{
+            App.currentTransaction = transactionHistory.getSelectionModel().getSelectedItem();;
+            Util.closeAndShow("SetLabelView", "Set Label",e);
+        }
+    }
 
     public void addMoney(ActionEvent e){
-        Util.getAccountWithID(App.currentAccountID).deposit(100);
+        
+    }
+
+    public void logout(ActionEvent e) throws IOException{
+        Util.logOutAlert("Logging out?", "Are you sure you want to log-out?", e);
+    }
+
+    public void selectDifferentAccount(ActionEvent e) throws IOException{
+        Util.closeAndShow("AccountView", "Select an Account", e);
     }
 }
