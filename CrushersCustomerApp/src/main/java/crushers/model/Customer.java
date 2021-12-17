@@ -20,6 +20,7 @@ public class Customer extends User{
 
     private ArrayList<PaymentAccount> accountList;
     private ArrayList<Contact> contactList;
+    private ArrayList<Loan> loanList;
 
 
     public Customer(int id, String firstName, String lastName, String address, String email, String password,
@@ -35,6 +36,8 @@ public class Customer extends User{
         this.notification = notification;
         this.accountList = new ArrayList<PaymentAccount>();
         this.contactList = new ArrayList<Contact>();
+        this.loanList = new ArrayList<Loan>();
+
     } // full constructor
 
     public Customer(String email, String firstName, String lastName, String address, String password, ArrayList<String> securityQuestions){

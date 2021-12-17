@@ -39,13 +39,15 @@ public class SystemController implements Initializable{
     @FXML
     private AnchorPane contactsAnchor;
     @FXML
-    private Button createContact, deleteContact, makePayment, makeANewPayment, makeAPaymentRequest, reportTransaction, viewTransactionDetails;
+    private Button createContact, deleteContact, makePayment, makeANewPayment, makeAPaymentRequest, reportTransaction, viewTransactionDetails, apply, paybackLoan;
     @FXML
-    private TextField nameField, accountID;
+    private TextField nameField, accountID, loanAmountField, loanNotes, amountPayback;
     @FXML
     private TextArea descriptionArea;
     @FXML
     private Label contactErrorLabel;
+    @FXML
+    private TableView<Loan> loanTable;
 
     /*
     CONTACTS
@@ -87,6 +89,33 @@ public class SystemController implements Initializable{
         if(transaction != null){
             transactionTableView.getItems().add(transaction);
         }
+    }
+
+    /*
+    LOANS
+    */
+
+    public void apply(ActionEvent e) {
+    if (loanAmountField.getText().isBlank()){
+        errorLabel.setText("Must enter an amount.");
+    } else if (!loanAmountField.getText().matches("^[0-9]+$")){
+        errorLabel.setText("Please enter a numerical amount, excluding special characters.");
+    } else if (loanNotes.getText().isBlank()){
+        errorLabel.setText("Must include justification for applying for a loan.");
+    } else if (Double.parseDouble(loanAmountField.getText()) > 25000) {
+        errorLabel.setText("Maximum loan amount is 25,000 SEK.");
+    } else if (Double.parseDouble(loanAmountField.getText()) < 1000){
+        errorLabel.setText("Minimum loan amount is 1,000 SEK.");
+    } else {
+       double loanAmount = Double.parseDouble(loanAmountField.getText());
+       String loanReason = loanNotes.getText();
+       PaymentAccount account = App.currentAccount;
+       Loan loan = new Loan(loanAmount, loanReason, account);
+        }
+    }
+
+    public void paybackLoan(ActionEvent e) {
+
     }
 
     @Override
@@ -146,6 +175,9 @@ public class SystemController implements Initializable{
         if(App.currentCustomer.getContactList() != null){
             contactTableView.getItems().addAll(App.currentCustomer.getContactList());
         }
+
+        // Loans
+
     }
     
     /*
