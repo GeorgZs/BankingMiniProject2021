@@ -9,6 +9,7 @@ import crushers.util.Json;
 import crushers.util.Util;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
@@ -66,7 +67,10 @@ public class PaymentController implements Initializable {
         } else {
             
             PaymentAccount accountFrom = fromAccountBox.getValue();
-            PaymentAccount accountTo = toAccountBox.getValue().getContactAccount();
+            PaymentAccount accountTo = toAccountBox.getValue().getAccount();
+            System.out.println(accountFrom);
+            System.out.println(accountTo);
+
             double amountSEK = Double.parseDouble(amountField.getText());
             String description = descriptionArea.getText();
             if (Double.parseDouble(amountField.getText()) > accountFrom.getBalance()) {
@@ -87,14 +91,16 @@ public class PaymentController implements Initializable {
 
 
                 JsonNode toNode = Json.nodeWithFields("id", accountTo.getId(), "type", "payment");
-                JsonNode fromNode = Json.nodeWithFields("id", accountFrom.getId(), "type", "payment", "balance", accountFrom.getBalance());
+                JsonNode fromNode = Json.nodeWithFields("id", accountFrom.getId(), "type", "payment");
 
                 int transactionId = Integer.parseInt(transactionIdTextField.getText());
 
-                JsonNode transactionNode = Json.nodeWithFields("id", transactionId, "from", fromNode, "to", toNode, "amount", amountSEK, "description", description);
-                ((ObjectNode)transactionNode).set("date", Json.objectToNode(LocalDateTime.now()));
+                JsonNode transactionNode = Json.nodeWithFields("id", transactionId, "from", fromNode, "to", toNode, "amount", amountSEK, "description", description, "date", null);
 
-                System.out.println(Http.authPost("transactions", App.currentToken, transactionNode));
+                Transaction transaction = Json.parse(Http.authPost("transactions", App.currentToken, transactionNode), Transaction.class);
+                
+                AccountController.sysCtrl.addTransactionToTable(transaction);
+                Util.updateCustomer();
 
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Transfer successful!");
                 alert.setHeaderText("");

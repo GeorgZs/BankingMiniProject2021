@@ -24,6 +24,7 @@ import javafx.fxml.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -33,6 +34,7 @@ public class AccountController implements Initializable{
     
     private Stage stage;
     private Parent root;
+
     double customerTotalBalance;
     @FXML
     static AnchorPane accountAnchor;
@@ -46,6 +48,8 @@ public class AccountController implements Initializable{
     private VBox accountDetailsBox;
 
     private ObservableList<PaymentAccount> observableAccount;
+
+    public static SystemController sysCtrl;
 
     public void displayName(String username){
         welcomeLabel.setText("Welcome, " + username);
@@ -67,10 +71,22 @@ public class AccountController implements Initializable{
         if(accountList.getSelectionModel().getSelectedItem() == null){
             invalidLabel.setText("Please select an account!");
         }else{
-            App.currentAccount = accountList.getSelectionModel().getSelectedItem();;
+            App.currentAccount = accountList.getSelectionModel().getSelectedItem();
             App.currentAccountID = App.currentAccount.getId();
             System.out.println(App.currentAccountID);
-            Util.closeAndShow("SystemView", "Crushers System", e);
+            // Util.closeAndShow("SystemView", "Crushers System", e);
+
+            Stage oldStage = (Stage)((Node)e.getSource()).getScene().getWindow();
+            oldStage.close();
+            FXMLLoader loader = new FXMLLoader(App.class.getClassLoader().getResource("crushers/views/SystemView.fxml"));
+            Stage stage = new Stage();
+            Parent root = loader.load();
+            stage.setScene(new Scene(root));
+            stage.getIcons().add(new Image("crushers/imgs/logo.jpg"));
+            stage.setTitle("Crushers System");
+            stage.show();
+
+            sysCtrl = loader.getController();
         }
     }
 

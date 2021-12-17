@@ -76,6 +76,14 @@ public class Customer extends User{
         }
         return result;
     }
+    public PaymentAccount getAccountWithId(int id){
+        for(PaymentAccount account: this.accountList){
+            if(account.getId() == id){
+                return account;
+            }
+        }
+        return null;
+    }
     public String getFirstName(){
         return this.firstName;
     }
