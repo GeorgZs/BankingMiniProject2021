@@ -22,7 +22,7 @@ public class TransactionService {
     private final JsonTransactionStorage storage;
     private final AccountService accountService;
 
-    private ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
+    private final ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
 
     public TransactionService(JsonTransactionStorage storage, AccountService accountService) throws IOException {
         this.storage = storage;
@@ -31,30 +31,41 @@ public class TransactionService {
 
     public Transaction create(Transaction transaction, User user) throws Exception {
         List<String> invalidDataMessage = new ArrayList<>();
+        //Cannot continue if the transaction passed is null
         if (transaction == null) {
             throw new BadRequestException("Transaction invalid!");
         }
 
+        //check if user creating transaction is a Customer
         if (user instanceof Customer) {
             Customer customer = (Customer) user;
             //this if statement is for getting the interest rate
             //as it comes from the bank and so the accountFrom is null
             if(transaction.getFrom() != null){
+                //Checks if the account to and from are the same as you cannot create
+                //a Transaction that goes between the same accounts
                 if (transaction.getFrom().equals(transaction.getTo())) {
                     throw new BadRequestException("Accounts to and from are the same");
                 }
 
+                //Gets the account from the storage based on the ID of the Account which sent the Transaction
                 Account customerAccount = accountService.get(customer, transaction.getFrom().getId());
 
+                //Checks whether the customer's account is null = in this case the account doesn't exist in the system
                 if (customerAccount == null) {
                     invalidDataMessage.add("Account does not exist for selected customer");
                 }
 
+                //This check is supposed to block customers from reducing their bank accounts to a zero value
+                //as this goes against company policy -- if the account is requested to be deleted it must be done
+                //by a Clerk or a Manager
                 if (customerAccount.getBalance() <= transaction.getAmount()) {
                     throw new BadRequestException(
                             "Cannot create Transaction: Account with id: " + customerAccount.getId() + " does not have enough funds to create this Transaction"
                     );
                 }
+                //Checking if the loans are empty allows us to make sure that there aren't issues when paying back
+                //the loan (the account to must be null if a loan is being repaid)
                 if(customer.getLoans().isEmpty()){
                     if (!accountService.exists(transaction.getTo().getId())) {
                     //reason being is that the transaction goes from account to NULL account (Bank)
@@ -63,23 +74,29 @@ public class TransactionService {
                     }
                 }
             }
+        //check if user creating transaction is a Customer
         } else if (user instanceof Clerk) {
+            //The account from should be null as this shows that the money is coming from the bank
             if (transaction.getFrom() != null) {
                 invalidDataMessage.add("Account from should be the Bank!");
             }
+            //The account to should exist in the system as transferring to customers outside the system is not permitted
             if (!accountService.exists(transaction.getTo().getId())) {
                 invalidDataMessage.add("Account does not exist for target customer");
             }
         }
 
+        //checks the transaction's amount which must not be less than or equal 0 as that does qualify as a valid transaction
         if (transaction.getAmount() <= 0) {
             invalidDataMessage.add("Transaction amount must be greater than 0");
         }
 
+        //checks the transaction's description to see if its empty or blank which is not allowed
         if (transaction.getDescription().isBlank() || transaction.getDescription().isEmpty()) {
             invalidDataMessage.add("Transaction description cannot be empty or blank");
         }
 
+        //Throws exceptions accumulated in invalidDataMessage arraylist
         if (!invalidDataMessage.isEmpty()) {
             throw new BadRequestException(String.join("\n", invalidDataMessage));
         }
@@ -89,6 +106,37 @@ public class TransactionService {
             transaction.setDate(LocalDateTime.now());
         }
 
+        //Checking the transactions field not for invalid data
+        //but for suspicious data --> automatic marking of suspicious transactions
+
+        /*
+    - amount > 5000
+    - transactions from this account in last 24h > 5
+    - amount < 0.50
+    - description contains "nigerian prince"
+    - feel free to add some other BS rules lmao
+
+    maybe send a notification to the user?
+    can do a switch case if too large
+         */
+        /*
+         * If statements below demonstrate the System marking transaction suspicious based on parameters set upon deployment
+         * Amount: when greater than 5000 or less than 0.50 the system adds this transaction to a list of suspicious transactions
+         * Description: when the description contains nigerian prince or nigerian princess the system also marks it as suspicious
+         */
+        /*
+         * Checks recurring transaction's interval to see if transaction happens too frequently
+         * which may imply a suspicious transaction
+         */
+        if(transaction instanceof RecurringTransaction){
+            RecurringTransaction recurringTransaction = (RecurringTransaction) transaction;
+            //check suspicious transaction for recurring
+            // interval being counted in days in this instance (less than 7 day interval == sus)
+            if(recurringTransaction.getInterval() < 7){
+                storage.addSusTransaction(recurringTransaction);
+            }
+        }
+        //sends transaction through the commit method which in turn withdraws money from both accounts (if applicable)
         accountService.commit(transaction);
         return storage.create(transaction);
     }
@@ -100,6 +148,7 @@ public class TransactionService {
             throw new ForbiddenException();
         }
 
+        //check if user creating transaction is a Customer
         if (loggedInUser instanceof Customer) {
             Customer customer = (Customer) loggedInUser;
             if (!transaction.getFrom().getOwner().equals(customer) && !transaction.getTo().getOwner().equals(customer)) {
@@ -107,6 +156,7 @@ public class TransactionService {
             }
         }
 
+        //check if user creating transaction is a Clerk
         if (loggedInUser instanceof Clerk) {
             Clerk clerk = (Clerk) loggedInUser;
             if (!transaction.getFrom().getBank().equals(clerk.getWorksAt()) && !transaction.getTo().getBank().equals(clerk.getWorksAt())) {
