@@ -16,13 +16,11 @@ public class PaymentAccount {
     protected String number;
     protected Customer owner;
     protected String type;
-
     protected Bank bank;
     protected String name;
     protected double balance;
     protected ArrayList<Transaction> transactions;
     protected double interestRate;
-
     
     public PaymentAccount(Bank bank, String type, String name){ // http post constructor
         this.bank = bank;
@@ -43,57 +41,146 @@ public class PaymentAccount {
     public PaymentAccount(){ // for http
         this.transactions = new ArrayList<Transaction>();
     }
+    public PaymentAccount(int id, String type){
+        this.id = id;
+        this.type = type;
+    } // Constructor for contacts
+    public PaymentAccount(int id, String type, double balance){
+        this.id = id;
+        this.type = type;
+        this.balance = balance;
+    } // Constructor for transactions
 
     public String capitalize(String str){ // the creation of this method shows just how little I give a f... i mean smile and wave :) /
         return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
+    @Override
     public String toString(){
         return this.bank + " " + capitalize(this.type) + " account (ID" + this.id + "): " + this.balance + " SEK";
     }
-    public Bank getBank(){
-        return this.bank;
-    }
-    public int getId(){
+
+    public int getId() {
         return this.id;
     }
-    public String getNumber(){
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getNumber() {
         return this.number;
     }
-    public Customer getOwner(){
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public Customer getOwner() {
         return this.owner;
     }
-    public String getName(){
+
+    public void setOwner(Customer owner) {
+        this.owner = owner;
+    }
+
+    public String getType() {
+        return "payment";
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Bank getBank() {
+        return this.bank;
+    }
+
+    public void setBank(Bank bank) {
+        this.bank = bank;
+    }
+
+    public String getName() {
         return this.name;
     }
-    public double getBalance(){
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public double getBalance() {
         return this.balance;
     }
-    public ArrayList<Transaction> getTransactions() throws IOException, InterruptedException {
-        // ArrayList<Transaction> transactionCollection = Json.parseList(
-        //         Http.authGet("/transactions/accounts/" + this.id, App.currentToken), Transaction.class);
-        // return transactionCollection;
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
+    public ArrayList<Transaction> getTransactions() {
         return this.transactions;
     }
-    public void withdraw(double amountToWithdraw){
-        this.balance = this.balance - amountToWithdraw;
+
+    public void setTransactions(ArrayList<Transaction> transactions) {
+        this.transactions = transactions;
     }
-    public void deposit(double amountToDeposit) {
-        this.balance = this.balance + amountToDeposit;
-    }
-    // public void addTransactionToMap(Transaction transaction){
-    //     transactions.put(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")), transaction);
-    // }
-    public void addTransaction(Transaction transaction){
-        this.transactions.add(transaction);
-    }
-    public double getInterestRate(){
+
+    public double getInterestRate() {
         return this.interestRate;
     }
 
-    public String getType(){
-        return "Payment";
+    public void setInterestRate(double interestRate) {
+        this.interestRate = interestRate;
     }
-    public void setType(String type){
-        this.type = type;
+
+    // public Bank getBank(){
+    //     return this.bank;
+    // }
+    // public int getId(){
+    //     return this.id;
+    // }
+    // public String getNumber(){
+    //     return this.number;
+    // }
+    // public Customer getOwner(){
+    //     return this.owner;
+    // }
+    // public String getName(){
+    //     return this.name;
+    // }
+    // public double getBalance(){
+    //     return this.balance;
+    // }
+    // public void setBalance(double balance){
+    //     this.balance = balance;
+    // }
+    // public ArrayList<Transaction> getTransactions() throws IOException, InterruptedException {
+    //     return this.transactions;
+    // }
+    
+    // public void setTransactions(ArrayList<Transaction> transactions){
+    //     this.transactions = transactions;
+    // }
+    
+    // public double getInterestRate(){
+    //     return this.interestRate;
+    // }
+
+    // public String getType(){
+    //     return "payment";
+    // }
+    // public void setType(String type){
+    //     this.type = type;
+    // }
+    public void addTransaction(Transaction transaction){
+        if(this.transactions == null){
+            this.transactions = new ArrayList<Transaction>();
+        }
+        this.transactions.add(transaction);
+    }
+    public void printTransactions(){
+        String result = "Transactions for account " + getId() + ":\n";
+        for(Transaction transaction: this.transactions){
+            result += transaction;
+        }
+        System.out.println(result);
     }
 }

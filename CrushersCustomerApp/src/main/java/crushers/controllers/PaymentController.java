@@ -5,35 +5,43 @@ import crushers.model.Contact;
 import crushers.model.PaymentAccount;
 import crushers.model.Transaction;
 import crushers.util.Http;
+import crushers.util.Json;
 import crushers.util.Util;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class PaymentController implements Initializable {
-@FXML
-    private Button confirmPayment, cancel;
-@FXML
+    @FXML
+    private Button cancel;
+    @FXML
     private Label makeAPayment, fromAccount, toAccount, amount, SEK, description, errorLabel;
-@FXML
+    @FXML
     private ChoiceBox<PaymentAccount> fromAccountBox;
-@FXML
+    @FXML
     private ChoiceBox<Contact> toAccountBox;
-@FXML
-    private TextField amountField;
-@FXML
+    @FXML
+    private TextField amountField, transactionIdTextField;
+    @FXML
     private TextArea descriptionArea;
 
 
@@ -42,7 +50,9 @@ public class PaymentController implements Initializable {
         ArrayList<PaymentAccount> userAccounts = App.currentCustomer.getAccountList();
         ArrayList<Contact> contacts = App.currentCustomer.getContactList();
         fromAccountBox.getItems().addAll(userAccounts);
-        toAccountBox.getItems().addAll(contacts);
+        if(contacts != null){
+            toAccountBox.getItems().addAll(contacts);
+        }
     }
 
     public void confirmPayment(ActionEvent e) throws IOException, InterruptedException {
@@ -55,19 +65,42 @@ public class PaymentController implements Initializable {
         } else if (!amountField.getText().matches("^[0-9]+$")) {
             errorLabel.setText("Please enter a valid numeric amount.");
         } else {
+            
             PaymentAccount accountFrom = fromAccountBox.getValue();
-            PaymentAccount accountTo = toAccountBox.getValue().getContactAccount();
+            PaymentAccount accountTo = toAccountBox.getValue().getAccount();
+            System.out.println(accountFrom);
+            System.out.println(accountTo);
+
             double amountSEK = Double.parseDouble(amountField.getText());
             String description = descriptionArea.getText();
             if (Double.parseDouble(amountField.getText()) > accountFrom.getBalance()) {
                 errorLabel.setText("Insufficient funds!");
             } else {
-                Transaction transaction = new Transaction(accountFrom, accountTo, amountSEK, description);
-                accountFrom.withdraw(amountSEK);
-                accountTo.deposit(amountSEK);
-                accountFrom.addTransaction(transaction);
-                accountTo.addTransaction(transaction);
-                Http.authPost("/transactions", App.currentToken, transaction);
+
+                //
+
+                // JsonNode toNode = Json.nodeWithFields("id", 1001, "type", "payment");
+                // JsonNode fromNode = Json.nodeWithFields("id", 1002, "type", "payment");
+
+                // JsonNode transactionNode = Json.nodeWithFields("id", 1337, "from", fromNode, "to", toNode, "amount", 69.0, "description", "kekler");
+                // ((ObjectNode)transactionNode).set("date", Json.objectToNode(LocalDateTime.now()));
+
+                // System.out.println(Http.authPost("transactions", App.currentToken, transactionNode));
+
+                //
+
+
+                JsonNode toNode = Json.nodeWithFields("id", accountTo.getId(), "type", "payment");
+                JsonNode fromNode = Json.nodeWithFields("id", accountFrom.getId(), "type", "payment");
+
+                int transactionId = Integer.parseInt(transactionIdTextField.getText());
+
+                JsonNode transactionNode = Json.nodeWithFields("id", transactionId, "from", fromNode, "to", toNode, "amount", amountSEK, "description", description, "date", null);
+
+                Transaction transaction = Json.parse(Http.authPost("transactions", App.currentToken, transactionNode), Transaction.class);
+                
+                AccountController.sysCtrl.addTransactionToTable(transaction);
+                Util.updateCustomer();
 
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Transfer successful!");
                 alert.setHeaderText("");

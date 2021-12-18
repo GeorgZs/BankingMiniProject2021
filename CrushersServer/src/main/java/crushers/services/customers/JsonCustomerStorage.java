@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.*;
 
 public class JsonCustomerStorage extends JsonStorage<Customer> {
+    private static int idConst = 1001;
 
     private final Map<Customer, Collection<Contact>> contactList;
 
@@ -25,6 +26,8 @@ public class JsonCustomerStorage extends JsonStorage<Customer> {
 
 
     protected Contact createContact(Customer customer, Contact contact) throws Exception{
+        contact.setID(idConst);
+        idConst++;
         /*
         if (!contactList.containsKey(customer)) {
             contactList.put(customer, new ArrayList<>());

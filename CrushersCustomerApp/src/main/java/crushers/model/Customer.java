@@ -20,6 +20,7 @@ public class Customer extends User{
 
     private ArrayList<PaymentAccount> accountList;
     private ArrayList<Contact> contactList;
+    private ArrayList<Loan> loanList;
 
 
     public Customer(int id, String firstName, String lastName, String address, String email, String password,
@@ -35,6 +36,8 @@ public class Customer extends User{
         this.notification = notification;
         this.accountList = new ArrayList<PaymentAccount>();
         this.contactList = new ArrayList<Contact>();
+        this.loanList = new ArrayList<Loan>();
+
     } // full constructor
 
     public Customer(String email, String firstName, String lastName, String address, String password, ArrayList<String> securityQuestions){
@@ -49,6 +52,7 @@ public class Customer extends User{
     } // creation constructor
 
     public Customer(){
+        this.contactList = new ArrayList<Contact>();
     } // empty constructor for json
 
     public void createAccount(Object acc){
@@ -74,6 +78,14 @@ public class Customer extends User{
             result += account + "\n";
         }
         return result;
+    }
+    public PaymentAccount getAccountWithId(int id){
+        for(PaymentAccount account: this.accountList){
+            if(account.getId() == id){
+                return account;
+            }
+        }
+        return null;
     }
     public String getFirstName(){
         return this.firstName;
@@ -101,6 +113,15 @@ public class Customer extends User{
     }
     public ArrayList<Contact> getContactList(){
         return this.contactList;
+    }
+    public void setContactList(ArrayList<Contact> contacts){
+        this.contactList = contacts;
+    }
+    public void addContact(Contact contact){
+        if(this.contactList == null){
+            this.contactList = new ArrayList<Contact>();
+        }
+        this.contactList.add(contact);
     }
     public void setAccountList(ArrayList<PaymentAccount> accounts){
         ArrayList<PaymentAccount> all = new ArrayList<PaymentAccount>();

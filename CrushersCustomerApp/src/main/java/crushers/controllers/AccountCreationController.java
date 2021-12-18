@@ -82,7 +82,7 @@ public class AccountCreationController implements Initializable{
 
                 double savingsGoal = Double.parseDouble(savingsGoalField.getText());
 
-                String createResponse = Http.authPost("/accounts", App.currentToken, Json.toNode(bankString));
+                String createResponse = Http.authPost("accounts", App.currentToken, Json.toNode(bankString));
 
                 SavingsAccount createdAccount = Json.parse(createResponse, SavingsAccount.class);
                 accCtrl.addSavingsToList(createdAccount);

@@ -1,18 +1,22 @@
 package crushers.controllers;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
+import com.fasterxml.jackson.databind.exc.MismatchedInputException;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import crushers.App;
+import crushers.model.Contact;
 import crushers.model.Credentials;
 import crushers.model.Customer;
 import crushers.model.PaymentAccount;
 import crushers.model.SavingsAccount;
+import crushers.model.Transaction;
 import crushers.util.Http;
 import crushers.util.Json;
 import crushers.util.Util;
@@ -63,7 +67,7 @@ public class MainController { // test commit
 
     }
 
-    public void login(ActionEvent e) throws IOException{
+    public void login(ActionEvent e) throws IOException, InterruptedException{
 
         String email = usernameField.getText();
         String password = passwordField.getText();
@@ -82,11 +86,16 @@ public class MainController { // test commit
 
         try { // this block uses the token to find the logged in customer and set their account list
             App.currentCustomer = Json.parse(Http.authGet("customers/@me", App.currentToken), Customer.class);
-            List<PaymentAccount> accounts = Json.parseList(Http.authGet("accounts/@me", App.currentToken), PaymentAccount.class);
-            App.currentCustomer.setAccountList(new ArrayList<>(accounts));
+            ArrayList<PaymentAccount> accounts = Json.parseList(Http.authGet("accounts/@me", App.currentToken), PaymentAccount.class);
+            App.currentCustomer.setAccountList(accounts);
         } catch (InterruptedException e1) {
             e1.printStackTrace();
+        } catch(MismatchedInputException mie){
+            App.currentCustomer.setAccountList(new ArrayList<PaymentAccount>());
         }
+        
+        ArrayList<Contact> contacts = Json.parseList(Http.authGet("customers/@contacts", App.currentToken), Contact.class);
+        App.currentCustomer.setContactList(contacts);
 
         // Util.closeAndShow("AccountView", "Account Overview", e); same spiel
 

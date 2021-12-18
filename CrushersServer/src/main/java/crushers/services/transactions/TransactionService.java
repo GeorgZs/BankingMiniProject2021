@@ -174,11 +174,13 @@ public class TransactionService {
 
 
     public Transaction getLoan(Customer loggedIn, Loan loan) throws Exception{
+        if(loan.getAmount() > 25000 || loan.getAmount() < 1000){
+            throw new BadRequestException("Loan amount must be in excess of 1000kr and no more than 25,000kr");
+        }
         loggedIn.addNotification(new ManagerNotification("Loan has been requested - money deposited"));
-        Transaction transaction = new Transaction(null, loan.getAccount(), 100, loan.getPurpose());
+        Transaction transaction = new Transaction(null, loan.getAccount(), loan.getAmount(), loan.getPurpose());
         transaction.setLabel("Loan");
         loggedIn.addLoans(loan);
-        transaction.setAmount(loan.getAmount());
         create(transaction, loggedIn);
         return transaction;
     }

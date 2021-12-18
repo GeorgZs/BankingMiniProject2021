@@ -8,8 +8,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 
-import javafx.fxml.FXML;
-
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.fxml.Initializable;
@@ -17,7 +15,7 @@ import javafx.fxml.Initializable;
 public class TransactionController implements Initializable{
     
     @FXML
-    private ChoiceBox accountFromChoiceBox, accountToChoiceBox, contactChoiceBox;
+    private ChoiceBox accountFromChoiceBox, accountToChoiceBox;
     @FXML
     private TextField transactionIdField;
     @FXML
@@ -26,7 +24,6 @@ public class TransactionController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         System.out.println(App.currentCustomer.getContactList());
-        
     }
 
     public void sendTransaction(ActionEvent e){

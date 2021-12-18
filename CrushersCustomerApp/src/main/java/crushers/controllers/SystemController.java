@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import crushers.App;
 import crushers.model.*;
@@ -14,15 +16,13 @@ import crushers.util.Json;
 import crushers.util.Util;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 
 public class SystemController implements Initializable{
 
@@ -32,102 +32,158 @@ public class SystemController implements Initializable{
     private Pane pane;
     @FXML
     private TabPane tabPane;
-
-    // Contacts
+    @FXML
+    private TableView<Contact> contactTableView;
+    @FXML
+    private TableView<Transaction> transactionTableView;
     @FXML
     private AnchorPane contactsAnchor;
     @FXML
-    private Button createContact, deleteContact, makePayment;
+    private Button createContact, deleteContact, makePayment, makeANewPayment, makeAPaymentRequest, reportTransaction, viewTransactionDetails, apply, paybackLoan;
     @FXML
-    private ListView<Contact> contactList;
-    @FXML
-    private TextField nameField, contactID, accountID;
+    private TextField nameField, accountID, loanAmountField, loanNotes, amountPayback;
     @FXML
     private TextArea descriptionArea;
     @FXML
     private Label contactErrorLabel;
+    @FXML
+    private TableView<Loan> loanTable;
+
+    /*
+    CONTACTS
+    */
+
+    public void createContact(ActionEvent e) throws IOException, InterruptedException {
+
+        if (nameField.getText().isBlank()) {
+            contactErrorLabel.setText("Please enter a contact name!");
+        } else if (nameField.getText().matches("^[0-9]+$")) {
+            contactErrorLabel.setText("Please enter alphabetical characters only!");
+        } else if (descriptionArea.getText().isBlank()){
+            contactErrorLabel.setText("Please enter a contact description!");
+        }else {
+            try{
+                Integer.parseInt(accountID.getText());
+            }catch(NumberFormatException nfe){
+                contactErrorLabel.setText("Please enter a valid account ID");
+                return;
+            }
+            // Adding contact to table and sending request to API
+            PaymentAccount account = new PaymentAccount(Integer.parseInt(accountID.getText()), "payment");
+            JsonNode contactNode = Json.nodeWithFields("name", nameField.getText(), "account", account, "description", descriptionArea.getText());
+            Contact createdContact = Json.parse(Http.authPost("customers/contact", App.currentToken, contactNode), Contact.class);
+            contactTableView.getItems().add(createdContact);
+            Util.updateCustomer();
+            }
+        }
+
+    /*
+    PAYMENTS
+    */
 
     public void makeAPayment(ActionEvent e){
         Util.showModal("PaymentView", "Make a payment", e);
     }
-    public void createContact(ActionEvent e) throws IOException, InterruptedException {
-    if (nameField.getText() == null) {
-        contactErrorLabel.setText("Please enter a contact name!");
-        } else if (nameField.getText().matches("^[0-9]+$")) {
-        contactErrorLabel.setText("Please enter alphabetical characters only!");
-        } else if (accountID.getText() == null) {
-        contactErrorLabel.setText("Please enter an account ID!");
-        } else if (contactID.getText() == null) {
-        contactErrorLabel.setText("Please enter a 4-digit contact ID of your choosing!");
-        } else if (!contactID.getText().matches("^[0-9]+$")) {
-        contactErrorLabel.setText("Contact ID must be comprised of 4-digits!");
-        } else if (contactID.getText().length() < 4 || contactID.getText().length() > 4) {
-        contactErrorLabel.setText("Contact ID must be 4-digits in length!");
+
+    public void addTransactionToTable(Transaction transaction){
+        if(transaction != null){
+            transactionTableView.getItems().add(transaction);
+        }
+    }
+
+    /*
+    LOANS
+    */
+
+    public void apply(ActionEvent e) {
+    if (loanAmountField.getText().isBlank()){
+        errorLabel.setText("Must enter an amount.");
+    } else if (!loanAmountField.getText().matches("^[0-9]+$")){
+        errorLabel.setText("Please enter a numerical amount, excluding special characters.");
+    } else if (loanNotes.getText().isBlank()){
+        errorLabel.setText("Must include justification for applying for a loan.");
+    } else if (Double.parseDouble(loanAmountField.getText()) > 25000) {
+        errorLabel.setText("Maximum loan amount is 25,000 SEK.");
+    } else if (Double.parseDouble(loanAmountField.getText()) < 1000){
+        errorLabel.setText("Minimum loan amount is 1,000 SEK.");
     } else {
-        String name = nameField.getText();
-        String accID = accountID.getText();
-        int ID = Integer.parseInt(contactID.getText());
-        String account = Http.get("account/"+accID);
-        PaymentAccount account1 = Json.parse(account, PaymentAccount.class);
-        String description = descriptionArea.getText();
-        Contact contact = new Contact(ID, name, account1, description);
+       double loanAmount = Double.parseDouble(loanAmountField.getText());
+       String loanReason = loanNotes.getText();
+       PaymentAccount account = App.currentAccount;
+       Loan loan = new Loan(loanAmount, loanReason, account);
         }
     }
 
-    public void deleteContact(ActionEvent e) throws IOException, InterruptedException {
+    public void paybackLoan(ActionEvent e) {
 
     }
 
-    // Payments
-    @FXML
-    private Button makeANewPayment, makeAPaymentRequest, reportTransaction, viewTransactionDetails;
-    @FXML
-    private ListView<Transaction> transactionHistory;
-    @FXML
-    private ListView<String> timeList;
-    
-    public void logout(ActionEvent e) throws IOException{
-        Util.logOutAlert("Logging out?", "Are you sure you want to log-out?", e);
-    }
-    public void selectDifferentAccount(ActionEvent e) throws IOException{
-        Util.closeAndShow("AccountView", "Select an Account", e);
-    }
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void initialize(URL location, ResourceBundle resources){
+        Util.updateCustomer();
         welcomeLabel.setText("Welcome " + App.currentCustomer.getFirstName() + " " + App.currentCustomer.getLastName());
-        //Payments
-        ObservableList<String> observableTimeList = FXCollections.observableArrayList();
-        ObservableList<Transaction> observableTransactionList = FXCollections.observableArrayList();
-        try {
-            ArrayList<Transaction> transactions = Json.parseList(Http.authGet("transactions/accounts/" + App.currentAccountID, App.currentToken), Transaction.class);
-            System.out.println(transactions);
-        } catch (IOException | InterruptedException e1) {
-            e1.printStackTrace();
-        }
-        try {
-            List<Transaction> transactionList = App.currentAccount.getTransactions();
-            System.out.println(transactionList);
-            if(App.currentAccount.getTransactions() != null) {
-                observableTransactionList.addAll(App.currentAccount.getTransactions());
-                for(Transaction transaction : App.currentAccount.getTransactions()) {
-                    observableTimeList.add(transaction.getDate());
-                }
-                timeList.setItems(observableTimeList);
-                transactionHistory.setItems(observableTransactionList);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        
+        // Payments
+
+        TableColumn<Transaction, Integer> transactionIdColumn = new TableColumn<>("ID");
+        transactionIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        transactionTableView.getColumns().add(transactionIdColumn);
+
+        TableColumn<Transaction, Double> transactionAmountColumn = new TableColumn<>("Amount");
+        transactionAmountColumn.setCellValueFactory(new PropertyValueFactory<>("amount"));
+        transactionTableView.getColumns().add(transactionAmountColumn);
+
+        TableColumn<Transaction, String> transactionFromColumn = new TableColumn<>("From");
+        transactionFromColumn.setCellValueFactory(new PropertyValueFactory<>("fromString"));
+        transactionTableView.getColumns().add(transactionFromColumn);
+
+        TableColumn<Transaction, String> transactionToColumn = new TableColumn<>("To");
+        transactionToColumn.setCellValueFactory(new PropertyValueFactory<>("toString"));
+        transactionTableView.getColumns().add(transactionToColumn);
+        
+        TableColumn<Transaction, String> transactionDateColumn = new TableColumn<>("Date");
+        transactionDateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+        transactionTableView.getColumns().add(transactionDateColumn);
+
+        TableColumn<Transaction, String> transactionDescriptionColumn = new TableColumn<>("Description");
+        transactionDescriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+        transactionTableView.getColumns().add(transactionDescriptionColumn);
+        
+        ArrayList<Transaction> transactions = App.currentCustomer.getAccountWithId(App.currentAccountID).getTransactions();
+        if(transactions != null){
+            transactionTableView.getItems().addAll(transactions);
         }
 
-        //Contacts
-        ObservableList<Contact> observableContact = FXCollections.observableArrayList();
-        if(App.currentCustomer.getContactList() != null) {
-            observableContact.addAll(App.currentCustomer.getContactList());
-            contactList.setItems(observableContact);
+        // Contacts
+
+        TableColumn<Contact, Integer> idColumn = new TableColumn<>("ID");
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        contactTableView.getColumns().add(idColumn);
+
+        TableColumn<Contact, String> nameColumn = new TableColumn<>("Name");
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        contactTableView.getColumns().add(nameColumn);
+
+        TableColumn<Contact, String> descriptionColumn = new TableColumn<>("Description");
+        descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+        contactTableView.getColumns().add(descriptionColumn);
+
+        TableColumn<Contact, Integer> accountIdColumn = new TableColumn<>("Account ID");
+        accountIdColumn.setCellValueFactory(new PropertyValueFactory<>("accountId"));
+        contactTableView.getColumns().add(accountIdColumn);
+        
+        if(App.currentCustomer.getContactList() != null){
+            contactTableView.getItems().addAll(App.currentCustomer.getContactList());
         }
+
+        // Loans
+
     }
+    
+    /*
+    INTEREST
+    */
+
     public void getInterest(ActionEvent e) throws IOException, InterruptedException {
         ArrayList<Integer> years = new ArrayList<>();
         if (years.contains(LocalDateTime.now().getYear())){
@@ -139,16 +195,12 @@ public class SystemController implements Initializable{
             System.out.println("done");
         }
     }
-    public void transactionDetails(ActionEvent e) {
-        if(transactionHistory.getSelectionModel().getSelectedItem() == null){
-            transactionError.setText("Please select a transaction");
-        }else{
-            App.currentTransaction = transactionHistory.getSelectionModel().getSelectedItem();;
-            Util.showModal("TransactionDescriptionView", "Transaction Description",e);
-        }
+
+    public void logout(ActionEvent e) throws IOException{
+        Util.logOutAlert("Logging out?", "Are you sure you want to log-out?", e);
     }
 
-    public void addMoney(ActionEvent e){
-        Util.getAccountWithID(App.currentAccountID).deposit(100);
+    public void selectDifferentAccount(ActionEvent e) throws IOException{
+        Util.closeAndShow("AccountView", "Select an Account", e);
     }
 }
