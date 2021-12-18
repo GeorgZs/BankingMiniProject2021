@@ -36,7 +36,6 @@ public class BankService {
         if(bank == null){
             throw new BadRequestException("User invalid!");
         }
-
         Bank createdBank = storage.create(bank);
         staffService.create(createdBank, bank.getManager());
         return createdBank;
