@@ -15,6 +15,9 @@ public class Transaction {
     private String description;
     private String date;
 
+    private String fromString;
+    private String toString;
+
     public Transaction(PaymentAccount from, PaymentAccount to, double amount, String description) {
         this.from = from;
         this.to = to;
@@ -30,14 +33,48 @@ public class Transaction {
         this.description = description;
         this.date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
+    public Transaction(){
+        
+    }
 
+    @Override
     public String toString(){
-        return this.amount + " SEK." ;
+        String fromString = this.from == null ? "Bank" : String.valueOf(this.from.getId());
+        String toString = this.to == null ? "Bank" : String.valueOf(this.to.getId());
+        return String.format("%s Transaction (%d): %d SEK from %s to %s: %s\n", this.date, this.id, (int)this.amount, fromString, toString, this.description);
     }
 
-    public String getDate() {
-        return this.date;
+    public String getFromString(){
+        return this.from == null ? "Bank" : String.valueOf(this.from.getId());
     }
+    public String getToString(){
+        return this.to == null ? "Bank" : String.valueOf(this.to.getId());
+    }
+
+    public int getId() {
+        return this.id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getFromId() {
+        return this.fromId;
+    }
+
+    public void setFromId(int fromId) {
+        this.fromId = fromId;
+    }
+
+    public int getToId() {
+        return this.toId;
+    }
+
+    public void setToId(int toId) {
+        this.toId = toId;
+    }
+
     public String getLabel() {
         return this.label;
     }
@@ -45,31 +82,45 @@ public class Transaction {
     public void setLabel(String label) {
         this.label = label;
     }
-    public String getDescription() {
-        return this.description;
+
+    public PaymentAccount getFrom() {
+        return this.from;
     }
 
-    public double getAmount() {
-        return this.amount;
+    public void setFrom(PaymentAccount from) {
+        this.from = from;
     }
 
     public PaymentAccount getTo() {
         return this.to;
     }
 
-    public PaymentAccount getFrom() {
-        return this.from;
+    public void setTo(PaymentAccount to) {
+        this.to = to;
     }
-    public void setFromId(int fromId){
-        this.fromId = fromId;
+
+    public double getAmount() {
+        return this.amount;
     }
-    public int getFromId(){
-        return this.fromId;
+
+    public void setAmount(double amount) {
+        this.amount = amount;
     }
-    public void setToId(int toId){
-        this.toId = toId;
+
+    public String getDescription() {
+        return this.description;
     }
-    public int getToId(){
-        return this.toId;
+
+    public void setDescription(String description) {
+        this.description = description;
     }
+
+    public String getDate() {
+        return this.date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
 }

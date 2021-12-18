@@ -32,29 +32,26 @@ public class SystemController implements Initializable{
     private Pane pane;
     @FXML
     private TabPane tabPane;
-
-    /*
-    CONTACTS
-    */
-
     @FXML
     private TableView<Contact> contactTableView;
     @FXML
+    private TableView<Transaction> transactionTableView;
+    @FXML
     private AnchorPane contactsAnchor;
     @FXML
-    private Button createContact, deleteContact, makePayment;
+    private Button createContact, deleteContact, makePayment, makeANewPayment, makeAPaymentRequest, reportTransaction, viewTransactionDetails, apply, paybackLoan;
     @FXML
-    private TextField nameField, accountID;
+    private TextField nameField, accountID, loanAmountField, loanNotes, amountPayback;
     @FXML
     private TextArea descriptionArea;
     @FXML
     private Label contactErrorLabel;
+    @FXML
+    private TableView<Loan> loanTable;
 
-    private ObservableList<Contact> observableContact = FXCollections.observableArrayList();
-
-    public void makeAPayment(ActionEvent e){
-        Util.showModal("PaymentView", "Make a payment", e);
-    }
+    /*
+    CONTACTS
+    */
 
     public void createContact(ActionEvent e) throws IOException, InterruptedException {
 
@@ -72,13 +69,11 @@ public class SystemController implements Initializable{
                 return;
             }
             // Adding contact to table and sending request to API
-            JsonNode contactNode = Json.getEmptyNode();
             PaymentAccount account = new PaymentAccount(Integer.parseInt(accountID.getText()), "payment");
-            ((ObjectNode)contactNode).put("name", nameField.getText());
-            ((ObjectNode)contactNode).putPOJO("account", account);
-            ((ObjectNode)contactNode).put("description", descriptionArea.getText());
+            JsonNode contactNode = Json.nodeWithFields("name", nameField.getText(), "account", account, "description", descriptionArea.getText());
             Contact createdContact = Json.parse(Http.authPost("customers/contact", App.currentToken, contactNode), Contact.class);
             contactTableView.getItems().add(createdContact);
+            Util.updateCustomer();
             }
         }
 
@@ -86,75 +81,108 @@ public class SystemController implements Initializable{
     PAYMENTS
     */
 
-    @FXML
-    private Button makeANewPayment, makeAPaymentRequest, reportTransaction, viewTransactionDetails;
-    @FXML
-    private ListView<Transaction> transactionHistory;
-    @FXML
-<<<<<<< HEAD
-    private ListView<String> timeList, labelList;
-=======
-    private ListView<String> timeList;
-    @FXML
-    private ListView<String> labelList;
->>>>>>> d1950b46aa6035e951a4ac58df00cfaaa18a8d69
+    public void makeAPayment(ActionEvent e){
+        Util.showModal("PaymentView", "Make a payment", e);
+    }
+
+    public void addTransactionToTable(Transaction transaction){
+        if(transaction != null){
+            transactionTableView.getItems().add(transaction);
+        }
+    }
+
+    /*
+    LOANS
+    */
+
+    public void apply(ActionEvent e) {
+    if (loanAmountField.getText().isBlank()){
+        errorLabel.setText("Must enter an amount.");
+    } else if (!loanAmountField.getText().matches("^[0-9]+$")){
+        errorLabel.setText("Please enter a numerical amount, excluding special characters.");
+    } else if (loanNotes.getText().isBlank()){
+        errorLabel.setText("Must include justification for applying for a loan.");
+    } else if (Double.parseDouble(loanAmountField.getText()) > 25000) {
+        errorLabel.setText("Maximum loan amount is 25,000 SEK.");
+    } else if (Double.parseDouble(loanAmountField.getText()) < 1000){
+        errorLabel.setText("Minimum loan amount is 1,000 SEK.");
+    } else {
+       double loanAmount = Double.parseDouble(loanAmountField.getText());
+       String loanReason = loanNotes.getText();
+       PaymentAccount account = App.currentAccount;
+       Loan loan = new Loan(loanAmount, loanReason, account);
+        }
+    }
+
+    public void paybackLoan(ActionEvent e) {
+
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources){
+        Util.updateCustomer();
         welcomeLabel.setText("Welcome " + App.currentCustomer.getFirstName() + " " + App.currentCustomer.getLastName());
-        //Payments
-        ObservableList<String> observableTimeList = FXCollections.observableArrayList();
-        ObservableList<Transaction> observableTransactionList = FXCollections.observableArrayList();
-        ObservableList<String> observableLabelList = FXCollections.observableArrayList();
-        try {
-            ArrayList<Transaction> transactions = Json.parseList(Http.authGet("transactions/accounts/" + App.currentAccountID, App.currentToken), Transaction.class);
-            System.out.println(transactions);
-            List<Transaction> transactionList = App.currentAccount.getTransactions();
-            if(transactionList != null) {
-                observableTransactionList.addAll(transactionList);
-                for (Transaction transaction : transactionList) {
-                    observableTimeList.add(transaction.getDate());
-                    if (!transaction.getLabel().isEmpty()) {
-                        observableLabelList.add(transaction.getLabel());
-                    } else {
-                        observableLabelList.add("");
-                    }
-                }
-            }
-            timeList.setItems(observableTimeList);
-            transactionHistory.setItems(observableTransactionList);
-            labelList.setItems(observableLabelList);
-        } catch (IOException | InterruptedException e1) {
-            e1.printStackTrace();
+        
+        // Payments
+
+        TableColumn<Transaction, Integer> transactionIdColumn = new TableColumn<>("ID");
+        transactionIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        transactionTableView.getColumns().add(transactionIdColumn);
+
+        TableColumn<Transaction, Double> transactionAmountColumn = new TableColumn<>("Amount");
+        transactionAmountColumn.setCellValueFactory(new PropertyValueFactory<>("amount"));
+        transactionTableView.getColumns().add(transactionAmountColumn);
+
+        TableColumn<Transaction, String> transactionFromColumn = new TableColumn<>("From");
+        transactionFromColumn.setCellValueFactory(new PropertyValueFactory<>("fromString"));
+        transactionTableView.getColumns().add(transactionFromColumn);
+
+        TableColumn<Transaction, String> transactionToColumn = new TableColumn<>("To");
+        transactionToColumn.setCellValueFactory(new PropertyValueFactory<>("toString"));
+        transactionTableView.getColumns().add(transactionToColumn);
+        
+        TableColumn<Transaction, String> transactionDateColumn = new TableColumn<>("Date");
+        transactionDateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+        transactionTableView.getColumns().add(transactionDateColumn);
+
+        TableColumn<Transaction, String> transactionDescriptionColumn = new TableColumn<>("Description");
+        transactionDescriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+        transactionTableView.getColumns().add(transactionDescriptionColumn);
+        
+        ArrayList<Transaction> transactions = App.currentCustomer.getAccountWithId(App.currentAccountID).getTransactions();
+        if(transactions != null){
+            transactionTableView.getItems().addAll(transactions);
         }
-        //Contacts
-        ArrayList<Contact> contacts = new ArrayList<Contact>();
-        try {
-            contacts = Json.parseList(Http.authGet("customers/@contacts", App.currentToken), Contact.class);
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
+
+        // Contacts
+
         TableColumn<Contact, Integer> idColumn = new TableColumn<>("ID");
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         contactTableView.getColumns().add(idColumn);
+
         TableColumn<Contact, String> nameColumn = new TableColumn<>("Name");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         contactTableView.getColumns().add(nameColumn);
+
         TableColumn<Contact, String> descriptionColumn = new TableColumn<>("Description");
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
         contactTableView.getColumns().add(descriptionColumn);
+
         TableColumn<Contact, Integer> accountIdColumn = new TableColumn<>("Account ID");
         accountIdColumn.setCellValueFactory(new PropertyValueFactory<>("accountId"));
         contactTableView.getColumns().add(accountIdColumn);
-        if(contacts != null){
-            contactTableView.getItems().addAll(contacts);
+        
+        if(App.currentCustomer.getContactList() != null){
+            contactTableView.getItems().addAll(App.currentCustomer.getContactList());
         }
+
+        // Loans
+
     }
     
     /*
-    
+    INTEREST
     */
-
 
     public void getInterest(ActionEvent e) throws IOException, InterruptedException {
         ArrayList<Integer> years = new ArrayList<>();
@@ -166,27 +194,6 @@ public class SystemController implements Initializable{
             Http.post("transactions/interestRate/" + App.currentAccount.getId(), Customer.class);
             System.out.println("done");
         }
-    }
-
-    public void transactionDetails(ActionEvent e) {
-        if(transactionHistory.getSelectionModel().getSelectedItem() == null){
-            transactionError.setText("Please select a transaction");
-        }else{
-            App.currentTransaction = transactionHistory.getSelectionModel().getSelectedItem();;
-            Util.showModal("TransactionDescriptionView", "Transaction Description",e);
-        }
-    }
-    public void setLabel(ActionEvent e) {
-        if(transactionHistory.getSelectionModel().getSelectedItem() == null){
-            transactionError.setText("Please select a transaction");
-        }else{
-            App.currentTransaction = transactionHistory.getSelectionModel().getSelectedItem();;
-            Util.closeAndShow("SetLabelView", "Set Label",e);
-        }
-    }
-
-    public void addMoney(ActionEvent e){
-        Util.getAccountWithID(App.currentAccountID).deposit(100);
     }
 
     public void logout(ActionEvent e) throws IOException{

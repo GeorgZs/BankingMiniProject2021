@@ -9,6 +9,7 @@ import crushers.util.Json;
 import crushers.util.Util;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
@@ -49,7 +50,9 @@ public class PaymentController implements Initializable {
         ArrayList<PaymentAccount> userAccounts = App.currentCustomer.getAccountList();
         ArrayList<Contact> contacts = App.currentCustomer.getContactList();
         fromAccountBox.getItems().addAll(userAccounts);
-        toAccountBox.getItems().addAll(contacts);
+        if(contacts != null){
+            toAccountBox.getItems().addAll(contacts);
+        }
     }
 
     public void confirmPayment(ActionEvent e) throws IOException, InterruptedException {
@@ -64,29 +67,40 @@ public class PaymentController implements Initializable {
         } else {
             
             PaymentAccount accountFrom = fromAccountBox.getValue();
-            PaymentAccount accountTo = toAccountBox.getValue().getContactAccount();
+            PaymentAccount accountTo = toAccountBox.getValue().getAccount();
+            System.out.println(accountFrom);
+            System.out.println(accountTo);
+
             double amountSEK = Double.parseDouble(amountField.getText());
             String description = descriptionArea.getText();
             if (Double.parseDouble(amountField.getText()) > accountFrom.getBalance()) {
                 errorLabel.setText("Insufficient funds!");
             } else {
 
+                //
+
+                // JsonNode toNode = Json.nodeWithFields("id", 1001, "type", "payment");
+                // JsonNode fromNode = Json.nodeWithFields("id", 1002, "type", "payment");
+
+                // JsonNode transactionNode = Json.nodeWithFields("id", 1337, "from", fromNode, "to", toNode, "amount", 69.0, "description", "kekler");
+                // ((ObjectNode)transactionNode).set("date", Json.objectToNode(LocalDateTime.now()));
+
+                // System.out.println(Http.authPost("transactions", App.currentToken, transactionNode));
+
+                //
+
+
                 JsonNode toNode = Json.nodeWithFields("id", accountTo.getId(), "type", "payment");
                 JsonNode fromNode = Json.nodeWithFields("id", accountFrom.getId(), "type", "payment");
 
                 int transactionId = Integer.parseInt(transactionIdTextField.getText());
 
-                JsonNode transactionNode = Json.nodeWithFields("id", transactionId, "from", fromNode, "to", toNode, "amount", amountSEK, "description", description);
-                ((ObjectNode)transactionNode).set("date", Json.objectToNode(LocalDateTime.now()));
+                JsonNode transactionNode = Json.nodeWithFields("id", transactionId, "from", fromNode, "to", toNode, "amount", amountSEK, "description", description, "date", null);
 
-                System.out.println(Http.authPost("transactions", App.currentToken, transactionNode));
-
-                Transaction transaction = new Transaction(accountFrom, accountTo, amountSEK, description);
-                accountFrom.withdraw(amountSEK);
-                accountTo.deposit(amountSEK);
-                accountFrom.addTransaction(transaction);
-                accountTo.addTransaction(transaction);
-                Http.authPost("/transactions", App.currentToken, transaction);
+                Transaction transaction = Json.parse(Http.authPost("transactions", App.currentToken, transactionNode), Transaction.class);
+                
+                AccountController.sysCtrl.addTransactionToTable(transaction);
+                Util.updateCustomer();
 
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Transfer successful!");
                 alert.setHeaderText("");

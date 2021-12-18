@@ -1,10 +1,16 @@
 package crushers.util;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Optional;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 import crushers.App;
+import crushers.model.Contact;
+import crushers.model.Customer;
 import crushers.model.PaymentAccount;
+import crushers.model.Transaction;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -116,12 +122,24 @@ public class Util {
         Util.closeAndShow("MainView", "Crushers Bank", e);
     }
 
-    public static PaymentAccount getAccountWithID(int id){
-        for(PaymentAccount account: App.currentCustomer.getAccountList()){
-            if(account.getId() == id){
-                return account;
-            }
+    public static void updateCustomer() {
+        try {
+            Customer customer = Json.parse(Http.authGet("customers/@me", App.currentToken), Customer.class);
+            ArrayList<PaymentAccount> accounts = Json.parseList(Http.authGet("accounts/@me", App.currentToken), PaymentAccount.class);
+            ArrayList<Transaction> transactions = Json.parseList(Http.authGet("transactions/accounts/" + App.currentAccountID, App.currentToken), Transaction.class);
+            ArrayList<Contact> contacts = Json.parseList(Http.authGet("customers/@contacts", App.currentToken), Contact.class);
+            customer.setAccountList(accounts);
+            customer.setContactList(contacts);
+            customer.getAccountWithId(App.currentAccountID).setTransactions(transactions);
+            App.currentCustomer = customer;
+            System.out.println("Customer: " + customer);
+            System.out.println("Contacts: " + contacts);
+            System.out.println("Location: http://localhost:8080/" + "transactions/accounts/" + App.currentAccountID);
+            System.out.println("Token: " + App.currentToken);
+            System.out.println("Transactions: " + transactions);
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
         }
-        return null;
+        
     }
 }

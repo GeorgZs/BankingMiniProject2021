@@ -86,14 +86,10 @@ public class AccountTransferController implements Initializable {
            if (Double.parseDouble(amountField.getText()) > paymentAccountFrom.getBalance()) {
                errorLabel.setText("Insufficient funds!");
            } else {
-                Transaction transaction = new Transaction(paymentAccountFrom, paymentAccountTo, amountSek, comment);
-                paymentAccountFrom.withdraw(amountSek);
-                paymentAccountTo.deposit(amountSek);
-                paymentAccountFrom.addTransaction(transaction);
-                paymentAccountTo.addTransaction(transaction);
-                errorLabel.setStyle("-fx-text-fill: green");
-                errorLabel.setText("Transfer successful!");
-                Http.authPost("/transactions",App.currentToken ,transaction);
+                
+                // errorLabel.setStyle("-fx-text-fill: green");
+                // errorLabel.setText("Transfer successful!");
+                // Http.authPost("transactions",App.currentToken ,transaction);
 
                 Alert alert = new Alert(AlertType.INFORMATION, "Transfer successful!");
                 alert.setHeaderText("");
