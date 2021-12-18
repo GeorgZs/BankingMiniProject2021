@@ -76,13 +76,15 @@ public class TransactionService {
             }
         //check if user creating transaction is a Customer
         } else if (user instanceof Clerk) {
-            //The account from should be null as this shows that the money is coming from the bank
-            if (transaction.getFrom() != null) {
-                invalidDataMessage.add("Account from should be the Bank!");
+            if (transaction.getFrom() != null) { // withdraw
+                if (!accountService.exists(transaction.getFrom().getId())) {
+                    invalidDataMessage.add("Receiving account does not exist for target customer");
+                }
             }
-            //The account to should exist in the system as transferring to customers outside the system is not permitted
-            if (!accountService.exists(transaction.getTo().getId())) {
-                invalidDataMessage.add("Account does not exist for target customer");
+            else if (transaction.getTo() != null) { // deposit
+                if (!accountService.exists(transaction.getTo().getId())) {
+                    invalidDataMessage.add("Sending account does not exist for target customer");
+                }
             }
         }
 

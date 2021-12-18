@@ -63,8 +63,8 @@ public class ServerFacade {
     return Http.instance.post("/accounts", bankAccountData, BankAccount.class, this.authToken);
   }
 
-  public List<BankAccount> listAllBankAccountsAtThisBank() {
-    return null;
+  public List<BankAccount> listAllBankAccountsAtThisBank() throws Exception {
+    return Http.instance.getList("/accounts/@bank", BankAccount.class, this.authToken);
   }
 
   public BankAccount getBankAccountById(int id) {
@@ -74,14 +74,14 @@ public class ServerFacade {
 
   // Transactions
 
-  public Transaction withdraw(Transaction transactionData) {
-    // return Http.instance.post("/transactions", transactionData, Transaction.class, this.authToken);
-    return null;
+  public Transaction withdraw(Transaction transactionData) throws Exception {
+    return Http.instance.post("/transactions", transactionData, Transaction.class, this.authToken);
+
   }
 
-  public Transaction deposit(Transaction transactionData) {
-    // return Http.instance.post("/transactions", transactionData, Transaction.class, this.authToken);
-    return null;
+  public Transaction deposit(Transaction transactionData) throws Exception {
+    return Http.instance.post("/transactions", transactionData, Transaction.class, this.authToken);
+
   }
 
   public List<Transaction> listAllTransactionsOfAccount(int accountId) {

@@ -29,7 +29,7 @@
             </Pane>
          </children>
       </Pane>
-      <ChoiceBox layoutX="300.0" layoutY="173.0" prefHeight="27.0" prefWidth="214.0" AnchorPane.leftAnchor="300.0" AnchorPane.topAnchor="159.0" />
+      <ChoiceBox fx:id="accountsTo" layoutX="300.0" layoutY="173.0" prefHeight="27.0" prefWidth="214.0" AnchorPane.leftAnchor="300.0" AnchorPane.topAnchor="159.0" />
       <Text layoutX="99.0" layoutY="191.0" strokeType="OUTSIDE" strokeWidth="0.0" text="To:" AnchorPane.topAnchor="163.0">
          <font>
             <Font name="SansSerif Regular" size="16.0" />
@@ -40,12 +40,12 @@
             <Font name="SansSerif Regular" size="16.0" />
          </font>
       </Text>
-      <TextField layoutX="300.0" layoutY="212.0" prefHeight="27.0" prefWidth="214.0" promptText="Amount" AnchorPane.topAnchor="206.0">
+      <TextField fx:id="amount" layoutX="300.0" layoutY="212.0" prefHeight="27.0" prefWidth="214.0" promptText="Amount" AnchorPane.topAnchor="206.0">
          <font>
             <Font name="SansSerif Regular" size="14.0" />
          </font>
       </TextField>
-      <TextArea layoutX="300.0" layoutY="258.0" prefHeight="60.0" prefWidth="214.0" promptText="*Optional message" AnchorPane.topAnchor="251.0">
+      <TextArea fx:id="description" layoutX="300.0" layoutY="258.0" prefHeight="60.0" prefWidth="214.0" promptText="*Optional message" AnchorPane.topAnchor="251.0">
          <font>
             <Font name="SansSerif Regular" size="14.0" />
          </font>
@@ -55,18 +55,18 @@
             <Font name="SansSerif Regular" size="16.0" />
          </font>
       </Text>
-      <DatePicker layoutX="300.0" layoutY="339.0" prefHeight="27.0" prefWidth="214.0" promptText="Date" AnchorPane.topAnchor="330.0" />
+      <DatePicker fx:id="dateOnDeposit" layoutX="300.0" layoutY="339.0" prefHeight="27.0" prefWidth="214.0" promptText="Date" AnchorPane.topAnchor="330.0" />
       <Text layoutX="103.0" layoutY="348.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date:" AnchorPane.leftAnchor="95.0" AnchorPane.topAnchor="333.515625">
          <font>
             <Font name="SansSerif Regular" size="16.0" />
          </font>
       </Text>
-      <Button layoutX="180.0" layoutY="374.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="75.0" text="Deposit" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="194.0">
+      <Button fx:id="depositButton" layoutX="180.0" layoutY="374.0" mnemonicParsing="false" onAction="#onPressedDeposit" prefHeight="27.0" prefWidth="75.0" text="Deposit" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="194.0">
          <font>
             <Font name="SansSerif Regular" size="13.0" />
          </font>
       </Button>
-      <Button layoutX="308.0" layoutY="374.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="75.0" text="Cancel" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="313.0">
+      <Button fx:id="cancelButton" layoutX="308.0" layoutY="374.0" mnemonicParsing="false" onAction="#onPressedCancel" prefHeight="27.0" prefWidth="75.0" text="Cancel" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="313.0">
          <font>
             <Font name="SansSerif Regular" size="13.0" />
          </font>

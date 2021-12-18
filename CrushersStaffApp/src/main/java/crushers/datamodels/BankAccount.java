@@ -4,6 +4,12 @@ public class BankAccount {
   private int id = -1;
   private String type; // payment / savings
   private String number;
+
+  @Override
+  public String toString() {
+    return number + " "+ owner;
+  }
+
   private Bank bank;
   private User owner;
   private double balance = 0.00;
