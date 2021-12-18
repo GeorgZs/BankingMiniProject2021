@@ -130,6 +130,11 @@ public class TransactionService {
          * Checks recurring transaction's interval to see if transaction happens too frequently
          * which may imply a suspicious transaction
          */
+
+        if (transaction.getAmount() > 5_000 || transaction.getAmount() < 0.5 || transaction.getDescription() == "nigerian prince") {
+            storage.addSusTransaction(transaction);
+        }
+
         if(transaction instanceof RecurringTransaction){
             RecurringTransaction recurringTransaction = (RecurringTransaction) transaction;
             //check suspicious transaction for recurring
