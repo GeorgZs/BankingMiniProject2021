@@ -64,11 +64,15 @@ public class TransactionService {
                 }
             }
         } else if (user instanceof Clerk) {
-            if (transaction.getFrom() != null) {
-                invalidDataMessage.add("Account from should be the Bank!");
+            if (transaction.getFrom() != null) { // withdraw
+                if (!accountService.exists(transaction.getFrom().getId())) {
+                    invalidDataMessage.add("Receiving account does not exist for target customer");
+                }
             }
-            if (!accountService.exists(transaction.getTo().getId())) {
-                invalidDataMessage.add("Account does not exist for target customer");
+            else if (transaction.getTo() != null) { // deposit
+                if (!accountService.exists(transaction.getTo().getId())) {
+                    invalidDataMessage.add("Sending account does not exist for target customer");
+                }
             }
         }
 
