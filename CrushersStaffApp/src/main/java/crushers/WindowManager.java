@@ -26,6 +26,9 @@ public class WindowManager {
     public final static String Withdraw = VIEWS_FOLDER + "Withdraw" + JAVAFX;
     public final static String Payment = VIEWS_FOLDER + "Payment" + JAVAFX;
     public final static String Savings = VIEWS_FOLDER + "Savings" + JAVAFX;
+    public final static String Interest = VIEWS_FOLDER + "InterestRate" + JAVAFX;
+    public final static String TransactionList = VIEWS_FOLDER + "TransactionList" + JAVAFX;
+    public final static String SuspiciousTransaction = VIEWS_FOLDER + "SuspiciousTransaction" + JAVAFX;
   }
 
   public static void setMainWindow(Stage window) {

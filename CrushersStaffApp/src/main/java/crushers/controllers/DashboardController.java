@@ -67,6 +67,12 @@ public class DashboardController {
     @FXML
     private Pane accountBar;
     @FXML
+    private Pane interestRate;
+    @FXML
+    private Pane listTransaction;
+    @FXML
+    private Pane susTransaction;
+    @FXML
     private TextField clerkFirstName;
     @FXML
     private TextField clerkLastName;
@@ -444,6 +450,84 @@ public class DashboardController {
 
     }
 
+    @FXML
+    private void onHoverInterest(MouseEvent mouseEvent) throws Exception {
+        try {
+            Pane interestRate = (Pane) mouseEvent.getSource();
+            interestRate.setOpacity(0.5);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @FXML
+    private void onHoverInterestEnded(MouseEvent mouseEvent) throws Exception {
+        try {
+            Pane interestRate = (Pane) mouseEvent.getSource();
+            interestRate.setOpacity(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void onClickedInterest(MouseEvent mouseEvent) throws Exception {
+        WindowManager.showModal(WindowManager.Pages.Interest, "Crushers Bank - Interest rate");
+
+    }
+
+    @FXML
+    private void onHoverListOfTransaction(MouseEvent mouseEvent) throws Exception {
+        try {
+            Pane listTransaction = (Pane) mouseEvent.getSource();
+            listTransaction.setOpacity(0.5);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void onHoverListOfTransactionEnded(MouseEvent mouseEvent) throws Exception {
+        try {
+            Pane listTransaction = (Pane) mouseEvent.getSource();
+            listTransaction.setOpacity(1);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void onClickedListOfTransaction(MouseEvent mouseEvent) throws Exception {
+        WindowManager.showModal(WindowManager.Pages.TransactionList, "Crushers Bank - Transaction List");
+    }
+
+    @FXML
+    private void onHoverSuspiciousTransaction(MouseEvent mouseEvent) throws Exception {
+        try {
+            Pane susTransaction = (Pane) mouseEvent.getSource();
+            susTransaction.setOpacity(0.5);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void onHoverSuspiciousTransactionEnded(MouseEvent mouseEvent) {
+        try {
+            Pane susTransaction = (Pane) mouseEvent.getSource();
+            susTransaction.setOpacity(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void onClickedSuspiciousTransaction(MouseEvent mouseEvent) throws Exception {
+        WindowManager.showModal(WindowManager.Pages.SuspiciousTransaction, "Crushers Bank - Suspicious Transactions");
+
+    }
+
     private void showAlert(String message){
         Alert a = new Alert(Alert.AlertType.INFORMATION);
         a.setTitle("Warning");
@@ -451,8 +535,6 @@ public class DashboardController {
         a.getDialogPane().setStyle("-fx-font-family: SansSerif");
         a.show();
     }
-
-
 
 
     @FXML

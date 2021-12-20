@@ -271,7 +271,7 @@
                   </Label>
                </children>
             </Pane>
-            <Pane layoutX="117.0" layoutY="264.0" prefHeight="194.0" prefWidth="195.0" style="-fx-background-color: #EBEBEB; -fx-border-color: #90c1d7;">
+            <Pane fx:id="listTransaction" layoutX="117.0" layoutY="264.0" onMouseClicked="#onClickedListOfTransaction" onMouseEntered="#onHoverListOfTransaction" onMouseExited="#onHoverListOfTransactionEnded" prefHeight="194.0" prefWidth="195.0" style="-fx-background-color: #EBEBEB; -fx-border-color: #90c1d7;">
                <children>
                   <ImageView fitHeight="150.0" fitWidth="177.0" layoutX="31.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true" />
                   <ImageView fitHeight="109.0" fitWidth="125.0" layoutX="43.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
@@ -286,7 +286,7 @@
                   </Label>
                </children>
             </Pane>
-            <Pane layoutX="576.0" layoutY="264.0" prefHeight="194.0" prefWidth="213.0" style="-fx-background-color: #EBEBEB; -fx-border-color: #90c1d7;">
+            <Pane fx:id="susTransaction" layoutX="576.0" layoutY="264.0" onMouseClicked="#onClickedSuspiciousTransaction" onMouseEntered="#onHoverSuspiciousTransaction" onMouseExited="#onHoverSuspiciousTransactionEnded"  prefHeight="194.0" prefWidth="213.0" style="-fx-background-color: #EBEBEB; -fx-border-color: #90c1d7;">
                <children>
                   <ImageView fitHeight="125.0" fitWidth="142.0" layoutX="36.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" />
                   <Label layoutX="7.0" layoutY="170.0" text="See suspicious transactions">
@@ -309,22 +309,45 @@
       </Pane>
       <Pane fx:id="bankAccount" layoutX="229.0" layoutY="320.0" prefHeight="200.0" prefWidth="200.0" visible="false" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="229.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="320.0">
          <children>
-            <Pane fx:id="paymentAccount" layoutX="131.0" layoutY="88.0" onMouseClicked="#onClickedPayment" onMouseEntered="#onHoverPayment" onMouseExited="#onHoverPaymentEnded" prefHeight="229.0" prefWidth="251.0" style="-fx-background-color: #EBEBEB;">
+            <Pane fx:id="paymentAccount" layoutX="69.0" layoutY="88.0" onMouseClicked="#onClickedPayment" onMouseEntered="#onHoverPayment" onMouseExited="#onHoverPaymentEnded" prefHeight="229.0" prefWidth="251.0" style="-fx-background-color: #EBEBEB;">
                <children>
                   <Label layoutX="64.0" layoutY="205.0" text="Payment account">
                      <font>
                         <Font name="SansSerif Regular" size="16.0" />
                      </font>
                   </Label>
+                  <ImageView fitHeight="125.0" fitWidth="125.0" layoutX="63.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/icons8-merchant-account-50.png" />
+                     </image>
+                  </ImageView>
                </children>
             </Pane>
-            <Pane fx:id="savingAccount" layoutX="532.0" layoutY="88.0" onMouseClicked="#onClickedSavings" onMouseEntered="#onHoverSavings" onMouseExited="#onHoverSavingsEnded" prefHeight="229.0" prefWidth="251.0" style="-fx-background-color: #EBEBEB;">
+            <Pane fx:id="savingAccount" layoutX="375.0" layoutY="88.0" onMouseClicked="#onClickedSavings" onMouseEntered="#onHoverSavings" onMouseExited="#onHoverSavingsEnded" prefHeight="229.0" prefWidth="251.0" style="-fx-background-color: #EBEBEB;">
                <children>
+                  <ImageView fitHeight="125.0" fitWidth="125.0" layoutX="63.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/icons8-money-box-64.png" />
+                     </image></ImageView>
                   <Label layoutX="67.0" layoutY="205.0" text="Savings account">
                      <font>
                         <Font name="SansSerif Regular" size="16.0" />
                      </font>
                   </Label>
+               </children>
+            </Pane>
+            <Pane fx:id="interestRate" layoutX="699.0" layoutY="88.0" onMouseClicked="#onClickedInterest" onMouseEntered="#onHoverInterest" onMouseExited="#onHoverInterestEnded" prefHeight="229.0" prefWidth="251.0" style="-fx-background-color: #EBEBEB;">
+               <children>
+                  <Label layoutX="83.0" layoutY="205.0" text="Interest rate">
+                     <font>
+                        <Font name="SansSerif Regular" size="16.0" />
+                     </font>
+                  </Label>
+                  <ImageView fitHeight="125.0" fitWidth="125.0" layoutX="63.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/icons8-credit-card-interest-80.png" />
+                     </image>
+                  </ImageView>
                </children>
             </Pane>
          </children>
@@ -350,7 +373,7 @@
                   <Font name="SansSerif Regular" size="13.0" />
                </font>
             </Button>
-            <TextArea layoutX="202.0" layoutY="74.0" prefHeight="262.0" prefWidth="466.0" promptText="*your message here">
+            <TextArea fx:id="notificationMessage" layoutX="202.0" layoutY="74.0" prefHeight="262.0" prefWidth="466.0" promptText="*your message here">
                <font>
                   <Font name="SansSerif Regular" size="13.0" />
                </font>

@@ -37,7 +37,8 @@ public class ServerFacade {
     return Http.instance.post("/banks", bankData, Bank.class);
   }
 
-  public void updateBankInterestRate(int id, double interestRate) {
+  public void updateBankInterestRate(double interestRate) throws Exception {
+    Http.instance.put("/banks/@interestRate", interestRate, Double.class, this.authToken);
 
   }
 
