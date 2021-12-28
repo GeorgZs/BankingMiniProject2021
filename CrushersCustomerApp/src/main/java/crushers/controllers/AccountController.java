@@ -43,7 +43,7 @@ public class AccountController implements Initializable{
     @FXML
     private Button createNewAccountButton, selectButton, logoutButton, transferButton;
     @FXML
-    private Label welcomeLabel, accountTypeLabel, accountNameLabel, totalBalanceLabel, accountBalanceLabel, savingsGoalLabel, accountIDLabel, accountBankLabel, invalidLabel;
+    private Label welcomeLabel, accountTypeLabel, accountNameLabel, totalBalanceLabel, accountBalanceLabel, accountIDLabel, accountBankLabel, invalidLabel;
     @FXML
     private VBox accountDetailsBox;
 

@@ -33,9 +33,9 @@ public class AccountCreationController implements Initializable{
     @FXML
     private RadioButton paymentOption, savingsOption;
     @FXML
-    private TextField accountDescriptionField, savingsGoalField;
+    private TextField accountDescriptionField;
     @FXML
-    private Label savingsGoalLabel, sekLabel, invalidLabel;
+    private Label invalidLabel;
     @FXML
     private Button createAccountButton;
     
@@ -46,8 +46,6 @@ public class AccountCreationController implements Initializable{
             invalidLabel.setText("Please select a bank!");
         }else if(isPayment == null){
             invalidLabel.setText("Please select an account type!");
-        }else if(!isPayment && savingsGoalField.getText().isBlank()){
-            invalidLabel.setText("Please enter a savings goal!");
         }else if(accountDescriptionField.getText().isBlank()){
             invalidLabel.setText("Please enter an account name!");
         }else{
@@ -78,38 +76,16 @@ public class AccountCreationController implements Initializable{
                 App.currentCustomer.createAccount(createdAccount);
 
             }else{
-                try{
-
-                double savingsGoal = Double.parseDouble(savingsGoalField.getText());
-
                 String createResponse = Http.authPost("accounts", App.currentToken, Json.toNode(bankString));
 
                 SavingsAccount createdAccount = Json.parse(createResponse, SavingsAccount.class);
                 accCtrl.addSavingsToList(createdAccount);
                 App.currentCustomer.createAccount(createdAccount);
-
-                }catch(NumberFormatException nfe){
-                    invalidLabel.setText("Please enter a valid savings goal!");
-                    return;
-                }
             }
 
             Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
             stage.close();
         }
-    }
-
-    public void setGoalVisible(ActionEvent e){ // savings account seletion
-        savingsGoalLabel.setVisible(true);
-        savingsGoalField.setVisible(true);
-        sekLabel.setVisible(true);
-        this.isPayment = false;
-    }
-    public void setGoalInvisible(ActionEvent e){ // payment account selection
-        savingsGoalLabel.setVisible(false);
-        savingsGoalField.setVisible(false);
-        sekLabel.setVisible(false);
-        this.isPayment = true;
     }
 
     @Override
@@ -120,8 +96,5 @@ public class AccountCreationController implements Initializable{
             e.printStackTrace();
         }
         bankSelection.setStyle("-fx-font-family: SansSerif");
-        savingsGoalLabel.setVisible(false);
-        savingsGoalField.setVisible(false);
-        sekLabel.setVisible(false);
     }
 }

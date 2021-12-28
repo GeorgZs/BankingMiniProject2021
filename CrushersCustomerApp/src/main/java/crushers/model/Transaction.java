@@ -15,9 +15,6 @@ public class Transaction {
     private String description;
     private String date;
 
-    private String fromString;
-    private String toString;
-
     public Transaction(PaymentAccount from, PaymentAccount to, double amount, String description) {
         this.from = from;
         this.to = to;
@@ -34,7 +31,6 @@ public class Transaction {
         this.date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
     public Transaction(){
-        
     }
 
     @Override

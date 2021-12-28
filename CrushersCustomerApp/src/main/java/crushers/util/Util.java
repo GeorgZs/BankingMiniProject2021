@@ -48,6 +48,7 @@ public class Util {
             stage.setScene(new Scene(root));
             stage.getIcons().add(new Image("crushers/imgs/logo.jpg"));
             stage.setTitle(title);
+            stage.setResizable(false);
             stage.show();
         } catch (IOException e1) {
             e1.printStackTrace();
@@ -64,6 +65,7 @@ public class Util {
             stage.setScene(new Scene(root));
             stage.getIcons().add(new Image("crushers/imgs/logo.jpg"));
             stage.setTitle(title);
+            stage.setResizable(false);
         } catch (IOException e1) {
             e1.printStackTrace();
         }
@@ -78,6 +80,7 @@ public class Util {
             stage.setScene(new Scene(root));
             stage.getIcons().add(new Image("crushers/imgs/logo.jpg"));
             stage.setTitle(title);
+            stage.setResizable(false);
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.show();
         } catch (IOException e1) {
@@ -93,6 +96,7 @@ public class Util {
             stage.setScene(new Scene(root));
             stage.getIcons().add(new Image("crushers/imgs/logo.jpg"));
             stage.setTitle(title);
+            stage.setResizable(false);
             stage.show();
         } catch (IOException e1) {
             e1.printStackTrace();

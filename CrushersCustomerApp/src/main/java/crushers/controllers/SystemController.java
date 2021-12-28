@@ -41,11 +41,11 @@ public class SystemController implements Initializable{
     @FXML
     private Button createContact, deleteContact, makePayment, makeANewPayment, makeAPaymentRequest, reportTransaction, viewTransactionDetails, apply, paybackLoan;
     @FXML
-    private TextField nameField, accountID, loanAmountField, loanNotes, amountPayback;
+    private TextField nameField, accountID, loanAmountField, amountPayback;
     @FXML
-    private TextArea descriptionArea;
+    private TextArea descriptionArea, loanNotes;
     @FXML
-    private Label contactErrorLabel;
+    private Label contactErrorLabel, accountIdLabel, accountNumberLabel, accountNameLabel, accountBalanceLabel, accountOwnerLabel, accountTypeLabel, accountBankLabel;
     @FXML
     private TableView<Loan> loanTable;
 
@@ -123,6 +123,10 @@ public class SystemController implements Initializable{
         Util.updateCustomer();
         welcomeLabel.setText("Welcome " + App.currentCustomer.getFirstName() + " " + App.currentCustomer.getLastName());
         
+        // Account Overview
+
+        updateAccountOverview();
+
         // Payments
 
         TableColumn<Transaction, Integer> transactionIdColumn = new TableColumn<>("ID");
@@ -202,5 +206,24 @@ public class SystemController implements Initializable{
 
     public void selectDifferentAccount(ActionEvent e) throws IOException{
         Util.closeAndShow("AccountView", "Select an Account", e);
+    }
+
+    public void setLabel(ActionEvent e){
+
+    }
+    public void viewTransactionDetails(ActionEvent e){
+
+    }
+
+    public void updateAccountOverview(){
+        String accountType = App.currentAccount.getInterestRate() == 0.0 ? "Payment" : "Savings";
+
+        accountIdLabel.setText("Account ID: " + App.currentAccount.getId());
+        accountNumberLabel.setText("Account Number: " + App.currentAccount.getNumber());
+        accountNameLabel.setText("Account Name: " + App.currentAccount.getName());
+        accountBalanceLabel.setText("Account Balance: " + App.currentAccount.getBalance() + " SEK");
+        accountOwnerLabel.setText("Account Owner: " + App.currentCustomer.getFirstName() + " " + App.currentCustomer.getLastName());
+        accountTypeLabel.setText("Account Type: " + accountType);
+        accountBankLabel.setText("Account Bank: " + App.currentAccount.getBank());
     }
 }

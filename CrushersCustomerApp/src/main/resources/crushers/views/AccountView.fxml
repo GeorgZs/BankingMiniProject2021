@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="accountAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../stylesheets/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="crushers.controllers.AccountController">
+<AnchorPane fx:id="accountAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../stylesheets/main.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="crushers.controllers.AccountController">
    <children>
       <Label fx:id="welcomeLabel" alignment="CENTER" prefHeight="52.0" prefWidth="600.0" text="Welcome, {firstName} {lastName}" textFill="#311e7e">
          <font>
@@ -70,14 +70,6 @@
                </padding>
             </Label>
             <Label fx:id="accountIDLabel" prefHeight="27.0" prefWidth="189.0" text="Account ID: {ID}" textFill="#311e7e">
-               <font>
-                  <Font name="SansSerif Regular" size="13.0" />
-               </font>
-               <padding>
-                  <Insets left="5.0" />
-               </padding>
-            </Label>
-            <Label fx:id="savingsGoalLabel" prefHeight="27.0" prefWidth="190.0" text="Savings goal: {goal} SEK" textFill="#311e7e">
                <font>
                   <Font name="SansSerif Regular" size="13.0" />
                </font>

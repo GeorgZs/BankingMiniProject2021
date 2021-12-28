@@ -51,6 +51,5 @@
             </LinearGradient>
          </textFill>
       </Label>
-      <TextField fx:id="transactionIdTextField" layoutX="130.0" layoutY="87.0" promptText="Transaction ID" />
    </children>
 </AnchorPane>

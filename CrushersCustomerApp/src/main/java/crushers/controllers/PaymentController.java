@@ -20,6 +20,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -40,7 +42,7 @@ public class PaymentController implements Initializable {
     @FXML
     private ChoiceBox<Contact> toAccountBox;
     @FXML
-    private TextField amountField, transactionIdTextField;
+    private TextField amountField;
     @FXML
     private TextArea descriptionArea;
 
@@ -77,43 +79,32 @@ public class PaymentController implements Initializable {
                 errorLabel.setText("Insufficient funds!");
             } else {
 
-                //
-
-                // JsonNode toNode = Json.nodeWithFields("id", 1001, "type", "payment");
-                // JsonNode fromNode = Json.nodeWithFields("id", 1002, "type", "payment");
-
-                // JsonNode transactionNode = Json.nodeWithFields("id", 1337, "from", fromNode, "to", toNode, "amount", 69.0, "description", "kekler");
-                // ((ObjectNode)transactionNode).set("date", Json.objectToNode(LocalDateTime.now()));
-
-                // System.out.println(Http.authPost("transactions", App.currentToken, transactionNode));
-
-                //
-
-
                 JsonNode toNode = Json.nodeWithFields("id", accountTo.getId(), "type", "payment");
                 JsonNode fromNode = Json.nodeWithFields("id", accountFrom.getId(), "type", "payment");
 
-                int transactionId = Integer.parseInt(transactionIdTextField.getText());
+                JsonNode transactionNode = Json.nodeWithFields("id", 0, "from", fromNode, "to", toNode, "amount", amountSEK, "description", description, "date", null);
 
-                JsonNode transactionNode = Json.nodeWithFields("id", transactionId, "from", fromNode, "to", toNode, "amount", amountSEK, "description", description, "date", null);
-
-                Transaction transaction = Json.parse(Http.authPost("transactions", App.currentToken, transactionNode), Transaction.class);
-                
-                AccountController.sysCtrl.addTransactionToTable(transaction);
-                Util.updateCustomer();
-
-                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Transfer successful!");
-                alert.setHeaderText("");
-                Optional<ButtonType> result = alert.showAndWait();
-                if (result.isPresent() && result.get() == ButtonType.OK) {
-                    Stage oldStage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-                    oldStage.close();
+                try{
+                    Transaction transaction = Json.parse(Http.authPost("transactions", App.currentToken, transactionNode), Transaction.class);
+                    AccountController.sysCtrl.addTransactionToTable(transaction);
+                    Util.updateCustomer();
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION, "Transfer successful!");
+                    alert.setHeaderText("");
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if (result.isPresent() && result.get() == ButtonType.OK) {
+                        Stage oldStage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+                        oldStage.close();
+                    }
+                }catch(JsonParseException jpe){ // error response
+                    errorLabel.setText("Account does not exist!");
                 }
+
             }
         }
     }
 
     public void cancel(ActionEvent e) {
-        Util.showModal("SystemView", "System view", e);
+        Stage oldStage = (Stage) ((Node)e.getSource()).getScene().getWindow();
+        oldStage.close();
     }
 }

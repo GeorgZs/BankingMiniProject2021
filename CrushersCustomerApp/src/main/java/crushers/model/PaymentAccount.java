@@ -84,7 +84,7 @@ public class PaymentAccount {
     }
 
     public String getType() {
-        return "payment";
+        return "Payment";
     }
 
     public void setType(String type) {
