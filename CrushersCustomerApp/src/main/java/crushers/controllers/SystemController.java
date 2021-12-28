@@ -45,9 +45,11 @@ public class SystemController implements Initializable{
     @FXML
     private TextArea descriptionArea, loanNotes;
     @FXML
-    private Label contactErrorLabel, accountIdLabel, accountNumberLabel, accountNameLabel, accountBalanceLabel, accountOwnerLabel, accountTypeLabel, accountBankLabel;
+    private Label contactErrorLabel, accountIdLabel, accountNumberLabel, accountNameLabel, accountBalanceLabel, accountOwnerLabel, accountTypeLabel, accountBankLabel, transactionsMadeLabel, numberOfContactsLabel, pendingLoansLabel, totalDebtLabel, netWorthLabel;
     @FXML
     private TableView<Loan> loanTable;
+
+    boolean showCardNumber;
 
     /*
     CONTACTS
@@ -70,8 +72,10 @@ public class SystemController implements Initializable{
             }
             // Adding contact to table and sending request to API
             PaymentAccount account = new PaymentAccount(Integer.parseInt(accountID.getText()), "payment");
-            JsonNode contactNode = Json.nodeWithFields("name", nameField.getText(), "account", account, "description", descriptionArea.getText());
+            JsonNode accountNode = Json.nodeWithFields("id", accountID.getText(), "type", "payment");
+            JsonNode contactNode = Json.nodeWithFields("name", nameField.getText(), "account", accountNode, "description", descriptionArea.getText());
             Contact createdContact = Json.parse(Http.authPost("customers/contact", App.currentToken, contactNode), Contact.class);
+            System.out.println("Created: " + createdContact);
             contactTableView.getItems().add(createdContact);
             Util.updateCustomer();
             }
@@ -215,15 +219,27 @@ public class SystemController implements Initializable{
 
     }
 
+    public void toggleDisplayCardNumber(ActionEvent e){
+        showCardNumber = ! showCardNumber;
+        updateAccountOverview();
+    }
+
     public void updateAccountOverview(){
         String accountType = App.currentAccount.getInterestRate() == 0.0 ? "Payment" : "Savings";
+        String cardNumber = showCardNumber ? App.currentAccount.getNumber() : "SE ** **** *********";
 
         accountIdLabel.setText("Account ID: " + App.currentAccount.getId());
-        accountNumberLabel.setText("Account Number: " + App.currentAccount.getNumber());
+        accountNumberLabel.setText("Account Number: " + cardNumber);
         accountNameLabel.setText("Account Name: " + App.currentAccount.getName());
         accountBalanceLabel.setText("Account Balance: " + App.currentAccount.getBalance() + " SEK");
         accountOwnerLabel.setText("Account Owner: " + App.currentCustomer.getFirstName() + " " + App.currentCustomer.getLastName());
         accountTypeLabel.setText("Account Type: " + accountType);
         accountBankLabel.setText("Account Bank: " + App.currentAccount.getBank());
+
+        transactionsMadeLabel.setText("Transactions Made: " + App.currentCustomer.getAccountWithId(App.currentAccountID).getTransactions().size());
+        numberOfContactsLabel.setText("Number of Contacts:" + App.currentCustomer.getContactList().size());
+        pendingLoansLabel.setText("Pending Loans: " + 0);
+        totalDebtLabel.setText("Total Debt: " + 0);
+        netWorthLabel.setText("Net Worth: " + 0);
     }
 }

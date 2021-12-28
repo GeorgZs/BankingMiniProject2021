@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXCheckBox?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -45,23 +46,32 @@
                         </VBox>
                         <VBox layoutX="370.0" layoutY="65.0" prefHeight="187.0" prefWidth="267.0" style="-fx-background-color: #87BFF7; -fx-border-color: black; -fx-border-radius: 3;">
                            <children>
-                              <Label fx:id="accountIdLabel1" prefHeight="26.0" prefWidth="242.0" style="-fx-font-weight: bold;" text="Account ID: " textFill="#1e1a6f" />
-                              <Label fx:id="accountNumberLabel1" prefHeight="26.0" prefWidth="257.0" style="-fx-font-weight: bold;" text="Account Number:" textFill="#1e1a6f" />
-                              <Label fx:id="accountNameLabel1" prefHeight="26.0" prefWidth="242.0" style="-fx-font-weight: bold;" text="Account Name: " textFill="#1e1a6f" />
-                              <Label fx:id="accountBalanceLabel1" prefHeight="26.0" prefWidth="235.0" style="-fx-font-weight: bold;" text="Account Balance: " textFill="#1e1a6f" />
-                              <Label fx:id="accountOwnerLabel1" prefHeight="26.0" prefWidth="256.0" style="-fx-font-weight: bold;" text="Account Owner: " textFill="#1e1a6f" />
-                              <Label fx:id="accountTypeLabel1" prefHeight="26.0" prefWidth="245.0" style="-fx-font-weight: bold;" text="Account Type: " textFill="#1e1a6f" />
-                              <Label fx:id="accountBankLabel1" prefHeight="26.0" prefWidth="243.0" style="-fx-font-weight: bold;" text="Account Bank: " textFill="#1e1a6f" />
+                              <Label fx:id="transactionsMadeLabel" prefHeight="26.0" prefWidth="242.0" style="-fx-font-weight: bold;" text="Transactions made:" textFill="#1e1a6f" />
+                              <Label fx:id="numberOfContactsLabel" prefHeight="26.0" prefWidth="257.0" style="-fx-font-weight: bold;" text="Number of Contacts:" textFill="#1e1a6f" />
+                              <Label fx:id="pendingLoansLabel" prefHeight="26.0" prefWidth="242.0" style="-fx-font-weight: bold;" text="Pending Loans:" textFill="#1e1a6f" />
+                              <Label fx:id="totalDebtLabel" prefHeight="26.0" prefWidth="235.0" style="-fx-font-weight: bold;" text="Total Debt:" textFill="#1e1a6f" />
+                              <Label fx:id="netWorthLabel" prefHeight="26.0" prefWidth="256.0" style="-fx-font-weight: bold;" text="Net Worth:" textFill="#1e1a6f" />
                            </children>
                            <padding>
                               <Insets bottom="2.0" left="5.0" top="2.0" />
                            </padding>
                         </VBox>
-                        <Label alignment="CENTER" layoutX="275.0" layoutY="14.0" prefHeight="34.0" prefWidth="160.0" text="Account Overview">
+                        <Label alignment="CENTER" layoutX="259.0" layoutY="14.0" prefHeight="25.0" prefWidth="160.0" text="Account Overview">
                            <font>
                               <Font size="17.0" />
                            </font>
                         </Label>
+                        <Label alignment="CENTER" layoutX="51.0" layoutY="33.0" prefHeight="25.0" prefWidth="267.0" text="Account Details">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER" layoutX="370.0" layoutY="33.0" prefHeight="25.0" prefWidth="267.0" text="Account Statistics">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <JFXCheckBox layoutX="51.0" layoutY="265.0" onAction="#toggleDisplayCardNumber" text="Display Card Number" />
                      </children></AnchorPane>
             </content>
           </Tab>
