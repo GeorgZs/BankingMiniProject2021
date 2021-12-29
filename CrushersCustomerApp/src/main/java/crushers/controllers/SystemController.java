@@ -105,6 +105,7 @@ public class SystemController implements Initializable{
     }
 
     public void setLabel(ActionEvent e) throws Exception{
+        transactionError.setTextFill(Color.RED);
         Transaction selectedTransaction = transactionTableView.getSelectionModel().getSelectedItem();
         if(selectedTransaction == null){
             transactionError.setText("Please select a transaction!");
@@ -113,12 +114,16 @@ public class SystemController implements Initializable{
         }else{
             JsonNode transactionNode = Json.nodeWithFields("label", transactionLabelField.getText(), "transaction", Json.nodeWithFields("id", selectedTransaction.getId()));
             Http.authPut("transactions/label", transactionNode, Transaction.class, App.currentToken);
+            transactionError.setTextFill(Color.GREEN);
+            transactionError.setText("Transaction Successfully Labeled!");
         }
+        updateAccountOverview();
     }
 
     public void viewTransactionDetails(ActionEvent e){
         Transaction selectedTransaction = transactionTableView.getSelectionModel().getSelectedItem();
         if(selectedTransaction == null){
+            transactionError.setTextFill(Color.RED);
             transactionError.setText("Please select a transaction!");
         }else{
             FXMLLoader loader = new FXMLLoader(Util.class.getClassLoader().getResource("crushers/views/TransactionDescriptionView.fxml"));
@@ -153,26 +158,26 @@ public class SystemController implements Initializable{
     */
 
     public void apply(ActionEvent e) throws IOException, InterruptedException {
-    if (loanAmountField.getText().isBlank()){
-        loanErrorLabel.setText("Must enter an amount.");
-    } else if (!loanAmountField.getText().matches("^[0-9]+$")){
-        loanErrorLabel.setText("Please enter a numerical amount, excluding special characters.");
-    } else if (loanPurposeField.getText().isBlank()){
-        loanErrorLabel.setText("Must include justification for applying for a loan.");
-    } else if (Double.parseDouble(loanAmountField.getText()) > 25000) {
-        loanErrorLabel.setText("Maximum loan amount is 25,000 SEK.");
-    } else if (Double.parseDouble(loanAmountField.getText()) < 1000){
-        loanErrorLabel.setText("Minimum loan amount is 1,000 SEK.");
-    } else {
-       double loanAmount = Double.parseDouble(loanAmountField.getText());
-       String loanReason = loanPurposeField.getText();
-       JsonNode account = Json.nodeWithFields("id",App.currentAccountID,"type","payment");
-       JsonNode loanNode = Json.nodeWithFields("amount",loanAmount,"purpose",loanReason,"account",account);
-       Loan loan = Json.parse(Json.stringify(loanNode), Loan.class);
-       Http.authPost("transactions/loan", App.currentToken, loanNode);
-       loanTableView.getItems().add(loan);
-       updateAccountOverview();
-        }
+        if (loanAmountField.getText().isBlank()){
+            loanErrorLabel.setText("Must enter an amount.");
+        } else if (!loanAmountField.getText().matches("^[0-9]+$")){
+            loanErrorLabel.setText("Please enter a numerical amount, excluding special characters.");
+        } else if (loanPurposeField.getText().isBlank()){
+            loanErrorLabel.setText("Must include justification for applying for a loan.");
+        } else if (Double.parseDouble(loanAmountField.getText()) > 25000) {
+            loanErrorLabel.setText("Maximum loan amount is 25,000 SEK.");
+        } else if (Double.parseDouble(loanAmountField.getText()) < 1000){
+            loanErrorLabel.setText("Minimum loan amount is 1,000 SEK.");
+        } else {
+        double loanAmount = Double.parseDouble(loanAmountField.getText());
+        String loanReason = loanPurposeField.getText();
+        JsonNode account = Json.nodeWithFields("id",App.currentAccountID,"type","payment");
+        JsonNode loanNode = Json.nodeWithFields("amount",loanAmount,"purpose",loanReason,"account",account);
+        Loan loan = Json.parse(Json.stringify(loanNode), Loan.class);
+        Http.authPost("transactions/loan", App.currentToken, loanNode);
+        loanTableView.getItems().add(loan);
+        updateAccountOverview();
+            }
     }
 
     public void paybackLoan(ActionEvent e) {
@@ -289,6 +294,7 @@ public class SystemController implements Initializable{
     }
 
     public void logout(ActionEvent e) throws IOException{
+        App.currentAccountID = 0;
         Util.logOutAlert("Logging out?", "Are you sure you want to log-out?", e);
     }
 
@@ -330,5 +336,6 @@ public class SystemController implements Initializable{
         }else if(netWorth < 0){
             netWorthLabel.setTextFill(Color.RED);
         }
+        transactionTableView.getItems().setAll(App.currentCustomer.getAccountWithId(App.currentAccountID).getTransactions());
     }
 }

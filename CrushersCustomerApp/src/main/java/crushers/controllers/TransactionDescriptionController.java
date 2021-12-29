@@ -9,7 +9,7 @@ public class TransactionDescriptionController{
     Transaction transaction;
 
     @FXML
-    private Label transactionIdLabel, transactionAmountLabel, transactionFromLabel, transactionToLabel, transactionDescriptionLabel;
+    private Label transactionIdLabel, transactionAmountLabel, transactionFromLabel, transactionToLabel, transactionDescriptionLabel, transactionLabelLabel;
 
     public void init() {
         transactionIdLabel.setText(String.valueOf(transaction.getId()));
@@ -17,7 +17,7 @@ public class TransactionDescriptionController{
         transactionFromLabel.setText(transaction.getFromString() + "");
         transactionToLabel.setText(transaction.getToString() + "");
         transactionDescriptionLabel.setText(transaction.getDescription());
-
+        transactionLabelLabel.setText(transaction.getLabel());
     }
 
     public void setCurrentTransaction(Transaction transaction){
