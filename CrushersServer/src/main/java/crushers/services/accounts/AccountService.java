@@ -69,6 +69,13 @@ public class AccountService {
     return storage.create(account);
   }
 
+  /**
+   *
+   * @param loggedInUser
+   * @param id
+   * @return account with the matching ID
+   * @throws Exception if the ID is invalid or the logged-in User doesnt have correct access to the account specified
+   */
   public Account get(User loggedInUser, int id) throws Exception {
     Account account = storage.get(id);
     if (account == null) throw new ForbiddenException();
@@ -82,10 +89,20 @@ public class AccountService {
     return account;
   }
 
+  /**
+   * @param id of the Account in question
+   * @return true or false based on whether the account exists or not
+   * @throws Exception
+   */
   public boolean exists(int id) throws Exception{
     return (storage.get(id) != null);
   }
 
+  /**
+   * @param transaction
+   * takes the transaction and, once checked for errors, withdraws and deposits from Accounts specified in the Transaction
+   * @throws Exception if the Accounts in the transactions are null or if the transaction's amount is greater than or equal to the sender balance
+   */
   public void commit(Transaction transaction) throws Exception {
     if (transaction == null) throw new ForbiddenException();
 
@@ -113,22 +130,40 @@ public class AccountService {
     }
   }
 
+  /**
+   * @param customer who is logged-in
+   * @return the collection of accounts for logged-in customer
+   */
   public Collection<Account> getOfCustomer(Customer customer) throws Exception {
     Collection<Account> accounts = storage.getAccountsOfCustomer(customer);
     if (accounts == null) accounts = new ArrayList<>();
     return accounts;
   }
 
+  /**
+   * @param bank of the logged-in Staff member
+   * @return the collection of Accounts registered to the Bank
+   */
   public Collection<Account> getOfBank(Bank bank) throws Exception {
     Collection<Account> accounts = storage.getAccountsOfBank(bank);
     if (accounts == null) accounts = new ArrayList<>();
     return accounts;
   }
 
+  /**
+   * @param bank of the logged-in Staff member
+   * @return the Collection of customers registered to the Bank
+   */
   public Collection<Customer> getCustomersAtBank(Bank bank) {
     return storage.getCustomersAtBank(bank);
   }
 
+  /**
+   * @param loggedIn customer
+   * @param id of the account you want
+   * @return the Account of with the specified ID
+   * @throws Exception if the Account with the specified ID doesn't exist
+   */
   public Account getAccountWithId(Customer loggedIn, int id) throws Exception{
     for(Account account : storage.getAll()){
       if(account.getId() == id){

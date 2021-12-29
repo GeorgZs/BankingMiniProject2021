@@ -29,6 +29,22 @@ public class TransactionService {
         this.accountService = accountService;
     }
 
+    /**
+     * @param transaction to be created
+     * @param user logged-in who is creating the transaction
+     * @return the Transaction given it passes all tests
+     * @throws Exception if the Transaction data is invalid:
+     * if user is instance of a Customer:
+     * checks if the Account to and from are equal or if accounts are null
+     * checks the null accounts based on whether customer is receiving from the bank (account from is null)
+     * or if the customer is repaying a loan (account to is null) - otherwise checks if both accounts exist
+     * if user is instance of a Clerk:
+     * check if the account from is null (null = from the bank) as the Clerk sending money sends money from the bank to a customer
+     * checks if the account to is null (null = to the bank) as this means the Bank is receiving money from a Customer
+     *
+     * After this it checks the transaction contains valid data such as Description missing or transaction amount being less than or equal to 0
+     * then completes its Automated Suspicious Transaction Checker (trademark pending) to see whether the Transaction is suspicious or not
+     */
     public Transaction create(Transaction transaction, User user) throws Exception {
         List<String> invalidDataMessage = new ArrayList<>();
         //Cannot continue if the transaction passed is null
@@ -148,6 +164,13 @@ public class TransactionService {
         return storage.create(transaction);
     }
 
+    /**
+     * @param loggedInUser
+     * @param id of the requested Transaction
+     * @return the Transaction with ID specified in method signature
+     * @throws Exception if the Transaction is null, meaning the transaction could not be found
+     * or if, based on which instance of User is logged in, has access to this transaction
+     */
     public Transaction get(User loggedInUser, int id) throws Exception {
         Transaction transaction = storage.get(id);
 
@@ -174,16 +197,34 @@ public class TransactionService {
         return transaction;
     }
 
+    /**
+     * @param loggedInUser
+     * @param accountId of the Account
+     * @return the Collection of Transactions for the Account with ID specified in mehtod signature
+     * @throws Exception
+     */
     public Collection<Transaction> getAllOfAccount(User loggedInUser, int accountId) throws Exception {
         final Account account = accountService.get(loggedInUser, accountId);
         return storage.getAllOfAccount(account);
     }
 
+    /**
+     * @param clerk who is logged in
+     * @param transactionId of the Transaction being marked under suspicion of logged-in Clerk
+     * @return the Transaction that was marked as suspicious
+     * @throws Exception
+     */
     public Transaction markSusTransaction(Clerk clerk, int transactionId) throws Exception {
         Transaction transaction = storage.get(transactionId);
         return storage.addSusTransaction(transaction);
     }
 
+    /**
+     * @param customer who is logged in
+     * @param id of the Account which should receive the Interest
+     * @return a Transaction with the interest amount
+     * @throws Exception if the account specified is not a Savings Account -- only Savings Accounts can receive Interest
+     */
     public Transaction getInterest(Customer customer, int id) throws Exception {
         Account account = accountService.get(customer, id);
         if (account instanceof SavingsAccount) {
@@ -205,10 +246,21 @@ public class TransactionService {
         }
     }
 
+    /**
+     * @param clerk who is logged-in
+     * @return the Collection of Suspicious Transactions
+     * @throws Exception
+     */
     public Collection<Transaction> getAllSuspiciousTransactions(Clerk clerk) throws Exception {
         return storage.getSuspiciousTransactions();
     }
 
+    /**
+     * @param customer who is logged-in
+     * @param recurringTransaction which should be created based on the interval given
+     * @return the recurring Transaction which is being created on the interval
+     * @throws Exception
+     */
     public RecurringTransaction createRecurringDeposit(Customer customer, RecurringTransaction recurringTransaction) throws Exception {
         Runnable runnable = new Runnable() {
             @Override
@@ -224,8 +276,12 @@ public class TransactionService {
         return recurringTransaction;
     }
 
-
-
+    /**
+     * @param loggedIn customer
+     * @param loan that is being created
+     * @return the loan that was created if it passes all tests
+     * @throws Exception if the Loan amount is greater than or equal ot 25,000kr or less than or equal to 1000kr
+     */
     public Transaction getLoan(Customer loggedIn, Loan loan) throws Exception{
         if(loan.getAmount() > 25000 || loan.getAmount() < 1000){
             throw new BadRequestException("Loan amount must be in excess of 1000kr and no more than 25,000kr");
@@ -238,6 +294,14 @@ public class TransactionService {
         return transaction;
     }
 
+    /**
+     * @param loggedIn customer
+     * @param transaction which is meant to pay back the Loan amount
+     * @return the updated Loan
+     * @throws Exception if the Transaction amount is greater than the Loan amount or,
+     * if the Transaction Label doesn't match that of the Loan's Purpose or,
+     * if the Customer doesn't have any Loans
+     */
     public Loan payBackLoan(Customer loggedIn, Transaction transaction) throws Exception{
         if(!loggedIn.getLoans().isEmpty()){
             for(Loan loan : loggedIn.getLoans()){
@@ -265,6 +329,12 @@ public class TransactionService {
         return null;
     }
 
+    /**
+     * @param loggedIn customer
+     * @param transactionLabel which includes the Label and the transaction that will be labelled
+     * @return the transaction which contains the new Label
+     * @throws Exception
+     */
     public Transaction setLabel(Customer loggedIn, TransactionLabel transactionLabel) throws Exception{
         Transaction transaction = storage.get(transactionLabel.getTransaction().getId());
         storage.delete(transaction.getId());

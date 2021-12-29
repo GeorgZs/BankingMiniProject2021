@@ -72,18 +72,34 @@ public class BankRouter extends Router<Bank> {
         });
     }
 
+    /**
+     * @param exchange
+     * @param id of the specified Bank
+     * returns the Bank with the specified ID, displaying all of its information
+     * @throws Exception
+     */
     @Override
     protected void get(HttpExchange exchange, int id) throws Exception {
         final Bank responseData = bankService.get(id);
         sendJsonResponse(exchange, responseData);
     }
 
+    /**
+     * @param exchange
+     * returns the Collection of all the Banks
+     * @throws Exception
+     */
     @Override
     protected void getAll(HttpExchange exchange) throws Exception {
         final Collection<Bank> responseData = bankService.getAll();
         sendJsonResponse(exchange, responseData);
     }
 
+    /**
+     * @param exchange
+     * creates a Bank with the information specified in the HTTP body
+     * @throws Exception
+     */
     @Override
     protected void post(HttpExchange exchange) throws Exception {
         final Bank requestData = getJsonBodyData(exchange, Bank.class);
@@ -91,6 +107,12 @@ public class BankRouter extends Router<Bank> {
         sendJsonResponse(exchange, responseData);
     }
 
+    /**
+     * @param exchange
+     * @param id of the Bank that needs updating
+     * returns the updated Bank - HTTP body is the entire bank object
+     * @throws Exception
+     */
     @Override
     protected void put(HttpExchange exchange, int id) throws Exception {
         final Bank requestData = getJsonBodyData(exchange, Bank.class);
@@ -98,6 +120,15 @@ public class BankRouter extends Router<Bank> {
         sendJsonResponse(exchange, responseData);
     }
 
+    /**
+     * @param exchange
+     * returns the changed interest rate based on the passed InterestRate object
+     * @example
+     *  {
+     *     "rate": 0.142
+     *  }
+     * @throws Exception
+     */
     private void changeInterestRate(HttpExchange exchange) throws Exception {
         final Manager loggedInManager = Authenticator.instance.authManager(exchange);
         final InterestRate requestData = getJsonBodyData(exchange, InterestRate.class);
@@ -105,6 +136,17 @@ public class BankRouter extends Router<Bank> {
         sendJsonResponse(exchange, responseData);
     }
 
+    /**
+     * @param exchange
+     * returns the Bank Details that were updated - the HTTP body is that of the Bank Details class
+     * @example
+     *  {
+     *      "logo": "logo.png",
+     *      "details": "This is a test bank",
+     *      "name": "TestBank"
+     *  }
+     * @throws Exception
+     */
     protected void editBank(HttpExchange exchange) throws Exception {
         final Manager manager = Authenticator.instance.authManager(exchange);
         final BankDetails requestData = getJsonBodyData(exchange, BankDetails.class);

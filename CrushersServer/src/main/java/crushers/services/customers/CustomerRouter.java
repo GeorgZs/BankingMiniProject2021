@@ -150,6 +150,11 @@ public class CustomerRouter extends Router<Customer> {
     });
   }
 
+  /**
+   * @param exchange
+   * creates a customer
+   * @throws Exception
+   */
   @Override
   protected void post(HttpExchange exchange) throws Exception {
     final Customer requestData = getJsonBodyData(exchange, Customer.class);
@@ -157,12 +162,22 @@ public class CustomerRouter extends Router<Customer> {
     sendJsonResponse(exchange, responseData);
   }
 
+  /**
+   * @param exchange
+   * returns the logged-in Customer as an object
+   * @throws Exception
+   */
   private void getLoggedIn(HttpExchange exchange) throws Exception {
     final Customer loggedInCustomer = Authenticator.instance.authCustomer(exchange);
     final Customer responseData = customerService.getLoggedIn(loggedInCustomer);
     sendJsonResponse(exchange, responseData);
   }
 
+  /**
+   * @param exchange
+   * creates a Contact and adds it to the Contact list for the logged-in Customer
+   * @throws Exception
+   */
   private void addContact(HttpExchange exchange) throws Exception{
     final Customer loggedInCustomer = Authenticator.instance.authCustomer(exchange);
     final Contact requestData = getJsonBodyData(exchange, Contact.class);
@@ -170,12 +185,22 @@ public class CustomerRouter extends Router<Customer> {
     sendJsonResponse(exchange, responseData);
   }
 
+  /**
+   * @param exchange
+   * gets the collection of Contacts from the logged-in Customer
+   * @throws Exception
+   */
   private void getContacts(HttpExchange exchange) throws Exception{
     final Customer loggedInCustomer = Authenticator.instance.authCustomer(exchange);
     final Collection<Contact> responseData = customerService.getContacts(loggedInCustomer);
     sendJsonResponse(exchange, responseData);
   }
 
+  /**
+   * @param exchange
+   * sends a Notification to all Users registered to the Bank at which the Manager works at
+   * @throws Exception
+   */
   private void sendNotificationToUsers(HttpExchange exchange) throws Exception{
     final Manager loggedInManager = Authenticator.instance.authManager(exchange);
     final ManagerNotification requestData = getJsonBodyData(exchange, ManagerNotification.class);
@@ -183,6 +208,11 @@ public class CustomerRouter extends Router<Customer> {
     sendJsonResponse(exchange, responseData);
   }
 
+  /**
+   * @param exchange
+   * sends a Notification from the logged-in Customer to a Specified Customer
+   * @throws Exception
+   */
   private void sendNotification(HttpExchange exchange) throws Exception{
     final Customer loggedInCustomer = Authenticator.instance.authCustomer(exchange);
     final CustomerNotification requestData = getJsonBodyData(exchange, CustomerNotification.class);
@@ -190,6 +220,11 @@ public class CustomerRouter extends Router<Customer> {
     sendJsonResponse(exchange, responseData);
   }
 
+  /**
+   * @param exchange
+   * returns a LinkedHashMap of Notifications that belong to the logged-in Customer
+   * @throws Exception
+   */
   private void getNotifications(HttpExchange exchange) throws Exception{
     final Customer loggedInCustomer = Authenticator.instance.authCustomer(exchange);
     final LinkedHashMap<LocalDateTime, String> responseData = customerService.getNotifications(loggedInCustomer);

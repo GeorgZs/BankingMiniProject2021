@@ -22,6 +22,12 @@ public class JsonBankStorage extends JsonStorage<Bank> {
         }
     }
 
+    /**
+     * @param bank being created
+     * @return the bank after it passes each of the tests
+     * @throws Exception if the manager is null or the manager's details are empty
+     * indicating that there are missing fields in the manager
+     */
     public Bank create(Bank bank) throws Exception{
         if(bank.getManager() == null){
             throw new BadRequestException("Manager invalid");
@@ -32,14 +38,16 @@ public class JsonBankStorage extends JsonStorage<Bank> {
         else if(bank.getManager().getAddress().isBlank() || bank.getManager().getAddress().isEmpty()){
             throw new BadRequestException("Manager name invalid");
         }
-        //meant to check if any of the manager fields are missing upon construction
-        else if(bank.getManager().getClass().getDeclaredFields().length < 7){
-            throw new BadRequestException("Error - one of the Manager's Fields are missing");
-        }
         else{
+            super.create(bank);
             return bank;
         }
     }
+
+    /**
+     * @param bank to be added to the map
+     * places the bank in the map with the key being the bank's ID
+     */
     protected void addToMap(Bank bank) {
         if (!bankMap.containsKey(bank.getId())) {
             bankMap.put(bank.getId(), bank);

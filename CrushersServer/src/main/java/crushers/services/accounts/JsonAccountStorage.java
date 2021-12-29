@@ -26,6 +26,11 @@ public class JsonAccountStorage extends JsonStorage<Account> {
     }
   }
 
+  /**
+   * @param newAccount to be added to the Account Storage
+   * @return the Account that was successfully added to the Storage
+   * @throws Exception if the Account creation was in any way unsuccessful
+   */
   @Override
   public Account create(Account newAccount) throws Exception {
     Account createdAccount = super.create(newAccount);
@@ -33,6 +38,11 @@ public class JsonAccountStorage extends JsonStorage<Account> {
     return createdAccount;
   }
 
+  /**
+   * @param id of the specified account
+   * @return the account that was deleted just as a precaution to see what account was deleted
+   * @throws IOException if Account deletion was in any way unsuccessful
+   */
   @Override
   public Account delete(int id) throws IOException {
     Account deletedAccount = super.delete(id);
@@ -45,6 +55,10 @@ public class JsonAccountStorage extends JsonStorage<Account> {
     return deletedAccount;
   }
 
+  /**
+   * @param customer who is logged-in
+   * @return the set of Accounts for the logged-in Customer
+   */
   public Set<Account> getAccountsOfCustomer(Customer customer) {
     for(Account account : customerAccounts.get(customer)){
       account.setOwner(customer);
@@ -52,14 +66,28 @@ public class JsonAccountStorage extends JsonStorage<Account> {
     return customerAccounts.get(customer);
   }
 
+  /**
+   * @param bank of the logged-in Clerk
+   * @return the Set of Customers registered to the Bank
+   */
   public Set<Customer> getCustomersAtBank(Bank bank) {
     return bankCustomers.get(bank);
   }
 
+  /**
+   * @param bank of the logged-in Clerk
+   * @return the Set of Accounts registered to the Bank
+   */
   public Set<Account> getAccountsOfBank(Bank bank) {
     return bankAccounts.get(bank);
   }
 
+  /**
+   * @param account added to the Local Map of Accounts which are retrieved from the JSON-files
+   * adds the Account specified in the method signature to each of the maps
+   *
+   * checks whether each Map key has a set associated to it, if not it creates a new empty set for the Key
+   */
   protected void addToMaps(Account account) {
     if (!customerAccounts.containsKey(account.getOwner())) {
       customerAccounts.put(account.getOwner(), new HashSet<>());

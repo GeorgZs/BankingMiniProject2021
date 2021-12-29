@@ -24,8 +24,11 @@ public class StaffService {
         }
     }
 
-    //this method gets the staff member by their unique
-    //id that is generated upon their creation
+    /**
+     * @param id of the requested Clerk
+     * @return the Clerk with the ID matching that passed in the method signature
+     * @throws Exception if the clerk is null or the ID doesn't match any Clerk's ID
+     */
     public Clerk get(int id) throws Exception {
         Clerk clerk = storage.get(id);
         if(clerk == null){
@@ -34,20 +37,36 @@ public class StaffService {
         return clerk;
     }
 
-    //when http://localhost:8080/staff is first called it uses the function
-    //below to get all staff members which, if there are no staff members, creates a new
-    //template staff member
+    /**
+     * @return the Collection of Clerks
+     * @throws Exception
+     */
     public Collection<Clerk> getAll() throws Exception {
         return storage.getAll();
     }
 
+    /**
+     * @param id of the Clerk being updated
+     * @param clerk data that will update the clerk with ID passed in method signature
+     * @return the updated Clerk
+     * @throws Exception
+     */
     public Clerk updateClerk(int id, Clerk clerk) throws Exception {
         storage.update(id, clerk);
         return get(id);
     }
 
-    //called to create a clerk and this returns the clerk
-    //created and adds them to the storage
+    /**
+     * @param bank in which the logged-in Manager works
+     * @param clerk being created
+     * @return the created Clerk given it passes all tests
+     * @throws Exception if the Clerk doesn't meet requirements:
+     * if the clerk is null or the Clerk's details are invalid:
+     * if the email, first and last name, and password are null or blank it throws and Exception
+     * for password validation:
+     * if password length is less than 8, doesn't contain at least one Capital letter or number, or
+     * contains an empty characters --> throws an Exception
+     */
     public Clerk create(Bank bank, Clerk clerk) throws Exception {
         List<String> invalidDataMessage = new ArrayList<>();
         if(clerk == null){
@@ -77,29 +96,25 @@ public class StaffService {
         if (!invalidDataMessage.isEmpty()) {
             throw new BadRequestException(String.join("\\n", invalidDataMessage));
         }
-
-
-        //for testing out commented
-        //clerk.setPassword(security.passwordEncryption(clerk.getPassword(), "MD5"));
-
-
         clerk.setWorksAt(bank);
         Authenticator.instance.register(clerk);
         return storage.create(clerk);
     }
 
-    public Collection<String> getAllEmail() throws Exception{
-        Collection<String> emailList = new ArrayList<>();
-        for(Clerk clerk : storage.getAll()){
-            emailList.add(clerk.getEmail());
-        }
-        return emailList;
-    }
-
+    /**
+     * @param loggedInClerk
+     * @return the Clerk object of the logged-in Clerk
+     * @throws Exception
+     */
     public Clerk getLoggedIn(Clerk loggedInClerk) throws Exception {
         return storage.get(loggedInClerk.getId());
     }
 
+    /**
+     * @param bank at which the logged-in Manager works
+     * @return the Collection of Clerks that work at the Bank at which the logged-in Manager works at
+     * @throws Exception
+     */
     public Collection<Clerk> getClerksOfBank(Bank bank) throws Exception{
         Collection<Clerk> clerks = storage.getClerksOfBank(bank);
         if(clerks == null){
@@ -108,10 +123,16 @@ public class StaffService {
         return clerks;
     }
 
+    /**
+     * @return the JsonAccountStorage
+     */
     public JsonAccountStorage getAccountStorage() {
         return accountStorage;
     }
 
+    /**
+     * @return the JsonClerkStorage
+     */
     public JsonClerkStorage getStorage() {
         return storage;
     }

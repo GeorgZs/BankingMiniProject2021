@@ -23,6 +23,12 @@ public class JsonTransactionStorage extends JsonStorage<Transaction> {
         }
     }
 
+    /**
+     * @param newObj which is of the Transaction Class
+     * @return the Transaction after its creation
+     * @throws IOException
+     * @throws Exception
+     */
     @Override
     public Transaction create(Transaction newObj) throws IOException, Exception {
         final Transaction createdObj = super.create(newObj);
@@ -30,6 +36,11 @@ public class JsonTransactionStorage extends JsonStorage<Transaction> {
         return createdObj;
     }
 
+    /**
+     * @param id of the Transaction that is being deleted
+     * @return the deleted Transaction
+     * @throws IOException
+     */
     @Override
     public Transaction delete(int id) throws IOException {
         final Transaction deletedObj = super.delete(id);
@@ -42,6 +53,13 @@ public class JsonTransactionStorage extends JsonStorage<Transaction> {
         return deletedObj;
     }
 
+    /**
+     * @param transaction to be created
+     * adds the Transaction to Map based on the data found in the JSON file
+     * if the accountTransactions map does not contain the key of the account from and to of the transaction,
+     * it puts a new item with key transaction.getFrom()/transaction.getTo()
+     * [gets the account who is sending the transaction or the account who is receiving the transaction] and the value is an empty HashSet
+     */
     protected void addToMaps(Transaction transaction) {
         if (!accountTransactions.containsKey(transaction.getFrom())) {
             accountTransactions.put(transaction.getFrom(), new HashSet<>());
@@ -55,15 +73,26 @@ public class JsonTransactionStorage extends JsonStorage<Transaction> {
         accountTransactions.get(transaction.getTo()).add(transaction);
     }
 
+    /**
+     * @param account containing Transactions
+     * @return the Set of Transaction for the specified Account
+     */
     public Set<Transaction> getAllOfAccount(Account account) {
       return accountTransactions.get(account);
     }
 
+    /**
+     * @param transaction which is being marked as suspicious
+     * @return the transaction that was marked as suspicious
+     */
     public Transaction addSusTransaction(Transaction transaction){
         suspiciousTransactions.add(transaction);
         return transaction;
     }
 
+    /**
+     * @return the Collection of Suspicious Transactions
+     */
     public Collection<Transaction> getSuspiciousTransactions() {
         return suspiciousTransactions;
     }

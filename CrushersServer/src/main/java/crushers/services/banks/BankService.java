@@ -20,6 +20,11 @@ public class BankService {
         this.staffService = staffService;
     }
 
+    /**
+     * @param id of the Bank
+     * @return the Bank with the specified ID
+     * @throws Exception if the ID does not match any Bank's ID
+     */
     public Bank get(int id) throws Exception {
         Bank bank = storage.get(id);
         if(bank == null) {
@@ -28,10 +33,19 @@ public class BankService {
         return bank;
     }
 
+    /**
+     * @return the Collection of Banks in the Bank Storage
+     * @throws Exception
+     */
     public Collection<Bank> getAll() throws Exception {
         return storage.getAll();
     }
 
+    /**
+     * @param bank to be created
+     * @return the Bank that
+     * @throws Exception
+     */
     public Bank create(Bank bank) throws Exception {
         if(bank == null){
             throw new BadRequestException("User invalid!");
@@ -41,11 +55,23 @@ public class BankService {
         return createdBank;
     }
 
+    /**
+     * @param id of the bank
+     * @param bank with updated information
+     * @return the updated bank, given there were no exceptions
+     * @throws Exception
+     */
     public Bank updateBank(int id, Bank bank) throws Exception {
         storage.update(id, bank);
         return bank;
     }
 
+    /**
+     * @param manager who is logged-in
+     * @param newInterestRate in the form of the InterestRate class
+     * @return the new Interest Rate in the form of a double
+     * @throws Exception if the interest Rate is the same as the already existing Interest Rate number
+     */
     public double changeInterestRate(Manager manager, InterestRate newInterestRate) throws Exception {
         Collection<Account> accounts = staffService.getAccountStorage().getAccountsOfBank(manager.getWorksAt());
         for (Account account : accounts) {
@@ -60,6 +86,18 @@ public class BankService {
         return newInterestRate.getRate();
     }
 
+    /**
+     * @param manager logged-in
+     * @param updatedInformation in the form of the Bank Details class
+     * @example
+     *  {
+     *      "logo": "logo.png",
+     *      "details": "This is a test bank",
+     *      "name": "TestBank"
+     *  }
+     * @return the updated BankDetails
+     * @throws Exception
+     */
     public BankDetails editBank(Manager manager, BankDetails updatedInformation) throws Exception {
         Bank bank = new Bank(manager);
         bank.setId(manager.getWorksAt().getId());

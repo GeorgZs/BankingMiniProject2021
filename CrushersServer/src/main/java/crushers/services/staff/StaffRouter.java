@@ -68,18 +68,34 @@ public class StaffRouter extends Router<Clerk>{
         });
     }
 
+    /**
+     * @param exchange
+     * @param id of the Staff member that is being requested
+     * returns the Staff member with the specified ID number
+     * @throws Exception
+     */
     @Override
     protected void get(HttpExchange exchange, int id) throws Exception {
         final Clerk responseData = staffService.get(id);
         sendJsonResponse(exchange, responseData);
     }
 
+    /**
+     * @param exchange
+     * returns the Collection of clerks
+     * @throws Exception
+     */
     @Override
     protected void getAll(HttpExchange exchange) throws Exception {
         final Collection<Clerk> responseData = staffService.getAll();
         sendJsonResponse(exchange, responseData);
     }
 
+    /**
+     * @param exchange
+     * creates a Clerk if and only if the logged-in User is a Manager
+     * @throws Exception
+     */
     @Override
     protected void post(HttpExchange exchange) throws Exception {
         final Manager loggedInManager = Authenticator.instance.authManager(exchange);
@@ -88,6 +104,12 @@ public class StaffRouter extends Router<Clerk>{
         sendJsonResponse(exchange, responseData);
     }
 
+    /**
+     * @param exchange
+     * @param id of the Clerk that is being updated
+     * returns the updated Clerk based on the given changes
+     * @throws Exception
+     */
     @Override
     protected void put(HttpExchange exchange, int id) throws Exception{
         final Clerk loggedInClerk = Authenticator.instance.authClerk(exchange);
@@ -95,12 +117,22 @@ public class StaffRouter extends Router<Clerk>{
         sendJsonResponse(exchange, responseData);
     }
 
+    /**
+     * @param exchange
+     * returns the Clerk object of the logged-in Clerk
+     * @throws Exception
+     */
     private void getLoggedIn(HttpExchange exchange) throws Exception {
         final Clerk loggedInClerk = Authenticator.instance.authClerk(exchange);
         final Clerk responseData = staffService.getLoggedIn(loggedInClerk);
         sendJsonResponse(exchange, responseData);
     }
 
+    /**
+     * @param exchange
+     * returns the Collection of Clerks registered to the Bank that the logged-in Manager works at
+     * @throws Exception
+     */
     protected void getClerksOfBank(HttpExchange exchange) throws Exception{
         final Manager manager = Authenticator.instance.authManager(exchange);
         final Collection<Clerk> responseData = staffService.getClerksOfBank(manager.getWorksAt());

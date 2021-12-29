@@ -197,6 +197,11 @@ public class TransactionRouter extends Router<Transaction> {
         });
     }
 
+    /**
+     * @param exchange
+     * creates a Transaction with HTTP body
+     * @throws Exception
+     */
     @Override
     protected void post(HttpExchange exchange) throws Exception{
         final User loggedInUser = Authenticator.instance.authUser(exchange);
@@ -205,6 +210,12 @@ public class TransactionRouter extends Router<Transaction> {
         sendJsonResponse(exchange, responseData);
     }
 
+    /**
+     * @param exchange
+     * @param id of the required Transaction
+     * returns the Transaction with the ID as specified in method signature
+     * @throws Exception
+     */
     @Override
     protected void get(HttpExchange exchange, int id) throws Exception{
         final User loggedInUser = Authenticator.instance.authUser(exchange);
@@ -212,30 +223,58 @@ public class TransactionRouter extends Router<Transaction> {
         sendJsonResponse(exchange, responseData);
     }
 
+    /**
+     * @param exchange
+     * @param accountId of Account containing Transactions
+     * returns Collection of Transactions for the Account with ID specified in method signature
+     * @throws Exception
+     */
     private void getAllOfAccount(HttpExchange exchange, int accountId) throws Exception {
         final User loggedInUser = Authenticator.instance.authUser(exchange);
         final Collection<Transaction> responseData = transactionService.getAllOfAccount(loggedInUser, accountId);
         sendJsonResponse(exchange, responseData);
     }
 
+    /**
+     * @param exchange
+     * @param transactionID of Transaction
+     * returns Transaction that was marked as Suspicious
+     * @throws Exception
+     */
     private void markSusTransaction(HttpExchange exchange, int transactionID) throws Exception{
         final Clerk clerk = Authenticator.instance.authClerk(exchange);
         final Transaction responseData = transactionService.markSusTransaction(clerk, transactionID);
         sendJsonResponse(exchange, responseData);
     }
 
+    /**
+     * @param exchange
+     * @param accountId of Account
+     * returns a Transaction of the Interest received
+     * @throws Exception
+     */
     private void getInterest(HttpExchange exchange, int accountId) throws Exception{
         final Customer customer = Authenticator.instance.authCustomer(exchange);
         final Transaction responseData = transactionService.getInterest(customer, accountId);
         sendJsonResponse(exchange, responseData);
     }
 
+    /**
+     * @param exchange
+     * returns Collection of all Transaction marked as suspicious
+     * @throws Exception
+     */
     private void getAllSuspiciousTransactions(HttpExchange exchange) throws Exception {
         final Clerk clerk = Authenticator.instance.authClerk(exchange);
         final Collection<Transaction> responseData = transactionService.getAllSuspiciousTransactions(clerk);
         sendJsonResponse(exchange, responseData);
     }
 
+    /**
+     * @param exchange
+     * returns Transaction that will be created based on the interval specified
+     * @throws Exception
+     */
     private void createRecurringDeposit(HttpExchange exchange) throws Exception {
         final Customer loggedInCustomer = Authenticator.instance.authCustomer(exchange);
         final RecurringTransaction requestData = getJsonBodyData(exchange, RecurringTransaction.class);
@@ -243,6 +282,11 @@ public class TransactionRouter extends Router<Transaction> {
         sendJsonResponse(exchange, responseData);
     }
 
+    /**
+     * @param exchange
+     * returns the Loan that was requested
+     * @throws Exception
+     */
     private void getLoan(HttpExchange exchange) throws Exception{
         final Customer loggedInCustomer = Authenticator.instance.authCustomer(exchange);
         final Loan requestData = getJsonBodyData(exchange, Loan.class);
@@ -250,6 +294,11 @@ public class TransactionRouter extends Router<Transaction> {
         sendJsonResponse(exchange, responseData);
     }
 
+    /**
+     * @param exchange
+     * returns the updated Loan after money was contributed to paying the loan back to the Bank
+     * @throws Exception
+     */
     private void payBackLoan(HttpExchange exchange) throws Exception{
         final Customer loggedInCustomer = Authenticator.instance.authCustomer(exchange);
         final Transaction requestData = getJsonBodyData(exchange, Transaction.class);
@@ -257,6 +306,11 @@ public class TransactionRouter extends Router<Transaction> {
         sendJsonResponse(exchange, responseData);
     }
 
+    /**
+     * @param exchange
+     * returns the Transaction with a Label specified
+     * @throws Exception
+     */
     private void setLabel(HttpExchange exchange) throws Exception{
         final Customer loggedInCustomer = Authenticator.instance.authCustomer(exchange);
         final TransactionLabel requestData = getJsonBodyData(exchange, TransactionLabel.class);
