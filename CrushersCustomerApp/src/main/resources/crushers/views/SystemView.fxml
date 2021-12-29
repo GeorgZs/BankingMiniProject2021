@@ -85,7 +85,8 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: white; -fx-border-color: black; -fx-background-radius: 5; -fx-border-radius: 5;">
                      <children>
-                        <Button fx:id="apply" layoutX="142.0" layoutY="268.0" mnemonicParsing="false" onAction="#apply" text="Apply" />
+                        <Label fx:id="loanErrorLabel" layoutX="68.0" layoutY="301.0" prefHeight="15.0" prefWidth="334.0" style="-fx-text-fill: red; -fx-font-weight: bold;" />
+                        <Button fx:id="apply" layoutX="230.0" layoutY="268.0" mnemonicParsing="false" onAction="#apply" text="Apply" />
                         <TextField fx:id="loanAmountField" layoutX="69.0" layoutY="68.0" prefHeight="25.0" prefWidth="208.0" promptText="Loan amount (SEK)" />
                         <TableView fx:id="loanTableView" layoutX="351.0" layoutY="68.0" prefHeight="189.0" prefWidth="320.0" />
                         <TextArea fx:id="loanPurposeField" layoutX="68.0" layoutY="103.0" prefHeight="152.0" prefWidth="209.0" promptText="Reason(s) for application" />
