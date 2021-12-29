@@ -145,15 +145,13 @@ public class Util {
             customer.setContactList(contacts);
             customer.getAccountWithId(App.currentAccountID).setTransactions(transactions);
             App.currentCustomer = customer;
-            System.out.println(App.currentAccount.getBalance());
             App.currentAccount.setBalance(App.currentCustomer.getAccountWithId(App.currentAccountID).getBalance());
-            System.out.println(App.currentAccount.getBalance());
-            System.out.println("Customer: " + customer);
-            System.out.println("Contacts: " + contacts);
-            System.out.println("Location: http://localhost:8080/" + "transactions/accounts/" + App.currentAccountID);
-            System.out.println("Token: " + App.currentToken);
-            System.out.println("Transactions: " + transactions);
-            System.out.println("Loans: " + App.currentCustomer.getLoans());
+            // System.out.println("Customer: " + customer);
+            // System.out.println("Contacts: " + contacts);
+            // System.out.println("Location: http://localhost:8080/" + "transactions/accounts/" + App.currentAccountID);
+            // System.out.println("Token: " + App.currentToken);
+            // System.out.println("Transactions: " + transactions);
+            // System.out.println("Loans: " + App.currentCustomer.getLoans());
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
