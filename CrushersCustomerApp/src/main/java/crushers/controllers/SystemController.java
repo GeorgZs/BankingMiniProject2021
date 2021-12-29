@@ -182,7 +182,7 @@ public class SystemController implements Initializable{
             }
     }
 
-    public void paybackLoan(ActionEvent e) throws JsonProcessingException {
+    public void paybackLoan(ActionEvent e) throws Exception {
     if (amountPayback.getText().isBlank()){
         loanErrorLabel.setText("Must enter an amount to payback.");
     } else if (!amountPayback.getText().matches("^[0-9]+$")) {
@@ -196,8 +196,9 @@ public class SystemController implements Initializable{
     } else {
         double amountToPay = Double.parseDouble(amountPayback.getText());
         JsonNode account = Json.nodeWithFields("id",App.currentAccountID,"type","payment");
-        //Json.nodeWithFields("label",,"id",0,"from",account,"to",null,"amount",amountToPay,"description",null,)
-        Transaction transaction = new Transaction();
+        Loan loan = loanTableView.getSelectionModel().getSelectedItem();
+        JsonNode transaction = Json.nodeWithFields("label",loan.getPurpose(),"id",loan.getAccountId(),"from",account,"to",null,"amount",amountToPay,"description",null,"date",null);
+        Http.authPut("transactions/loan",transaction,Transaction.class,App.currentToken);
 
         }
     }
