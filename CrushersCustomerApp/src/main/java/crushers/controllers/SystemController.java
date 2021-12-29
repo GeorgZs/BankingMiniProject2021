@@ -27,7 +27,7 @@ import javafx.scene.layout.Pane;
 public class SystemController implements Initializable{
 
     @FXML
-    private Label welcomeLabel, errorLabel, transactionError;
+    private Label welcomeLabel, errorLabel, transactionError, loanErrorLabel;
     @FXML
     private Pane pane;
     @FXML
@@ -108,33 +108,34 @@ public class SystemController implements Initializable{
 
     public void apply(ActionEvent e) throws IOException, InterruptedException {
     if (loanAmountField.getText().isBlank()){
-        errorLabel.setText("Must enter an amount.");
+        loanErrorLabel.setText("Must enter an amount.");
     } else if (!loanAmountField.getText().matches("^[0-9]+$")){
-        errorLabel.setText("Please enter a numerical amount, excluding special characters.");
+        loanErrorLabel.setText("Please enter a numerical amount, excluding special characters.");
     } else if (loanPurposeField.getText().isBlank()){
-        errorLabel.setText("Must include justification for applying for a loan.");
+        loanErrorLabel.setText("Must include justification for applying for a loan.");
     } else if (Double.parseDouble(loanAmountField.getText()) > 25000) {
-        errorLabel.setText("Maximum loan amount is 25,000 SEK.");
+        loanErrorLabel.setText("Maximum loan amount is 25,000 SEK.");
     } else if (Double.parseDouble(loanAmountField.getText()) < 1000){
-        errorLabel.setText("Minimum loan amount is 1,000 SEK.");
+        loanErrorLabel.setText("Minimum loan amount is 1,000 SEK.");
     } else {
-
        double loanAmount = Double.parseDouble(loanAmountField.getText());
        String loanReason = loanPurposeField.getText();
-       PaymentAccount account = App.currentAccount;
-       Loan loan = new Loan(loanAmount, loanReason, account);
-       Http.authPost("transactions/loan", App.currentToken, loan);
+       JsonNode account = Json.nodeWithFields("id",App.currentAccountID,"type","payment");
+       JsonNode loanNode = Json.nodeWithFields("amount",loanAmount,"purpose",loanReason,"account",account);
+       Loan loan = Json.parse(Json.stringify(loanNode), Loan.class);
+       Http.authPost("transactions/loan", App.currentToken, loanNode);
        Util.updateCustomer();
+       loanTableView.getItems().add(loan);
         }
     }
 
     public void paybackLoan(ActionEvent e) {
     if (amountPayback.getText().isBlank()){
-        errorLabel.setText("Must enter an amount to payback.");
+        loanErrorLabel.setText("Must enter an amount to payback.");
     } else if (!amountPayback.getText().matches("^[0-9]+$")) {
-        errorLabel.setText("Must enter a numerical amount.");
+        loanErrorLabel.setText("Must enter a numerical amount.");
     } else if (Double.parseDouble(amountPayback.getText()) > App.currentAccount.getBalance()) {
-        errorLabel.setText("Payback amount cannot exceed account balance!");
+        loanErrorLabel.setText("Payback amount cannot exceed account balance!");
     } else {
         double amountToPay = Double.parseDouble(amountPayback.getText());
 
