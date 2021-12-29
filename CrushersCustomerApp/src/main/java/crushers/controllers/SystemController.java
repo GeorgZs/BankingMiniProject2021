@@ -43,7 +43,7 @@ public class SystemController implements Initializable{
     @FXML
     private TextField nameField, accountID, loanAmountField, amountPayback;
     @FXML
-    private TextArea descriptionArea, loanNotes;
+    private TextArea descriptionArea, loanPurposeField;
     @FXML
     private Label contactErrorLabel, accountIdLabel, accountNumberLabel, accountNameLabel, accountBalanceLabel, accountOwnerLabel, accountTypeLabel, accountBankLabel, transactionsMadeLabel, numberOfContactsLabel, pendingLoansLabel, totalDebtLabel, netWorthLabel;
     @FXML
@@ -111,7 +111,7 @@ public class SystemController implements Initializable{
         errorLabel.setText("Must enter an amount.");
     } else if (!loanAmountField.getText().matches("^[0-9]+$")){
         errorLabel.setText("Please enter a numerical amount, excluding special characters.");
-    } else if (loanNotes.getText().isBlank()){
+    } else if (loanPurposeField.getText().isBlank()){
         errorLabel.setText("Must include justification for applying for a loan.");
     } else if (Double.parseDouble(loanAmountField.getText()) > 25000) {
         errorLabel.setText("Maximum loan amount is 25,000 SEK.");
@@ -120,7 +120,7 @@ public class SystemController implements Initializable{
     } else {
 
        double loanAmount = Double.parseDouble(loanAmountField.getText());
-       String loanReason = loanNotes.getText();
+       String loanReason = loanPurposeField.getText();
        PaymentAccount account = App.currentAccount;
        Loan loan = new Loan(loanAmount, loanReason, account);
        Http.authPost("transactions/loan", App.currentToken, loan);
@@ -204,20 +204,22 @@ public class SystemController implements Initializable{
         }
 
         // Loans
-        TableColumn<Loan, Integer> accountIDColumn = new TableColumn<>("Account ID");
-        idColumn.setCellValueFactory(new PropertyValueFactory<>("accountId"));
-        loanTableView.getColumns().add(accountIDColumn);
+        TableColumn<Loan, Integer> loanAccountIdColumn = new TableColumn<>("Account ID");
+        loanAccountIdColumn.setCellValueFactory(new PropertyValueFactory<>("accountId"));
+        loanTableView.getColumns().add(loanAccountIdColumn);
 
-        TableColumn<Loan, Integer> amountColumn = new TableColumn<>("Amount");
-        idColumn.setCellValueFactory(new PropertyValueFactory<>("amount"));
+        TableColumn<Loan, Double> amountColumn = new TableColumn<>("Amount");
+        amountColumn.setCellValueFactory(new PropertyValueFactory<>("amount"));
         loanTableView.getColumns().add(amountColumn);
 
         TableColumn<Loan, String> purposeColumn = new TableColumn<>("Purpose");
-        idColumn.setCellValueFactory(new PropertyValueFactory<>("purpose"));
+        purposeColumn.setCellValueFactory(new PropertyValueFactory<>("purpose"));
         loanTableView.getColumns().add(purposeColumn);
 
-        if(App.currentCustomer.getLoans() != null){
-            loanTableView.getItems().addAll(App.currentCustomer.getLoans());
+        ArrayList<Loan> loans = App.currentCustomer.getLoans();
+        if(loans != null){
+            loanTableView.getItems().addAll(loans);
+            // loanTableView.getItems().addAll(loans);
         }
     }
     

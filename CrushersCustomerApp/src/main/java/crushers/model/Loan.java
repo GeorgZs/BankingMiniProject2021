@@ -2,6 +2,7 @@ package crushers.model;
 
 public class Loan {
 
+    private double accountId;
     private double amount;
     private String purpose;
     private PaymentAccount account;
@@ -37,6 +38,9 @@ public class Loan {
     }
     public int getAccountId(){
         return this.account.getId();
+    }
+    public void setAccountId(int accountId){
+        this.accountId = accountId;
     }
 }
 
