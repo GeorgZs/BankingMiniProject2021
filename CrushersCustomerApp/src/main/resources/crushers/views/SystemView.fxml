@@ -11,6 +11,7 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -50,7 +51,12 @@
                               <Label fx:id="numberOfContactsLabel" prefHeight="26.0" prefWidth="257.0" style="-fx-font-weight: bold;" text="Number of Contacts:" textFill="#1e1a6f" />
                               <Label fx:id="pendingLoansLabel" prefHeight="26.0" prefWidth="242.0" style="-fx-font-weight: bold;" text="Pending Loans:" textFill="#1e1a6f" />
                               <Label fx:id="totalDebtLabel" prefHeight="26.0" prefWidth="235.0" style="-fx-font-weight: bold;" text="Total Debt:" textFill="#1e1a6f" />
-                              <Label fx:id="netWorthLabel" prefHeight="26.0" prefWidth="256.0" style="-fx-font-weight: bold;" text="Net Worth:" textFill="#1e1a6f" />
+                              <HBox prefHeight="46.0" prefWidth="260.0">
+                                 <children>
+                                    <Label prefHeight="26.0" prefWidth="68.0" style="-fx-font-weight: bold;" text="Net Worth:" textFill="#1e1a6f" />
+                                    <Label fx:id="netWorthLabel" prefHeight="26.0" prefWidth="135.0" style="-fx-font-weight: bold;" textFill="#1e1a6f" />
+                                 </children>
+                              </HBox>
                            </children>
                            <padding>
                               <Insets bottom="2.0" left="5.0" top="2.0" />

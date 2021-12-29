@@ -23,6 +23,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 
 public class SystemController implements Initializable{
 
@@ -124,8 +125,8 @@ public class SystemController implements Initializable{
        JsonNode loanNode = Json.nodeWithFields("amount",loanAmount,"purpose",loanReason,"account",account);
        Loan loan = Json.parse(Json.stringify(loanNode), Loan.class);
        Http.authPost("transactions/loan", App.currentToken, loanNode);
-       Util.updateCustomer();
        loanTableView.getItems().add(loan);
+       updateAccountOverview();
         }
     }
 
@@ -149,7 +150,7 @@ public class SystemController implements Initializable{
         
         // Account Overview
 
-        updateAccountOverview();
+        // updateAccountOverview();
 
         // Payments
 
@@ -205,6 +206,7 @@ public class SystemController implements Initializable{
         }
 
         // Loans
+
         TableColumn<Loan, Integer> loanAccountIdColumn = new TableColumn<>("Account ID");
         loanAccountIdColumn.setCellValueFactory(new PropertyValueFactory<>("accountId"));
         loanTableView.getColumns().add(loanAccountIdColumn);
@@ -213,15 +215,15 @@ public class SystemController implements Initializable{
         amountColumn.setCellValueFactory(new PropertyValueFactory<>("amount"));
         loanTableView.getColumns().add(amountColumn);
 
-        TableColumn<Loan, String> purposeColumn = new TableColumn<>("Purpose");
-        purposeColumn.setCellValueFactory(new PropertyValueFactory<>("purpose"));
-        loanTableView.getColumns().add(purposeColumn);
+        TableColumn<Loan, String> dateColumn = new TableColumn<>("Purpose");
+        dateColumn.setCellValueFactory(new PropertyValueFactory<>("purpose"));
+        loanTableView.getColumns().add(dateColumn);
 
-        ArrayList<Loan> loans = App.currentCustomer.getLoans();
+        ArrayList<Loan> loans = App.currentCustomer.getLoansWithAccountId(App.currentAccountID);
         if(loans != null){
             loanTableView.getItems().addAll(loans);
-            // loanTableView.getItems().addAll(loans);
         }
+        updateAccountOverview();
     }
     
     /*
@@ -261,6 +263,7 @@ public class SystemController implements Initializable{
     }
 
     public void updateAccountOverview(){
+        Util.updateCustomer();
         String accountType = App.currentAccount.getInterestRate() == 0.0 ? "Payment" : "Savings";
         String cardNumber = showCardNumber ? App.currentAccount.getNumber() : "SE ** **** *********";
 
@@ -272,10 +275,21 @@ public class SystemController implements Initializable{
         accountTypeLabel.setText("Account Type: " + accountType);
         accountBankLabel.setText("Account Bank: " + App.currentAccount.getBank());
 
-        transactionsMadeLabel.setText("Transactions Made: " + App.currentCustomer.getAccountWithId(App.currentAccountID).getTransactions().size());
-        numberOfContactsLabel.setText("Number of Contacts:" + App.currentCustomer.getContactList().size());
-        pendingLoansLabel.setText("Pending Loans: " + 0);
-        totalDebtLabel.setText("Total Debt: " + 0);
-        netWorthLabel.setText("Net Worth: " + 0);
+        double debt = 0;
+        for(Loan loan: App.currentCustomer.getLoansWithAccountId(App.currentAccountID)){
+            debt += loan.getAmount();
+        }
+        double netWorth = App.currentCustomer.getAccountWithId(App.currentAccountID).getBalance() - debt;
+
+        transactionsMadeLabel.setText("Transactions Made: " + App.currentCustomer.getAccountWithId(App.currentAccountID).getTransactions().size() + " transactions");
+        numberOfContactsLabel.setText("Number of Contacts: " + App.currentCustomer.getContactList().size() + " contacts");
+        pendingLoansLabel.setText("Pending Loans: " + App.currentCustomer.getLoansWithAccountId(App.currentAccountID).size() + " loans");
+        totalDebtLabel.setText("Total Debt: " + debt + " SEK");
+        netWorthLabel.setText(netWorth + " SEK");
+        if(netWorth > 0){
+            netWorthLabel.setTextFill(Color.GREEN);
+        }else if(netWorth < 0){
+            netWorthLabel.setTextFill(Color.RED);
+        }
     }
 }

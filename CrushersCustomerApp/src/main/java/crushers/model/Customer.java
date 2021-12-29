@@ -179,5 +179,14 @@ public class Customer extends User{
             this.accountList.add((SavingsAccount)account);
         }
     }
+    public ArrayList<Loan> getLoansWithAccountId(int id){
+        ArrayList<Loan> neededLoans = new ArrayList<Loan>();
+        for(Loan loan: this.loans){
+            if(loan.getAccount().getId() == id){
+                neededLoans.add(loan);
+            }
+        }
+        return neededLoans;
+    }
     
 }
