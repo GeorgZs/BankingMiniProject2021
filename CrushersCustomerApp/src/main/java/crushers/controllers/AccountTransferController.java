@@ -6,6 +6,7 @@ import crushers.model.Customer;
 import crushers.model.PaymentAccount;
 import crushers.model.Transaction;
 import crushers.util.Http;
+import crushers.util.Json;
 import crushers.util.Util;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -86,10 +87,9 @@ public class AccountTransferController implements Initializable {
            if (Double.parseDouble(amountField.getText()) > paymentAccountFrom.getBalance()) {
                errorLabel.setText("Insufficient funds!");
            } else {
-                
-                // errorLabel.setStyle("-fx-text-fill: green");
-                // errorLabel.setText("Transfer successful!");
-                // Http.authPost("transactions",App.currentToken ,transaction);
+               Transaction transaction = new Transaction(paymentAccountFrom, paymentAccountTo, amountSek, comment);
+               Json.parse(Http.authPost("transactions", App.currentToken, transaction), Transaction.class);
+               Util.updateCustomer();
 
                 Alert alert = new Alert(AlertType.INFORMATION, "Transfer successful!");
                 alert.setHeaderText("");

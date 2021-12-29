@@ -47,7 +47,7 @@ public class SystemController implements Initializable{
     @FXML
     private Label contactErrorLabel, accountIdLabel, accountNumberLabel, accountNameLabel, accountBalanceLabel, accountOwnerLabel, accountTypeLabel, accountBankLabel, transactionsMadeLabel, numberOfContactsLabel, pendingLoansLabel, totalDebtLabel, netWorthLabel;
     @FXML
-    private TableView<Loan> loanTable;
+    private TableView<Loan> loanTableView;
 
     boolean showCardNumber;
 
@@ -106,7 +106,7 @@ public class SystemController implements Initializable{
     LOANS
     */
 
-    public void apply(ActionEvent e) {
+    public void apply(ActionEvent e) throws IOException, InterruptedException {
     if (loanAmountField.getText().isBlank()){
         errorLabel.setText("Must enter an amount.");
     } else if (!loanAmountField.getText().matches("^[0-9]+$")){
@@ -118,15 +118,27 @@ public class SystemController implements Initializable{
     } else if (Double.parseDouble(loanAmountField.getText()) < 1000){
         errorLabel.setText("Minimum loan amount is 1,000 SEK.");
     } else {
+
        double loanAmount = Double.parseDouble(loanAmountField.getText());
        String loanReason = loanNotes.getText();
        PaymentAccount account = App.currentAccount;
        Loan loan = new Loan(loanAmount, loanReason, account);
+       Http.authPost("transactions/loan", App.currentToken, loan);
+       Util.updateCustomer();
         }
     }
 
     public void paybackLoan(ActionEvent e) {
+    if (amountPayback.getText().isBlank()){
+        errorLabel.setText("Must enter an amount to payback.");
+    } else if (!amountPayback.getText().matches("^[0-9]+$")) {
+        errorLabel.setText("Must enter a numerical amount.");
+    } else if (Double.parseDouble(amountPayback.getText()) > App.currentAccount.getBalance()) {
+        errorLabel.setText("Payback amount cannot exceed account balance!");
+    } else {
+        double amountToPay = Double.parseDouble(amountPayback.getText());
 
+        }
     }
 
     @Override
@@ -135,20 +147,6 @@ public class SystemController implements Initializable{
         welcomeLabel.setText("Welcome " + App.currentCustomer.getFirstName() + " " + App.currentCustomer.getLastName());
         
         // Account Overview
-
-        try{
-            String token = Json.toNode(Http.post("auth/login", Json.nodeWithFields("email", "Smith@google.com", "password", "Password1"))).get("token").asText();
-            System.out.println(token);
-            Customer c = Json.parse(Http.authGet("customers/@me", token), Customer.class);
-            c.setAccountList(Json.parseList(Http.authGet("accounts/@me", token), PaymentAccount.class));
-            System.out.println(c);
-            String res = Http.authPost("customers/notification", App.currentToken, c);
-            System.out.println(res);
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        
-
 
         updateAccountOverview();
 
