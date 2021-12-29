@@ -11,6 +11,30 @@ public class Loan {
         this.purpose = purpose;
         this.account = account;
     }
+    public Loan(){
+
+    }
+    public double getAmount(){
+        return this.amount;
+    }
+    public String getPurpose(){
+        return this.purpose;
+    }
+    public PaymentAccount getAccont(){
+        return this.account;
+    }
+    public void setAmount(double amount){
+        this.amount = amount;
+    }
+    public void setPurpose(String purpose){
+        this.purpose = purpose;
+    }
+    public void setAccount(PaymentAccount account){
+        this.account = account;
+    }
+    public String toString(){
+        return "Loan: " + this.amount + " SEK (" + this.purpose + ").";
+    }
 
 }
 

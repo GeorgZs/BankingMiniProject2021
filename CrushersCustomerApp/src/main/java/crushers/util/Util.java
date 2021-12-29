@@ -151,6 +151,7 @@ public class Util {
             System.out.println("Location: http://localhost:8080/" + "transactions/accounts/" + App.currentAccountID);
             System.out.println("Token: " + App.currentToken);
             System.out.println("Transactions: " + transactions);
+            System.out.println("Loans: " + App.currentCustomer.getLoans());
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
