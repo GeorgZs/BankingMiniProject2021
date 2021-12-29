@@ -30,6 +30,26 @@ public class AccountService {
    * @param creator is the logged-in User
    * @param account is the account passed by the creator for creation
    * creates an account as specified by the User, allowing for creation by Staff and Customers alike
+   *
+   * @example {
+   *     id: int,
+   *     bank: {
+   *         id: int,
+   *         name: String,
+   *         logo: String,
+   *     },
+   *     owner: {
+   *         id: int,
+   *         email: String,
+   *         firstName: String,
+   *         lastName: String,
+   *         address: String,
+   *     },
+   *     type: "savings" | "payment",
+   *     number: String,
+   *     balance: double,
+   * }
+   *
    * @return the account created
    * @throws Exception if the account details are invalid
    */

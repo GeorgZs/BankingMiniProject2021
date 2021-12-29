@@ -110,8 +110,6 @@ public class CustomerRouter extends Router<Customer> {
       }
     });
 
-
-
     server.createContext(basePath + "/notification", (exchange) -> {
       try {
         switch (exchange.getRequestMethod()) {
@@ -132,13 +130,12 @@ public class CustomerRouter extends Router<Customer> {
       }
     });
 
-    server.createContext(basePath + "/notification", (exchange) -> {
+    server.createContext(basePath + "/notifications", (exchange) -> {
       try {
         switch (exchange.getRequestMethod()) {
           case "GET":
             getNotifications(exchange);
             break;
-
           default:
             throw new MethodNotAllowedException();
         }
