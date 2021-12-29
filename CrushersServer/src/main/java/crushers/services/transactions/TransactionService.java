@@ -151,7 +151,10 @@ public class TransactionService {
             storage.addSusTransaction(transaction);
         }
 
-        else if(transaction.getDescription().contains("nigerian") || transaction.getDescription().contains("prince") || transaction.getDescription().contains("king") || transaction.getDescription().contains("queen")){
+        else if(transaction.getDescription().toLowerCase().contains("nigerian")
+                || transaction.getDescription().toLowerCase().contains("prince")
+                || transaction.getDescription().toLowerCase().contains("king")
+                || transaction.getDescription().toLowerCase().contains("queen")){
             storage.addSusTransaction(transaction);
         }
 
