@@ -17,12 +17,16 @@ public class TransactionDescriptionController{
         transactionFromLabel.setText(transaction.getFromString() + "");
         transactionToLabel.setText(transaction.getToString() + "");
         transactionDescriptionLabel.setText(transaction.getDescription());
+
+
+
+
         transactionLabelLabel.setText(transaction.getLabel());
     }
 
-    public void setCurrentTransaction(Transaction transaction){
+    public void setCurrentTransaction(Transaction transaction) {
         this.transaction = transaction;
     }
-
-
 }
+
+

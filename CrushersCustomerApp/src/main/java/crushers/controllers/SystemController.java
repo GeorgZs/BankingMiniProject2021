@@ -9,6 +9,8 @@ import java.util.ResourceBundle;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -180,15 +182,22 @@ public class SystemController implements Initializable{
             }
     }
 
-    public void paybackLoan(ActionEvent e) {
+    public void paybackLoan(ActionEvent e) throws JsonProcessingException {
     if (amountPayback.getText().isBlank()){
         loanErrorLabel.setText("Must enter an amount to payback.");
     } else if (!amountPayback.getText().matches("^[0-9]+$")) {
         loanErrorLabel.setText("Must enter a numerical amount.");
     } else if (Double.parseDouble(amountPayback.getText()) > App.currentAccount.getBalance()) {
-        loanErrorLabel.setText("Payback amount cannot exceed account balance!");
+        loanErrorLabel.setText("Payback amount cannot exceed account balance.");
+    } else if (loanTableView.getSelectionModel().getSelectedItem() == null) {
+        loanErrorLabel.setText("Must select a loan to payback.");
+    } else if (loanTableView.getSelectionModel().getSelectedItem().getAmount() < Double.parseDouble(amountPayback.getText())){
+        loanErrorLabel.setText("Cannot pay more than the remaining loan amount.");
     } else {
         double amountToPay = Double.parseDouble(amountPayback.getText());
+        JsonNode account = Json.nodeWithFields("id",App.currentAccountID,"type","payment");
+        //Json.nodeWithFields("label",,"id",0,"from",account,"to",null,"amount",amountToPay,"description",null,)
+        Transaction transaction = new Transaction();
 
         }
     }
@@ -275,8 +284,8 @@ public class SystemController implements Initializable{
         }
         updateAccountOverview();
     }
-    
-    
+
+
     /*
     INTEREST
     */

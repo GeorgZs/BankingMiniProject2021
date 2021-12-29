@@ -1,5 +1,6 @@
 package crushers.controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import crushers.App;
 import crushers.model.Bank;
 import crushers.model.Customer;
@@ -87,8 +88,13 @@ public class AccountTransferController implements Initializable {
            if (Double.parseDouble(amountField.getText()) > paymentAccountFrom.getBalance()) {
                errorLabel.setText("Insufficient funds!");
            } else {
-               Transaction transaction = new Transaction(paymentAccountFrom, paymentAccountTo, amountSek, comment);
-               Json.parse(Http.authPost("transactions", App.currentToken, transaction), Transaction.class);
+               JsonNode toNode = Json.nodeWithFields("id", paymentAccountTo.getId(), "type", "payment");
+               JsonNode fromNode = Json.nodeWithFields("id", paymentAccountFrom.getId(), "type", "payment");
+
+               JsonNode transactionNode = Json.nodeWithFields("id", 0, "from", fromNode, "to", toNode, "amount", amountSek, "description", comment, "date", null);
+               Transaction transaction = Json.parse(Http.authPost("transactions", App.currentToken, transactionNode), Transaction.class);
+
+
                Util.updateCustomer();
 
                 Alert alert = new Alert(AlertType.INFORMATION, "Transfer successful!");
