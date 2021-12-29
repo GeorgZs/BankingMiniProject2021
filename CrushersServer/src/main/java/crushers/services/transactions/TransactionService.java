@@ -305,6 +305,10 @@ public class TransactionService {
     public Loan payBackLoan(Customer loggedIn, Transaction transaction) throws Exception{
         if(!loggedIn.getLoans().isEmpty()){
             for(Loan loan : loggedIn.getLoans()){
+                if(loan.getAmount() <= 0){
+                    loggedIn.getLoans().remove(loan);
+                    throw new BadRequestException("Loan specified has been fully repaid, Loan was removed");
+                }
                 if(transaction.getDescription().equals(loan.getPurpose())){
                     loggedIn.getLoans().remove(loan);
                     double newAmount = loan.getAmount() - transaction.getAmount();
