@@ -16,12 +16,9 @@ import crushers.models.users.Manager;
 import crushers.server.Authenticator;
 import crushers.server.httpExceptions.*;
 
-import crushers.utils.Security;
-
 public class CustomerService {
   
   private final JsonCustomerStorage customerStorage;
-  private final Security security = new Security();
 
   public CustomerService(JsonCustomerStorage customerStorage) throws Exception {
     this.customerStorage = customerStorage;

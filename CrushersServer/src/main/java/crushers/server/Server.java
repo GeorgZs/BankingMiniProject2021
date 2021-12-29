@@ -72,7 +72,11 @@ public class Server {
    */
   public void start() {
     httpServer.start();
-    System.out.println("Server started at http://localhost:" + port);
+    System.out.println("\n****************INITIALIZING*****************");
+    System.out.println("*********************************************");
+    System.out.println("   Server started at http://localhost:" + port);
+    System.out.println("*********************************************");
+    System.out.println("*********************************************");
   }
 
 }

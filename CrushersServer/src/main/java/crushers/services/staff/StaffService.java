@@ -6,14 +6,12 @@ import crushers.models.users.Clerk;
 import crushers.server.Authenticator;
 import crushers.server.httpExceptions.*;
 import crushers.services.accounts.JsonAccountStorage;
-import crushers.utils.Security;
 
 import java.util.*;
 
 public class StaffService {
     private final JsonClerkStorage storage;
     private final JsonAccountStorage accountStorage;
-    private final Security security = new Security();
 
     public StaffService(JsonClerkStorage storage, JsonAccountStorage accountStorage) throws Exception {
         this.storage = storage;

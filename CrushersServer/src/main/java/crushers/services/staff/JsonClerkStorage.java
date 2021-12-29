@@ -22,8 +22,6 @@ public class JsonClerkStorage extends JsonStorage<Clerk> {
 
         for(Clerk clerk : this.data.values()){
             if (clerk.getStaffType().equals("manager")) {
-                System.out.println("Manager: " + clerk.getId());
-
                 // turn managers into managers again
                 Manager manager = new Manager(
                     clerk.getEmail(),

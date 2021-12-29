@@ -10,12 +10,9 @@ import crushers.models.ResetPasswordClass;
 import crushers.models.users.*;
 import crushers.server.httpExceptions.*;
 import crushers.utils.Json;
-import crushers.utils.Security;
 
 public class Authenticator {
   public final static Authenticator instance = new Authenticator();
-  private final Security security = new Security();
-
   private final Map<String, User> users = new LinkedHashMap<>();
   private final Map<String, User> activeTokens = new LinkedHashMap<>();
 
