@@ -20,7 +20,7 @@ public class Loan {
     public String getPurpose(){
         return this.purpose;
     }
-    public PaymentAccount getAccont(){
+    public PaymentAccount getAccount(){
         return this.account;
     }
     public void setAmount(double amount){
@@ -35,6 +35,8 @@ public class Loan {
     public String toString(){
         return "Loan: " + this.amount + " SEK (" + this.purpose + ").";
     }
-
+    public int getAccountId(){
+        return this.account.getId();
+    }
 }
 

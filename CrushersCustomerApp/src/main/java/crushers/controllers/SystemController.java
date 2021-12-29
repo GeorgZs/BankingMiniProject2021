@@ -204,7 +204,21 @@ public class SystemController implements Initializable{
         }
 
         // Loans
+        TableColumn<Loan, Integer> accountIDColumn = new TableColumn<>("Account ID");
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("accountId"));
+        loanTableView.getColumns().add(accountIDColumn);
 
+        TableColumn<Loan, Integer> amountColumn = new TableColumn<>("Amount");
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("amount"));
+        loanTableView.getColumns().add(amountColumn);
+
+        TableColumn<Loan, String> purposeColumn = new TableColumn<>("Purpose");
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("purpose"));
+        loanTableView.getColumns().add(purposeColumn);
+
+        if(App.currentCustomer.getLoans() != null){
+            loanTableView.getItems().addAll(App.currentCustomer.getLoans());
+        }
     }
     
     /*
