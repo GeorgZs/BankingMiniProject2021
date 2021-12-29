@@ -147,7 +147,15 @@ public class TransactionService {
          * which may imply a suspicious transaction
          */
 
-        if (transaction.getAmount() > 5_000 || transaction.getAmount() < 0.5 || transaction.getDescription().equals("nigerian prince")) {
+        if (transaction.getAmount() > 5_000 || transaction.getAmount() < 0.5) {
+            storage.addSusTransaction(transaction);
+        }
+
+        else if(transaction.getDescription().contains("nigerian") || transaction.getDescription().contains("prince") || transaction.getDescription().contains("king") || transaction.getDescription().contains("queen")){
+            storage.addSusTransaction(transaction);
+        }
+
+        else if(transaction.getAmount() == 419 || transaction.getAmount() == 421 ||transaction.getAmount() == 68){
             storage.addSusTransaction(transaction);
         }
 
