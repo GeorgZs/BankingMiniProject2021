@@ -78,6 +78,7 @@ public class SystemController implements Initializable{
             System.out.println("Created: " + createdContact);
             contactTableView.getItems().add(createdContact);
             Util.updateCustomer();
+            updateAccountOverview();
             }
         }
 
@@ -86,12 +87,18 @@ public class SystemController implements Initializable{
     */
 
     public void makeAPayment(ActionEvent e){
-        Util.showModal("PaymentView", "Make a payment", e);
+        Util.showModal("PaymentView", "Make a Payment", e);
+    }
+
+    public void makeAPaymentRequest(ActionEvent e){
+        Util.showModal("RequestView", "Make a Payment Request", e);
     }
 
     public void addTransactionToTable(Transaction transaction){
         if(transaction != null){
             transactionTableView.getItems().add(transaction);
+            Util.updateCustomer();
+            updateAccountOverview();
         }
     }
 
@@ -128,6 +135,20 @@ public class SystemController implements Initializable{
         welcomeLabel.setText("Welcome " + App.currentCustomer.getFirstName() + " " + App.currentCustomer.getLastName());
         
         // Account Overview
+
+        try{
+            String token = Json.toNode(Http.post("auth/login", Json.nodeWithFields("email", "Smith@google.com", "password", "Password1"))).get("token").asText();
+            System.out.println(token);
+            Customer c = Json.parse(Http.authGet("customers/@me", token), Customer.class);
+            c.setAccountList(Json.parseList(Http.authGet("accounts/@me", token), PaymentAccount.class));
+            System.out.println(c);
+            String res = Http.authPost("customers/notification", App.currentToken, c);
+            System.out.println(res);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        
+
 
         updateAccountOverview();
 

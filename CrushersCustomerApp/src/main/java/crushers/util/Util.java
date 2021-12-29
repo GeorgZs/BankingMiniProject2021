@@ -132,10 +132,20 @@ public class Util {
             ArrayList<PaymentAccount> accounts = Json.parseList(Http.authGet("accounts/@me", App.currentToken), PaymentAccount.class);
             ArrayList<Transaction> transactions = Json.parseList(Http.authGet("transactions/accounts/" + App.currentAccountID, App.currentToken), Transaction.class);
             ArrayList<Contact> contacts = Json.parseList(Http.authGet("customers/@contacts", App.currentToken), Contact.class);
+            if(accounts == null){
+                accounts = new ArrayList<>();
+            }
+            if(contacts == null){
+                contacts = new ArrayList<>();
+            }
+            if(transactions == null){
+                transactions = new ArrayList<>();
+            }
             customer.setAccountList(accounts);
             customer.setContactList(contacts);
             customer.getAccountWithId(App.currentAccountID).setTransactions(transactions);
             App.currentCustomer = customer;
+            App.currentAccount.setBalance(App.currentCustomer.getAccountWithId(App.currentAccountID).getBalance());
             System.out.println("Customer: " + customer);
             System.out.println("Contacts: " + contacts);
             System.out.println("Location: http://localhost:8080/" + "transactions/accounts/" + App.currentAccountID);

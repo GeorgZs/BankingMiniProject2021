@@ -16,7 +16,7 @@ public class Customer extends User{
     private String password;
     private ArrayList<String> securityQuestions;
     private LocalDateTime lastLoginAt;
-    private Notification notification;
+    private CustomerNotification notification;
 
     private ArrayList<PaymentAccount> accountList;
     private ArrayList<Contact> contactList;
@@ -24,7 +24,7 @@ public class Customer extends User{
 
 
     public Customer(int id, String firstName, String lastName, String address, String email, String password,
-    ArrayList<String> securityQuestions, LocalDateTime lastLoginAt, Notification notification) {
+    ArrayList<String> securityQuestions, LocalDateTime lastLoginAt, CustomerNotification notification) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -142,8 +142,14 @@ public class Customer extends User{
     public LocalDateTime getLastLoginAt(){
         return this.lastLoginAt;
     }
-    public Notification getNotification(){
+    public void setLastLoginAt(LocalDateTime lastLoginAt){
+        this.lastLoginAt = lastLoginAt;
+    }
+    public CustomerNotification getNotification(){
         return this.notification;
+    }
+    public void setNotification(CustomerNotification notification){
+        this.notification = notification;
     }
     public void addAccount(PaymentAccount account){
         if(account.getInterestRate() == 0.0){

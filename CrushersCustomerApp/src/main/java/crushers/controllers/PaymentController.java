@@ -72,11 +72,17 @@ public class PaymentController implements Initializable {
             PaymentAccount accountTo = toAccountBox.getValue().getAccount();
             System.out.println(accountFrom);
             System.out.println(accountTo);
-
-            double amountSEK = Double.parseDouble(amountField.getText());
+            double amountSEK;
+            try{
+                amountSEK = Double.parseDouble(amountField.getText());
+            }catch(NumberFormatException nfe){
+                amountSEK = 0;
+            }
             String description = descriptionArea.getText();
-            if (Double.parseDouble(amountField.getText()) > accountFrom.getBalance()) {
+            if (amountSEK > accountFrom.getBalance()) {
                 errorLabel.setText("Insufficient funds!");
+            } else if(amountSEK == 0){
+                errorLabel.setText("Please enter sufficient funds!");
             } else {
 
                 JsonNode toNode = Json.nodeWithFields("id", accountTo.getId(), "type", "payment");
@@ -86,6 +92,11 @@ public class PaymentController implements Initializable {
 
                 try{
                     Transaction transaction = Json.parse(Http.authPost("transactions", App.currentToken, transactionNode), Transaction.class);
+                    System.out.println(transaction);
+                    if(transaction.toString().contains("null Transaction")){
+                        errorLabel.setText("Account does not exist!");
+                        return;
+                    }
                     AccountController.sysCtrl.addTransactionToTable(transaction);
                     Util.updateCustomer();
                     Alert alert = new Alert(Alert.AlertType.INFORMATION, "Transfer successful!");

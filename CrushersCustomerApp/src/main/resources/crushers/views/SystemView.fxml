@@ -133,7 +133,7 @@
                         <Button layoutX="478.0" layoutY="267.0" mnemonicParsing="false" onAction="#viewTransactionDetails" text="View transaction details" />
                         <Button fx:id="makeAPayment" layoutX="75.0" layoutY="96.0" mnemonicParsing="false" onAction="#makeAPayment" text="Make a new payment" />
                         <Button layoutX="47.0" layoutY="193.0" mnemonicParsing="false" text="Report a suspicious transaction" />
-                        <Button layoutX="66.0" layoutY="143.0" mnemonicParsing="false" text="Make a payment request" />
+                        <Button layoutX="66.0" layoutY="143.0" mnemonicParsing="false" onAction="#makeAPaymentRequest" text="Make a payment request" />
                         <Label fx:id="transactionError" layoutX="283.0" layoutY="279.0" textFill="#e10000">
                            <font>
                               <Font name="SansSerif Regular" size="12.0" />
