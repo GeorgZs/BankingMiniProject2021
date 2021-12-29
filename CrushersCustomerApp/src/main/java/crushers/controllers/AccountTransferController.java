@@ -1,11 +1,13 @@
 package crushers.controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import crushers.App;
 import crushers.model.Bank;
 import crushers.model.Customer;
 import crushers.model.PaymentAccount;
 import crushers.model.Transaction;
 import crushers.util.Http;
+import crushers.util.Json;
 import crushers.util.Util;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -79,27 +81,33 @@ public class AccountTransferController implements Initializable {
         } else if (!amountField.getText().matches("^[0-9]+$")){
             errorLabel.setText("Please enter a valid numeric amount.");
         } else {
-           PaymentAccount paymentAccountFrom = accountFromBox.getValue();
-           PaymentAccount paymentAccountTo =  accountToBox.getValue();
-           double amountSek = Double.parseDouble(amountField.getText());
-           String comment = commentArea.getText();
-           if (Double.parseDouble(amountField.getText()) > paymentAccountFrom.getBalance()) {
-               errorLabel.setText("Insufficient funds!");
-           } else {
-                
-                // errorLabel.setStyle("-fx-text-fill: green");
-                // errorLabel.setText("Transfer successful!");
-                // Http.authPost("transactions",App.currentToken ,transaction);
 
+            double amountSek = 0;
+            JsonNode toNode = Json.nodeWithFields("id", accountToBox.getValue().getId(), "type", "payment");
+            JsonNode fromNode = Json.nodeWithFields("id", accountFromBox.getValue().getId(), "type", "payment");
+            try{
+                amountSek = Double.parseDouble(amountField.getText());
+            }catch(NumberFormatException nfe){
+                errorLabel.setText("Please enter valid funds!");
+                return;
+            }
+            
+            String comment = commentArea.getText();
+            if (amountSek > accountFromBox.getValue().getBalance()) {
+                errorLabel.setText("Insufficient funds!");
+            }else if(amountSek <= 0){
+                errorLabel.setText("Please enter sufficient funds!");
+            }else {
+
+                JsonNode transactionNode = Json.nodeWithFields("id", 0, "from", fromNode, "to", toNode, "amount", amountSek, "description", comment, "date", null);
+                Http.authPost("transactions", App.currentToken, transactionNode);
+                MainController.accCtrl.updateAccountList();
                 Alert alert = new Alert(AlertType.INFORMATION, "Transfer successful!");
-                alert.setHeaderText("");
-                Optional<ButtonType> result = alert.showAndWait();
+                alert.setHeaderText("");                    Optional<ButtonType> result = alert.showAndWait();
                 if(result.isPresent() && result.get() == ButtonType.OK){
                     Stage oldStage = (Stage)((Node)e.getSource()).getScene().getWindow();
                     oldStage.close();
                 }
-                // add custom alerts to util
-            //    System.out.println(Http.post("transactions", transaction));
             }
         }
     }

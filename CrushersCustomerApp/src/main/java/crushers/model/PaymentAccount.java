@@ -1,14 +1,8 @@
 package crushers.model;
 
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import crushers.App;
-import crushers.util.Http;
-import crushers.util.Json;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PaymentAccount {
@@ -84,7 +78,7 @@ public class PaymentAccount {
     }
 
     public String getType() {
-        return "Payment";
+        return "payment";
     }
 
     public void setType(String type) {
@@ -130,46 +124,6 @@ public class PaymentAccount {
     public void setInterestRate(double interestRate) {
         this.interestRate = interestRate;
     }
-
-    // public Bank getBank(){
-    //     return this.bank;
-    // }
-    // public int getId(){
-    //     return this.id;
-    // }
-    // public String getNumber(){
-    //     return this.number;
-    // }
-    // public Customer getOwner(){
-    //     return this.owner;
-    // }
-    // public String getName(){
-    //     return this.name;
-    // }
-    // public double getBalance(){
-    //     return this.balance;
-    // }
-    // public void setBalance(double balance){
-    //     this.balance = balance;
-    // }
-    // public ArrayList<Transaction> getTransactions() throws IOException, InterruptedException {
-    //     return this.transactions;
-    // }
-    
-    // public void setTransactions(ArrayList<Transaction> transactions){
-    //     this.transactions = transactions;
-    // }
-    
-    // public double getInterestRate(){
-    //     return this.interestRate;
-    // }
-
-    // public String getType(){
-    //     return "payment";
-    // }
-    // public void setType(String type){
-    //     this.type = type;
-    // }
     public void addTransaction(Transaction transaction){
         if(this.transactions == null){
             this.transactions = new ArrayList<Transaction>();

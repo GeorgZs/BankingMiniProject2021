@@ -147,7 +147,7 @@ public class TransactionService {
          * which may imply a suspicious transaction
          */
 
-        if (transaction.getAmount() > 5_000 || transaction.getAmount() < 0.5 || transaction.getDescription() == "nigerian prince") {
+        if (transaction.getAmount() > 5_000 || transaction.getAmount() < 0.5 || transaction.getDescription().equals("nigerian prince")) {
             storage.addSusTransaction(transaction);
         }
 

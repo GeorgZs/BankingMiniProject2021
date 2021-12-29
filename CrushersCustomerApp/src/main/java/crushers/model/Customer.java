@@ -2,6 +2,7 @@ package crushers.model;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,15 +17,15 @@ public class Customer extends User{
     private String password;
     private ArrayList<String> securityQuestions;
     private LocalDateTime lastLoginAt;
-    private CustomerNotification notification;
+    private LinkedHashMap<LocalDateTime, String> notifications;
 
     private ArrayList<PaymentAccount> accountList;
     private ArrayList<Contact> contactList;
-    private ArrayList<Loan> loanList;
+    private ArrayList<Loan> loans;
 
 
     public Customer(int id, String firstName, String lastName, String address, String email, String password,
-    ArrayList<String> securityQuestions, LocalDateTime lastLoginAt, CustomerNotification notification) {
+    ArrayList<String> securityQuestions, LocalDateTime lastLoginAt, LinkedHashMap<LocalDateTime, String> notifications) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -33,12 +34,26 @@ public class Customer extends User{
         this.password = password;
         this.securityQuestions = securityQuestions;
         this.lastLoginAt = lastLoginAt;
-        this.notification = notification;
+        this.notifications = notifications;
         this.accountList = new ArrayList<PaymentAccount>();
         this.contactList = new ArrayList<Contact>();
-        this.loanList = new ArrayList<Loan>();
+        this.loans = new ArrayList<Loan>();
 
     } // full constructor
+
+    public Customer(int id, String email, String firstName, String lastName, String address, String password, ArrayList<String> securityQuestions,
+    LocalDateTime lastLoginAt, ArrayList<Loan> loans, LinkedHashMap<LocalDateTime, String> notifications){
+        this.id = id;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.password = password;
+        this.securityQuestions = securityQuestions;
+        this.lastLoginAt = lastLoginAt;
+        this.loans = loans;
+        this.notifications = notifications;
+    }
 
     public Customer(String email, String firstName, String lastName, String address, String password, ArrayList<String> securityQuestions){
         this.email = email;
@@ -145,11 +160,17 @@ public class Customer extends User{
     public void setLastLoginAt(LocalDateTime lastLoginAt){
         this.lastLoginAt = lastLoginAt;
     }
-    public CustomerNotification getNotification(){
-        return this.notification;
+    public LinkedHashMap<LocalDateTime, String> getNotifications(){
+        return this.notifications;
     }
-    public void setNotification(CustomerNotification notification){
-        this.notification = notification;
+    public void setNotifications(LinkedHashMap<LocalDateTime, String> notifications){
+        this.notifications = notifications;
+    }
+    public ArrayList<Loan> getLoans(){
+        return this.loans;
+    }
+    public void setLoans(ArrayList<Loan> loans){
+        this.loans = loans;
     }
     public void addAccount(PaymentAccount account){
         if(account.getInterestRate() == 0.0){
@@ -157,6 +178,15 @@ public class Customer extends User{
         }else{
             this.accountList.add((SavingsAccount)account);
         }
+    }
+    public ArrayList<Loan> getLoansWithAccountId(int id){
+        ArrayList<Loan> neededLoans = new ArrayList<Loan>();
+        for(Loan loan: this.loans){
+            if(loan.getAccount().getId() == id){
+                neededLoans.add(loan);
+            }
+        }
+        return neededLoans;
     }
     
 }

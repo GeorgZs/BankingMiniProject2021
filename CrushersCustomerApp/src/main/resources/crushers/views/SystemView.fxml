@@ -11,6 +11,7 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -50,7 +51,12 @@
                               <Label fx:id="numberOfContactsLabel" prefHeight="26.0" prefWidth="257.0" style="-fx-font-weight: bold;" text="Number of Contacts:" textFill="#1e1a6f" />
                               <Label fx:id="pendingLoansLabel" prefHeight="26.0" prefWidth="242.0" style="-fx-font-weight: bold;" text="Pending Loans:" textFill="#1e1a6f" />
                               <Label fx:id="totalDebtLabel" prefHeight="26.0" prefWidth="235.0" style="-fx-font-weight: bold;" text="Total Debt:" textFill="#1e1a6f" />
-                              <Label fx:id="netWorthLabel" prefHeight="26.0" prefWidth="256.0" style="-fx-font-weight: bold;" text="Net Worth:" textFill="#1e1a6f" />
+                              <HBox prefHeight="46.0" prefWidth="260.0">
+                                 <children>
+                                    <Label prefHeight="26.0" prefWidth="68.0" style="-fx-font-weight: bold;" text="Net Worth:" textFill="#1e1a6f" />
+                                    <Label fx:id="netWorthLabel" prefHeight="26.0" prefWidth="135.0" style="-fx-font-weight: bold;" textFill="#1e1a6f" />
+                                 </children>
+                              </HBox>
                            </children>
                            <padding>
                               <Insets bottom="2.0" left="5.0" top="2.0" />
@@ -79,10 +85,11 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: white; -fx-border-color: black; -fx-background-radius: 5; -fx-border-radius: 5;">
                      <children>
-                        <Button fx:id="apply" layoutX="142.0" layoutY="268.0" mnemonicParsing="false" onAction="#apply" text="Apply" />
-                        <TextField fx:id="loanAmount" layoutX="69.0" layoutY="68.0" prefHeight="25.0" prefWidth="208.0" promptText="Loan amount (SEK)" />
-                        <TableView layoutX="351.0" layoutY="68.0" prefHeight="189.0" prefWidth="320.0" />
-                        <TextArea fx:id="loanNotes" layoutX="68.0" layoutY="103.0" prefHeight="152.0" prefWidth="209.0" promptText="Reason(s) for application" />
+                        <Label fx:id="loanErrorLabel" layoutX="68.0" layoutY="301.0" prefHeight="15.0" prefWidth="334.0" style="-fx-text-fill: red; -fx-font-weight: bold;" />
+                        <Button fx:id="apply" layoutX="230.0" layoutY="268.0" mnemonicParsing="false" onAction="#apply" text="Apply" />
+                        <TextField fx:id="loanAmountField" layoutX="69.0" layoutY="68.0" prefHeight="25.0" prefWidth="208.0" promptText="Loan amount (SEK)" />
+                        <TableView fx:id="loanTableView" layoutX="351.0" layoutY="68.0" prefHeight="189.0" prefWidth="320.0" />
+                        <TextArea fx:id="loanPurposeField" layoutX="68.0" layoutY="103.0" prefHeight="152.0" prefWidth="209.0" promptText="Reason(s) for application" />
                         <Label layoutX="472.0" layoutY="31.0" text="MY LOANS">
                            <font>
                               <Font name="SansSerif Regular" size="15.0" />
@@ -112,10 +119,10 @@
                         <TextArea fx:id="descriptionArea" layoutX="46.0" layoutY="145.0" prefHeight="111.0" prefWidth="230.0" promptText="Description" />
                         <TextField fx:id="accountID" layoutX="45.0" layoutY="106.0" prefHeight="26.0" prefWidth="230.0" promptText="Contact Account ID" />
                         <Label fx:id="contactErrorLabel" layoutX="44.0" layoutY="268.0" prefHeight="36.0" prefWidth="129.0" style="-fx-text-fill: red;" />
-                        <TableView fx:id="contactTableView" layoutX="327.0" layoutY="58.0" prefHeight="200.0" prefWidth="356.0" />
-                        <Label layoutX="111.0" layoutY="25.0" text="Create contact">
+                        <TableView fx:id="contactTableView" layoutX="327.0" layoutY="58.0" prefHeight="238.0" prefWidth="356.0" />
+                        <Label layoutX="104.0" layoutY="25.0" text="Create contact">
                            <font>
-                              <Font size="15.0" />
+                              <Font size="17.0" />
                            </font>
                         </Label>
                      </children></AnchorPane>
@@ -130,17 +137,17 @@
                               <Font size="17.0" />
                            </font>
                         </Label>
-                        <Button layoutX="478.0" layoutY="267.0" mnemonicParsing="false" onAction="#viewTransactionDetails" text="View transaction details" />
-                        <Button fx:id="makeAPayment" layoutX="75.0" layoutY="96.0" mnemonicParsing="false" onAction="#makeAPayment" text="Make a new payment" />
-                        <Button layoutX="47.0" layoutY="193.0" mnemonicParsing="false" text="Report a suspicious transaction" />
-                        <Button layoutX="66.0" layoutY="143.0" mnemonicParsing="false" onAction="#makeAPaymentRequest" text="Make a payment request" />
-                        <Label fx:id="transactionError" layoutX="283.0" layoutY="279.0" textFill="#e10000">
+                        <Button layoutX="53.0" layoutY="138.0" mnemonicParsing="false" onAction="#viewTransactionDetails" prefHeight="30.0" prefWidth="180.0" text="View transaction details" />
+                        <Button fx:id="makeAPayment" layoutX="53.0" layoutY="44.0" mnemonicParsing="false" onAction="#makeAPayment" prefHeight="30.0" prefWidth="180.0" text="Make a new Payment" />
+                        <Button layoutX="53.0" layoutY="91.0" mnemonicParsing="false" onAction="#makeAPaymentRequest" prefHeight="30.0" prefWidth="180.0" text="Make a Payment Request" />
+                        <Label fx:id="transactionError" layoutX="288.0" layoutY="287.0" prefHeight="22.0" prefWidth="394.0" style="-fx-font-weight: bold;" textFill="#e10000">
                            <font>
                               <Font name="SansSerif Regular" size="12.0" />
                            </font>
                         </Label>
-                        <Button layoutX="478.0" layoutY="301.0" mnemonicParsing="false" onAction="#setLabel" prefHeight="15.0" prefWidth="125.0" text="Set transaction label" />
-                        <TableView fx:id="transactionTableView" layoutX="288.0" layoutY="44.0" prefHeight="190.0" prefWidth="394.0" />
+                        <Button layoutX="53.0" layoutY="184.0" mnemonicParsing="false" onAction="#setLabel" prefHeight="30.0" prefWidth="180.0" text="Set transaction label" />
+                        <TableView fx:id="transactionTableView" layoutX="288.0" layoutY="44.0" prefHeight="234.0" prefWidth="394.0" />
+                        <TextArea fx:id="transactionLabelField" layoutX="52.0" layoutY="224.0" prefHeight="86.0" prefWidth="182.0" promptText="Transaction Label" />
                      </children></AnchorPane>
               </content>
             </Tab>

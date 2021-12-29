@@ -97,14 +97,12 @@ public class AccountController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         
-        observableAccount = FXCollections.observableArrayList();
         String firstName = App.currentCustomer.getFirstName();
         String lastName = App.currentCustomer.getLastName();
-        double totalBalance = getCustomerTotalBalance();
-        totalBalanceLabel.setText("Total Balance: " + totalBalance);
+        totalBalanceLabel.setText("Total Balance: " + getCustomerTotalBalance());
         welcomeLabel.setText("Welcome, " + firstName + " " + lastName);
-        observableAccount.addAll(App.currentCustomer.getAccountList());
-        accountList.setItems(observableAccount);
+
+        updateAccountList();
 
         accountDetailsBox.setVisible(false);
         
@@ -113,6 +111,9 @@ public class AccountController implements Initializable{
             @Override
             public void changed(ObservableValue<? extends PaymentAccount> observable, PaymentAccount oldValue, PaymentAccount newValue) {               
                     PaymentAccount account = accountList.getSelectionModel().getSelectedItem();
+                    if(account == null){
+                        return;
+                    }
                     if(account.getInterestRate() == 0.0){
                         accountTypeLabel.setText("Account type: Payment");
                     }else{
@@ -139,6 +140,16 @@ public class AccountController implements Initializable{
             }
         return customerTotalBalance;
         }
+    }
+    public void updateAccountList(){
+        try {
+            App.currentCustomer.setAccountList(Json.parseList(Http.authGet("accounts/@me", App.currentToken), PaymentAccount.class));
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        observableAccount = FXCollections.observableArrayList();
+        observableAccount.addAll(App.currentCustomer.getAccountList());
+        accountList.setItems(observableAccount);
     }
 
     public void addSavingsToList(SavingsAccount account){

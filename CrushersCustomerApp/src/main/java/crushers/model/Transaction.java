@@ -13,14 +13,14 @@ public class Transaction {
     private PaymentAccount to;
     private double amount;
     private String description;
-    private String date;
+    private LocalDateTime date;
 
     public Transaction(PaymentAccount from, PaymentAccount to, double amount, String description) {
         this.from = from;
         this.to = to;
         this.amount = amount;
         this.description = description;
-        this.date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        this.date = LocalDateTime.now();
     }
     public Transaction(int id, int fromId, int toId, double amount, String description){
         this.id = id;
@@ -28,7 +28,7 @@ public class Transaction {
         this.toId = toId;
         this.amount = amount;
         this.description = description;
-        this.date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        this.date = LocalDateTime.now();
     }
     public Transaction(){
     }
@@ -111,11 +111,11 @@ public class Transaction {
         this.description = description;
     }
 
-    public String getDate() {
+    public LocalDateTime getDate() {
         return this.date;
     }
 
-    public void setDate(String date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
