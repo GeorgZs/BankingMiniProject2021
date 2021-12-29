@@ -60,4 +60,27 @@ public class Http {
         return response.body();
     }
 
+    public <Type> Type put(String endpoint, Object body, Class<Type> type) throws Exception {
+        final HttpRequest req = HttpRequest
+                .newBuilder(URI.create(BASE_URL + endpoint))
+                .header("Content-Type", "application/json")
+                .PUT(BodyPublishers.ofString(Json.stringify(body)))
+                .build();
+
+        HttpResponse<String> res = client.send(req, HttpResponse.BodyHandlers.ofString());
+        return Json.parse(res.body(), type);
+    }
+
+    public <Type> Type authPut(String endpoint, Object body, Class<Type> type, String authToken) throws Exception {
+        final HttpRequest req = HttpRequest
+                .newBuilder(URI.create(BASE_URL + endpoint))
+                .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer " + authToken)
+                .PUT(BodyPublishers.ofString(Json.stringify(body)))
+                .build();
+
+        HttpResponse<String> res = client.send(req, HttpResponse.BodyHandlers.ofString());
+        return Json.parse(res.body(), type);
+    }
+
 }

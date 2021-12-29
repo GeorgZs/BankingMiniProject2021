@@ -110,6 +110,10 @@ public class AccountRouter extends Router<Account> {
     });
   }
 
+  /**
+   * @param exchange
+   * checks if User is logged in then creates an account with specified details
+   */
   @Override
   protected void post(HttpExchange exchange) throws Exception {
     final User loggedInUser = Authenticator.instance.authUser(exchange);
@@ -118,6 +122,10 @@ public class AccountRouter extends Router<Account> {
     sendJsonResponse(exchange, responseData);
   }
 
+  /**
+   * @param exchange
+   * returns the account of the logged-in User
+   */
   @Override
   protected void get(HttpExchange exchange, int id) throws Exception {
     final User loggedInUser = Authenticator.instance.authUser(exchange);
@@ -125,24 +133,40 @@ public class AccountRouter extends Router<Account> {
     sendJsonResponse(exchange, responseData);
   }
 
+  /**
+   * @param exchange
+   * returns collection of accounts for the logged-in Customer
+   */
   private void getOfLoggedInCustomer(HttpExchange exchange) throws Exception {
     final Customer loggedInCustomer = Authenticator.instance.authCustomer(exchange);
     final Collection<Account> responseData = accountService.getOfCustomer(loggedInCustomer);
     sendJsonResponse(exchange, responseData);
   }
 
+  /**
+   * @param exchange
+   * returns collection of accounts registered to the Bank: requires logged-in Clerk
+   */
   private void getOfLoggedInBank(HttpExchange exchange) throws Exception {
     final Clerk loggedInClerk = Authenticator.instance.authClerk(exchange);
     final Collection<Account> responseData = accountService.getOfBank(loggedInClerk.getWorksAt());
     sendJsonResponse(exchange, responseData);
   }
 
+  /**
+   * @param exchange
+   * returns collection of Customers registered to the Bank: requires logged-in Clerk
+   */
   private void getCustomersAtBank(HttpExchange exchange) throws Exception {
     final Clerk loggedInClerk = Authenticator.instance.authClerk(exchange);
     final Collection<Customer> responseData = accountService.getCustomersAtBank(loggedInClerk.getWorksAt());
     sendJsonResponse(exchange, responseData);
   }
 
+  /**
+   * @param exchange
+   * returns Account with a specified ID: requires logged-in Customer
+   */
   private void getAccountWithId(HttpExchange exchange, int id) throws Exception {
     final Customer loggedInClerk = Authenticator.instance.authCustomer(exchange);
     final Account responseData = accountService.getAccountWithId(loggedInClerk, id);

@@ -25,6 +25,14 @@ public class AccountService {
     this.storage = storage;
   }
 
+  /**
+   *
+   * @param creator is the logged-in User
+   * @param account is the account passed by the creator for creation
+   * creates an account as specified by the User, allowing for creation by Staff and Customers alike
+   * @return the account created
+   * @throws Exception if the account details are invalid
+   */
   public Account create(User creator, Account account) throws Exception {
     if (creator instanceof Clerk) {
       Clerk clerk = (Clerk) creator;
