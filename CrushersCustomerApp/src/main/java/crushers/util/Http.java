@@ -60,7 +60,7 @@ public class Http {
         return response.body();
     }
 
-    public <Type> Type put(String endpoint, Object body, Class<Type> type) throws Exception {
+    public static <Type> Type put(String endpoint, Object body, Class<Type> type) throws Exception {
         final HttpRequest req = HttpRequest
                 .newBuilder(URI.create(BASE_URL + endpoint))
                 .header("Content-Type", "application/json")
@@ -71,7 +71,7 @@ public class Http {
         return Json.parse(res.body(), type);
     }
 
-    public <Type> Type authPut(String endpoint, Object body, Class<Type> type, String authToken) throws Exception {
+    public static <Type> Type authPut(String endpoint, Object body, Class<Type> type, String authToken) throws Exception {
         final HttpRequest req = HttpRequest
                 .newBuilder(URI.create(BASE_URL + endpoint))
                 .header("Content-Type", "application/json")

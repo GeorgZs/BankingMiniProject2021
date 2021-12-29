@@ -6,6 +6,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -18,12 +21,18 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class SystemController implements Initializable{
 
@@ -44,7 +53,7 @@ public class SystemController implements Initializable{
     @FXML
     private TextField nameField, accountID, loanAmountField, amountPayback;
     @FXML
-    private TextArea descriptionArea, loanPurposeField;
+    private TextArea descriptionArea, loanPurposeField, transactionLabelField;
     @FXML
     private Label contactErrorLabel, accountIdLabel, accountNumberLabel, accountNameLabel, accountBalanceLabel, accountOwnerLabel, accountTypeLabel, accountBankLabel, transactionsMadeLabel, numberOfContactsLabel, pendingLoansLabel, totalDebtLabel, netWorthLabel;
     @FXML
@@ -93,6 +102,42 @@ public class SystemController implements Initializable{
 
     public void makeAPaymentRequest(ActionEvent e){
         Util.showModal("RequestView", "Make a Payment Request", e);
+    }
+
+    public void setLabel(ActionEvent e) throws Exception{
+        Transaction selectedTransaction = transactionTableView.getSelectionModel().getSelectedItem();
+        if(selectedTransaction == null){
+            transactionError.setText("Please select a transaction!");
+        }else if(transactionLabelField.getText().isBlank()){
+            transactionError.setText("Please enter a valid label!");
+        }else{
+            JsonNode transactionNode = Json.nodeWithFields("label", transactionLabelField.getText(), "transaction", Json.nodeWithFields("id", selectedTransaction.getId()));
+            Http.authPut("transactions/label", transactionNode, Transaction.class, App.currentToken);
+        }
+    }
+
+    public void viewTransactionDetails(ActionEvent e){
+        Transaction selectedTransaction = transactionTableView.getSelectionModel().getSelectedItem();
+        if(selectedTransaction == null){
+            transactionError.setText("Please select a transaction!");
+        }else{
+            FXMLLoader loader = new FXMLLoader(Util.class.getClassLoader().getResource("crushers/views/TransactionDescriptionView.fxml"));
+            Stage stage = new Stage();
+            try {
+                Parent root = (Parent) loader.load();
+                TransactionDescriptionController tdc = loader.getController();
+                tdc.setCurrentTransaction(selectedTransaction);
+                tdc.init();
+                stage.setScene(new Scene(root));
+                stage.getIcons().add(new Image("crushers/imgs/logo.jpg"));
+                stage.setTitle("Transaction Overview");
+                stage.setResizable(false);
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.show();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        }
     }
 
     public void addTransactionToTable(Transaction transaction){
@@ -226,6 +271,7 @@ public class SystemController implements Initializable{
         updateAccountOverview();
     }
     
+    
     /*
     INTEREST
     */
@@ -248,13 +294,6 @@ public class SystemController implements Initializable{
 
     public void selectDifferentAccount(ActionEvent e) throws IOException{
         Util.closeAndShow("AccountView", "Select an Account", e);
-    }
-
-    public void setLabel(ActionEvent e){
-
-    }
-    public void viewTransactionDetails(ActionEvent e){
-
     }
 
     public void toggleDisplayCardNumber(ActionEvent e){

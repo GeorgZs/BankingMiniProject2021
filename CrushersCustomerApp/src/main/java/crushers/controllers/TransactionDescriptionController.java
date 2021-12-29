@@ -1,39 +1,28 @@
 package crushers.controllers;
 
-import crushers.App;
+import crushers.model.Transaction;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+public class TransactionDescriptionController{
 
-import java.net.URL;
-import java.util.ResourceBundle;
+    Transaction transaction;
 
-public class TransactionDescriptionController implements Initializable {
     @FXML
-    private TextField fromAccount, toAccount, amount, date;
-    @FXML
-    private TextArea description;
+    private Label transactionIdLabel, transactionAmountLabel, transactionFromLabel, transactionToLabel, transactionDescriptionLabel;
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        if(App.currentTransaction.getFrom().getNumber() == App.currentAccount.getNumber()) {
-            fromAccount.setText(" Me");
-            amount.setText("-" + App.currentTransaction.getAmount() + " SEK");
-        }
-        else {
-            amount.setText("+" + App.currentTransaction.getAmount() + " SEK");
-            fromAccount.setText(App.currentTransaction.getFrom().getNumber());
-        }
-        if(App.currentTransaction.getTo().getNumber() == App.currentAccount.getNumber()) {
-            toAccount.setText(" Me");
-        }
-        else {
-            toAccount.setText(App.currentTransaction.getTo().getNumber());
-        }
-        amount.setText(App.currentTransaction.getAmount() + " SEK");
-        date.setText(App.currentTransaction.getDate());
-        description.setText(App.currentTransaction.getDescription());
+    public void init() {
+        transactionIdLabel.setText(String.valueOf(transaction.getId()));
+        transactionAmountLabel.setText(transaction.getAmount() + " SEK");
+        transactionFromLabel.setText(transaction.getFromString() + "");
+        transactionToLabel.setText(transaction.getToString() + "");
+        transactionDescriptionLabel.setText(transaction.getDescription());
+
     }
+
+    public void setCurrentTransaction(Transaction transaction){
+        this.transaction = transaction;
+    }
+
+
 }
