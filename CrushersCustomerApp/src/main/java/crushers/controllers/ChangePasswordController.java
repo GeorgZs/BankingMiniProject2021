@@ -18,18 +18,10 @@ import java.util.List;
 
 
 public class ChangePasswordController {
-   /* private Customer currentCustomer;
-    @FXML
-    private TextField answer1Field, answer2Field, answer3Field, emailField, newPasswordField, passwordConfirmField;
-    @FXML
-    private Label question1Label,question2Label, question3Label, invalidInput;
-    @FXML
-    private VBox questionsBox, passwordBox;
-    */
     @FXML
     private TextField emailField, firstAnswerField, secondAnswerField, thirdAnswerField;
     @FXML
-    private PasswordField passwordField, repeatePasswordField;
+    private PasswordField passwordField, repeatedPasswordField;
     @FXML
     private Label errorLabel;
 
@@ -37,7 +29,7 @@ public class ChangePasswordController {
 
         String email = emailField.getText();
         String password = passwordField.getText();
-        String repeatedPassword = repeatePasswordField.getText();
+        String repeatedPassword = repeatedPasswordField.getText();
         if(password != repeatedPassword){
             errorLabel.setText("Passwords don't match!");
         }
