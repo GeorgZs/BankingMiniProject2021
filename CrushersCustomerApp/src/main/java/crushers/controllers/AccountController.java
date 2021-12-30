@@ -3,11 +3,9 @@ package crushers.controllers;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 
 import crushers.App;
 import crushers.model.PaymentAccount;
@@ -24,7 +22,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -33,9 +30,6 @@ import javafx.stage.Stage;
 
 public class AccountController implements Initializable{
     
-    private Stage stage;
-    private Parent root;
-
     double customerTotalBalance;
     @FXML
     static AnchorPane accountAnchor;
@@ -103,7 +97,12 @@ public class AccountController implements Initializable{
         totalBalanceLabel.setText("Total Balance: " + getCustomerTotalBalance());
         welcomeLabel.setText("Welcome, " + firstName + " " + lastName);
 
-        updateAccountList();
+        try {
+            updateAccountList();
+        } catch (MismatchedInputException e) {
+            System.out.println("Empty customer");
+            e.printStackTrace();
+        }
 
         accountDetailsBox.setVisible(false);
         
@@ -142,9 +141,14 @@ public class AccountController implements Initializable{
         return trunc(customerTotalBalance);
         }
     }
-    public void updateAccountList(){
+    public void updateAccountList() throws MismatchedInputException{
         try {
-            App.currentCustomer.setAccountList(Json.parseList(Http.authGet("accounts/@me", App.currentToken), PaymentAccount.class));
+            String res = Http.authGet("accounts/@me", App.currentToken);
+            if(res.contains("Internal server error")){
+                App.currentCustomer.setAccountList(new ArrayList<PaymentAccount>());
+            }else{
+                App.currentCustomer.setAccountList(Json.parseList(res, PaymentAccount.class));
+            }
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
@@ -153,12 +157,12 @@ public class AccountController implements Initializable{
         accountList.setItems(observableAccount);
     }
 
-    public void addSavingsToList(SavingsAccount account){
-        observableAccount.add(account);
-        accountList.refresh();
-    }
-    public void addPaymentToList(PaymentAccount account){
-        observableAccount.add(account);
-        accountList.refresh();
-    }
+    // public void addSavingsToList(SavingsAccount account){
+    //     observableAccount.add(account);
+    //     accountList.refresh();
+    // }
+    // public void addPaymentToList(PaymentAccount account){
+    //     observableAccount.add(account);
+    //     accountList.refresh();
+    // }
 }

@@ -2,20 +2,13 @@ package crushers.controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import crushers.App;
-import crushers.model.Bank;
-import crushers.model.Customer;
 import crushers.model.PaymentAccount;
-import crushers.model.Transaction;
 import crushers.util.Http;
 import crushers.util.Json;
-import crushers.util.Util;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -26,22 +19,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import javafx.scene.Node;
-
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class AccountTransferController implements Initializable {
-    private Customer currentCustomer = App.currentCustomer;
-
-    private Stage stage;
-    private Parent root;
-
-
-
+    
     @FXML
     private Label transferFundsLabel, fromLabel, toLabel, amountLabel, sekLabel, commentLabel, errorLabel;
 
@@ -97,7 +82,9 @@ public class AccountTransferController implements Initializable {
                 errorLabel.setText("Insufficient funds!");
             }else if(amountSek <= 0){
                 errorLabel.setText("Please enter sufficient funds!");
-            }else {
+            }else if(comment.isBlank()){
+                errorLabel.setText("Please enter transfer description!");
+            }else{
 
                 JsonNode transactionNode = Json.nodeWithFields("id", 0, "from", fromNode, "to", toNode, "amount", amountSek, "description", comment, "date", null);
                 Http.authPost("transactions", App.currentToken, transactionNode);

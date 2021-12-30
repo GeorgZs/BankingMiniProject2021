@@ -68,10 +68,17 @@ public class Http {
                 .build();
 
         HttpResponse<String> res = client.send(req, HttpResponse.BodyHandlers.ofString());
-        if (type==null){
-            return null;
-        }
         return Json.parse(res.body(), type);
+    }
+    public static String emptyPut(String source, Object body) throws IOException, InterruptedException{
+        final HttpRequest req = HttpRequest
+                .newBuilder(URI.create(BASE_URL + source))
+                .header("Content-Type", "application/json")
+                .PUT(BodyPublishers.ofString(Json.stringify(body)))
+                .build();
+
+        HttpResponse<String> res = client.send(req, HttpResponse.BodyHandlers.ofString());
+        return res.body();
     }
 
     public static <Type> Type authPut(String endpoint, Object body, Class<Type> type, String authToken) throws Exception {

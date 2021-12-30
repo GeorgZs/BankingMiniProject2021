@@ -216,6 +216,7 @@ public class SystemController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources){
         Util.updateCustomer();
+        System.out.println(App.currentCustomer);
         welcomeLabel.setText("Welcome " + App.currentCustomer.getFirstName() + " " + App.currentCustomer.getLastName() + " (ID" + App.currentCustomer.getId() + ")");
         updateNotifications();
 
@@ -396,6 +397,9 @@ public class SystemController implements Initializable{
     public void updateNotifications(){
         try {
             LinkedHashMap<String, String> notifications = Json.parseLinkedHashMap(Http.authGet("customers/notifications", App.currentToken), String.class, String.class);
+            if(notifications == null){
+                notifications = new LinkedHashMap<String, String>();
+            }
             ArrayList<String> notificationList = new ArrayList<String>();
             for(String key: notifications.keySet()){
                 notificationList.add("(" + key + "): " + notifications.get(key));

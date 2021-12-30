@@ -24,22 +24,23 @@ public class Customer extends User{
     private ArrayList<Loan> loans;
 
 
-    public Customer(int id, String firstName, String lastName, String address, String email, String password,
-    ArrayList<String> securityQuestions, LocalDateTime lastLoginAt, LinkedHashMap<LocalDateTime, String> notifications) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.address = address;
-        this.email = email;
-        this.password = password;
-        this.securityQuestions = securityQuestions;
-        this.lastLoginAt = lastLoginAt;
-        this.notifications = notifications;
-        this.accountList = new ArrayList<PaymentAccount>();
-        this.contactList = new ArrayList<Contact>();
-        this.loans = new ArrayList<Loan>();
+    // public Customer(int id, String firstName, String lastName, String address, String email, String password,
+    // ArrayList<String> securityQuestions, LocalDateTime lastLoginAt, LinkedHashMap<LocalDateTime, String> notifications) {
+    //     this.id = id;
+    //     this.firstName = firstName;
+    //     this.lastName = lastName;
+    //     this.address = address;
+    //     this.email = email;
+    //     this.password = password;
+    //     this.securityQuestions = securityQuestions;
+    //     this.lastLoginAt = lastLoginAt;
+    //     // this.notifications = notifications;
+    //     this.accountList = new ArrayList<PaymentAccount>();
+    //     this.contactList = new ArrayList<Contact>();
+    //     this.loans = new ArrayList<Loan>();
+    //     this.notifications = new LinkedHashMap<LocalDateTime, String>();
 
-    } // full constructor
+    // } // full constructor
 
     public Customer(int id, String email, String firstName, String lastName, String address, String password, ArrayList<String> securityQuestions,
     LocalDateTime lastLoginAt, ArrayList<Loan> loans, LinkedHashMap<LocalDateTime, String> notifications){
@@ -52,6 +53,7 @@ public class Customer extends User{
         this.securityQuestions = securityQuestions;
         this.lastLoginAt = lastLoginAt;
         this.loans = loans;
+        this.loans = new ArrayList<Loan>();
         this.notifications = notifications;
     }
 
@@ -64,6 +66,8 @@ public class Customer extends User{
         this.securityQuestions = securityQuestions;
         this.accountList = new ArrayList<PaymentAccount>();
         this.contactList = new ArrayList<Contact>();
+        this.notifications = new LinkedHashMap<LocalDateTime, String>();
+        this.loans = new ArrayList<Loan>();
     } // creation constructor
 
     public Customer(){
@@ -181,6 +185,9 @@ public class Customer extends User{
     }
     public ArrayList<Loan> getLoansWithAccountId(int id){
         ArrayList<Loan> neededLoans = new ArrayList<Loan>();
+        if(this.loans == null){
+            this.loans = new ArrayList<Loan>();
+        }
         for(Loan loan: this.loans){
             PaymentAccount acc = loan.getAccount();
             if(acc != null){

@@ -3,20 +3,14 @@ package crushers.controllers;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-
 import crushers.App;
 import crushers.model.Bank;
 import crushers.model.PaymentAccount;
 import crushers.model.SavingsAccount;
 import crushers.util.Http;
 import crushers.util.Json;
-import crushers.util.Util;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -52,7 +46,7 @@ public class AccountCreationController implements Initializable{
             Bank bank = bankSelection.getValue();
             String accType = isPayment ? "payment" : "savings";
             String accName = accountDescriptionField.getText();
-            AccountController accCtrl = MainController.accCtrl;
+            // AccountController accCtrl = MainController.accCtrl;
             
             String bankString = "{\"bank\": {\"id\": " + bank.getId() + " },";
             bankString += "\"type\": \"" + accType + "\",";
@@ -69,19 +63,20 @@ public class AccountCreationController implements Initializable{
 
                 String createResponse = Http.authPost("accounts", App.currentToken, Json.toNode(bankString));
                 System.out.println("Response:\n" + createResponse);
-                PaymentAccount createdAccount = Json.parse(createResponse, PaymentAccount.class);
+                // PaymentAccount createdAccount = Json.parse(createResponse, PaymentAccount.class);
 
-                System.out.println("Created account: " + createdAccount);
-                accCtrl.addPaymentToList(createdAccount);
-                App.currentCustomer.createAccount(createdAccount);
+                // System.out.println("Created account: " + createdAccount);
+                // App.currentCustomer.createAccount(createdAccount);
 
             }else{
                 String createResponse = Http.authPost("accounts", App.currentToken, Json.toNode(bankString));
+                System.out.println("Response:\n" + createResponse);
 
-                SavingsAccount createdAccount = Json.parse(createResponse, SavingsAccount.class);
-                accCtrl.addSavingsToList(createdAccount);
-                App.currentCustomer.createAccount(createdAccount);
+                // SavingsAccount createdAccount = Json.parse(createResponse, SavingsAccount.class);
+                // App.currentCustomer.createAccount(createdAccount);
             }
+
+            MainController.accCtrl.updateAccountList();
 
             Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
             stage.close();
