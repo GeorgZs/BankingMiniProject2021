@@ -8,16 +8,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-
 import java.io.IOException;
-
-import com.jfoenix.controls.JFXTextField;
-
 import crushers.model.Customer;
 
 
 public class App extends Application {
 
+    // Declaring quantities that are convenient to store locally
     public static Customer currentCustomer;
     public static PaymentAccount currentAccount;
     public static Transaction currentTransaction;
@@ -33,7 +30,7 @@ public class App extends Application {
         stage.setScene(scene);
 
         configStage(stage, "Crushers Bank");
-    }
+    } // Loads Log-in window
 
     public static void configStage(Stage stage, String title){
         stage.getIcons().add(new Image("crushers/imgs/logo.jpg"));

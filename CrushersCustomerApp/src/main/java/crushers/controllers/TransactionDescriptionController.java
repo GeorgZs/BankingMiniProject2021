@@ -18,9 +18,6 @@ public class TransactionDescriptionController{
         transactionToLabel.setText(transaction.getToString() + "");
         transactionDescriptionLabel.setText(transaction.getDescription());
 
-
-
-
         transactionLabelLabel.setText(transaction.getLabel());
     }
 

@@ -184,18 +184,23 @@
                            </font>
                         </Label>
                         <TableView fx:id="transactionTableView" layoutX="288.0" layoutY="44.0" prefHeight="234.0" prefWidth="394.0" />
-                        <TextArea fx:id="transactionLabelField" layoutX="52.0" layoutY="179.0" prefHeight="98.0" prefWidth="182.0" promptText="Transaction Label" wrapText="true" />
+                        <TextArea fx:id="transactionLabelField" layoutX="51.0" layoutY="199.0" prefHeight="79.0" prefWidth="182.0" promptText="Transaction Label" wrapText="true" />
                         <JFXButton fx:id="makeAPayment" layoutX="53.0" layoutY="44.0" onAction="#makeAPayment" prefHeight="30.0" prefWidth="180.0" style="-fx-background-color: #2669AB; -fx-font-family: Courier New; -fx-text-fill: white;" text="Transfer funds">
                            <padding>
                               <Insets bottom="4.0" left="10.0" right="10.0" top="4.0" />
                            </padding>
                         </JFXButton>
-                        <JFXButton layoutX="53.0" layoutY="88.0" onAction="#viewTransactionDetails" prefHeight="30.0" prefWidth="180.0" style="-fx-background-color: #2669AB; -fx-font-family: Courier New; -fx-text-fill: white;" text="View Transaction details">
+                        <JFXButton layoutX="53.0" layoutY="82.0" onAction="#viewTransactionDetails" prefHeight="30.0" prefWidth="180.0" style="-fx-background-color: #2669AB; -fx-font-family: Courier New; -fx-text-fill: white;" text="View Transaction details">
                            <padding>
                               <Insets bottom="4.0" left="10.0" right="10.0" top="4.0" />
                            </padding>
                         </JFXButton>
-                        <JFXButton layoutX="52.0" layoutY="130.0" onAction="#setLabel" prefHeight="30.0" prefWidth="180.0" style="-fx-background-color: #2669AB; -fx-font-family: Courier New; -fx-text-fill: white;" text="Set Transaction label">
+                        <JFXButton layoutX="53.0" layoutY="161.0" onAction="#setLabel" prefHeight="30.0" prefWidth="180.0" style="-fx-background-color: #2669AB; -fx-font-family: Courier New; -fx-text-fill: white;" text="Set Transaction label">
+                           <padding>
+                              <Insets bottom="4.0" left="10.0" right="10.0" top="4.0" />
+                           </padding>
+                        </JFXButton>
+                        <JFXButton layoutX="53.0" layoutY="121.0" onAction="#createRecurringTransaction" prefHeight="30.0" prefWidth="180.0" style="-fx-background-color: #2669AB; -fx-font-family: Courier New; -fx-text-fill: white;" text="Create Recurring Transaction">
                            <padding>
                               <Insets bottom="4.0" left="10.0" right="10.0" top="4.0" />
                            </padding>

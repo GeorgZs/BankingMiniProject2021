@@ -108,31 +108,6 @@ public class SystemController implements Initializable{
         Util.showModal("PaymentView", "Make a Payment", e);
     }
 
-    public void sendNotification(ActionEvent e) throws IOException, InterruptedException{
-        notificationErrorLabel.setTextFill(Color.RED);
-        try{
-            int recipientId = Integer.parseInt(recipientIdField.getText());
-            String requestBody = requestBodyField.getText();
-            if(requestBody.isBlank()){
-                notificationErrorLabel.setText("Please fill a request");
-                return;
-            }
-            JsonNode notificationNode = Json.nodeWithFields("notification", requestBody, "targetCustomer", Json.nodeWithFields("id", recipientId));
-            String res = Http.authPost("customers/notification", App.currentToken, notificationNode);
-            if(res.contains("Internal server error")){
-                notificationErrorLabel.setText("Account ID does not exist!");
-                return;
-            }
-            notificationErrorLabel.setTextFill(Color.GREEN);
-            notificationErrorLabel.setText("Request successfully sent!");
-        }catch(NumberFormatException nfe){
-            notificationErrorLabel.setText("Please enter a valid ID");
-        }catch(Exception ex){
-            notificationErrorLabel.setText("Account ID does not exist!");
-        }
-        
-    }
-
     public void setLabel(ActionEvent e) throws Exception{
         transactionError.setTextFill(Color.RED);
         Transaction selectedTransaction = transactionTableView.getSelectionModel().getSelectedItem();
@@ -182,6 +157,10 @@ public class SystemController implements Initializable{
         }
     }
 
+    public void createRecurringTransaction(ActionEvent e){
+        Util.showModal("RecurringView", "Create Recurring Transaction", e);
+    }
+
     /*
     LOANS
     */
@@ -198,16 +177,16 @@ public class SystemController implements Initializable{
         } else if (Double.parseDouble(loanAmountField.getText()) < 1000){
             loanErrorLabel.setText("Minimum loan amount is 1,000 SEK.");
         } else {
-        double loanAmount = Double.parseDouble(loanAmountField.getText());
-        String loanReason = loanPurposeField.getText();
-        JsonNode account = Json.nodeWithFields("id",App.currentAccountID,"type","payment");
-        JsonNode loanNode = Json.nodeWithFields("amount",loanAmount,"purpose",loanReason,"account",account);
-        Loan loan = Json.parse(Json.stringify(loanNode), Loan.class);
-        Http.authPost("transactions/loan", App.currentToken, loanNode);
-        loanTableView.getItems().add(loan);
-        updateAccountOverview();
-        updateNotifications();
-            }
+            double loanAmount = Double.parseDouble(loanAmountField.getText());
+            String loanReason = loanPurposeField.getText();
+            JsonNode account = Json.nodeWithFields("id",App.currentAccountID,"type","payment");
+            JsonNode loanNode = Json.nodeWithFields("amount",loanAmount,"purpose",loanReason,"account",account);
+            Loan loan = Json.parse(Json.stringify(loanNode), Loan.class);
+            Http.authPost("transactions/loan", App.currentToken, loanNode);
+            loanTableView.getItems().add(loan);
+            updateAccountOverview();
+            updateNotifications();
+        }
     }
 
     public void paybackLoan(ActionEvent e) throws JsonProcessingException {
@@ -230,20 +209,19 @@ public class SystemController implements Initializable{
         }
     }
 
+    /*
+    CONTROLLER INIT
+    */
+
     @Override
     public void initialize(URL location, ResourceBundle resources){
         Util.updateCustomer();
         welcomeLabel.setText("Welcome " + App.currentCustomer.getFirstName() + " " + App.currentCustomer.getLastName() + " (ID" + App.currentCustomer.getId() + ")");
-        
-        // Main
-
         updateNotifications();
 
-        // Account Overview
-
-        // updateAccountOverview();
-
-        // Payments
+        /*
+        TRANSACTIONS (TABLE INIT)
+        */
 
         TableColumn<Transaction, Integer> transactionIdColumn = new TableColumn<>("ID");
         transactionIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -274,7 +252,9 @@ public class SystemController implements Initializable{
             transactionTableView.getItems().addAll(transactions);
         }
 
-        // Contacts
+        /*
+        CONTACTS (TABLE INIT)
+        */
 
         TableColumn<Contact, Integer> idColumn = new TableColumn<>("ID");
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -296,7 +276,9 @@ public class SystemController implements Initializable{
             contactTableView.getItems().addAll(App.currentCustomer.getContactList());
         }
 
-        // Loans
+        /*
+        LOANS (TABLE INIT)
+        */
 
         TableColumn<Loan, Integer> loanAccountIdColumn = new TableColumn<>("Account ID");
         loanAccountIdColumn.setCellValueFactory(new PropertyValueFactory<>("accountId"));
@@ -334,6 +316,35 @@ public class SystemController implements Initializable{
             overviewErrorLabel.setText("Interest successfully received!");
         }
         updateAccountOverview();
+    }
+
+    /*
+    MISCELLANEOUS
+    */
+
+    public void sendNotification(ActionEvent e) throws IOException, InterruptedException{
+        notificationErrorLabel.setTextFill(Color.RED);
+        try{
+            int recipientId = Integer.parseInt(recipientIdField.getText());
+            String requestBody = requestBodyField.getText();
+            if(requestBody.isBlank()){
+                notificationErrorLabel.setText("Please fill a request");
+                return;
+            }
+            JsonNode notificationNode = Json.nodeWithFields("notification", requestBody, "targetCustomer", Json.nodeWithFields("id", recipientId));
+            String res = Http.authPost("customers/notification", App.currentToken, notificationNode);
+            if(res.contains("Internal server error")){
+                notificationErrorLabel.setText("Account ID does not exist!");
+                return;
+            }
+            notificationErrorLabel.setTextFill(Color.GREEN);
+            notificationErrorLabel.setText("Request successfully sent!");
+        }catch(NumberFormatException nfe){
+            notificationErrorLabel.setText("Please enter a valid ID");
+        }catch(Exception ex){
+            notificationErrorLabel.setText("Account ID does not exist!");
+        }
+        
     }
 
     public void logout(ActionEvent e) throws IOException{
