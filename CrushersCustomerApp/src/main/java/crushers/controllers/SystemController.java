@@ -72,7 +72,7 @@ public class SystemController implements Initializable{
     /*
     CONTACTS
     */
-
+//Allows the user to create a contact by using their account ID.
     public void createContact(ActionEvent e) throws IOException, InterruptedException {
 
         if (nameField.getText().isBlank()) {
@@ -103,11 +103,11 @@ public class SystemController implements Initializable{
     /*
     PAYMENTS
     */
-
+//Make a payment. Opens the payment controller. Allows you to make payments to created contacts.
     public void makeAPayment(ActionEvent e){
         Util.showModal("PaymentView", "Make a Payment", e);
     }
-
+//Apply your own label to a transaction.
     public void setLabel(ActionEvent e) throws Exception{
         transactionError.setTextFill(Color.RED);
         Transaction selectedTransaction = transactionTableView.getSelectionModel().getSelectedItem();
@@ -123,7 +123,7 @@ public class SystemController implements Initializable{
         }
         updateAccountOverview();
     }
-
+//View details of a specific transaction.
     public void viewTransactionDetails(ActionEvent e){
         Transaction selectedTransaction = transactionTableView.getSelectionModel().getSelectedItem();
         if(selectedTransaction == null){
@@ -148,7 +148,7 @@ public class SystemController implements Initializable{
             }
         }
     }
-
+//Adds transaction to the table view.
     public void addTransactionToTable(Transaction transaction){
         if(transaction != null){
             transactionTableView.getItems().add(transaction);
@@ -156,7 +156,7 @@ public class SystemController implements Initializable{
             updateAccountOverview();
         }
     }
-
+//Create a recurring transaction. Opens Recurring transaction controller.
     public void createRecurringTransaction(ActionEvent e){
         Util.showModal("RecurringView", "Create Recurring Transaction", e);
     }
@@ -164,7 +164,7 @@ public class SystemController implements Initializable{
     /*
     LOANS
     */
-
+// Apply for a loan. Adds loan to the loan table after creation.
     public void apply(ActionEvent e) throws IOException, InterruptedException {
         if (loanAmountField.getText().isBlank()){
             loanErrorLabel.setText("Must enter an amount.");
@@ -188,7 +188,7 @@ public class SystemController implements Initializable{
             updateNotifications();
         }
     }
-
+// Payback a loan by selecting it in the table
     public void paybackLoan(ActionEvent e) throws Exception {
     if (amountPayback.getText().isBlank()){
         loanErrorLabel.setText("Must enter an amount to payback.");
@@ -204,7 +204,7 @@ public class SystemController implements Initializable{
         double amountToPay = Double.parseDouble(amountPayback.getText());
         JsonNode account = Json.nodeWithFields("id",App.currentAccountID,"type","payment");
         Loan loan = loanTableView.getSelectionModel().getSelectedItem();
-        JsonNode transaction = Json.nodeWithFields("label",loan.getPurpose(),"id",loan.getAccountId(),"from",account,"to",null,"amount",amountToPay,"description",null,"date",null);
+        JsonNode transaction = Json.nodeWithFields("label",loan.getPurpose(),"id",loan.getAccountId(),"from",account,"to",null,"amount",amountToPay,"description",null,"date",LocalDateTime.now());
         Http.authPut("transactions/loan",transaction,Transaction.class,App.currentToken);
         System.out.println(transaction.toString());
         Util.updateCustomer();
@@ -349,21 +349,21 @@ public class SystemController implements Initializable{
         }
         
     }
-
+//Logs the user out.
     public void logout(ActionEvent e) throws IOException{
         App.currentAccountID = 0;
         Util.logOutAlert("Logging out?", "Are you sure you want to log-out?", e);
     }
-
+//Returns the user to the account overview so they can create a new account of select a pre-existing account.
     public void selectDifferentAccount(ActionEvent e) throws IOException{
         Util.closeAndShow("AccountView", "Select an Account", e);
     }
-
+//Toggles the visibility of the user's card number in the system view.
     public void toggleDisplayCardNumber(ActionEvent e){
         showCardNumber = ! showCardNumber;
         updateAccountOverview();
     }
-
+//Updates the account overview.
     public void updateAccountOverview(){
         Util.updateCustomer();
         String accountType = App.currentAccount.getInterestRate() == 0.0 ? "Payment" : "Savings";
@@ -395,7 +395,7 @@ public class SystemController implements Initializable{
         }
         transactionTableView.getItems().setAll(App.currentCustomer.getAccountWithId(App.currentAccountID).getTransactions());
     }
-
+//Updates notifications view.
     public void updateNotifications(){
         try {
             LinkedHashMap<String, String> notifications = Json.parseLinkedHashMap(Http.authGet("customers/notifications", App.currentToken), String.class, String.class);
