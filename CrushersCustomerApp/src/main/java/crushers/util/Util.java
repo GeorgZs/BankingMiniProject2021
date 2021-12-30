@@ -157,4 +157,8 @@ public class Util {
         }
         
     }
+
+    public static double trunc(double toTrunc){
+        return Math.floor(toTrunc*100)/100;
+    }
 }

@@ -182,8 +182,11 @@ public class Customer extends User{
     public ArrayList<Loan> getLoansWithAccountId(int id){
         ArrayList<Loan> neededLoans = new ArrayList<Loan>();
         for(Loan loan: this.loans){
-            if(loan.getAccount().getId() == id){
-                neededLoans.add(loan);
+            PaymentAccount acc = loan.getAccount();
+            if(acc != null){
+                if(loan.getAccount().getId() == id){
+                    neededLoans.add(loan);
+                }
             }
         }
         return neededLoans;

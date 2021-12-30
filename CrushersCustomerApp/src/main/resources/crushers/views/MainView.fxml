@@ -10,21 +10,15 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="322.0" prefWidth="494.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="crushers.controllers.MainController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="322.0" prefWidth="494.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="crushers.controllers.MainController">
    <children>
-      <Button fx:id="loginButton" layoutX="405.0" layoutY="163.0" mnemonicParsing="false" onAction="#login" text="Log-in">
-         <font>
-            <Font name="SansSerif Regular" size="12.0" />
-         </font></Button>
-      <TextField fx:id="usernameField" layoutX="247.0" layoutY="82.0" prefHeight="26.0" prefWidth="206.0" promptText="E-Mail">
-         <font>
-            <Font name="SansSerif Regular" size="12.0" />
-         </font></TextField>
+      <Button fx:id="loginButton" layoutX="402.0" layoutY="168.0" mnemonicParsing="false" onAction="#login" text="Log-in" />
+      <TextField fx:id="usernameField" layoutX="247.0" layoutY="82.0" prefHeight="26.0" prefWidth="206.0" promptText="E-Mail" />
       <PasswordField fx:id="passwordField" layoutX="247.0" layoutY="124.0" onAction="#login" prefHeight="26.0" prefWidth="206.0" promptText="Password">
          <font>
             <Font name="SansSerif Regular" size="12.0" />
          </font></PasswordField>
-      <Label fx:id="forgottenPasswordLabel" layoutX="227.0" layoutY="289.0" onMouseClicked="#forgottenPassword" prefHeight="18.0" prefWidth="98.0" style="-fx-underline: true;" text="Forgot password?" textFill="#0645ad">
+      <Label fx:id="forgottenPasswordLabel" layoutX="224.0" layoutY="278.0" onMouseClicked="#forgottenPassword" prefHeight="18.0" prefWidth="98.0" style="-fx-underline: true;" text="Forgot password?" textFill="#0645ad">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -32,22 +26,10 @@
             <Font name="SansSerif Regular" size="11.0" />
          </font>
       </Label>
-      <Button fx:id="registerButton" layoutX="331.0" layoutY="252.0" mnemonicParsing="false" onAction="#register" text="Register a new account">
-         <font>
-            <Font name="SansSerif Regular" size="12.0" />
-         </font>
-      </Button>
-      <Label fx:id="requestHelpLabel" layoutX="326.0" layoutY="289.0" onMouseClicked="#requestHelp" prefHeight="18.0" prefWidth="146.0" style="-fx-underline: true;" text="Need help? Request Support" textFill="#0645ad">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-         <font>
-            <Font name="SansSerif Regular" size="11.0" />
-         </font>
-      </Label>
+      <Button fx:id="registerButton" layoutX="332.0" layoutY="275.0" mnemonicParsing="false" onAction="#register" text="Register a new account" />
       <Label layoutX="238.0" layoutY="36.0" text="Welcome to Crushers Banking System!">
          <font>
-            <Font name="SansSerif Regular" size="14.0" />
+            <Font name="Malgun Gothic Semilight" size="14.0" />
          </font>
       </Label>
       <Label fx:id="invalidLoginLabel" layoutX="251.0" layoutY="167.0" textFill="#d42a2a">

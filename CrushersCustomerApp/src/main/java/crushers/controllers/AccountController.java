@@ -15,6 +15,7 @@ import crushers.model.SavingsAccount;
 import crushers.util.Http;
 import crushers.util.Json;
 import crushers.util.Util;
+import static crushers.util.Util.trunc;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -123,7 +124,7 @@ public class AccountController implements Initializable{
                     accountBankLabel.setText("Bank: " + account.getBank().getName());
                     
                     accountNameLabel.setText("Account name: " + account.getName());
-                    accountBalanceLabel.setText("Account balance: " + account.getBalance() + " SEK");
+                    accountBalanceLabel.setText("Account balance: " + trunc(account.getBalance()) + " SEK");
                     accountIDLabel.setText("Account ID: " + account.getId());
             } 
         });
@@ -138,7 +139,7 @@ public class AccountController implements Initializable{
             for (PaymentAccount currentCustomerAccount : currentCustomerAccounts) {
                 customerTotalBalance += currentCustomerAccount.getBalance();
             }
-        return customerTotalBalance;
+        return trunc(customerTotalBalance);
         }
     }
     public void updateAccountList(){
