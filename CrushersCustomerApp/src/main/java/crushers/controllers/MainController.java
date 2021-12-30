@@ -102,8 +102,4 @@ public class MainController { // test commit
         stage.show();
 
     }
-
-    public void forgottenPassword() throws IOException {
-        Util.showModal("ChangePasswordView", "Reset Password", new ActionEvent());
-    }
 }

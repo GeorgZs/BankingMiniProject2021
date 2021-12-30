@@ -205,7 +205,9 @@ public class SystemController implements Initializable{
         JsonNode account = Json.nodeWithFields("id",App.currentAccountID,"type","payment");
         Loan loan = loanTableView.getSelectionModel().getSelectedItem();
         JsonNode transaction = Json.nodeWithFields("label",loan.getPurpose(),"id",loan.getAccountId(),"from",account,"to",null,"amount",amountToPay,"description",null,"date",null);
-        Http.authPut("transactions/loan",transaction,Transaction.class,App.currentToken);
+        Transaction transactionObj = Http.authPut("transactions/loan",transaction,Transaction.class,App.currentToken);
+        System.out.println(transactionObj);
+        System.out.println("Test\nTest");
         }
     }
 
