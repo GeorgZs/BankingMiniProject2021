@@ -68,6 +68,9 @@ public class Http {
                 .build();
 
         HttpResponse<String> res = client.send(req, HttpResponse.BodyHandlers.ofString());
+        if (type==null){
+            return null;
+        }
         return Json.parse(res.body(), type);
     }
 

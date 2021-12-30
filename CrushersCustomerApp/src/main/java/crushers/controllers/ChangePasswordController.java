@@ -1,7 +1,11 @@
 package crushers.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import crushers.App;
 import crushers.model.Customer;
+import crushers.util.Http;
+import crushers.util.Json;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -13,15 +17,59 @@ import java.util.ArrayList;
 
 
 public class ChangePasswordController {
-    private Customer currentCustomer;
+   /* private Customer currentCustomer;
     @FXML
     private TextField answer1Field, answer2Field, answer3Field, emailField, newPasswordField, passwordConfirmField;
     @FXML
     private Label question1Label,question2Label, question3Label, invalidInput;
     @FXML
     private VBox questionsBox, passwordBox;
+    */
+    @FXML
+    private TextField emailField, ans1Field, ans2Field, ans3Field;
+    @FXML
+    private PasswordField newPass, repPass;
+    @FXML
+    private Button resetPassword;
+    @FXML
+    private Label errorLabel;
+
+    public void resetPassword(ActionEvent e) throws Exception {
+        if (emailField.getText().isBlank()) {
+            errorLabel.setText("Must enter a valid email address.");
+        } else if (newPass.getText().isBlank()) {
+            errorLabel.setText("Must enter a new password.");
+        } else if (repPass.getText().isBlank()) {
+            errorLabel.setText("Must repeat new password.");
+        } else if (!newPass.getText().matches(repPass.getText())) {
+            errorLabel.setText("Passwords must match.");
+        } else if (newPass.getText().length() < 8) {
+            errorLabel.setText("Password must be at least 8 characters.");
+        } else if (ans1Field.getText().isBlank()) {
+            errorLabel.setText("Please enter your answer to security question 1.");
+        } else if (ans2Field.getText().isBlank()) {
+            errorLabel.setText("Please enter your answer to security question 2.");
+        } else if (ans3Field.getText().isBlank()) {
+            errorLabel.setText("Please enter your answer to security question 3.");
+        } else {
+            String email = emailField.getText();
+            String password = newPass.getText();
+            String[] securityQuestions = {ans1Field.getText(), ans2Field.getText(), ans3Field.getText()};
+            JsonNode resetPassNode = Json.nodeWithFields("email",email,"password",password,"securityQuestions",securityQuestions);
+            Http.put("auth/password",resetPassNode,null);
+        }
+    }
 
 
+
+
+
+
+
+
+
+
+/*
     public void submitAnswers(ActionEvent event) {
         if(currentCustomer.getSecurityQuestions().get(1).equals(answer1Field.getText())) {
             if(currentCustomer.getSecurityQuestions().get(3).equals(answer2Field.getText())) {
@@ -63,10 +111,12 @@ public class ChangePasswordController {
             invalidInput.setText("Passwords do not match.");
         } else {
             currentCustomer.setPassword(newPassword);
+            //Json.nodeWithFields("email",)
+            //Http.put("auth/password",)
             System.out.println("New password has been saved.");
             Stage oldStage = (Stage)((Node)event.getSource()).getScene().getWindow();
             oldStage.close();
         }
     }
-
+ */
 }
