@@ -7,10 +7,7 @@ import java.util.Optional;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import crushers.App;
-import crushers.model.Contact;
-import crushers.model.Customer;
-import crushers.model.PaymentAccount;
-import crushers.model.Transaction;
+import crushers.model.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
