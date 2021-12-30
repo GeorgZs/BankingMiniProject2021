@@ -95,6 +95,11 @@ public class AccountCreationController implements Initializable{
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
-        bankSelection.setStyle("-fx-font-family: SansSerif");
+    }
+    public void setPayment(ActionEvent e){
+        this.isPayment = true;
+    }
+    public void setSavings(ActionEvent e){
+        this.isPayment = false;
     }
 }

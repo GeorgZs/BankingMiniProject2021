@@ -20,14 +20,10 @@ import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.Node;
 
 public class MainController { // test commit
-
-    private Stage stage;
-    private Parent root;
     
     @FXML
     private TextField usernameField;
@@ -44,20 +40,18 @@ public class MainController { // test commit
     
     public void register(ActionEvent e) throws IOException{
 
-        // Util.showModal("RegisterView", "Registration Form", e);
-        // we need to set stylesheet so this is commented. Uncomment in the future
+        Util.showModal("RegisterView", "Registration Form", e);
 
-        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("crushers/views/RegisterView.fxml"));
-        root = loader.load();
-        stage = new Stage();
-        Scene scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getClassLoader().getResource("crushers/stylesheets/main.css").toExternalForm());
-        stage.setScene(scene);
+        // FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("crushers/views/RegisterView.fxml"));
+        // root = loader.load();
+        // stage = new Stage();
+        // Scene scene = new Scene(root);
+        // stage.setScene(scene);
 
-        stage.getIcons().add(new Image("crushers/imgs/logo.jpg"));
-        stage.setTitle("Registration Form");
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.show();
+        // stage.getIcons().add(new Image("crushers/imgs/logo.jpg"));
+        // stage.setTitle("Registration Form");
+        // stage.initModality(Modality.APPLICATION_MODAL);
+        // stage.show();
 
     }
 
@@ -105,13 +99,8 @@ public class MainController { // test commit
 
         accCtrl = loader.getController();
 
-        stage.getScene().getStylesheets().add(getClass().getClassLoader().getResource("crushers/stylesheets/main.css").toExternalForm());
         stage.show();
 
-    }
-
-    public void requestHelp(){
-        System.out.println("cry about it");
     }
 
     public void forgottenPassword() throws IOException {

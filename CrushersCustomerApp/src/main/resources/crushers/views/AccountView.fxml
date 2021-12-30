@@ -12,27 +12,20 @@
    <children>
       <Label fx:id="welcomeLabel" alignment="CENTER" prefHeight="52.0" prefWidth="600.0" text="Welcome, {firstName} {lastName}" textFill="#311e7e">
          <font>
-            <Font name="SansSerif Regular" size="26.0" />
+            <Font name="Malgun Gothic" size="26.0" />
          </font>
       </Label>
-      <Button fx:id="logoutButton" layoutX="511.0" layoutY="328.0" mnemonicParsing="false" onAction="#logout" text="Log out">
-         <font>
-            <Font name="SansSerif Regular" size="12.0" />
-         </font></Button>
+      <Button fx:id="logoutButton" layoutX="510.0" layoutY="335.0" mnemonicParsing="false" onAction="#logout" text="Log out" />
       <ListView fx:id="accountList" layoutX="33.0" layoutY="119.0" prefHeight="200.0" prefWidth="266.0" style="-fx-border-color: gray; -fx-background-color: white;" />
-      <Label layoutX="84.0" layoutY="86.0" text="Please, select an account">
+      <Label layoutX="107.0" layoutY="86.0" text="Account Selection">
          <font>
-            <Font name="SansSerif Regular" size="15.0" />
+            <Font name="Malgun Gothic Semilight" size="15.0" />
          </font>
       </Label>
-      <Button fx:id="createNewAccountButton" layoutX="177.0" layoutY="328.0" mnemonicParsing="false" onAction="#createNewAccount" text="Create new account">
+      <Button fx:id="createNewAccountButton" layoutX="33.0" layoutY="334.0" mnemonicParsing="false" onAction="#createNewAccount" text="Create new account" />
+      <Label layoutX="393.0" layoutY="86.0" text="Selected account">
          <font>
-            <Font name="SansSerif Regular" size="12.0" />
-         </font>
-      </Button>
-      <Label layoutX="393.0" layoutY="86.0" text="Selected account:">
-         <font>
-            <Font name="SansSerif Regular" size="15.0" />
+            <Font name="Malgun Gothic Semilight" size="15.0" />
          </font>
       </Label>
       <VBox fx:id="accountDetailsBox" layoutX="333.0" layoutY="119.0" prefHeight="200.0" prefWidth="235.0" style="-fx-background-color: white; -fx-border-color: grey;">
@@ -79,24 +72,16 @@
             </Label>
          </children>
       </VBox>
-      <Button fx:id="selectButton" layoutX="33.0" layoutY="326.0" mnemonicParsing="false" onAction="#select" prefHeight="26.0" prefWidth="58.0" text="Select">
-         <font>
-            <Font name="SansSerif Regular" size="12.0" />
-         </font>
-      </Button>
-      <Label fx:id="invalidLabel" alignment="CENTER" layoutX="342.0" layoutY="339.0" prefHeight="18.0" prefWidth="155.0" textFill="#e11616">
+      <Button fx:id="selectButton" layoutX="240.0" layoutY="333.0" mnemonicParsing="false" onAction="#select" prefHeight="26.0" prefWidth="58.0" text="Select" />
+      <Label fx:id="invalidLabel" alignment="CENTER" layoutX="33.0" layoutY="367.0" prefHeight="18.0" prefWidth="266.0" textFill="#e11616">
          <font>
             <Font name="Malgun Gothic Semilight" size="12.0" />
          </font>
       </Label>
-      <Button fx:id="transferButton" layoutX="333.0" layoutY="326.0" mnemonicParsing="false" onAction="#transferFunds" prefHeight="27.0" prefWidth="94.0" text="Transfer funds">
+      <Button fx:id="transferButton" layoutX="402.0" layoutY="334.0" mnemonicParsing="false" onAction="#transferFunds" prefHeight="27.0" prefWidth="94.0" text="Transfer funds" />
+      <Label fx:id="totalBalanceLabel" alignment="CENTER" layoutX="-1.0" layoutY="52.0" prefHeight="23.0" prefWidth="600.0" text="Total Balance: {totalBalance} " textAlignment="CENTER">
          <font>
-            <Font name="SansSerif Regular" size="12.0" />
-         </font>
-      </Button>
-      <Label fx:id="totalBalanceLabel" alignment="CENTER" layoutY="52.0" prefHeight="23.0" prefWidth="600.0" text="Total Balance: {totalBalance} " textAlignment="CENTER">
-         <font>
-            <Font name="SansSerif Regular" size="20.0" />
+            <Font name="Malgun Gothic Semilight" size="20.0" />
          </font>
       </Label>
    </children>

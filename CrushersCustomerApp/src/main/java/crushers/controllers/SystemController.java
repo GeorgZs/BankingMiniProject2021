@@ -4,13 +4,13 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -19,6 +19,7 @@ import crushers.model.*;
 import crushers.util.Http;
 import crushers.util.Json;
 import crushers.util.Util;
+import static crushers.util.Util.trunc;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -36,10 +37,11 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+
 public class SystemController implements Initializable{
 
     @FXML
-    private Label welcomeLabel, errorLabel, transactionError, loanErrorLabel;
+    private Label welcomeLabel, errorLabel, transactionError, loanErrorLabel, notificationErrorLabel, overviewErrorLabel;
     @FXML
     private Pane pane;
     @FXML
@@ -53,13 +55,17 @@ public class SystemController implements Initializable{
     @FXML
     private Button createContact, deleteContact, makePayment, makeANewPayment, makeAPaymentRequest, reportTransaction, viewTransactionDetails, apply, paybackLoan;
     @FXML
-    private TextField nameField, accountID, loanAmountField, amountPayback;
+    private TextField nameField, accountID, loanAmountField, amountPayback, recipientIdField;
     @FXML
-    private TextArea descriptionArea, loanPurposeField, transactionLabelField;
+    private TextArea descriptionArea, loanPurposeField, transactionLabelField, requestBodyField;
     @FXML
     private Label contactErrorLabel, accountIdLabel, accountNumberLabel, accountNameLabel, accountBalanceLabel, accountOwnerLabel, accountTypeLabel, accountBankLabel, transactionsMadeLabel, numberOfContactsLabel, pendingLoansLabel, totalDebtLabel, netWorthLabel;
     @FXML
     private TableView<Loan> loanTableView;
+    @FXML
+    private ListView<String> notificationsListView;
+
+    private ObservableList<String> observableNotifications;
 
     boolean showCardNumber;
 
@@ -102,8 +108,29 @@ public class SystemController implements Initializable{
         Util.showModal("PaymentView", "Make a Payment", e);
     }
 
-    public void makeAPaymentRequest(ActionEvent e){
-        Util.showModal("RequestView", "Make a Payment Request", e);
+    public void sendNotification(ActionEvent e) throws IOException, InterruptedException{
+        notificationErrorLabel.setTextFill(Color.RED);
+        try{
+            int recipientId = Integer.parseInt(recipientIdField.getText());
+            String requestBody = requestBodyField.getText();
+            if(requestBody.isBlank()){
+                notificationErrorLabel.setText("Please fill a request");
+                return;
+            }
+            JsonNode notificationNode = Json.nodeWithFields("notification", requestBody, "targetCustomer", Json.nodeWithFields("id", recipientId));
+            String res = Http.authPost("customers/notification", App.currentToken, notificationNode);
+            if(res.contains("Internal server error")){
+                notificationErrorLabel.setText("Account ID does not exist!");
+                return;
+            }
+            notificationErrorLabel.setTextFill(Color.GREEN);
+            notificationErrorLabel.setText("Request successfully sent!");
+        }catch(NumberFormatException nfe){
+            notificationErrorLabel.setText("Please enter a valid ID");
+        }catch(Exception ex){
+            notificationErrorLabel.setText("Account ID does not exist!");
+        }
+        
     }
 
     public void setLabel(ActionEvent e) throws Exception{
@@ -179,6 +206,7 @@ public class SystemController implements Initializable{
         Http.authPost("transactions/loan", App.currentToken, loanNode);
         loanTableView.getItems().add(loan);
         updateAccountOverview();
+        updateNotifications();
             }
     }
 
@@ -205,8 +233,12 @@ public class SystemController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources){
         Util.updateCustomer();
-        welcomeLabel.setText("Welcome " + App.currentCustomer.getFirstName() + " " + App.currentCustomer.getLastName());
+        welcomeLabel.setText("Welcome " + App.currentCustomer.getFirstName() + " " + App.currentCustomer.getLastName() + " (ID" + App.currentCustomer.getId() + ")");
         
+        // Main
+
+        updateNotifications();
+
         // Account Overview
 
         // updateAccountOverview();
@@ -291,15 +323,17 @@ public class SystemController implements Initializable{
     */
 
     public void getInterest(ActionEvent e) throws IOException, InterruptedException {
-        ArrayList<Integer> years = new ArrayList<>();
-        if (years.contains(LocalDateTime.now().getYear())){
-            System.out.println("no");
-            errorLabel.setText("Already received interest this year");
-        } else {
-            years.add(LocalDateTime.now().getYear());
-            Http.post("transactions/interestRate/" + App.currentAccount.getId(), Customer.class);
-            System.out.println("done");
+        overviewErrorLabel.setTextFill(Color.RED);
+        String res = Http.authPost("transactions/interestRate/" + App.currentAccountID, App.currentToken, null);
+        if(res.contains("balance too low")){
+            overviewErrorLabel.setText("Account balance too low!");
+        }else if(res.contains("Not a savings account")){
+            overviewErrorLabel.setText("Cannot receive interest on Payment account!");
+        }else{
+            overviewErrorLabel.setTextFill(Color.GREEN);
+            overviewErrorLabel.setText("Interest successfully received!");
         }
+        updateAccountOverview();
     }
 
     public void logout(ActionEvent e) throws IOException{
@@ -324,7 +358,7 @@ public class SystemController implements Initializable{
         accountIdLabel.setText("Account ID: " + App.currentAccount.getId());
         accountNumberLabel.setText("Account Number: " + cardNumber);
         accountNameLabel.setText("Account Name: " + App.currentAccount.getName());
-        accountBalanceLabel.setText("Account Balance: " + App.currentAccount.getBalance() + " SEK");
+        accountBalanceLabel.setText("Account Balance: " + trunc(App.currentAccount.getBalance()) + " SEK");
         accountOwnerLabel.setText("Account Owner: " + App.currentCustomer.getFirstName() + " " + App.currentCustomer.getLastName());
         accountTypeLabel.setText("Account Type: " + accountType);
         accountBankLabel.setText("Account Bank: " + App.currentAccount.getBank());
@@ -338,13 +372,29 @@ public class SystemController implements Initializable{
         transactionsMadeLabel.setText("Transactions Made: " + App.currentCustomer.getAccountWithId(App.currentAccountID).getTransactions().size() + " transactions");
         numberOfContactsLabel.setText("Number of Contacts: " + App.currentCustomer.getContactList().size() + " contacts");
         pendingLoansLabel.setText("Pending Loans: " + App.currentCustomer.getLoansWithAccountId(App.currentAccountID).size() + " loans");
-        totalDebtLabel.setText("Total Debt: " + debt + " SEK");
-        netWorthLabel.setText(netWorth + " SEK");
+        totalDebtLabel.setText("Total Debt: " + trunc(debt) + " SEK");
+        netWorthLabel.setText(trunc(netWorth) + " SEK");
         if(netWorth > 0){
             netWorthLabel.setTextFill(Color.GREEN);
         }else if(netWorth < 0){
             netWorthLabel.setTextFill(Color.RED);
         }
         transactionTableView.getItems().setAll(App.currentCustomer.getAccountWithId(App.currentAccountID).getTransactions());
+    }
+
+    public void updateNotifications(){
+        try {
+            LinkedHashMap<String, String> notifications = Json.parseLinkedHashMap(Http.authGet("customers/notifications", App.currentToken), String.class, String.class);
+            ArrayList<String> notificationList = new ArrayList<String>();
+            for(String key: notifications.keySet()){
+                notificationList.add("(" + key + "): " + notifications.get(key));
+            }
+            observableNotifications = FXCollections.observableArrayList();
+            observableNotifications.addAll(notificationList);
+            notificationsListView.setItems(observableNotifications);
+
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

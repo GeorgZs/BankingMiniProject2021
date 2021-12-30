@@ -1,6 +1,7 @@
 package crushers.util;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -13,6 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.type.CollectionType;
+import com.fasterxml.jackson.databind.type.MapType;
 
 public class Json {
     
@@ -36,6 +38,10 @@ public class Json {
 
     public static <T> ArrayList<T> parseList(String jsonString, Class<T> type) throws JsonProcessingException {
         final CollectionType collType = json.getTypeFactory().constructCollectionType(ArrayList.class, type);
+        return json.readValue(jsonString, collType);
+    }
+    public static <T, U> LinkedHashMap<T, U> parseLinkedHashMap(String jsonString, Class<T> typeOne, Class<U> typeTwo) throws JsonMappingException, JsonProcessingException{
+        final MapType collType = json.getTypeFactory().constructMapType(LinkedHashMap.class, typeOne, typeTwo);
         return json.readValue(jsonString, collType);
     }
     

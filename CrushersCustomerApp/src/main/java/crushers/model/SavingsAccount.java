@@ -10,6 +10,9 @@ public class SavingsAccount extends PaymentAccount{
         this.interestRate = interestRate;
         // this.savingsGoal = savingsGoal;
     }
+    public SavingsAccount(int id, Bank bank, Customer owner, String type, String number, double balance, double interestRate){
+        super(id, bank, owner, type, number, balance, interestRate);
+    }
 
     public SavingsAccount(){
         super();
@@ -21,7 +24,7 @@ public class SavingsAccount extends PaymentAccount{
     }
     @Override
     public String getType(){
-        return "Savings";
+        return "savings";
     }
     // public double getSavingsGoal(){
     //     return this.savingsGoal;
