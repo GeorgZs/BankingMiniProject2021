@@ -1,23 +1,22 @@
 package crushers.services.staff;
 
-import crushers.models.Bank;
-import crushers.models.users.Clerk;
+import crushers.common.httpExceptions.*;
+import crushers.common.models.*;
 
 import crushers.server.Authenticator;
-import crushers.server.httpExceptions.*;
-import crushers.services.accounts.JsonAccountStorage;
+import crushers.services.banks.BankService;
 
 import java.util.*;
 
 public class StaffService {
-    private final JsonClerkStorage storage;
-    private final JsonAccountStorage accountStorage;
+    private final JsonStaffStorage storage;
+    private final BankService bankService;
 
-    public StaffService(JsonClerkStorage storage, JsonAccountStorage accountStorage) throws Exception {
+    public StaffService(BankService bankService, JsonStaffStorage storage) throws Exception {
         this.storage = storage;
-        this.accountStorage = accountStorage;
+        this.bankService = bankService;
 
-        for (Clerk clerk : storage.getAll()) {
+        for (User clerk : storage.getAll()) {
             Authenticator.instance.register(clerk);
         }
     }
@@ -27,8 +26,8 @@ public class StaffService {
      * @return the Clerk with the ID matching that passed in the method signature
      * @throws Exception if the clerk is null or the ID doesn't match any Clerk's ID
      */
-    public Clerk get(int id) throws Exception {
-        Clerk clerk = storage.get(id);
+    public User get(int id) throws Exception {
+        User clerk = storage.get(id);
         if(clerk == null){
             throw new NotFoundException("No Staff member found with ID: " + id);
         }
@@ -39,7 +38,7 @@ public class StaffService {
      * @return the Collection of Clerks
      * @throws Exception
      */
-    public Collection<Clerk> getAll() throws Exception {
+    public Collection<User> getAll() throws Exception {
         return storage.getAll();
     }
 
@@ -49,15 +48,14 @@ public class StaffService {
      * @return the updated Clerk
      * @throws Exception
      */
-    public Clerk updateClerk(int id, Clerk clerk) throws Exception {
+    public User updateClerk(int id, User clerk) throws Exception {
         storage.update(id, clerk);
         return get(id);
     }
 
     /**
-     * @param bank in which the logged-in Manager works
-     * @param clerk being created
-     * @return the created Clerk given it passes all tests
+     * Validates a clerk
+     * @param clerk being validated
      * @throws Exception if the Clerk doesn't meet requirements:
      * if the clerk is null or the Clerk's details are invalid:
      * if the email, first and last name, and password are null or blank it throws and Exception
@@ -65,7 +63,7 @@ public class StaffService {
      * if password length is less than 8, doesn't contain at least one Capital letter or number, or
      * contains an empty characters --> throws an Exception
      */
-    public Clerk create(Bank bank, Clerk clerk) throws Exception {
+    public void validate(User clerk) throws BadRequestException {
         List<String> invalidDataMessage = new ArrayList<>();
         if(clerk == null){
             throw new BadRequestException("Staff Member invalid!");
@@ -94,9 +92,38 @@ public class StaffService {
         if (!invalidDataMessage.isEmpty()) {
             throw new BadRequestException(String.join("\\n", invalidDataMessage));
         }
+    }
+
+    /**
+     * @param bank in which the logged-in Manager works
+     * @param clerk being created
+     * @return the created Clerk given it passes all tests
+     * @throws Exception if the Clerk doesn't meet requirements:
+     * if the clerk is null or the Clerk's details are invalid:
+     * if the email, first and last name, and password are null or blank it throws and Exception
+     * for password validation:
+     * if password length is less than 8, doesn't contain at least one Capital letter or number, or
+     * contains an empty characters --> throws an Exception
+     */
+    public User create(Bank bank, User clerk) throws Exception {
+        validate(clerk);
+        bank = bankService.get(bank.getId());
         clerk.setWorksAt(bank);
-        Authenticator.instance.register(clerk);
-        return storage.create(clerk);
+
+        if (bank.getManager().getId() > 0 || !clerk.isManager()) {
+            clerk.setType("clerk");
+        }
+
+        User createdClerk = storage.create(clerk);
+
+        try {
+            Authenticator.instance.register(createdClerk);
+        }
+        finally {
+            storage.delete(createdClerk.getId());
+        }
+        
+        return createdClerk;
     }
 
     /**
@@ -104,7 +131,7 @@ public class StaffService {
      * @return the Clerk object of the logged-in Clerk
      * @throws Exception
      */
-    public Clerk getLoggedIn(Clerk loggedInClerk) throws Exception {
+    public User getLoggedIn(User loggedInClerk) throws Exception {
         return storage.get(loggedInClerk.getId());
     }
 
@@ -113,25 +140,11 @@ public class StaffService {
      * @return the Collection of Clerks that work at the Bank at which the logged-in Manager works at
      * @throws Exception
      */
-    public Collection<Clerk> getClerksOfBank(Bank bank) throws Exception{
-        Collection<Clerk> clerks = storage.getClerksOfBank(bank);
+    public Collection<User> getClerksOfBank(Bank bank) throws Exception {
+        Collection<User> clerks = storage.getClerksOfBank(bank);
         if(clerks == null){
             clerks = new ArrayList<>();
         }
         return clerks;
-    }
-
-    /**
-     * @return the JsonAccountStorage
-     */
-    public JsonAccountStorage getAccountStorage() {
-        return accountStorage;
-    }
-
-    /**
-     * @return the JsonClerkStorage
-     */
-    public JsonClerkStorage getStorage() {
-        return storage;
     }
 }

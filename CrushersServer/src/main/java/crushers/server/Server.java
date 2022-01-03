@@ -5,23 +5,27 @@ import java.net.InetSocketAddress;
 
 import com.sun.net.httpserver.HttpServer;
 
-import crushers.services.AuthenticationRouter;
+import crushers.common.models.*;
 import crushers.services.accounts.AccountRouter;
 import crushers.services.accounts.AccountService;
 import crushers.services.accounts.JsonAccountStorage;
 import crushers.services.banks.BankRouter;
 import crushers.services.banks.BankService;
-import crushers.services.banks.JsonBankStorage;
+import crushers.services.contacts.ContactRouter;
+import crushers.services.contacts.ContactService;
+import crushers.services.contacts.JsonContactStorage;
 import crushers.services.customers.CustomerRouter;
 import crushers.services.customers.CustomerService;
-import crushers.services.customers.JsonCustomerStorage;
-import crushers.services.staff.JsonClerkStorage;
+import crushers.services.notifications.JsonNotificationStorage;
+import crushers.services.notifications.NotificationRouter;
+import crushers.services.notifications.NotificationService;
+import crushers.services.staff.JsonStaffStorage;
 import crushers.services.staff.StaffRouter;
 import crushers.services.staff.StaffService;
-
 import crushers.services.transactions.JsonTransactionStorage;
 import crushers.services.transactions.TransactionRouter;
 import crushers.services.transactions.TransactionService;
+import crushers.storage.JsonStorage;
 
 /**
  * The actual http server of which the port can be configured in the constructor.
@@ -41,30 +45,53 @@ public class Server {
    * Here we add our services to the server so that they can be accessed via http.
    */
   private void addServices() throws Exception {
+    // Create the folder for all our json storage files.
     new File("data").mkdirs();
 
-    new AuthenticationRouter().addEndpoints(httpServer);
 
-    final CustomerService customerService = new CustomerService(new JsonCustomerStorage(
-      new File("data/customers.json")));
-    new CustomerRouter(customerService).addEndpoints(this.httpServer);
+    final CustomerService customerService = new CustomerService(
+      new JsonStorage<User>(new File("data/customers.json"), User.class)
+    );
 
-    final StaffService staffService = new StaffService(new JsonClerkStorage(new File("data/staff.json")
-    ), new JsonAccountStorage(new File("data/accounts.json")));
-    new StaffRouter(staffService).addEndpoints(this.httpServer);
+    final BankService bankService = new BankService(
+      new JsonStorage<Bank>(new File("data/banks.json"), Bank.class)
+    );
 
-    final BankService bankService = new BankService(new JsonBankStorage(new File("data/bank.json")), staffService);
-    new BankRouter(bankService).addEndpoints(this.httpServer);
+    final StaffService staffService = new StaffService(
+      bankService,
+      new JsonStaffStorage(new File("data/staff.json"))
+    );
 
     final AccountService accountService = new AccountService(
       customerService,
       bankService,
       new JsonAccountStorage(new File("data/accounts.json"))
     );
-    new AccountRouter(accountService).addEndpoints(this.httpServer);
+    
+    final TransactionService transactionService = new TransactionService(
+      accountService,
+      new JsonTransactionStorage(new File("data/transactions.json")),
+      new JsonStorage<Transaction>(new File("data/recurring-transactions.json"), Transaction.class)
+    );
 
-    final TransactionService transactionService = new TransactionService(new JsonTransactionStorage(new File("data/transactions.json")), accountService);
+    final ContactService contactService = new ContactService(
+      accountService,
+      new JsonContactStorage(new File("data/contacts.json"))
+    );
+
+    final NotificationService notificationService = new NotificationService(
+      accountService,
+      new JsonNotificationStorage(new File("data/notifications.json"))
+    );
+
+    new AuthenticationRouter().addEndpoints(httpServer);
+    new CustomerRouter(customerService).addEndpoints(this.httpServer);
+    new BankRouter(bankService, staffService).addEndpoints(this.httpServer);
+    new StaffRouter(staffService).addEndpoints(this.httpServer);
+    new AccountRouter(accountService).addEndpoints(this.httpServer);
     new TransactionRouter(transactionService).addEndpoints(this.httpServer);
+    new ContactRouter(contactService).addEndpoints(this.httpServer);
+    new NotificationRouter(notificationService).addEndpoints(this.httpServer);
   }
 
   /**
@@ -72,11 +99,13 @@ public class Server {
    */
   public void start() {
     httpServer.start();
-    System.out.println("\n****************INITIALIZING*****************");
-    System.out.println("*********************************************");
-    System.out.println("   Server started at http://localhost:" + port);
-    System.out.println("*********************************************");
-    System.out.println("*********************************************");
+    System.out.println("=============== [CRUSHERS SERVER] ===============");
+    System.out.println(" The server is running on http://localhost:" + port);
+    System.out.println(" To use this server, we recommend using our  ");
+    System.out.println(" tested customer and staff applications.");
+    System.out.println();
+    System.out.println(" Press Ctrl+C to stop this server.");
+    System.out.println("=============== [CRUSHERS SERVER] ===============");
   }
 
 }

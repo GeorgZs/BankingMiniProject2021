@@ -1,13 +1,12 @@
 package crushers.controllers;
 
 import crushers.WindowManager;
-import crushers.api.HttpError;
-import crushers.api.ServerFacade;
-import crushers.datamodels.Notification;
-import crushers.datamodels.User;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import crushers.common.ServerFacade;
+import crushers.common.httpExceptions.HttpException;
+import crushers.common.models.*;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -19,9 +18,14 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
-import java.util.*;
+import java.net.URL;
+import java.util.List;
+import java.util.ResourceBundle;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
-public class DashboardController {
+public class DashboardController implements Initializable {
     @FXML
     private VBox sidebar;
     @FXML
@@ -87,10 +91,6 @@ public class DashboardController {
     @FXML
     private PasswordField password;
     @FXML
-    private ChoiceBox<String> clerkSecurityQuestion;
-    @FXML
-    private TextField clerkAnswer;
-    @FXML
     private ImageView plus;
     @FXML
     private ImageView plus2;
@@ -101,72 +101,45 @@ public class DashboardController {
     @FXML
     private ImageView plus5;
     @FXML
-    private TextField searchField;
-    @FXML
-    private Button searchButton;
-    @FXML
     private TableColumn<User, Integer> clerkID;
     @FXML
-    private TableColumn<User, String>firstNameClerk;
+    private TableColumn<User, String> firstNameClerk;
     @FXML
-    private TableColumn<User, String>lastNameClerk;
+    private TableColumn<User, String> lastNameClerk;
     @FXML
-    private TableColumn<User, String>emailClerk;
+    private TableColumn<User, String> emailClerk;
     @FXML
-    private TableColumn<User, String>addressClerk;
+    private TableColumn<User, String> typeClerk;
     @FXML
-    private TableView tableView;
+    private TableView<User> tableView;
     @FXML
     private Button sendNotificationButton;
     @FXML
-    private Button cancelNotificationButton;
-    @FXML
     private TextArea notificationMessage;
 
-    private String[] clerkQuestion = {
-            "What's the name of your first pet?",
-            "What's the name of your home-town?",
-            "What's your favorite movie?",
-            "Which high-school did you graduate?",
-            "What's your mother's maiden name?",
-            "What's the name of your first school?",
-            "What was your favorite food as a child?",
-            "What's your favorite book?"
-
-    };
+    private final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
 
 
-    @FXML
-    void initializeTable() {
-        clerkID.setCellValueFactory(new PropertyValueFactory<>("ID"));
-        firstNameClerk.setCellValueFactory(new PropertyValueFactory<>("First name"));
-        lastNameClerk.setCellValueFactory(new PropertyValueFactory<>("Last name"));
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        clerkID.setCellValueFactory(new PropertyValueFactory<>("id"));
+        firstNameClerk.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+        lastNameClerk.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         emailClerk.setCellValueFactory(new PropertyValueFactory<>("email"));
-        addressClerk.setCellValueFactory(new PropertyValueFactory<>("street address"));
-
-        tableView.setItems(createList());
-
-    }
-
-    private ObservableList createList() {
-
-            // try {
-                // Collection<Clerk> clerkList = new ArrayList<>(); // Http.get("/staff/@bank", Collection.class);
-                ObservableList informationClerk = FXCollections.observableArrayList();;
-            //     for (Clerk clerk: clerkList) {
-            //         informationClerk.add(new ClerkTableView(clerk.getId(),clerk.getFirstName(),clerk.getLastName(),clerk.getEmail(),clerk.getAddress()));
-            //     }
-                return informationClerk;
-            // } catch (Exception e) {
-            //     e.printStackTrace();
-            // }
-            // return null;
-    }
-
-    @FXML
-    void initialize(){
-        clerkSecurityQuestion.setItems(FXCollections.observableArrayList(new ArrayList<String>(Arrays.asList(clerkQuestion))));
-        clerkSecurityQuestion.setStyle("-fx-font-family: SansSerif");
+        typeClerk.setCellValueFactory(new PropertyValueFactory<>("type"));
+        
+        executor.scheduleAtFixedRate(() -> {
+            Platform.runLater(() -> {
+                try {
+                    List<User> clerks = ServerFacade.instance.listAllClerks();
+                    tableView.getItems().clear();
+                    tableView.getItems().addAll(clerks);
+                } 
+                catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            });
+        }, 0, 15, TimeUnit.SECONDS);
     }
 
     @FXML
@@ -185,9 +158,8 @@ public class DashboardController {
             addClerk.setVisible(false);
             creatingStaff.setVisible(false);
             plus.setImage(new Image("file:src/main/resources/crushers/images/icons8-plus-48.png"));
-
-
         } else {
+            hideAllTabs();
             addClerk.setVisible(true);
             creatingStaff.setVisible(true);
             plus.setImage(new Image("file:src/main/resources/crushers/images/icons8-minus-48.png"));
@@ -201,6 +173,7 @@ public class DashboardController {
             staffInformation.setVisible(false);
             plus2.setImage(new Image("file:src/main/resources/crushers/images/icons8-plus-48.png"));
         } else {
+            hideAllTabs();
             staffOverview.setVisible(true);
             staffInformation.setVisible(true);
             plus2.setImage(new Image("file:src/main/resources/crushers/images/icons8-minus-48.png"));
@@ -214,6 +187,7 @@ public class DashboardController {
             transactionBar.setVisible(false);
             plus3.setImage(new Image("file:src/main/resources/crushers/images/icons8-plus-48.png"));
         } else {
+            hideAllTabs();
             transactions.setVisible(true);
             transactionBar.setVisible(true);
             plus3.setImage(new Image("file:src/main/resources/crushers/images/icons8-minus-48.png"));
@@ -228,6 +202,7 @@ public class DashboardController {
             accountBar.setVisible(false);
             plus4.setImage(new Image("file:src/main/resources/crushers/images/icons8-plus-48.png"));
         } else {
+            hideAllTabs();
             bankAccount.setVisible(true);
             accountBar.setVisible(true);
             plus4.setImage(new Image("file:src/main/resources/crushers/images/icons8-minus-48.png"));
@@ -236,8 +211,51 @@ public class DashboardController {
     }
 
     @FXML
+    private void onClickedNotification(javafx.event.ActionEvent actionEvent) throws Exception {
+        if (notification.isVisible() || notificationBar.isVisible()) {
+            notification.setVisible(false);
+            notificationBar.setVisible(false);
+            plus5.setImage(new Image("file:src/main/resources/crushers/images/icons8-plus-48.png"));
+        } else {
+            hideAllTabs();
+            notification.setVisible(true);
+            notificationBar.setVisible(true);
+            plus5.setImage(new Image("file:src/main/resources/crushers/images/icons8-minus-48.png"));
+        }
+    }
+
+    @FXML
+    private void hideAllTabs() {
+        addClerk.setVisible(false);
+        creatingStaff.setVisible(false);
+        plus.setImage(new Image("file:src/main/resources/crushers/images/icons8-plus-48.png"));
+        
+        staffOverview.setVisible(false);
+        staffInformation.setVisible(false);
+        plus2.setImage(new Image("file:src/main/resources/crushers/images/icons8-plus-48.png"));
+        
+        transactions.setVisible(false);
+        transactionBar.setVisible(false);
+        plus3.setImage(new Image("file:src/main/resources/crushers/images/icons8-plus-48.png"));
+        
+        bankAccount.setVisible(false);
+        accountBar.setVisible(false);
+        plus4.setImage(new Image("file:src/main/resources/crushers/images/icons8-plus-48.png"));
+
+        notification.setVisible(false);
+        notificationBar.setVisible(false);
+        plus5.setImage(new Image("file:src/main/resources/crushers/images/icons8-plus-48.png"));
+    }
+
+    @FXML
     public void onClickedLogout(MouseEvent mouseEvent) throws Exception {
-        ServerFacade.instance.logoutUser();
+        try {
+            ServerFacade.instance.logoutUser();
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        
         WindowManager.showPage(WindowManager.Pages.Login);
     }
 
@@ -291,9 +309,6 @@ public class DashboardController {
             password.setStyle("-fx-border-color: transparent");
         }
 
-        //Clerk clerk = new Clerk(clerkEmail, clerkFirst,clerkLast,clerkAddress, clerkPassword, null, null);
-        // Http.post("/staff", clerk, Clerk.class);
-
         User clerk = new User();
         clerk.setFirstName(clerkFirst);
         clerk.setLastName(clerkLast);
@@ -303,12 +318,14 @@ public class DashboardController {
 
         try {
             ServerFacade.instance.createClerk(clerk);
-
-        } catch (Exception e) {
-            if(e instanceof HttpError) showAlert(((HttpError)e).getError());
-            e.printStackTrace();
+            WindowManager.showAlert("Clerk successfully created!");
+        }         
+        catch (HttpException ex) {
+            WindowManager.showAlert(ex.getError());
         }
-
+        catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     @FXML
@@ -417,20 +434,6 @@ public class DashboardController {
     }
 
     @FXML
-    private void onClickedNotification(javafx.event.ActionEvent actionEvent) throws Exception {
-        if (notification.isVisible() || notificationBar.isVisible()) {
-            notification.setVisible(false);
-            notificationBar.setVisible(false);
-            plus5.setImage(new Image("file:src/main/resources/crushers/images/icons8-plus-48.png"));
-        } else {
-            notification.setVisible(true);
-            notificationBar.setVisible(true);
-            plus5.setImage(new Image("file:src/main/resources/crushers/images/icons8-minus-48.png"));
-        }
-
-    }
-
-    @FXML
     private void sendNotification(javafx.event.ActionEvent event) throws Exception {
         if(notificationMessage.getText().isEmpty() || notificationMessage.getText().isBlank()) {
             notificationMessage.setStyle("-fx-border-color: red ; -fx-border-width: 1px");
@@ -439,13 +442,17 @@ public class DashboardController {
         }
 
         Notification notification = new Notification();
-        notification.setNotification(notificationMessage.getText());
+        notification.setContent(notificationMessage.getText());
 
         try {
             ServerFacade.instance.sendNotification(notification);
-        } catch (Exception e) {
-            if(e instanceof HttpError) showAlert(((HttpError)e).getError());
-            e.printStackTrace();
+            WindowManager.showAlert("Notification sent!");
+        }
+        catch (HttpException ex) {
+            WindowManager.showAlert(ex.getError());
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
         }
 
     }
@@ -527,40 +534,4 @@ public class DashboardController {
         WindowManager.showModal(WindowManager.Pages.SuspiciousTransaction, "Crushers Bank - Suspicious Transactions");
 
     }
-
-    private void showAlert(String message){
-        Alert a = new Alert(Alert.AlertType.INFORMATION);
-        a.setTitle("Warning");
-        a.setHeaderText(message);
-        a.getDialogPane().setStyle("-fx-font-family: SansSerif");
-        a.show();
-    }
-
-
-    @FXML
-    public void searchStaff() {
-
-    }
-
-    /*
-    public void createTransaction(){
-        gettexfields - from those text fields
-        find the acccont to or the one you are withdrawing from
-        call your method (___,___, balance, description)
-        Transaction transaction = new Transaction(account1, account2, amount.getTextField, description.getTextfield);
-        balance = from text field
-        description = from text field
-        HTTP.post("/transactions", transaction, Transaction.class)
-    }
-     */
-
-
-    /*
-        String[] security = new String[10];
-        //security[0] = clerkPassword;
-        //need question at index 0 and answer index 1
-
-    }
-
-     */
 }

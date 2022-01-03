@@ -1,14 +1,15 @@
 package crushers.server;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 
 import com.sun.net.httpserver.*;
 
-import crushers.server.httpExceptions.BadRequestException;
-import crushers.server.httpExceptions.HttpException;
-import crushers.server.httpExceptions.MethodNotAllowedException;
-import crushers.utils.Json;
+import crushers.common.httpExceptions.BadRequestException;
+import crushers.common.httpExceptions.HttpException;
+import crushers.common.httpExceptions.MethodNotAllowedException;
+import crushers.common.utils.Json;
 
 /**
  * This is a base router which handles some of the wiring for differentiating between common crud 
@@ -16,7 +17,7 @@ import crushers.utils.Json;
  * wiring itself. It also allows for a base path to be configured under which all the endpoints are 
  * available.
  */
-public class Router<Type> {
+public class Router {
 
   protected String basePath;
   
@@ -81,8 +82,25 @@ public class Router<Type> {
   /**
    * Sends a json response with the default success status code depending on the request method.
    */
-  final protected void sendJsonResponse(HttpExchange exchange, Object responseData) throws IOException {
-    byte[] response = Json.instance.stringify(responseData).getBytes();
+  final protected <T> void sendJsonResponse(HttpExchange exchange, Object responseData, Class<T> type) throws IOException {
+    byte[] response = Json.instance.stringify(responseData, type).getBytes();
+    int statusCode = 200;
+
+    if (exchange.getRequestMethod().equals("POST")) {
+      statusCode = 201;
+    }
+    else if (exchange.getRequestMethod().equals("DELETE")) {
+      statusCode = 204;
+    }
+
+    sendResponse(exchange, statusCode, response);
+  }
+
+  /**
+   * Sends a json collection response with the default success status code depending on the request method.
+   */
+  final protected <T> void sendJsonCollectionResponse(HttpExchange exchange, Collection<T> responseData, Class<T> type) throws IOException {
+    byte[] response = Json.instance.stringifyList(responseData, type).getBytes();
     int statusCode = 200;
 
     if (exchange.getRequestMethod().equals("POST")) {

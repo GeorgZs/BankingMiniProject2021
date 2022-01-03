@@ -5,32 +5,38 @@ import com.sun.net.httpserver.HttpExchange;
 import java.time.LocalDateTime;
 import java.util.*;
 
-import crushers.models.Credentials;
-import crushers.models.ResetPasswordClass;
-import crushers.models.users.*;
-import crushers.server.httpExceptions.*;
-import crushers.utils.Json;
+import crushers.common.httpExceptions.*;
+import crushers.common.utils.Json;
+import crushers.common.models.*;
 
+/**
+ * Singleton class for authentication related functionalities.
+ */
 public class Authenticator {
   public final static Authenticator instance = new Authenticator();
   private final Map<String, User> users = new LinkedHashMap<>();
   private final Map<String, User> activeTokens = new LinkedHashMap<>();
 
   private Authenticator() {
-    // singleton pattern - private constructor
+    // singleton pattern
   }
 
+  /**
+   * Register a user to the authenticator for logging in.
+   */
   public void register(User user) throws Exception {
     if (users.containsKey(user.getEmail())) {
       throw new BadRequestException("This email is already registered to a user.");
     }
 
-    // Optionally encrypt/hash the password
-
     users.put(user.getEmail(), user);
   }
 
-
+  /**
+   * Try to log a user in with the sent credentials.
+   * @return the generated token for the user.
+   * @throws Exception if the credentials are invalid.
+   */
   public String login(HttpExchange exchange) throws Exception {
     final List<String> contentType = exchange.getRequestHeaders().get("Content-Type");
 
@@ -45,17 +51,13 @@ public class Authenticator {
       throw new UnauthorizedException();
     }
 
-    User user = users.get(credentials.email);
+    User user = users.get(credentials.getEmail());
 
     if (user == null) {
       throw new UnauthorizedException();
     }
 
-    // encrypt the credential password as well if you encrypt/hash the password
-    //.//.// for resetting password it is commented out
-    //credentials.password = security.passwordEncryption(credentials.password, "MD5");
-
-    if (!user.getPassword().equals(credentials.password)) {
+    if (!user.getPassword().equals(credentials.getPassword())) {
       throw new UnauthorizedException();
     }
 
@@ -64,6 +66,9 @@ public class Authenticator {
     return token;
   }
 
+  /**
+   * Logs a user out and invalidates their auth token.
+   */
   public void logout(HttpExchange exchange) throws Exception {
     final String authorization = exchange.getRequestHeaders().getFirst("Authorization");
 
@@ -75,7 +80,11 @@ public class Authenticator {
     activeTokens.remove(token);
   }
 
-
+  /**
+   * Validate user authentication.
+   * @return the logged in user.
+   * @throws Exception if the token is invalid.
+   */
   public User authUser(HttpExchange exchange) throws Exception {
     final String token = getToken(exchange);
     final User user = activeTokens.get(token);
@@ -87,7 +96,12 @@ public class Authenticator {
     return user;
   }
 
-  public Customer authCustomer(HttpExchange exchange) throws Exception {
+  /**
+   * Validate customer authentication.
+   * @return the logged in customer.
+   * @throws Exception if the token is invalid or belongs to a non-customer user.
+   */
+  public User authCustomer(HttpExchange exchange) throws Exception {
     final String token = getToken(exchange);
     final User user = activeTokens.get(token);
 
@@ -95,14 +109,19 @@ public class Authenticator {
       throw new UnauthorizedException();
     }
 
-    if (!(user instanceof Customer)) {
+    if (!user.isCustomer()) {
       throw new ForbiddenException();
     }
 
-    return (Customer) user;
+    return user;
   }
 
-  public Clerk authClerk(HttpExchange exchange) throws Exception {
+  /**
+   * Validate clerk authentication.
+   * @return the logged in clerk.
+   * @throws Exception if the token is invalid or belongs to a non-clerk user.
+   */
+  public User authClerk(HttpExchange exchange) throws Exception {
     final String token = getToken(exchange);
     final User user = activeTokens.get(token);
 
@@ -110,14 +129,19 @@ public class Authenticator {
       throw new UnauthorizedException();
     }
 
-    if (!(user instanceof Clerk)) {
+    if (!user.isClerk()) {
       throw new ForbiddenException();
     }
 
-    return (Clerk) user;
+    return user;
   }
 
-  public Manager authManager(HttpExchange exchange) throws Exception {
+  /**
+   * Validate manager authentication.
+   * @return the logged in manager.
+   * @throws Exception if the token is invalid or belongs to a non-manager user.
+   */
+  public User authManager(HttpExchange exchange) throws Exception {
     final String token = getToken(exchange);
     final User user = activeTokens.get(token);
 
@@ -125,13 +149,18 @@ public class Authenticator {
       throw new UnauthorizedException();
     }
 
-    if (!(user instanceof Manager)) {
+    if (!user.isManager()) {
       throw new ForbiddenException();
     }
 
-    return (Manager) user;
+    return user;
   }
 
+  /**
+   * Gets the auth token from a http request.
+   * @return the token.
+   * @throws Exception if there is no token.
+   */
   private String getToken(HttpExchange exchange) throws Exception {
     final String authorization = exchange.getRequestHeaders().getFirst("Authorization");
 
@@ -142,21 +171,10 @@ public class Authenticator {
     return authorization.split(" ")[1];
   }
 
+  /**
+   * Generates a unique token which can be used to identify a logged in user.
+   */
   private String generateToken() {
     return LocalDateTime.now().toString() + "#" + (int)(1000 + Math.random() * 9000);
-  }
-
-
-  public void resetPassword(ResetPasswordClass resetPasswordClass) throws Exception{
-    for(String email : users.keySet()){
-      if(resetPasswordClass.getEmail().equals(email)){
-        if(Arrays.equals(resetPasswordClass.getSecurityQuestions(), resetPasswordClass.getSecurityQuestions())){
-          User user = users.get(email);
-          users.remove(email);
-          user.setPassword(resetPasswordClass.getPassword());
-          register(user);
-        }
-      }
-    }
   }
 }

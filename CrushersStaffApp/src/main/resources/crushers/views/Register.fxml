@@ -14,10 +14,6 @@
          <font>
             <Font name="SansSerif Regular" size="13.0" />
          </font></TextField>
-      <TextField fx:id="logoField" layoutX="206.0" layoutY="61.0" promptText="Logo">
-         <font>
-            <Font name="SansSerif Regular" size="13.0" />
-         </font></TextField>
       <TextArea fx:id="bankDetails" layoutX="12.0" layoutY="102.0" prefHeight="76.0" prefWidth="356.0" promptText="Details">
          <font>
             <Font name="SansSerif Regular" size="13.0" />
@@ -47,11 +43,6 @@
             <Font name="SansSerif Regular" size="13.0" />
          </font></TextField>
       <TextField fx:id="passwordField" layoutX="15.0" layoutY="547.0" prefHeight="27.0" prefWidth="371.0" promptText="Password">
-         <font>
-            <Font name="SansSerif Regular" size="13.0" />
-         </font></TextField>
-      <ChoiceBox fx:id="securityQuestions" layoutX="21.0" layoutY="586.0" prefHeight="27.0" prefWidth="185.0" />
-      <TextField fx:id="answerQuestion" layoutX="216.0" layoutY="586.0" prefHeight="27.0" prefWidth="170.0" promptText="answer">
          <font>
             <Font name="SansSerif Regular" size="13.0" />
          </font></TextField>

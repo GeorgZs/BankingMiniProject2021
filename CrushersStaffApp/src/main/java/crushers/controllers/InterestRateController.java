@@ -1,12 +1,10 @@
 package crushers.controllers;
 
 import crushers.WindowManager;
-import crushers.api.HttpError;
-import crushers.api.ServerFacade;
-import crushers.datamodels.BankAccount;
-import crushers.datamodels.User;
+import crushers.common.ServerFacade;
+import crushers.common.httpExceptions.HttpException;
+import crushers.common.models.*;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
@@ -31,20 +29,17 @@ public class InterestRateController {
     @FXML
     private void onPressedUpdate(javafx.event.ActionEvent event) throws Exception {
         try {
-            ServerFacade.instance.updateBankInterestRate(Double.parseDouble(newInterest.getText()));
+            InterestRate interestRate = new InterestRate();
+            interestRate.setRate(Double.parseDouble(newInterest.getText()) / 100);
+            ServerFacade.instance.updateBankInterestRate(interestRate);
             System.out.println("Interest rate updated");
             WindowManager.closeModal();
-        } catch (Exception e) {
-            if(e instanceof HttpError) showAlert(((HttpError)e).getError());
-            e.printStackTrace();
         }
-    }
-
-    private void showAlert(String message){
-        Alert a = new Alert(Alert.AlertType.INFORMATION);
-        a.setTitle("Warning");
-        a.setHeaderText(message);
-        a.getDialogPane().setStyle("-fx-font-family: SansSerif");
-        a.show();
+        catch (HttpException ex) {
+            WindowManager.showAlert(ex.getError());
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 }

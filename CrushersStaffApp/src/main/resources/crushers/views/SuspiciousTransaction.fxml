@@ -41,23 +41,9 @@
           <RowConstraints maxHeight="205.0" minHeight="10.0" prefHeight="203.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <HBox prefHeight="33.0" prefWidth="575.0">
-               <children>
-                  <TextField disable="true">
-                     <font>
-                        <Font name="SansSerif Regular" size="13.0" />
-                     </font>
-                  </TextField>
-                  <Button disable="true" mnemonicParsing="false" text="Search">
-                     <font>
-                        <Font name="SansSerif Regular" size="13.0" />
-                     </font>
-                  </Button>
-               </children>
-            </HBox>
             <TableView fx:id="susTableView" prefHeight="214.0" prefWidth="575.0" GridPane.rowIndex="1">
                <columns>
-                  <TableColumn fx:id="iD" prefWidth="75.0" text="iD" />
+                  <TableColumn fx:id="id" prefWidth="75.0" text="Id" />
                   <TableColumn fx:id="from" prefWidth="136.0" text="From" />
                   <TableColumn fx:id="to" prefWidth="140.0" text="To" />
                   <TableColumn fx:id="amount" prefWidth="105.0" text="Amount" />

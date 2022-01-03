@@ -1,13 +1,11 @@
 package crushers.controllers;
 
 import crushers.WindowManager;
-import crushers.api.HttpError;
-import crushers.api.ServerFacade;
-import crushers.datamodels.BankAccount;
-import crushers.datamodels.User;
+import crushers.common.ServerFacade;
+import crushers.common.httpExceptions.HttpException;
+import crushers.common.models.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
@@ -33,9 +31,12 @@ public class PaymentController {
             System.out.println("BANK ACCOUNT: " + createdAccount.getNumber());
 
             WindowManager.closeModal();
-        } catch (Exception e) {
-            if(e instanceof HttpError) showAlert(((HttpError)e).getError());
-            e.printStackTrace();
+        }         
+        catch (HttpException ex) {
+            WindowManager.showAlert(ex.getError());
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
         }
 
     }
@@ -44,13 +45,4 @@ public class PaymentController {
     private void cancelPayment(ActionEvent actionEvent) throws Exception {
         WindowManager.closeModal();
     }
-
-    private void showAlert(String message){
-        Alert a = new Alert(Alert.AlertType.INFORMATION);
-        a.setTitle("Warning");
-        a.setHeaderText(message);
-        a.getDialogPane().setStyle("-fx-font-family: SansSerif");
-        a.show();
-    }
-
 }

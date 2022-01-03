@@ -1,10 +1,12 @@
 package crushers.storage;
 
-import crushers.utils.Json;
-
 import java.io.*;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.LinkedHashMap;
+
+import crushers.common.utils.Storable;
+import crushers.common.utils.Json;
 
 /**
  * An implementation of the Storage interface which uses json files to store objects on disk.
@@ -12,60 +14,82 @@ import java.util.LinkedHashMap;
  */
 public class JsonStorage<Type extends Storable> implements Storage<Type> {
 
+  // Gets the unix timestamp in seconds, thus every time the server restarts the ids are in a 
+  // different range and not overlapping.
+  private static final int START_ID = (int)Instant.now().getEpochSecond();
+
   private File file;
   private Class<Type> type;
   private int nextId;
   protected LinkedHashMap<Integer, Type> data;
 
-  //in the constructor it creates the json storage with the json file,
-  //and the specific class type that the json file should store
-  //like the clerk class or the bank class - storing only objects of that type
-  //// also creates a linkedHashMap so that we can save and retrieve objects
-  //// easier and disallow repeated objects, and they would be sorted by ID number
+  /**
+   * Creates the json storage with the json file for a specific class type.
+   * e.g. Clerk, Bank, etc. - Only objects of that type will be stored.
+   * 
+   * Also creates a linkedHashMap as a cache for quick retrieval of objects and checking for duplicates.
+   */
   public JsonStorage(File jsonFile, Class<Type> type) throws IOException {
     this.file = jsonFile;
     this.type = type;
-    this.nextId = 1001;
+    this.nextId = START_ID;
     this.data = new LinkedHashMap<>();
 
     if (jsonFile.exists()) {
       InputStream existingJsonData = new FileInputStream(jsonFile);
       this.data = Json.instance.parseMap(existingJsonData, type);
-      this.nextId += data.size();
     }
 
-    Json.instance.write(this.data, jsonFile, type);
+    Json.instance.writeMap(this.data, jsonFile, type);
   }
 
+  /**
+   * Gets an object with a given id from the storage.
+   */
   @Override
   public Type get(int id) {
     return this.data.get(id);
   }
 
+  /**
+   * Gets all objects from the storage.
+   */
   @Override
   public Collection<Type> getAll() throws IOException {
     return this.data.values();
   }
 
+  /**
+   * Creates a new object in the storage and assigns it a unique id.
+   * @return the created object with its id.
+   */
   @Override
   public Type create(Type newObj) throws IOException, Exception {
     newObj.setId(nextId++);
     this.data.put(newObj.getId(), newObj);
-    Json.instance.write(this.data, this.file, this.type);
+    Json.instance.writeMap(this.data, this.file, this.type);
     return newObj;
   }
 
+  /**
+   * Updates an object with a given id in the storage.
+   * @return the updated object.
+   */
   @Override
   public Type update(int id, Type newObjData) throws IOException {
+    newObjData.setId(id);
     this.data.replace(id, newObjData);
-    Json.instance.write(this.data, this.file, this.type);
+    Json.instance.writeMap(this.data, this.file, this.type);
     return newObjData;
   }
 
+  /**
+   * Deletes an object with a given id from the storage.
+   */
   @Override
   public Type delete(int id) throws IOException {
     Type deletedObj = this.data.remove(id);
-    Json.instance.write(this.data, this.file, this.type);
+    Json.instance.writeMap(this.data, this.file, this.type);
     return deletedObj;
   }
 }

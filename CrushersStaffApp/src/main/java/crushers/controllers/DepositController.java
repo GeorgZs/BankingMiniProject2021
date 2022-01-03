@@ -1,18 +1,13 @@
 package crushers.controllers;
 
 import crushers.WindowManager;
-import crushers.api.Http;
-import crushers.api.HttpError;
-import crushers.api.ServerFacade;
-import crushers.datamodels.Bank;
-import crushers.datamodels.BankAccount;
-import crushers.datamodels.Transaction;
+import crushers.common.ServerFacade;
+import crushers.common.httpExceptions.HttpException;
+import crushers.common.models.*;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
-import java.awt.event.ActionEvent;
 import java.util.List;
 
 public class DepositController {
@@ -63,9 +58,12 @@ public class DepositController {
             ServerFacade.instance.deposit(deposit);
             System.out.println("Deposited: " + amount.getText());
             WindowManager.closeModal();
-        } catch (Exception e) {
-            if (e instanceof HttpError) showAlert(((HttpError)e).getError());
-            e.printStackTrace();
+        } 
+        catch (HttpException ex) {
+            WindowManager.showAlert(ex.getError());
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 
@@ -73,15 +71,4 @@ public class DepositController {
     private void onPressedCancel(javafx.event.ActionEvent actionEvent) throws Exception {
         WindowManager.closeModal();
     }
-
-    private void showAlert(String message){
-        Alert a = new Alert(Alert.AlertType.INFORMATION);
-        a.setTitle("Warning");
-        a.setHeaderText(message);
-        a.getDialogPane().setStyle("-fx-font-family: SansSerif");
-        a.show();
-    }
-
-
-
 }

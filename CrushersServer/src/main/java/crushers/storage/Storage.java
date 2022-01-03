@@ -3,6 +3,8 @@ package crushers.storage;
 import java.io.IOException;
 import java.util.Collection;
 
+import crushers.common.utils.Storable;
+
 /**
  * A basic crud storage interface which allows for storing and retrieving objects.
  */

@@ -45,7 +45,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="accountInformation" alignment="BASELINE_LEFT" layoutX="10.0" layoutY="160.0" mnemonicParsing="false" onAction="#onClickedInformation" prefHeight="32.0" prefWidth="234.0" style="-fx-background-color: #429bb8;" text="Account information" textFill="WHITE">
+            <Button fx:id="accountInformation" alignment="BASELINE_LEFT" layoutX="10.0" layoutY="160.0" mnemonicParsing="false" onAction="#onClickedInformation" prefHeight="32.0" prefWidth="234.0" style="-fx-background-color: #429bb8;" text="Staff List" textFill="WHITE">
                <font>
                   <Font name="SansSerif Regular" size="13.0" />
                </font>
@@ -117,36 +117,15 @@
           <RowConstraints maxHeight="369.0" minHeight="10.0" prefHeight="363.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <TableView fx:id="tableView" onSort="#initializeTable" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+            <TableView fx:id="tableView" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
               <columns>
-                <TableColumn fx:id="clerkID" prefWidth="71.0" text="ID" />
-                <TableColumn fx:id="firstNameClerk" prefWidth="126.0" text="First name" />
-                  <TableColumn fx:id="lastNameClerk" prefWidth="101.0" text="Last name" />
-                  <TableColumn fx:id="emailClerk" minWidth="0.0" prefWidth="153.0" text="email" />
-                  <TableColumn fx:id="addressClerk" minWidth="0.0" prefWidth="212.0" text="street address" />
+                <TableColumn fx:id="clerkID" prefWidth="100.0" text="ID" />
+                  <TableColumn fx:id="typeClerk" minWidth="0.0" prefWidth="100.0" text="Type" />
+                <TableColumn fx:id="firstNameClerk" prefWidth="150.0" text="First name" />
+                  <TableColumn fx:id="lastNameClerk" prefWidth="150.0" text="Last name" />
+                  <TableColumn fx:id="emailClerk" minWidth="0.0" prefWidth="200.0" text="Email" />
               </columns>
             </TableView>
-            <HBox prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <TextField fx:id="searchField" prefHeight="27.0" prefWidth="296.0" promptText="Search for staff member">
-                     <font>
-                        <Font name="SansSerif Regular" size="13.0" />
-                     </font>
-                  </TextField>
-                  <Button fx:id="searchButton" mnemonicParsing="false" prefHeight="27.0" prefWidth="110.0" text="Search">
-                     <font>
-                        <Font name="SansSerif Regular" size="13.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="17.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/icons8-search-50.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-               </children>
-            </HBox>
          </children>
       </GridPane>
       <Pane fx:id="staffInformation" layoutX="229.0" layoutY="122.0" prefHeight="150.0" prefWidth="1000.0" style="-fx-background-color: #90c1d7;" visible="false" AnchorPane.bottomAnchor="528.0" AnchorPane.leftAnchor="229.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="122.0">
@@ -205,18 +184,7 @@
                   <Font name="SansSerif Italic" size="11.0" />
                </font>
             </Label>
-            <ChoiceBox fx:id="clerkSecurityQuestion" layoutX="14.0" layoutY="321.0" prefHeight="27.0" prefWidth="229.0" />
-            <TextField fx:id="clerkAnswer" layoutX="271.0" layoutY="322.0" prefHeight="26.0" prefWidth="229.0" promptText="Answer">
-               <font>
-                  <Font name="SansSerif Regular" size="13.0" />
-               </font>
-            </TextField>
             <Button fx:id="registerStaff" layoutX="152.0" layoutY="363.0" mnemonicParsing="false" onAction="#registerClerk" prefHeight="26.0" prefWidth="87.0" text="Register">
-               <font>
-                  <Font name="SansSerif Regular" size="13.0" />
-               </font>
-            </Button>
-            <Button layoutX="271.0" layoutY="363.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="87.0" text="Cancel">
                <font>
                   <Font name="SansSerif Regular" size="13.0" />
                </font>
@@ -379,11 +347,6 @@
                </font>
             </TextArea>
             <Button fx:id="sendNotificationButton" layoutX="301.0" layoutY="355.0" mnemonicParsing="false" onAction="#sendNotification" prefHeight="26.0" prefWidth="87.0" text="Send">
-               <font>
-                  <Font name="SansSerif Regular" size="14.0" />
-               </font>
-            </Button>
-            <Button layoutX="457.0" layoutY="355.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="87.0" text="Cancel">
                <font>
                   <Font name="SansSerif Regular" size="14.0" />
                </font>

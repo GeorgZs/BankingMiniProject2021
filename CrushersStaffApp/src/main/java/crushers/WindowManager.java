@@ -5,6 +5,7 @@ import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -19,7 +20,6 @@ public class WindowManager {
 
     public final static String Login = VIEWS_FOLDER + "Login" + JAVAFX;
     public final static String Register = VIEWS_FOLDER + "Register" + JAVAFX;
-    public final static String ForgotPassword = VIEWS_FOLDER + "ForgotPassword" + JAVAFX;
 
     public final static String Dashboard = VIEWS_FOLDER + "Dashboard" + JAVAFX;
     public final static String Deposit = VIEWS_FOLDER + "Deposit" + JAVAFX;
@@ -59,4 +59,12 @@ public class WindowManager {
   public static void closeModal() {
     ModalWindow.close();
   }
+
+  public static void showAlert(String message){
+    Alert a = new Alert(Alert.AlertType.INFORMATION);
+    a.setTitle("Warning");
+    a.setHeaderText(message);
+    a.getDialogPane().setStyle("-fx-font-family: SansSerif");
+    a.show();
+}
 }

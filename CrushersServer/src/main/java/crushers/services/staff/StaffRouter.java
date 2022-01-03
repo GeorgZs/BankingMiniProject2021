@@ -2,16 +2,15 @@ package crushers.services.staff;
 
 import com.sun.net.httpserver.*;
 
-import crushers.models.users.Clerk;
-import crushers.models.users.Manager;
+import crushers.common.httpExceptions.HttpException;
+import crushers.common.httpExceptions.MethodNotAllowedException;
+import crushers.common.models.*;
 import crushers.server.Authenticator;
 import crushers.server.Router;
-import crushers.server.httpExceptions.HttpException;
-import crushers.server.httpExceptions.MethodNotAllowedException;
 
 import java.util.Collection;
 
-public class StaffRouter extends Router<Clerk>{
+public class StaffRouter extends Router {
 
     private StaffService staffService;
 
@@ -71,24 +70,24 @@ public class StaffRouter extends Router<Clerk>{
     /**
      * @param exchange
      * @param id of the Staff member that is being requested
-     * returns the Staff member with the specified ID number
+     * @return the Staff member with the specified ID number
      * @throws Exception
      */
     @Override
     protected void get(HttpExchange exchange, int id) throws Exception {
-        final Clerk responseData = staffService.get(id);
-        sendJsonResponse(exchange, responseData);
+        final User responseData = staffService.get(id);
+        sendJsonResponse(exchange, responseData, User.class);
     }
 
     /**
      * @param exchange
-     * returns the Collection of clerks
+     * @return the Collection of clerks
      * @throws Exception
      */
     @Override
     protected void getAll(HttpExchange exchange) throws Exception {
-        final Collection<Clerk> responseData = staffService.getAll();
-        sendJsonResponse(exchange, responseData);
+        final Collection<User> responseData = staffService.getAll();
+        sendJsonCollectionResponse(exchange, responseData, User.class);
     }
 
     /**
@@ -98,44 +97,44 @@ public class StaffRouter extends Router<Clerk>{
      */
     @Override
     protected void post(HttpExchange exchange) throws Exception {
-        final Manager loggedInManager = Authenticator.instance.authManager(exchange);
-        final Clerk requestData = getJsonBodyData(exchange, Clerk.class);
-        final Clerk responseData = staffService.create(loggedInManager.getWorksAt(), requestData);
-        sendJsonResponse(exchange, responseData);
+        final User loggedInManager = Authenticator.instance.authManager(exchange);
+        final User requestData = getJsonBodyData(exchange, User.class);
+        final User responseData = staffService.create(loggedInManager.getWorksAt(), requestData);
+        sendJsonResponse(exchange, responseData, User.class);
     }
 
     /**
      * @param exchange
      * @param id of the Clerk that is being updated
-     * returns the updated Clerk based on the given changes
+     * @return the updated Clerk based on the given changes
      * @throws Exception
      */
     @Override
     protected void put(HttpExchange exchange, int id) throws Exception{
-        final Clerk loggedInClerk = Authenticator.instance.authClerk(exchange);
-        final Clerk responseData = staffService.updateClerk(id, loggedInClerk);
-        sendJsonResponse(exchange, responseData);
+        final User loggedInClerk = Authenticator.instance.authClerk(exchange);
+        final User responseData = staffService.updateClerk(id, loggedInClerk);
+        sendJsonResponse(exchange, responseData, User.class);
     }
 
     /**
      * @param exchange
-     * returns the Clerk object of the logged-in Clerk
+     * @return the Clerk object of the logged-in Clerk
      * @throws Exception
      */
-    private void getLoggedIn(HttpExchange exchange) throws Exception {
-        final Clerk loggedInClerk = Authenticator.instance.authClerk(exchange);
-        final Clerk responseData = staffService.getLoggedIn(loggedInClerk);
-        sendJsonResponse(exchange, responseData);
+    protected void getLoggedIn(HttpExchange exchange) throws Exception {
+        final User loggedInClerk = Authenticator.instance.authClerk(exchange);
+        final User responseData = staffService.getLoggedIn(loggedInClerk);
+        sendJsonResponse(exchange, responseData, User.class);
     }
 
     /**
      * @param exchange
-     * returns the Collection of Clerks registered to the Bank that the logged-in Manager works at
+     * @return the Collection of Clerks registered to the Bank that the logged-in Manager works at
      * @throws Exception
      */
     protected void getClerksOfBank(HttpExchange exchange) throws Exception{
-        final Manager manager = Authenticator.instance.authManager(exchange);
-        final Collection<Clerk> responseData = staffService.getClerksOfBank(manager.getWorksAt());
-        sendJsonResponse(exchange, responseData);
+        final User manager = Authenticator.instance.authManager(exchange);
+        final Collection<User> responseData = staffService.getClerksOfBank(manager.getWorksAt());
+        sendJsonCollectionResponse(exchange, responseData, User.class);
     }
 }

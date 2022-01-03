@@ -1,18 +1,14 @@
 package crushers.controllers;
 
 import crushers.WindowManager;
-import crushers.api.HttpError;
-import crushers.api.ServerFacade;
-import crushers.datamodels.*;
-import javafx.collections.FXCollections;
+import crushers.common.ServerFacade;
+import crushers.common.httpExceptions.HttpException;
+import crushers.common.models.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-
 
 public class RegisterController {
 
@@ -37,31 +33,9 @@ public class RegisterController {
     @FXML
     private TextField passwordField;
     @FXML
-    public ChoiceBox<String> securityQuestions;
-    @FXML
-    public TextField answerQuestions;
-    @FXML
     private Button register;
     @FXML
     private Button cancel;
-
-    private String[] questions = {
-        "What's the name of your first pet?",
-        "What's the name of your home-town?",
-        "What's your favorite movie?",
-        "Which high-school did you graduate?",
-        "What's your mother's maiden name?",
-        "What's the name of your first school?",
-        "What was your favorite food as a child?",
-        "What's your favorite book?"
-
-    };
-
-    @FXML
-    void initialize(){
-        securityQuestions.setItems(FXCollections.observableArrayList(new ArrayList<String>(Arrays.asList(questions))));
-        securityQuestions.setStyle("-fx-font-family: SansSerif");
-    }
 
     @FXML
     private void cancelRegistration(ActionEvent event) throws IOException {
@@ -71,7 +45,6 @@ public class RegisterController {
     @FXML
     public void registerUser(ActionEvent event) throws Exception {
         String bankName = bankNameField.getText();
-        String logo = logoField.getText();
         String details = bankDetails.getText();
         String firstName = firstNameField.getText();
         String lastName = lastNameField.getText();
@@ -84,66 +57,54 @@ public class RegisterController {
         //String answer = answerQuestions.getText();
 
         if(bankName.isEmpty() || bankName.isBlank()){
-            showAlert("Bank name cannot be empty");
+            WindowManager.showAlert("Bank name cannot be empty");
             bankNameField.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
             //bankNameField.setStyle("-fx-text-fill: red");
         }else{
             bankNameField.setStyle("-fx-border-color: black");
         }
-        if(logo.isEmpty() || logo.isBlank()) {
-            showAlert("logo cannot be empty");
-            logoField.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
-        } else{
-            logoField.setStyle("-fx-border-color: black");
-        }
-        if(details.isEmpty() || details.isBlank()){
-            showAlert("Details cannot be empty");
-            bankDetails.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
-        } else{
-            bankDetails.setStyle("-fx-border-color: black");
-        }
         if(firstName.isEmpty() || firstName.isBlank()) {
-            showAlert("First name cannot be empty");
+            WindowManager.showAlert("First name cannot be empty");
             firstNameField.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
         } else{
             firstNameField.setStyle("-fx-border-color: black");
         }
         if(lastName.isEmpty() || lastName.isBlank()) {
-            showAlert("Last name cannot be empty");
+            WindowManager.showAlert("Last name cannot be empty");
             lastNameField.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
         } else{
             lastNameField.setStyle("-fx-border-color: black");
         }
         if(streetAddress.isEmpty() || streetAddress.isBlank()) {
-            showAlert("Street address cannot be empty");
+            WindowManager.showAlert("Street address cannot be empty");
             streetAddressField.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
         } else{
             streetAddressField.setStyle("-fx-border-color: black");
         }
         if(city.isEmpty() || city.isBlank()) {
-            showAlert("City cannot be empty");
+            WindowManager.showAlert("City cannot be empty");
             cityField.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
         } else{
             cityField.setStyle("-fx-border-color: black");
         }
         if(postalCode.isBlank() || postalCode.isEmpty()) {
-            showAlert("Postal code cannot be empty");
+            WindowManager.showAlert("Postal code cannot be empty");
             postalCodeField.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
         } else{
             postalCodeField.setStyle("-fx-border-color: black");
         }
         if(email.isEmpty() || email.isBlank()) {
-            showAlert("E-mail cannot be empty");
+            WindowManager.showAlert("E-mail cannot be empty");
             emailField.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
         }else if(!emailField.getText().contains("@")){
             emailField.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
-            showAlert("Email must contain an @ sign");
+            WindowManager.showAlert("Email must contain an @ sign");
         }
         else{
             emailField.setStyle("-fx-border-color: black");
         }
         if(password.isBlank() || password.isEmpty()) {
-            showAlert("Password cannot be empty");
+            WindowManager.showAlert("Password cannot be empty");
             passwordField.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
         }
         else{
@@ -162,41 +123,17 @@ public class RegisterController {
         Bank bank = new Bank();
         bank.setName(bankName);
         bank.setDetails(details);
-        bank.setLogo(logo);
         bank.setManager(manager);
 
         try {
             ServerFacade.instance.createBank(bank);
             WindowManager.showPage(WindowManager.Pages.Login);
         } 
+        catch (HttpException ex) {
+            WindowManager.showAlert(ex.getError());
+        }
         catch (Exception ex) {
-            if (ex instanceof HttpError) showAlert(((HttpError)ex).getError());
             ex.printStackTrace();
         }
     }
-
-    private void showAlert(String message){
-        Alert a = new Alert(Alert.AlertType.INFORMATION);
-        a.setTitle("Warning");
-        a.setHeaderText(message);
-        a.getDialogPane().setStyle("-fx-font-family: SansSerif");
-        a.show();
-    }
-
-    /*
-    private void resetAllBorders(String message) {
-        bankNameField.setStyle(message);
-        logoField.setStyle(message);
-        bankDetails.setStyle(message);
-        firstNameField.setStyle(message);
-        lastNameField.setStyle(message);
-        streetAddressField.setStyle(message);
-        cityField.setStyle(message);
-        postalCodeField.setStyle(message);
-        emailField.setStyle(message);
-        passwordField.setStyle(message);
-
-    }
-      */
-
 }

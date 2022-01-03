@@ -3,13 +3,8 @@ package crushers.services.accounts;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import crushers.models.Bank;
-import crushers.models.accounts.Account;
-import crushers.models.exchangeInformation.Transaction;
-import crushers.models.users.Clerk;
-import crushers.models.users.Customer;
-import crushers.models.users.User;
-import crushers.server.httpExceptions.*;
+import crushers.common.httpExceptions.*;
+import crushers.common.models.*;
 import crushers.services.banks.BankService;
 import crushers.services.customers.CustomerService;
 
@@ -53,16 +48,32 @@ public class AccountService {
    * @return the account created
    * @throws Exception if the account details are invalid
    */
-  public Account create(User creator, Account account) throws Exception {
-    if (creator instanceof Clerk) {
-      Clerk clerk = (Clerk) creator;
-      account.setBank(bankService.get(clerk.getWorksAt().getId())); // set the bank the account is opened at
+  public BankAccount create(User creator, BankAccount account) throws Exception {
+    if (account == null) {
+      throw new BadRequestException("Account cannot be null");
+    }
+
+    if (account.isInvalidType()) {
+      throw new BadRequestException("Account type is invalid");
+    }
+
+    if (creator.isClerk()) {
+      account.setBank(bankService.get(creator.getWorksAt().getId())); // set the bank the account is opened at
       account.setOwner(customerService.get(account.getOwner().getId())); // check if the customer exists
     }
-    else if (creator instanceof Customer) {
-      Customer customer = (Customer) creator;
+    else if (creator.isCustomer()) {
       account.setBank(bankService.get(account.getBank().getId())); // check if the bank exists
-      account.setOwner(customerService.get(customer.getId())); // set the owner of the account
+      account.setOwner(customerService.get(creator.getId())); // set the owner of the account
+    }
+
+    if (account.isLoan()) {
+      if (account.getName() == null || account.getName().isEmpty()) {
+        throw new BadRequestException("Loan account name cannot be null");
+      }
+
+      if(account.getBalance() < -25000 || account.getBalance() > -1000) {
+        throw new BadRequestException("Loan amount must be in excess of 1000kr and no more than 25,000kr");
+      }
     }
 
     account.setNumber(account.getBank().generateAccountNumber());
@@ -76,11 +87,11 @@ public class AccountService {
    * @return account with the matching ID
    * @throws Exception if the ID is invalid or the logged-in User doesnt have correct access to the account specified
    */
-  public Account get(User loggedInUser, int id) throws Exception {
-    Account account = storage.get(id);
+  public BankAccount get(User loggedInUser, int id) throws Exception {
+    BankAccount account = storage.get(id);
     if (account == null) throw new ForbiddenException();
 
-    boolean isBankStaff = (loggedInUser instanceof Clerk && account.getBank().equals(((Clerk)loggedInUser).getWorksAt()));
+    boolean isBankStaff = (loggedInUser.isClerk() && account.getBank().equals(loggedInUser.getWorksAt()));
 
     if (!account.getOwner().equals(loggedInUser) && !isBankStaff) {
       throw new ForbiddenException();
@@ -106,26 +117,52 @@ public class AccountService {
   public void commit(Transaction transaction) throws Exception {
     if (transaction == null) throw new ForbiddenException();
 
-    if(transaction.getFrom() != (null)){
-      Account sender = storage.get(transaction.getFrom().getId());
+    if(transaction.getFrom() != null) {
+      BankAccount sender = storage.get(transaction.getFrom().getId());
 
-      if(transaction.getTo() != null){
-        Account receiver = storage.get(transaction.getTo().getId());
+      if (sender.isLoan()) {
+        throw new BadRequestException(
+                "Cannot create Transaction: Account with id: " + sender.getId() + " is a Loan"
+        );
+      }
+
+      if (sender.getBalance() <= transaction.getAmount()) {
+        throw new BadRequestException(
+                "Cannot create Transaction: Account with id: " + sender.getId() + " does not have enough funds to create this Transaction"
+        );
+      }
+
+      if(transaction.getTo() != null) {	
+        BankAccount receiver = storage.get(transaction.getTo().getId());
         receiver.setBalance(receiver.getBalance() + transaction.getAmount());
 
-        if (sender.getBalance() <= transaction.getAmount()) {
+        if (sender.isSavings() && !receiver.getOwner().equals(sender.getOwner())) {
           throw new BadRequestException(
-                  "Cannot create Transaction: Account with id: " + receiver.getId() + " does not have enough funds to create this Transaction"
+                  "Cannot create Transaction: Account with id: " + sender.getId() + " cannot pay with a savings account, only transfer to other accounts you own"
           );
         }
+
+        if (receiver.isLoan() && receiver.getBalance() + transaction.getAmount() > 0) {
+          throw new BadRequestException(
+                  "Cannot create Transaction: You would pay back more than the loan amount"
+          );
+        }
+
         sender.setBalance(sender.getBalance() - transaction.getAmount());
       }
-      else{
+      else { // withdraw       
         sender.setBalance(sender.getBalance() - transaction.getAmount());
       }
     }
-    else{
-      Account receiver = storage.get(transaction.getTo().getId());
+    else { // deposit or interests
+      BankAccount receiver = storage.get(transaction.getTo().getId());
+
+      if (receiver.isLoan() && receiver.getBalance() + transaction.getAmount() > 0) {
+        throw new BadRequestException(
+                "Cannot create Transaction: You would pay back more than the loan amount"
+        );
+      }
+
       receiver.setBalance(receiver.getBalance() + transaction.getAmount());
     }
   }
@@ -134,8 +171,8 @@ public class AccountService {
    * @param customer who is logged-in
    * @return the collection of accounts for logged-in customer
    */
-  public Collection<Account> getOfCustomer(Customer customer) throws Exception {
-    Collection<Account> accounts = storage.getAccountsOfCustomer(customer);
+  public Collection<BankAccount> getOfCustomer(User customer) throws Exception {
+    Collection<BankAccount> accounts = storage.getAccountsOfCustomer(customer);
     if (accounts == null) accounts = new ArrayList<>();
     return accounts;
   }
@@ -144,8 +181,8 @@ public class AccountService {
    * @param bank of the logged-in Staff member
    * @return the collection of Accounts registered to the Bank
    */
-  public Collection<Account> getOfBank(Bank bank) throws Exception {
-    Collection<Account> accounts = storage.getAccountsOfBank(bank);
+  public Collection<BankAccount> getOfBank(Bank bank) throws Exception {
+    Collection<BankAccount> accounts = storage.getAccountsOfBank(bank);
     if (accounts == null) accounts = new ArrayList<>();
     return accounts;
   }
@@ -154,25 +191,25 @@ public class AccountService {
    * @param bank of the logged-in Staff member
    * @return the Collection of customers registered to the Bank
    */
-  public Collection<Customer> getCustomersAtBank(Bank bank) {
+  public Collection<User> getCustomersAtBank(Bank bank) {
     return storage.getCustomersAtBank(bank);
   }
 
   /**
-   * @param loggedIn customer
-   * @param id of the account you want
-   * @return the Account of with the specified ID
-   * @throws Exception if the Account with the specified ID doesn't exist
+   * @param manager who is logged-in
+   * @param newInterestRate in the form of the InterestRate class
+   * @return the new Interest Rate in the form of a double
+   * @throws Exception if the interest Rate is the same as the already existing Interest Rate number
    */
-  public Account getAccountWithId(Customer loggedIn, int id) throws Exception{
-    for(Account account : storage.getAll()){
-      if(account.getId() == id){
-        return account;
-      }
-      else{
-        throw new BadRequestException("Account with id " + id + " does not exist for this bank");
-      }
+  public InterestRate changeInterestRate(User manager, InterestRate newInterestRate) throws Exception {
+    Collection<BankAccount> accounts = storage.getAccountsOfBank(manager.getWorksAt());
+    for (BankAccount account : accounts) {
+        if (account.getInterestRate() != 0.00) {
+            account.setInterestRate(newInterestRate.getRate());
+            storage.update(account.getId(), account);
+        }
     }
-    return null;
+    return newInterestRate;
   }
+
 }

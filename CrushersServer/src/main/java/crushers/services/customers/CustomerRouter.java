@@ -1,23 +1,14 @@
 package crushers.services.customers;
 
-import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.LinkedHashMap;
-
 import com.sun.net.httpserver.*;
 
-import crushers.models.exchangeInformation.Contact;
-import crushers.models.exchangeInformation.CustomerNotification;
-import crushers.models.exchangeInformation.ManagerNotification;
-import crushers.models.users.Clerk;
-import crushers.models.users.Customer;
-import crushers.models.users.Manager;
+import crushers.common.httpExceptions.HttpException;
+import crushers.common.httpExceptions.MethodNotAllowedException;
+import crushers.common.models.*;
 import crushers.server.Authenticator;
 import crushers.server.Router;
-import crushers.server.httpExceptions.HttpException;
-import crushers.server.httpExceptions.MethodNotAllowedException;
 
-public class CustomerRouter extends Router<Customer> {
+public class CustomerRouter extends Router {
 
   private final CustomerService customerService;
 
@@ -49,105 +40,6 @@ public class CustomerRouter extends Router<Customer> {
         ex.printStackTrace();
       }
     });
-
-    server.createContext(basePath + "/contact", (exchange) -> {
-      try {
-        switch (exchange.getRequestMethod()) {
-          case "POST":
-            addContact(exchange);
-            break;
-
-          default:
-            throw new MethodNotAllowedException();
-        }
-      }
-      catch (HttpException ex) {
-        sendResponse(exchange, ex.statusCode, String.format("{\"error\":\"%s\"}", ex.getMessage()).getBytes());
-      }
-      catch (Exception ex) {
-        sendResponse(exchange, 500, String.format("{\"error\":\"Internal server error, try again later.\"}").getBytes());
-        ex.printStackTrace();
-      }
-    });
-
-    server.createContext(basePath + "/@contact", (exchange) -> {
-      try {
-        switch (exchange.getRequestMethod()) {
-          case "GET":
-            getContacts(exchange);
-            break;
-
-          default:
-            throw new MethodNotAllowedException();
-        }
-      }
-      catch (HttpException ex) {
-        sendResponse(exchange, ex.statusCode, String.format("{\"error\":\"%s\"}", ex.getMessage()).getBytes());
-      }
-      catch (Exception ex) {
-        sendResponse(exchange, 500, String.format("{\"error\":\"Internal server error, try again later.\"}").getBytes());
-        ex.printStackTrace();
-      }
-    });
-
-    server.createContext(basePath + "/notificationToUsers", (exchange) -> {
-      try {
-        switch (exchange.getRequestMethod()) {
-          case "POST":
-            sendNotificationToUsers(exchange);
-            break;
-
-          default:
-            throw new MethodNotAllowedException();
-        }
-      }
-      catch (HttpException ex) {
-        sendResponse(exchange, ex.statusCode, String.format("{\"error\":\"%s\"}", ex.getMessage()).getBytes());
-      }
-      catch (Exception ex) {
-        sendResponse(exchange, 500, String.format("{\"error\":\"Internal server error, try again later.\"}").getBytes());
-        ex.printStackTrace();
-      }
-    });
-
-    server.createContext(basePath + "/notification", (exchange) -> {
-      try {
-        switch (exchange.getRequestMethod()) {
-          case "POST":
-            sendNotification(exchange);
-            break;
-
-          default:
-            throw new MethodNotAllowedException();
-        }
-      }
-      catch (HttpException ex) {
-        sendResponse(exchange, ex.statusCode, String.format("{\"error\":\"%s\"}", ex.getMessage()).getBytes());
-      }
-      catch (Exception ex) {
-        sendResponse(exchange, 500, String.format("{\"error\":\"Internal server error, try again later.\"}").getBytes());
-        ex.printStackTrace();
-      }
-    });
-
-    server.createContext(basePath + "/notifications", (exchange) -> {
-      try {
-        switch (exchange.getRequestMethod()) {
-          case "GET":
-            getNotifications(exchange);
-            break;
-          default:
-            throw new MethodNotAllowedException();
-        }
-      }
-      catch (HttpException ex) {
-        sendResponse(exchange, ex.statusCode, String.format("{\"error\":\"%s\"}", ex.getMessage()).getBytes());
-      }
-      catch (Exception ex) {
-        sendResponse(exchange, 500, String.format("{\"error\":\"Internal server error, try again later.\"}").getBytes());
-        ex.printStackTrace();
-      }
-    });
   }
 
   /**
@@ -157,77 +49,19 @@ public class CustomerRouter extends Router<Customer> {
    */
   @Override
   protected void post(HttpExchange exchange) throws Exception {
-    final Customer requestData = getJsonBodyData(exchange, Customer.class);
-    final Customer responseData = customerService.create(requestData);
-    sendJsonResponse(exchange, responseData);
+    final User requestData = getJsonBodyData(exchange, User.class);
+    final User responseData = customerService.create(requestData);
+    sendJsonResponse(exchange, responseData, User.class);
   }
 
   /**
    * @param exchange
-   * returns the logged-in Customer as an object
+   * @return the logged-in Customer as an object
    * @throws Exception
    */
   private void getLoggedIn(HttpExchange exchange) throws Exception {
-    final Customer loggedInCustomer = Authenticator.instance.authCustomer(exchange);
-    final Customer responseData = customerService.getLoggedIn(loggedInCustomer);
-    sendJsonResponse(exchange, responseData);
-  }
-
-  /**
-   * @param exchange
-   * creates a Contact and adds it to the Contact list for the logged-in Customer
-   * @throws Exception
-   */
-  private void addContact(HttpExchange exchange) throws Exception{
-    final Customer loggedInCustomer = Authenticator.instance.authCustomer(exchange);
-    final Contact requestData = getJsonBodyData(exchange, Contact.class);
-    final Contact responseData = customerService.createContact(loggedInCustomer, requestData);
-    sendJsonResponse(exchange, responseData);
-  }
-
-  /**
-   * @param exchange
-   * gets the collection of Contacts from the logged-in Customer
-   * @throws Exception
-   */
-  private void getContacts(HttpExchange exchange) throws Exception{
-    final Customer loggedInCustomer = Authenticator.instance.authCustomer(exchange);
-    final Collection<Contact> responseData = customerService.getContacts(loggedInCustomer);
-    sendJsonResponse(exchange, responseData);
-  }
-
-  /**
-   * @param exchange
-   * sends a Notification to all Users registered to the Bank at which the Manager works at
-   * @throws Exception
-   */
-  private void sendNotificationToUsers(HttpExchange exchange) throws Exception{
-    final Manager loggedInManager = Authenticator.instance.authManager(exchange);
-    final ManagerNotification requestData = getJsonBodyData(exchange, ManagerNotification.class);
-    final ManagerNotification responseData = customerService.sendNotificationToUsers(loggedInManager, requestData);
-    sendJsonResponse(exchange, responseData);
-  }
-
-  /**
-   * @param exchange
-   * sends a Notification from the logged-in Customer to a Specified Customer
-   * @throws Exception
-   */
-  private void sendNotification(HttpExchange exchange) throws Exception{
-    final Customer loggedInCustomer = Authenticator.instance.authCustomer(exchange);
-    final CustomerNotification requestData = getJsonBodyData(exchange, CustomerNotification.class);
-    final CustomerNotification responseData = customerService.sendNotification(loggedInCustomer, requestData);
-    sendJsonResponse(exchange, responseData);
-  }
-
-  /**
-   * @param exchange
-   * returns a LinkedHashMap of Notifications that belong to the logged-in Customer
-   * @throws Exception
-   */
-  private void getNotifications(HttpExchange exchange) throws Exception{
-    final Customer loggedInCustomer = Authenticator.instance.authCustomer(exchange);
-    final LinkedHashMap<LocalDateTime, String> responseData = customerService.getNotifications(loggedInCustomer);
-    sendJsonResponse(exchange, responseData);
+    final User loggedInCustomer = Authenticator.instance.authCustomer(exchange);
+    final User responseData = customerService.getLoggedIn(loggedInCustomer);
+    sendJsonResponse(exchange, responseData, User.class);
   }
 }

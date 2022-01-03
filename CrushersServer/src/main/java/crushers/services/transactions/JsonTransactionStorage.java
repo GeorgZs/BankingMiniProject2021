@@ -1,7 +1,6 @@
 package crushers.services.transactions;
 
-import crushers.models.accounts.Account;
-import crushers.models.exchangeInformation.Transaction;
+import crushers.common.models.*;
 import crushers.storage.JsonStorage;
 
 import java.io.File;
@@ -10,13 +9,13 @@ import java.util.*;
 
 public class JsonTransactionStorage extends JsonStorage<Transaction> {
 
-    private final Map<Account, Set<Transaction>> accountTransactions;
-    private final Collection<Transaction> suspiciousTransactions;
+    private final Map<BankAccount, Set<Transaction>> accountTransactions;
+    private final Map<Bank, Set<Transaction>> suspiciousTransactions;
 
     public JsonTransactionStorage(File jsonFile) throws IOException {
         super(jsonFile, Transaction.class);
         this.accountTransactions = new HashMap<>();
-        this.suspiciousTransactions = new HashSet<>();
+        this.suspiciousTransactions = new HashMap<>();
 
         for (Transaction transaction : this.data.values()) {
             this.addToMaps(transaction);
@@ -71,29 +70,38 @@ public class JsonTransactionStorage extends JsonStorage<Transaction> {
     
         accountTransactions.get(transaction.getFrom()).add(transaction);
         accountTransactions.get(transaction.getTo()).add(transaction);
+
+        if (transaction.isSuspicious()) {
+            if (!suspiciousTransactions.containsKey(transaction.getFrom().getBank())) {
+                suspiciousTransactions.put(transaction.getFrom().getBank(), new HashSet<>());
+            }
+
+            suspiciousTransactions.get(transaction.getFrom().getBank()).add(transaction);
+        }
     }
 
     /**
      * @param account containing Transactions
      * @return the Set of Transaction for the specified Account
      */
-    public Set<Transaction> getAllOfAccount(Account account) {
-      return accountTransactions.get(account);
+    public Set<Transaction> getAllOfAccount(BankAccount account) {
+      return accountTransactions.get(account) == null ? new HashSet<>() : accountTransactions.get(account);
     }
 
     /**
      * @param transaction which is being marked as suspicious
      * @return the transaction that was marked as suspicious
      */
-    public Transaction addSusTransaction(Transaction transaction){
-        suspiciousTransactions.add(transaction);
+    public Transaction addSusTransaction(Transaction transaction) {
+        transaction.setSuspicious(true);
+        addToMaps(transaction);
         return transaction;
     }
 
     /**
      * @return the Collection of Suspicious Transactions
      */
-    public Collection<Transaction> getSuspiciousTransactions() {
-        return suspiciousTransactions;
+    public Collection<Transaction> getSuspiciousTransactions(Bank bank) {
+        return suspiciousTransactions.get(bank) == null ? new HashSet<>() : suspiciousTransactions.get(bank);
     }
 }

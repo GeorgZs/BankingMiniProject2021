@@ -43,12 +43,12 @@
          <children>
             <HBox prefHeight="44.0" prefWidth="600.0">
                <children>
-                  <TextField fx:id="searchInput" prefHeight="27.0" prefWidth="249.0" promptText="Search for transaction">
+                  <TextField fx:id="searchInput" prefHeight="27.0" prefWidth="249.0" promptText="Account Id">
                      <font>
                         <Font name="SansSerif Regular" size="13.0" />
                      </font>
                   </TextField>
-                  <Button fx:id="search" mnemonicParsing="false" prefHeight="26.0" prefWidth="70.0" text="Search">
+                  <Button fx:id="search" mnemonicParsing="false" prefHeight="26.0" prefWidth="70.0" text="Search account">
                      <font>
                         <Font name="SansSerif Regular" size="13.0" />
                      </font>
@@ -57,7 +57,7 @@
             </HBox>
             <TableView fx:id="transactionTableView" prefHeight="226.0" prefWidth="579.0" GridPane.rowIndex="1">
                <columns>
-                  <TableColumn fx:id="iD" prefWidth="75.0" text="iD" />
+                  <TableColumn fx:id="id" prefWidth="75.0" text="Id" />
                   <TableColumn fx:id="from" prefWidth="136.0" text="From" />
                   <TableColumn fx:id="to" prefWidth="140.0" text="To" />
                   <TableColumn fx:id="amount" prefWidth="105.0" text="Amount" />
