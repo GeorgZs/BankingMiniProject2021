@@ -204,10 +204,17 @@ public class SystemController implements Initializable{
         double amountToPay = Double.parseDouble(amountPayback.getText());
         JsonNode account = Json.nodeWithFields("id",App.currentAccountID,"type","payment");
         Loan loan = loanTableView.getSelectionModel().getSelectedItem();
+<<<<<<< HEAD
+        JsonNode transaction = Json.nodeWithFields("label",loan.getPurpose(),"id",loan.getAccountId(),"from",account,"to",null,"amount",amountToPay,"description",null,"date",null);
+        Transaction transactionObj = Http.authPut("transactions/loan",transaction,Transaction.class,App.currentToken);
+        System.out.println(transactionObj);
+        System.out.println("Test\nTest");
+=======
         JsonNode transaction = Json.nodeWithFields("label",loan.getPurpose(),"id",loan.getAccountId(),"from",account,"to",null,"amount",amountToPay,"description",null,"date",LocalDateTime.now());
         Http.authPut("transactions/loan",transaction,Transaction.class,App.currentToken);
         System.out.println(transaction.toString());
         Util.updateCustomer();
+>>>>>>> db4d6bb7683ea329dc10942b2694b0b3eaed5555
         }
     }
 
