@@ -3,11 +3,13 @@ package crushers.util;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 
 import crushers.App;
-import crushers.model.*;
+import crushers.common.ServerFacade;
+import crushers.common.httpExceptions.HttpException;
+import crushers.common.models.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -21,19 +23,6 @@ import javafx.stage.Stage;
 import javafx.scene.Node;
 
 public class Util {
-    
-    // public static final FXMLLoader mainLoader = new FXMLLoader(Util.class.getClassLoader().getResource("crushers/views/MainView.fxml"));
-    // public static final FXMLLoader registerLoader = new FXMLLoader(Util.class.getClassLoader().getResource("crushers/views/RegisterView.fxml"));
-    // public static final FXMLLoader accountLoader = new FXMLLoader(Util.class.getClassLoader().getResource("crushers/views/AccountView.fxml"));
-    // public static final FXMLLoader accountCreationLoader = new FXMLLoader(Util.class.getClassLoader().getResource("crushers/views/AccountCreationView.fxml"));
-    // public static final FXMLLoader systemLoader = new FXMLLoader(Util.class.getClassLoader().getResource("crushers/views/SystemView.fxml"));
-
-    // maybe static controller references?
-
-    // i tried pre-assigning fxmlloaders but "rOoT aLrEaDy AsSiGnEd"
-    
-    // public static FXMLLoader loader = new FXMLLoader(Util.class.getClassLoader().getResource("crushers/views/AccountView.fxml"));
-    // public static final Parent accountScene = loader.load();
 
     public static void closeAndShow(String name, String title, ActionEvent e){ // closes e stage and shows new stage
         FXMLLoader loader = new FXMLLoader(Util.class.getClassLoader().getResource("crushers/views/" + name + ".fxml"));
@@ -113,11 +102,17 @@ public class Util {
         }
 
         try {
-            Http.authPost("auth/logout", App.currentToken, "");
-        } catch (InterruptedException e1) {
-            e1.printStackTrace();
-        } catch (IOException e1) {
-            e1.printStackTrace();
+            ServerFacade.instance.logoutUser();
+            App.currentCustomer = null;
+            App.currentCustomerAccounts = new ArrayList<>();
+            App.currentCustomerContacts = new ArrayList<>();
+
+            App.currentAccount = null;
+            App.currentAccountTransactions = new ArrayList<>();
+
+            App.currentTransaction = null;
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
         Util.closeAndShow("MainView", "Crushers Bank", e);
@@ -125,34 +120,63 @@ public class Util {
 
     public static void updateCustomer() {
         try {
-            Customer customer = Json.parse(Http.authGet("customers/@me", App.currentToken), Customer.class);
-            ArrayList<PaymentAccount> accounts = Json.parseList(Http.authGet("accounts/@me", App.currentToken), PaymentAccount.class);
-            ArrayList<Transaction> transactions = Json.parseList(Http.authGet("transactions/accounts/" + App.currentAccountID, App.currentToken), Transaction.class);
-            ArrayList<Contact> contacts = Json.parseList(Http.authGet("customers/@contacts", App.currentToken), Contact.class);
-            if(accounts == null){
-                accounts = new ArrayList<>();
-            }
-            if(contacts == null){
-                contacts = new ArrayList<>();
-            }
-            if(transactions == null){
-                transactions = new ArrayList<>();
-            }
-            customer.setAccountList(accounts);
-            customer.setContactList(contacts);
-            customer.getAccountWithId(App.currentAccountID).setTransactions(transactions);
-            App.currentCustomer = customer;
-            App.currentAccount.setBalance(App.currentCustomer.getAccountWithId(App.currentAccountID).getBalance());
-            System.out.println("Customer: " + customer);
-            System.out.println("Contacts: " + contacts);
-            System.out.println("Location: http://localhost:8080/" + "transactions/accounts/" + App.currentAccountID);
-            System.out.println("Token: " + App.currentToken);
-            System.out.println("Transactions: " + transactions);
-            System.out.println("Loans: " + App.currentCustomer.getLoans());
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+            App.currentCustomer = ServerFacade.instance.getLoggedInCustomer();
         }
-        
+        catch (HttpException ex) {
+            System.out.println(ex.getError());
+            return;
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+            return;
+        }
+
+        // Get the customer's accounts
+        try {
+            App.currentCustomerAccounts = new ArrayList<BankAccount>();
+            App.currentCustomerAccounts = ServerFacade.instance.listAllBankAccountsOfThisCustomer();
+        }
+        catch (HttpException ex) {
+            System.out.println(ex.getError());
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        // Get the customer's contacts
+        try {
+            App.currentCustomerContacts = new ArrayList<Contact>();
+            App.currentCustomerContacts = ServerFacade.instance.listAllContactsOfThisCustomer();
+        }
+        catch (HttpException ex) {
+            System.out.println(ex.getError());
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        // Get the selected account's transactions
+        try {
+            App.currentAccountTransactions = new ArrayList<>();
+            App.currentAccountTransactions = ServerFacade.instance.listAllTransactionsOfAccount(App.currentAccount.getId());
+        }
+        catch (HttpException ex) {
+            System.out.println(ex.getError());
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        // Get the loans at the selected account's bank
+        ArrayList<BankAccount> loans = App.currentCustomerAccounts.stream()
+            .filter(account -> account.getBank().equals(App.currentAccount.getBank()) && account.isLoan())
+            .collect(Collectors.toCollection(ArrayList::new));
+
+
+        System.out.println("Customer: " + App.currentCustomer);
+        System.out.println("Contacts: " + App.currentCustomerContacts.size());
+        System.out.println("Transactions: " + App.currentAccountTransactions.size());
+        System.out.println("Loans: " + loans.size());
     }
 
     public static double trunc(double toTrunc){

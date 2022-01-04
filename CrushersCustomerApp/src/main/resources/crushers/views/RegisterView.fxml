@@ -33,32 +33,12 @@
          <font>
             <Font name="SansSerif Regular" size="12.0" />
          </font></Label>
-      <ChoiceBox fx:id="firstQuestionBox" layoutX="276.0" layoutY="93.0" prefHeight="26.0" prefWidth="186.0" />
-      <ChoiceBox fx:id="secondQuestionBox" layoutX="275.0" layoutY="181.0" prefHeight="26.0" prefWidth="186.0" />
-      <ChoiceBox fx:id="thirdQuestionBox" layoutX="276.0" layoutY="266.0" prefHeight="26.0" prefWidth="186.0" />
-      <TextField fx:id="firstAnswerField" layoutX="276.0" layoutY="137.0" prefHeight="26.0" prefWidth="186.0" promptText="Answer to Question 1">
-         <font>
-            <Font name="SansSerif Regular" size="13.0" />
-         </font></TextField>
-      <TextField fx:id="secondAnswerField" layoutX="276.0" layoutY="224.0" prefHeight="26.0" prefWidth="186.0" promptText="Answer to Question 2">
-         <font>
-            <Font name="SansSerif Regular" size="13.0" />
-         </font></TextField>
-      <TextField fx:id="thirdAnswerField" layoutX="276.0" layoutY="309.0" prefHeight="26.0" prefWidth="186.0" promptText="Answer to Question 3">
-         <font>
-            <Font name="SansSerif Regular" size="13.0" />
-         </font></TextField>
       <Button fx:id="registerButton" layoutX="368.0" layoutY="369.0" mnemonicParsing="false" onAction="#register" prefWidth="94.0" text="Register">
          <font>
             <Font name="SansSerif Regular" size="13.0" />
          </font>
       </Button>
       <Label layoutX="83.0" layoutY="69.0" text="User Information">
-         <font>
-            <Font name="SansSerif Regular" size="12.0" />
-         </font>
-      </Label>
-      <Label layoutX="320.0" layoutY="70.0" text="Security Questions">
          <font>
             <Font name="SansSerif Regular" size="12.0" />
          </font>

@@ -211,7 +211,7 @@ public class TransactionService {
      * @return a Transaction with the interest amount
      * @throws Exception if the account specified is not a Savings Account -- only Savings Accounts can receive Interest
      */
-    public Transaction getInterest(User customer, int id) throws Exception {
+    public Transaction requestInterests(User customer, int id) throws Exception {
         BankAccount account = accountService.get(customer, id);
         if (account.isSavings() || account.isLoan()) {
             //interest calculations: A = P(1 + rt) -> I = A - P                       1 here means after 1 year: 1/2 half year, 1/12 monthly

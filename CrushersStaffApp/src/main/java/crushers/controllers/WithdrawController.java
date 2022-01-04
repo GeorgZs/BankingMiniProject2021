@@ -41,7 +41,6 @@ public class WithdrawController {
     @FXML
     public void onPressedCancel(javafx.event.ActionEvent actionEvent) throws Exception {
         WindowManager.closeModal();
-
     }
 
     @FXML
@@ -53,7 +52,7 @@ public class WithdrawController {
         withdraw.setDate(dateOnWithdraw.getValue());
 
         try {
-            ServerFacade.instance.withdraw(withdraw);
+            ServerFacade.instance.createTransaction(withdraw);
             System.out.println("Withdrew: " + amount.getText());
             WindowManager.closeModal();
         } 

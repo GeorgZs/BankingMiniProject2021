@@ -3,12 +3,9 @@ package crushers.controllers;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import crushers.App;
-import crushers.model.Bank;
-import crushers.model.PaymentAccount;
-import crushers.model.SavingsAccount;
-import crushers.util.Http;
-import crushers.util.Json;
+import crushers.common.ServerFacade;
+import crushers.common.httpExceptions.HttpException;
+import crushers.common.models.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -40,43 +37,27 @@ public class AccountCreationController implements Initializable{
             invalidLabel.setText("Please select a bank!");
         }else if(isPayment == null){
             invalidLabel.setText("Please select an account type!");
-        }else if(accountDescriptionField.getText().isBlank()){
-            invalidLabel.setText("Please enter an account name!");
-        }else{
-            Bank bank = bankSelection.getValue();
-            String accType = isPayment ? "payment" : "savings";
-            String accName = accountDescriptionField.getText();
-            // AccountController accCtrl = MainController.accCtrl;
-            
-            String bankString = "{\"bank\": {\"id\": " + bank.getId() + " },";
-            bankString += "\"type\": \"" + accType + "\",";
-            bankString += "\"name\": \"" + accName + "\"}";
+        } else{
+            BankAccount account = new BankAccount();
+            account.setType(isPayment ? "payment" : "savings");
+            account.setBank(bankSelection.getValue());
 
-            // String bankString = {
-            //     "bank": { "id": 1003 },
-            //     "type": "payment",
-            //     "name": "testing stuff"
-            // }
-
-            if(isPayment){
-
-
-                String createResponse = Http.authPost("accounts", App.currentToken, Json.toNode(bankString));
-                System.out.println("Response:\n" + createResponse);
-                // PaymentAccount createdAccount = Json.parse(createResponse, PaymentAccount.class);
-
-                // System.out.println("Created account: " + createdAccount);
-                // App.currentCustomer.createAccount(createdAccount);
-
-            }else{
-                String createResponse = Http.authPost("accounts", App.currentToken, Json.toNode(bankString));
-                System.out.println("Response:\n" + createResponse);
-
-                // SavingsAccount createdAccount = Json.parse(createResponse, SavingsAccount.class);
-                // App.currentCustomer.createAccount(createdAccount);
+            if (account.isSavings() && !accountDescriptionField.getText().isBlank()) {
+                account.setName(accountDescriptionField.getText());
             }
 
-            MainController.accCtrl.updateAccountList();
+            try {
+                ServerFacade.instance.createBankAccount(account);
+                MainController.accCtrl.updateAccountList();
+            }
+            catch (HttpException ex) {
+                invalidLabel.setText(ex.getError());
+                System.out.println(ex.getError());
+            }
+            catch (Exception ex) {
+                invalidLabel.setText("Oops, something went wrong! Could not create the bank account!");
+                ex.printStackTrace();
+            }
 
             Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
             stage.close();
@@ -86,9 +67,13 @@ public class AccountCreationController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
-            bankSelection.getItems().addAll(Json.parseList(Http.get("banks"), Bank.class));
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+            bankSelection.getItems().addAll(ServerFacade.instance.listAllBanks());
+        } 
+        catch (HttpException ex) {
+            System.out.println(ex.getError());
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
     public void setPayment(ActionEvent e){

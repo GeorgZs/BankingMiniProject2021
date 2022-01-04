@@ -2,22 +2,15 @@ package crushers.controllers;
 
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.ResourceBundle;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import java.util.stream.Collectors;
 
 import crushers.App;
-import crushers.model.*;
-import crushers.util.Http;
-import crushers.util.Json;
+import crushers.common.ServerFacade;
+import crushers.common.httpExceptions.HttpException;
+import crushers.common.models.*;
 import crushers.util.Util;
 import static crushers.util.Util.trunc;
 import javafx.collections.FXCollections;
@@ -55,17 +48,17 @@ public class SystemController implements Initializable{
     @FXML
     private Button createContact, deleteContact, makePayment, makeANewPayment, makeAPaymentRequest, reportTransaction, viewTransactionDetails, apply, paybackLoan;
     @FXML
-    private TextField nameField, accountID, loanAmountField, amountPayback, recipientIdField;
+    private TextField nameField, accountID, loanAmountField, amountPayback;
     @FXML
-    private TextArea descriptionArea, loanPurposeField, transactionLabelField, requestBodyField;
+    private TextArea descriptionArea, loanPurposeField, transactionLabelField;
     @FXML
     private Label contactErrorLabel, accountIdLabel, accountNumberLabel, accountNameLabel, accountBalanceLabel, accountOwnerLabel, accountTypeLabel, accountBankLabel, transactionsMadeLabel, numberOfContactsLabel, pendingLoansLabel, totalDebtLabel, netWorthLabel;
     @FXML
-    private TableView<Loan> loanTableView;
+    private TableView<BankAccount> loanTableView;
     @FXML
-    private ListView<String> notificationsListView;
+    private ListView<Notification> notificationsListView;
 
-    private ObservableList<String> observableNotifications;
+    private ObservableList<Notification> observableNotifications;
 
     boolean showCardNumber;
 
@@ -79,9 +72,7 @@ public class SystemController implements Initializable{
             contactErrorLabel.setText("Please enter a contact name!");
         } else if (nameField.getText().matches("^[0-9]+$")) {
             contactErrorLabel.setText("Please enter alphabetical characters only!");
-        } else if (descriptionArea.getText().isBlank()){
-            contactErrorLabel.setText("Please enter a contact description!");
-        }else {
+        } else {
             try{
                 Integer.parseInt(accountID.getText());
             }catch(NumberFormatException nfe){
@@ -89,16 +80,30 @@ public class SystemController implements Initializable{
                 return;
             }
             // Adding contact to table and sending request to API
-            PaymentAccount account = new PaymentAccount(Integer.parseInt(accountID.getText()), "payment");
-            JsonNode accountNode = Json.nodeWithFields("id", accountID.getText(), "type", "payment");
-            JsonNode contactNode = Json.nodeWithFields("name", nameField.getText(), "account", accountNode, "description", descriptionArea.getText());
-            Contact createdContact = Json.parse(Http.authPost("customers/contact", App.currentToken, contactNode), Contact.class);
-            System.out.println("Created: " + createdContact);
-            contactTableView.getItems().add(createdContact);
-            Util.updateCustomer();
-            updateAccountOverview();
+            BankAccount account = new BankAccount();
+            account.setId(Integer.parseInt(accountID.getText()));
+
+            Contact contact = new Contact();
+            contact.setAccount(account);
+            contact.setName(nameField.getText());
+            contact.setDescription(descriptionArea.getText());
+
+            try {
+                Contact createdContact = ServerFacade.instance.createContact(contact);
+                contactTableView.getItems().add(createdContact);
+                Util.updateCustomer();
+                updateAccountOverview();
+            }
+            catch (HttpException ex) {
+                contactErrorLabel.setText(ex.getError());
+                System.out.println(ex.getError());
+            }
+            catch (Exception ex) {
+                contactErrorLabel.setText("Oops, something went wrong! Could not create the contact!");
+                ex.printStackTrace();
             }
         }
+    }
 
     /*
     PAYMENTS
@@ -116,11 +121,24 @@ public class SystemController implements Initializable{
         }else if(transactionLabelField.getText().isBlank()){
             transactionError.setText("Please enter a valid label!");
         }else{
-            JsonNode transactionNode = Json.nodeWithFields("label", transactionLabelField.getText(), "transaction", Json.nodeWithFields("id", selectedTransaction.getId()));
-            Http.authPut("transactions/label", transactionNode, Transaction.class, App.currentToken);
-            transactionError.setTextFill(Color.GREEN);
-            transactionError.setText("Transaction Successfully Labeled!");
+            try {
+                TransactionLabels labels = new TransactionLabels();
+                labels.setLabels(transactionLabelField.getText().split(", "));
+
+                ServerFacade.instance.setTransactionLabels(selectedTransaction.getId(), labels);
+                transactionError.setTextFill(Color.GREEN);
+                transactionError.setText("Transaction Successfully Labeled!");
+            }
+            catch (HttpException ex) {
+                transactionError.setText(ex.getError());
+                System.out.println(ex.getError());
+            }
+            catch (Exception ex) {
+                transactionError.setText("Oops, something went wrong! Could not apply the label!");
+                ex.printStackTrace();
+            }
         }
+
         updateAccountOverview();
     }
 //View details of a specific transaction.
@@ -177,44 +195,57 @@ public class SystemController implements Initializable{
         } else if (Double.parseDouble(loanAmountField.getText()) < 1000){
             loanErrorLabel.setText("Minimum loan amount is 1,000 SEK.");
         } else {
-            double loanAmount = Double.parseDouble(loanAmountField.getText());
-            String loanReason = loanPurposeField.getText();
-            JsonNode account = Json.nodeWithFields("id",App.currentAccountID,"type","payment");
-            JsonNode loanNode = Json.nodeWithFields("amount",loanAmount,"purpose",loanReason,"account",account);
-            Loan loan = Json.parse(Json.stringify(loanNode), Loan.class);
-            Http.authPost("transactions/loan", App.currentToken, loanNode);
-            loanTableView.getItems().add(loan);
-            updateAccountOverview();
-            updateNotifications();
+            BankAccount loan = new BankAccount();
+            loan.setType("loan");
+            loan.setBalance(-Double.parseDouble(loanAmountField.getText()));
+            loan.setName(loanPurposeField.getText());
+            loan.setBank(App.currentAccount.getBank());
+
+            try {
+                loan = ServerFacade.instance.createBankAccount(loan);
+                loanTableView.getItems().add(loan);
+                updateAccountOverview();
+                updateNotifications();
+            }
+            catch (HttpException ex) {
+                loanErrorLabel.setText(ex.getError());
+                System.out.println(ex.getError());
+            }
+            catch (Exception ex) {
+                loanErrorLabel.setText("Oops, something went wrong! Could not request the loan!");
+                ex.printStackTrace();
+            }
         }
     }
 // Payback a loan by selecting it in the table
     public void paybackLoan(ActionEvent e) throws Exception {
-    if (amountPayback.getText().isBlank()){
-        loanErrorLabel.setText("Must enter an amount to payback.");
-    } else if (!amountPayback.getText().matches("^[0-9]+$")) {
-        loanErrorLabel.setText("Must enter a numerical amount.");
-    } else if (Double.parseDouble(amountPayback.getText()) > App.currentAccount.getBalance()) {
-        loanErrorLabel.setText("Payback amount cannot exceed account balance.");
-    } else if (loanTableView.getSelectionModel().getSelectedItem() == null) {
-        loanErrorLabel.setText("Must select a loan to payback.");
-    } else if (loanTableView.getSelectionModel().getSelectedItem().getAmount() < Double.parseDouble(amountPayback.getText())){
-        loanErrorLabel.setText("Cannot pay more than the remaining loan amount.");
-    } else {
-        double amountToPay = Double.parseDouble(amountPayback.getText());
-        JsonNode account = Json.nodeWithFields("id",App.currentAccountID,"type","payment");
-        Loan loan = loanTableView.getSelectionModel().getSelectedItem();
-<<<<<<< HEAD
-        JsonNode transaction = Json.nodeWithFields("label",loan.getPurpose(),"id",loan.getAccountId(),"from",account,"to",null,"amount",amountToPay,"description",null,"date",null);
-        Transaction transactionObj = Http.authPut("transactions/loan",transaction,Transaction.class,App.currentToken);
-        System.out.println(transactionObj);
-        System.out.println("Test\nTest");
-=======
-        JsonNode transaction = Json.nodeWithFields("label",loan.getPurpose(),"id",loan.getAccountId(),"from",account,"to",null,"amount",amountToPay,"description",null,"date",LocalDateTime.now());
-        Http.authPut("transactions/loan",transaction,Transaction.class,App.currentToken);
-        System.out.println(transaction.toString());
-        Util.updateCustomer();
->>>>>>> db4d6bb7683ea329dc10942b2694b0b3eaed5555
+        if (amountPayback.getText().isBlank()){
+            loanErrorLabel.setText("Must enter an amount to payback.");
+        } else if (!amountPayback.getText().matches("^[0-9]+$")) {
+            loanErrorLabel.setText("Must enter a numerical amount.");
+        } else if (Double.parseDouble(amountPayback.getText()) > App.currentAccount.getBalance()) {
+            loanErrorLabel.setText("Payback amount cannot exceed account balance.");
+        } else if (loanTableView.getSelectionModel().getSelectedItem() == null) {
+            loanErrorLabel.setText("Must select a loan to payback.");
+        } else if (loanTableView.getSelectionModel().getSelectedItem().getBalance() + Double.parseDouble(amountPayback.getText()) > 0){
+            loanErrorLabel.setText("Cannot pay more than the remaining loan amount.");
+        } else {
+            Transaction transaction = new Transaction();
+            transaction.setFrom(App.currentAccount);
+            transaction.setAmount(Double.parseDouble(amountPayback.getText()));
+            transaction.setTo(loanTableView.getSelectionModel().getSelectedItem());
+
+            try {
+                transaction = ServerFacade.instance.createTransaction(transaction);
+            }
+            catch (HttpException ex) {
+                loanErrorLabel.setText(ex.getError());
+                System.out.println(ex.getError());
+            }
+            catch (Exception ex) {
+                loanErrorLabel.setText("Oops, something went wrong! Could not pay back the loan!");
+                ex.printStackTrace();
+            }
         }
     }
 
@@ -257,10 +288,7 @@ public class SystemController implements Initializable{
         transactionDescriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
         transactionTableView.getColumns().add(transactionDescriptionColumn);
         
-        ArrayList<Transaction> transactions = App.currentCustomer.getAccountWithId(App.currentAccountID).getTransactions();
-        if(transactions != null){
-            transactionTableView.getItems().addAll(transactions);
-        }
+        transactionTableView.getItems().addAll(App.currentAccountTransactions);
 
         /*
         CONTACTS (TABLE INIT)
@@ -282,30 +310,29 @@ public class SystemController implements Initializable{
         accountIdColumn.setCellValueFactory(new PropertyValueFactory<>("accountId"));
         contactTableView.getColumns().add(accountIdColumn);
         
-        if(App.currentCustomer.getContactList() != null){
-            contactTableView.getItems().addAll(App.currentCustomer.getContactList());
-        }
+        contactTableView.getItems().addAll(App.currentCustomerContacts);
 
         /*
         LOANS (TABLE INIT)
         */
 
-        TableColumn<Loan, Integer> loanAccountIdColumn = new TableColumn<>("Account ID");
-        loanAccountIdColumn.setCellValueFactory(new PropertyValueFactory<>("accountId"));
+        TableColumn<BankAccount, Integer> loanAccountIdColumn = new TableColumn<>("Account ID");
+        loanAccountIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         loanTableView.getColumns().add(loanAccountIdColumn);
 
-        TableColumn<Loan, Double> amountColumn = new TableColumn<>("Amount");
-        amountColumn.setCellValueFactory(new PropertyValueFactory<>("amount"));
+        TableColumn<BankAccount, Double> amountColumn = new TableColumn<>("Balance");
+        amountColumn.setCellValueFactory(new PropertyValueFactory<>("balance"));
         loanTableView.getColumns().add(amountColumn);
 
-        TableColumn<Loan, String> dateColumn = new TableColumn<>("Purpose");
-        dateColumn.setCellValueFactory(new PropertyValueFactory<>("purpose"));
+        TableColumn<BankAccount, String> dateColumn = new TableColumn<>("Purpose");
+        dateColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         loanTableView.getColumns().add(dateColumn);
 
-        ArrayList<Loan> loans = App.currentCustomer.getLoansWithAccountId(App.currentAccountID);
-        if(loans != null){
-            loanTableView.getItems().addAll(loans);
-        }
+        ArrayList<BankAccount> loans = App.currentCustomerAccounts.stream()
+            .filter(account -> account.getBank().equals(App.currentAccount.getBank()) && account.isLoan())
+            .collect(Collectors.toCollection(ArrayList::new));
+        
+        loanTableView.getItems().addAll(loans);
         updateAccountOverview();
     }
 
@@ -316,15 +343,21 @@ public class SystemController implements Initializable{
 
     public void getInterest(ActionEvent e) throws IOException, InterruptedException {
         overviewErrorLabel.setTextFill(Color.RED);
-        String res = Http.authPost("transactions/interestRate/" + App.currentAccountID, App.currentToken, null);
-        if(res.contains("balance too low")){
-            overviewErrorLabel.setText("Account balance too low!");
-        }else if(res.contains("Not a savings account")){
-            overviewErrorLabel.setText("Cannot receive interest on Payment account!");
-        }else{
+
+        try {
+            ServerFacade.instance.requestsInterests(App.currentAccount.getId());
             overviewErrorLabel.setTextFill(Color.GREEN);
             overviewErrorLabel.setText("Interest successfully received!");
         }
+        catch (HttpException ex) {
+            overviewErrorLabel.setText(ex.getError());
+            System.out.println(ex.getError());
+        }
+        catch (Exception ex) {
+            overviewErrorLabel.setText("Oops, something went wrong! Could not request the interests!");
+            ex.printStackTrace();
+        }
+
         updateAccountOverview();
     }
 
@@ -332,33 +365,8 @@ public class SystemController implements Initializable{
     MISCELLANEOUS
     */
 
-    public void sendNotification(ActionEvent e) throws IOException, InterruptedException{
-        notificationErrorLabel.setTextFill(Color.RED);
-        try{
-            int recipientId = Integer.parseInt(recipientIdField.getText());
-            String requestBody = requestBodyField.getText();
-            if(requestBody.isBlank()){
-                notificationErrorLabel.setText("Please fill a request");
-                return;
-            }
-            JsonNode notificationNode = Json.nodeWithFields("notification", requestBody, "targetCustomer", Json.nodeWithFields("id", recipientId));
-            String res = Http.authPost("customers/notification", App.currentToken, notificationNode);
-            if(res.contains("Internal server error")){
-                notificationErrorLabel.setText("Account ID does not exist!");
-                return;
-            }
-            notificationErrorLabel.setTextFill(Color.GREEN);
-            notificationErrorLabel.setText("Request successfully sent!");
-        }catch(NumberFormatException nfe){
-            notificationErrorLabel.setText("Please enter a valid ID");
-        }catch(Exception ex){
-            notificationErrorLabel.setText("Account ID does not exist!");
-        }
-        
-    }
 //Logs the user out.
     public void logout(ActionEvent e) throws IOException{
-        App.currentAccountID = 0;
         Util.logOutAlert("Logging out?", "Are you sure you want to log-out?", e);
     }
 //Returns the user to the account overview so they can create a new account of select a pre-existing account.
@@ -385,40 +393,43 @@ public class SystemController implements Initializable{
         accountBankLabel.setText("Account Bank: " + App.currentAccount.getBank());
 
         double debt = 0;
-        for(Loan loan: App.currentCustomer.getLoansWithAccountId(App.currentAccountID)){
-            debt += loan.getAmount();
-        }
-        double netWorth = App.currentCustomer.getAccountWithId(App.currentAccountID).getBalance() - debt;
+        ArrayList<BankAccount> loans = App.currentCustomerAccounts.stream()
+            .filter(account -> account.getBank().equals(App.currentAccount.getBank()) && account.isLoan())
+            .collect(Collectors.toCollection(ArrayList::new));
 
-        transactionsMadeLabel.setText("Transactions Made: " + App.currentCustomer.getAccountWithId(App.currentAccountID).getTransactions().size() + " transactions");
-        numberOfContactsLabel.setText("Number of Contacts: " + App.currentCustomer.getContactList().size() + " contacts");
-        pendingLoansLabel.setText("Pending Loans: " + App.currentCustomer.getLoansWithAccountId(App.currentAccountID).size() + " loans");
+        for(BankAccount loan: loans){
+            debt += loan.getBalance();
+        }
+
+        double netWorth = App.currentAccount.getBalance() - debt;
+
+        transactionsMadeLabel.setText("Transactions Made: " + App.currentAccountTransactions.size() + " transactions");
+        numberOfContactsLabel.setText("Number of Contacts: " + App.currentCustomerContacts.size() + " contacts");
+        pendingLoansLabel.setText("Pending Loans: " + loans.size() + " loans");
         totalDebtLabel.setText("Total Debt: " + trunc(debt) + " SEK");
         netWorthLabel.setText(trunc(netWorth) + " SEK");
+
         if(netWorth > 0){
             netWorthLabel.setTextFill(Color.GREEN);
         }else if(netWorth < 0){
             netWorthLabel.setTextFill(Color.RED);
         }
-        transactionTableView.getItems().setAll(App.currentCustomer.getAccountWithId(App.currentAccountID).getTransactions());
+
+        transactionTableView.getItems().setAll(App.currentAccountTransactions);
     }
 //Updates notifications view.
     public void updateNotifications(){
         try {
-            LinkedHashMap<String, String> notifications = Json.parseLinkedHashMap(Http.authGet("customers/notifications", App.currentToken), String.class, String.class);
-            if(notifications == null){
-                notifications = new LinkedHashMap<String, String>();
-            }
-            ArrayList<String> notificationList = new ArrayList<String>();
-            for(String key: notifications.keySet()){
-                notificationList.add("(" + key + "): " + notifications.get(key));
-            }
+            List<Notification> notifications = ServerFacade.instance.listAllNotificationsForThisUser();
             observableNotifications = FXCollections.observableArrayList();
-            observableNotifications.addAll(notificationList);
+            observableNotifications.addAll(notifications);
             notificationsListView.setItems(observableNotifications);
-
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+        }
+        catch (HttpException ex) {
+            System.out.println(ex.getError());
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 }

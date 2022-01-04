@@ -1,7 +1,5 @@
 package crushers;
 
-import crushers.model.PaymentAccount;
-import crushers.model.Transaction;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -9,17 +7,21 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import java.io.IOException;
-import crushers.model.Customer;
+import java.util.List;
 
+import crushers.common.models.*;
 
 public class App extends Application {
 
-    // Declaring quantities that are convenient to store locally
-    public static Customer currentCustomer;
-    public static PaymentAccount currentAccount;
+    // Declaring quantities that are convenient to store globally
+    public static User currentCustomer;
+    public static List<BankAccount> currentCustomerAccounts;
+    public static List<Contact> currentCustomerContacts;
+
+    public static BankAccount currentAccount;
+    public static List<Transaction> currentAccountTransactions;
+
     public static Transaction currentTransaction;
-    public static String currentToken;
-    public static int currentAccountID;
     
     @Override
     public void start(Stage stage) throws IOException {

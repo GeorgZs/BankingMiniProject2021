@@ -52,10 +52,10 @@ public class DepositController {
         deposit.setTo(accountsTo.getValue());
         deposit.setAmount(Double.parseDouble(amount.getText()));
         deposit.setDescription(description.getText());
-        //deposit.setDate(dateOnDeposit.get);
+        deposit.setDate(dateOnDeposit.getValue());
 
         try {
-            ServerFacade.instance.deposit(deposit);
+            ServerFacade.instance.createTransaction(deposit);
             System.out.println("Deposited: " + amount.getText());
             WindowManager.closeModal();
         } 

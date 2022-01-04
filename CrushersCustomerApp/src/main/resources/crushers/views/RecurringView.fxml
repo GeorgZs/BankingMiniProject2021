@@ -19,6 +19,5 @@
       <TextArea fx:id="descriptionArea" layoutX="302.0" layoutY="33.0" prefHeight="155.0" prefWidth="199.0" promptText="Transaction Description" wrapText="true" />
       <Label fx:id="errorLabel" layoutX="45.0" layoutY="206.0" prefHeight="18.0" prefWidth="233.0" textFill="RED" />
       <TextField fx:id="intervalField" layoutX="56.0" layoutY="162.0" prefHeight="26.0" prefWidth="131.0" promptText="Interval" />
-      <ChoiceBox fx:id="intervalBox" layoutX="196.0" layoutY="161.0" prefHeight="26.0" prefWidth="82.0" />
    </children>
 </AnchorPane>

@@ -1,61 +1,58 @@
 package crushers.common.models;
 
-import java.time.LocalTime;
-
 import crushers.common.utils.Storable;
 
-public class Bank implements Storable {
+public class Contact implements Storable {
     private int id = -1;
+    private User of;
     private String name;
-    private String details;
-    private User manager;
+    private BankAccount account;
+    private String description;
 
-    public Bank() {
+    public Contact() {
         // empty for Jackson
     }
 
     public int getId() {
-        return this.id;
+        return id;
     }
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public User getOf() {
+        return of;
+    }
+
+    public void setOf(User of) {
+        this.of = of;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setDetails(String details) {
-        this.details = details;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getDetails() {
-        return details;
+    public BankAccount getAccount() {
+        return account;
     }
 
-    public void setManager(User manager) {
-        this.manager = manager;
+    public void setAccount(BankAccount account) {
+        this.account = account;
     }
 
-    public User getManager() {
-        return manager;
+    public String getDescription() {
+        return description;
     }
 
-
-    public String generateAccountNumber() {
-        return String.format("SE %d %s %d", this.id, LocalTime.now().toString().split("[.]")[1], (int)(10000 + Math.random() * 90000));
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    @Override
-    public String toString() {
-        return name;
-    }
-    
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -72,9 +69,9 @@ public class Bank implements Storable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Bank other = (Bank) obj;
+        Contact other = (Contact) obj;
         if (id != other.id)
             return false;
         return true;
-    }
+    }    
 }

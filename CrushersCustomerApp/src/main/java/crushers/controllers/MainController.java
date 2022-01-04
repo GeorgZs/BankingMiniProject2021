@@ -1,19 +1,7 @@
 package crushers.controllers;
 
 import java.io.IOException;
-
 import java.util.ArrayList;
-
-import com.fasterxml.jackson.databind.exc.MismatchedInputException;
-
-import crushers.App;
-import crushers.model.Contact;
-import crushers.model.Credentials;
-import crushers.model.Customer;
-import crushers.model.PaymentAccount;
-import crushers.util.Http;
-import crushers.util.Json;
-import crushers.util.Util;
 import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.scene.*;
@@ -22,6 +10,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.scene.Node;
+
+import crushers.App;
+import crushers.common.ServerFacade;
+import crushers.common.httpExceptions.HttpException;
+import crushers.common.models.*;
+import crushers.util.Util;
 
 public class MainController { // test commit
     
@@ -39,53 +33,50 @@ public class MainController { // test commit
     public static AccountController accCtrl;
     
     public void register(ActionEvent e) throws IOException{
-
         Util.showModal("RegisterView", "Registration Form", e);
-
-        // FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("crushers/views/RegisterView.fxml"));
-        // root = loader.load();
-        // stage = new Stage();
-        // Scene scene = new Scene(root);
-        // stage.setScene(scene);
-
-        // stage.getIcons().add(new Image("crushers/imgs/logo.jpg"));
-        // stage.setTitle("Registration Form");
-        // stage.initModality(Modality.APPLICATION_MODAL);
-        // stage.show();
-
     }
 
     public void login(ActionEvent e) throws IOException, InterruptedException{
+        Credentials credentials = new Credentials();
+        credentials.setEmail(usernameField.getText());
+        credentials.setPassword(passwordField.getText());
 
-        String email = usernameField.getText();
-        String password = passwordField.getText();
-
-        try { // this block sends the email and password to the api and stores the token
-            String responseString = Http.post("auth/login", new Credentials(email, password)); // json string resposne
-            if(responseString.contains("error")){ // if the response is an error, print its value
-                System.out.println(Json.toNode(responseString).get("error").asText());
-                invalidLoginLabel.setText("Invalid E-mail or Password!");
-                return;
-            }
-            App.currentToken = Json.toNode(responseString).get("token").asText(); // else we get a valid token
-        } catch (InterruptedException e1) {
-            e1.printStackTrace();
+        try {
+            ServerFacade.instance.loginUser(credentials);
+            App.currentCustomer = ServerFacade.instance.getLoggedInCustomer();
+        }
+        catch (HttpException ex) {
+            invalidLoginLabel.setText("Invalid E-mail or Password!");
+            System.out.println(ex.getError());
+        }
+        catch (Exception ex) {
+            invalidLoginLabel.setText("Invalid E-mail or Password!");
+            ex.printStackTrace();
         }
 
-        try { // this block uses the token to find the logged in customer and set their account list
-            App.currentCustomer = Json.parse(Http.authGet("customers/@me", App.currentToken), Customer.class);
-            ArrayList<PaymentAccount> accounts = Json.parseList(Http.authGet("accounts/@me", App.currentToken), PaymentAccount.class);
-            App.currentCustomer.setAccountList(accounts);
-        } catch (InterruptedException e1) {
-            e1.printStackTrace();
-        } catch(MismatchedInputException mie){
-            App.currentCustomer.setAccountList(new ArrayList<PaymentAccount>());
+        // Get the customer's accounts
+        try {
+            App.currentCustomerAccounts = new ArrayList<BankAccount>();
+            App.currentCustomerAccounts = ServerFacade.instance.listAllBankAccountsOfThisCustomer();
         }
-        
-        ArrayList<Contact> contacts = Json.parseList(Http.authGet("customers/@contacts", App.currentToken), Contact.class);
-        App.currentCustomer.setContactList(contacts);
+        catch (HttpException ex) {
+            System.out.println(ex.getError());
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+        }
 
-        // Util.closeAndShow("AccountView", "Account Overview", e); same spiel
+        // Get the customer's contacts
+        try {
+            App.currentCustomerContacts = new ArrayList<Contact>();
+            App.currentCustomerContacts = ServerFacade.instance.listAllContactsOfThisCustomer();
+        }
+        catch (HttpException ex) {
+            System.out.println(ex.getError());
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+        }
 
         Stage oldStage = (Stage)((Node)e.getSource()).getScene().getWindow();
         oldStage.close();

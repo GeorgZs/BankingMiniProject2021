@@ -1,10 +1,9 @@
 package crushers.controllers;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import crushers.App;
-import crushers.model.PaymentAccount;
-import crushers.util.Http;
-import crushers.util.Json;
+import crushers.common.ServerFacade;
+import crushers.common.httpExceptions.HttpException;
+import crushers.common.models.*;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -16,12 +15,11 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import javafx.scene.Node;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -31,7 +29,7 @@ public class AccountTransferController implements Initializable {
     private Label transferFundsLabel, fromLabel, toLabel, amountLabel, sekLabel, commentLabel, errorLabel;
 
     @FXML
-    private ChoiceBox<PaymentAccount> accountFromBox, accountToBox;
+    private ChoiceBox<BankAccount> accountFromBox, accountToBox;
 
     @FXML
     private TextField amountField;
@@ -45,7 +43,7 @@ public class AccountTransferController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        ArrayList<PaymentAccount> userAccounts = App.currentCustomer.getAccountList();
+        List<BankAccount> userAccounts = App.currentCustomerAccounts;
         accountFromBox.setStyle("-fx-font-family: SansSerif");
         accountToBox.setStyle("-fx-font-family: SansSerif");
         accountFromBox.getItems().addAll(userAccounts);
@@ -66,41 +64,44 @@ public class AccountTransferController implements Initializable {
         } else if (!amountField.getText().matches("^[0-9]+$")){
             errorLabel.setText("Please enter a valid numeric amount.");
         } else {
+            BankAccount accountFrom = accountFromBox.getValue();
+            BankAccount accountTo = accountToBox.getValue();
+            System.out.println(accountFrom);
+            System.out.println(accountTo);
 
-            double amountSek = 0;
-            JsonNode toNode = Json.nodeWithFields("id", accountToBox.getValue().getId(), "type", "payment");
-            JsonNode fromNode = Json.nodeWithFields("id", accountFromBox.getValue().getId(), "type", "payment");
-            try{
-                amountSek = Double.parseDouble(amountField.getText());
-            }catch(NumberFormatException nfe){
-                errorLabel.setText("Please enter valid funds!");
-                return;
+            Transaction transaction = new Transaction();
+            transaction.setFrom(accountFrom);
+            transaction.setAmount(Double.parseDouble(amountField.getText()));
+            transaction.setTo(accountTo);
+
+            if (!commentArea.getText().isBlank()) {
+                transaction.setDescription(commentArea.getText());
             }
-            
-            String comment = commentArea.getText();
-            if (amountSek > accountFromBox.getValue().getBalance()) {
-                errorLabel.setText("Insufficient funds!");
-            }else if(amountSek <= 0){
-                errorLabel.setText("Please enter sufficient funds!");
-            }else if(comment.isBlank()){
-                errorLabel.setText("Please enter transfer description!");
-            }else{
 
-                JsonNode transactionNode = Json.nodeWithFields("id", 0, "from", fromNode, "to", toNode, "amount", amountSek, "description", comment, "date", null);
-                Http.authPost("transactions", App.currentToken, transactionNode);
+            try {
+                transaction = ServerFacade.instance.createTransaction(transaction);
+                AccountController.sysCtrl.addTransactionToTable(transaction);
                 MainController.accCtrl.updateAccountList();
-                Alert alert = new Alert(AlertType.INFORMATION, "Transfer successful!");
-                alert.setHeaderText("");                    Optional<ButtonType> result = alert.showAndWait();
-                if(result.isPresent() && result.get() == ButtonType.OK){
-                    Stage oldStage = (Stage)((Node)e.getSource()).getScene().getWindow();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Transfer successful!");
+                alert.setHeaderText("");
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.isPresent() && result.get() == ButtonType.OK) {
+                    Stage oldStage = (Stage) ((Node) e.getSource()).getScene().getWindow();
                     oldStage.close();
                 }
+            }
+            catch (HttpException ex) {
+                errorLabel.setText(ex.getError());
+                System.out.println(ex.getError());
+            }
+            catch (Exception ex) {
+                errorLabel.setText("Oops, something went wrong! Could not transfer money!");
+                ex.printStackTrace();
             }
         }
     }
     @FXML
     public void done(ActionEvent e) throws IOException {
-        // Util.closeAndShow("AccountView", "Account Overview", e);
         Stage oldStage = (Stage)((Node)e.getSource()).getScene().getWindow();
         oldStage.close();
     }

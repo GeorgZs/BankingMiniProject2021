@@ -4,16 +4,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-
-import com.fasterxml.jackson.databind.exc.MismatchedInputException;
-
-import crushers.App;
-import crushers.model.PaymentAccount;
-import crushers.model.SavingsAccount;
-import crushers.util.Http;
-import crushers.util.Json;
-import crushers.util.Util;
-import static crushers.util.Util.trunc;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -27,6 +17,13 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import crushers.App;
+import crushers.common.ServerFacade;
+import crushers.common.httpExceptions.HttpException;
+import crushers.common.models.*;
+import crushers.util.Util;
+
+import static crushers.util.Util.trunc;
 
 public class AccountController implements Initializable{
     
@@ -34,7 +31,7 @@ public class AccountController implements Initializable{
     @FXML
     static AnchorPane accountAnchor;
     @FXML
-    private ListView<PaymentAccount> accountList;
+    private ListView<BankAccount> accountList;
     @FXML
     private Button createNewAccountButton, selectButton, logoutButton, transferButton;
     @FXML
@@ -42,16 +39,12 @@ public class AccountController implements Initializable{
     @FXML
     private VBox accountDetailsBox;
 
-    private ObservableList<PaymentAccount> observableAccount;
+    private ObservableList<BankAccount> observableAccount;
 
     public static SystemController sysCtrl;
 
     public void displayName(String username){
         welcomeLabel.setText("Welcome, " + username);
-    }
-
-    public void displayTotalBalance(double totalBalance) {
-
     }
 
     public void logout(ActionEvent e) throws IOException{
@@ -67,9 +60,17 @@ public class AccountController implements Initializable{
             invalidLabel.setText("Please select an account!");
         }else{
             App.currentAccount = accountList.getSelectionModel().getSelectedItem();
-            App.currentAccountID = App.currentAccount.getId();
-            System.out.println(App.currentAccountID);
-            // Util.closeAndShow("SystemView", "Crushers System", e);
+
+            try {
+                App.currentAccountTransactions = new ArrayList<>();
+                App.currentAccountTransactions = ServerFacade.instance.listAllTransactionsOfAccount(App.currentAccount.getId());
+            }
+            catch (HttpException ex) {
+                System.out.println(ex.getError());
+            }
+            catch (Exception ex) {
+                ex.printStackTrace();
+            }
 
             Stage oldStage = (Stage)((Node)e.getSource()).getScene().getWindow();
             oldStage.close();
@@ -99,26 +100,26 @@ public class AccountController implements Initializable{
 
         try {
             updateAccountList();
-        } catch (MismatchedInputException e) {
-            System.out.println("Empty customer");
-            e.printStackTrace();
+        } 
+        catch (HttpException ex) {
+            System.out.println(ex.getError());
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
         }
 
         accountDetailsBox.setVisible(false);
         
-        accountList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<PaymentAccount>(){
+        accountList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<BankAccount>(){
 
             @Override
-            public void changed(ObservableValue<? extends PaymentAccount> observable, PaymentAccount oldValue, PaymentAccount newValue) {               
-                    PaymentAccount account = accountList.getSelectionModel().getSelectedItem();
+            public void changed(ObservableValue<? extends BankAccount> observable, BankAccount oldValue, BankAccount newValue) {               
+                    BankAccount account = accountList.getSelectionModel().getSelectedItem();
                     if(account == null){
                         return;
                     }
-                    if(account.getInterestRate() == 0.0){
-                        accountTypeLabel.setText("Account type: Payment");
-                    }else{
-                        accountTypeLabel.setText("Account type: Savings");
-                    }
+
+                    accountTypeLabel.setText("Account type: " + account.getType());
                     accountDetailsBox.setVisible(true);
                     accountBankLabel.setText("Bank: " + account.getBank().getName());
                     
@@ -131,38 +132,23 @@ public class AccountController implements Initializable{
     }
 
     public double getCustomerTotalBalance(){
-        if(App.currentCustomer.getAccountList().size() == 0){
+        if(App.currentCustomerAccounts.size() == 0){
             return 0;
-        }else{
-            ArrayList<PaymentAccount> currentCustomerAccounts = App.currentCustomer.getAccountList();
-            for (PaymentAccount currentCustomerAccount : currentCustomerAccounts) {
-                customerTotalBalance += currentCustomerAccount.getBalance();
+        }
+        else {
+            for (BankAccount account : App.currentCustomerAccounts) {
+                customerTotalBalance += account.getBalance();
             }
-        return trunc(customerTotalBalance);
+
+            return trunc(customerTotalBalance);
         }
     }
-    public void updateAccountList() throws MismatchedInputException{
-        try {
-            String res = Http.authGet("accounts/@me", App.currentToken);
-            if(res.contains("Internal server error")){
-                App.currentCustomer.setAccountList(new ArrayList<PaymentAccount>());
-            }else{
-                App.currentCustomer.setAccountList(Json.parseList(res, PaymentAccount.class));
-            }
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
+    public void updateAccountList() throws Exception {
+        App.currentCustomerAccounts = new ArrayList<BankAccount>();
+        App.currentCustomerAccounts = ServerFacade.instance.listAllBankAccountsOfThisCustomer();
+
         observableAccount = FXCollections.observableArrayList();
-        observableAccount.addAll(App.currentCustomer.getAccountList());
+        observableAccount.addAll(App.currentCustomerAccounts);
         accountList.setItems(observableAccount);
     }
-
-    // public void addSavingsToList(SavingsAccount account){
-    //     observableAccount.add(account);
-    //     accountList.refresh();
-    // }
-    // public void addPaymentToList(PaymentAccount account){
-    //     observableAccount.add(account);
-    //     accountList.refresh();
-    // }
 }

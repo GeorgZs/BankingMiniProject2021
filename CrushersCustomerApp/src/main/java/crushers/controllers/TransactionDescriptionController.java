@@ -1,6 +1,6 @@
 package crushers.controllers;
 
-import crushers.model.Transaction;
+import crushers.common.models.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
@@ -14,11 +14,10 @@ public class TransactionDescriptionController{
     public void init() {
         transactionIdLabel.setText(String.valueOf(transaction.getId()));
         transactionAmountLabel.setText(transaction.getAmount() + " SEK");
-        transactionFromLabel.setText(transaction.getFromString() + "");
-        transactionToLabel.setText(transaction.getToString() + "");
+        transactionFromLabel.setText(transaction.getFrom().toString());
+        transactionToLabel.setText(transaction.getTo().toString());
         transactionDescriptionLabel.setText(transaction.getDescription());
-
-        transactionLabelLabel.setText(transaction.getLabel());
+        transactionLabelLabel.setText(String.join(", ", transaction.getLabels()));
     }
 
     public void setCurrentTransaction(Transaction transaction) {

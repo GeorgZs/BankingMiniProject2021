@@ -1,77 +1,25 @@
 package crushers.controllers;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
-
-import com.jfoenix.controls.JFXButton;
-
-import crushers.App;
-import crushers.model.Customer;
-import crushers.util.Http;
-import crushers.util.Json;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.*;
 import javafx.stage.Stage;
 
-public class RegisterController implements Initializable {
+import crushers.common.ServerFacade;
+import crushers.common.httpExceptions.HttpException;
+import crushers.common.models.*;
 
-    // @FXML
-    // private JFXButton cancelButton;
-    // @FXML
-    // private JFXButton submitButton;
-
+public class RegisterController {
     @FXML
     private Button registerButton;
     @FXML
     private Label invalidInputLabel;
     @FXML
-    private ChoiceBox<String> firstQuestionBox, secondQuestionBox, thirdQuestionBox;
-    @FXML
-    private TextField firstAnswerField, secondAnswerField, thirdAnswerField, firstNameField, lastNameField, addressField, emailField;
+    private TextField firstNameField, lastNameField, addressField, emailField;
     @FXML
     private PasswordField passwordField, repeatedPasswordField;
-
-
-
-    private String[] questions = {
-        "What's the name of your first pet?",
-        "What's the name of your home-town?",
-        "What's your favorite movie?",
-        "Which high-school did you graduate?",
-        "What's your mother's maiden name?",
-        "What's the name of your first school?",
-        "What was your favorite food as a child?",
-        "What's your favorite book?"
-    };
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-
-        firstQuestionBox.setStyle("-fx-font-family: SansSerif");
-        secondQuestionBox.setStyle("-fx-font-family: SansSerif");
-        thirdQuestionBox.setStyle("-fx-font-family: SansSerif");
-        firstQuestionBox.getItems().addAll(questions);
-        secondQuestionBox.getItems().addAll(questions);
-        thirdQuestionBox.getItems().addAll(questions);
-
-        firstQuestionBox.setOnAction(this::firstSelection);
-        secondQuestionBox.setOnAction(this::secondSelection);
-    }
-
-    public void firstSelection(ActionEvent e){
-        String firstQuestion = firstQuestionBox.getValue();
-        secondQuestionBox.getItems().remove(firstQuestion);
-        thirdQuestionBox.getItems().remove(firstQuestion);
-    }
-    public void secondSelection(ActionEvent e){
-        String secondQuestion = secondQuestionBox.getValue();
-        thirdQuestionBox.getItems().remove(secondQuestion);
-    }
 
     public void register(ActionEvent e) throws IOException{
         String firstName = firstNameField.getText();
@@ -80,9 +28,6 @@ public class RegisterController implements Initializable {
         String email = emailField.getText();
         String password = passwordField.getText();
         String repeatedPassword = repeatedPasswordField.getText();
-        String firstAnswer = firstAnswerField.getText();
-        String secondAnswer = secondAnswerField.getText();
-        String thirdAnswer = thirdAnswerField.getText();
 
         if(firstName.isBlank()){
             invalidInputLabel.setText("First name cannot be empty!");
@@ -96,28 +41,27 @@ public class RegisterController implements Initializable {
             invalidInputLabel.setText("Password must be at least 8 characters");
         }else if(!password.equals(repeatedPassword)){
             invalidInputLabel.setText("Passwords don't match!");
-        }else if(firstAnswer.isBlank() || secondAnswer.isBlank() || thirdAnswer.isBlank()){
-            invalidInputLabel.setText("You must answer all security questions!");
         }else{
-            ArrayList<String> securityQuestions = new ArrayList<String>();
-            securityQuestions.add(firstQuestionBox.getValue());
-            securityQuestions.add(firstAnswer);
-            securityQuestions.add(secondQuestionBox.getValue());
-            securityQuestions.add(secondAnswer);
-            securityQuestions.add(thirdQuestionBox.getValue());
-            securityQuestions.add(thirdAnswer);
-
-            Customer registeredCustomer = new Customer(email, firstName, lastName, address, password, securityQuestions);
+            User customer = new User();
+            customer.setFirstName(firstName);
+            customer.setLastName(lastName);
+            customer.setAddress(address);
+            customer.setEmail(email);
+            customer.setPassword(password);
 
             try {
-                System.out.println(Http.post("customers", registeredCustomer));
-            } catch (InterruptedException e1) {
-                e1.printStackTrace();
+                ServerFacade.instance.createCustomer(customer);
+            }
+            catch (HttpException ex) {
+                invalidInputLabel.setText(ex.getError());
+                System.out.println(ex.getError());
+            }
+            catch (Exception ex) {
+                ex.printStackTrace();
             }
 
             Stage oldStage = (Stage)((Node)e.getSource()).getScene().getWindow();
             oldStage.close();
-            
         }
     }
 }

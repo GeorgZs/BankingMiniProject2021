@@ -47,6 +47,11 @@ public class Notification implements Storable, Comparable<Notification> {
     }
 
     @Override
+    public String toString() {
+        return sender + " sent at " + time + ":\n" + content;
+    }
+
+    @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;

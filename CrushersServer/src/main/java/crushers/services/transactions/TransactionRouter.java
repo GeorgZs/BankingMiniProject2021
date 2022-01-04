@@ -47,14 +47,14 @@ public class TransactionRouter extends Router {
             }
         });
 
-        server.createContext(basePath + "/interestRate/", (HttpExchange exchange) -> {
+        server.createContext(basePath + "/interests/", (HttpExchange exchange) -> {
             try {
                 final String[] pathParams = exchange.getRequestURI().getPath().split("/");
                 final int accountId = Integer.parseInt(pathParams[pathParams.length - 1]);
 
                 switch (exchange.getRequestMethod()) {
-                    case "POST":
-                        getInterest(exchange, accountId);
+                    case "GET":
+                        requestInterests(exchange, accountId);
                         break;
 
                     default:
@@ -178,9 +178,9 @@ public class TransactionRouter extends Router {
      * @return a Transaction of the Interest received
      * @throws Exception
      */
-    private void getInterest(HttpExchange exchange, int accountId) throws Exception{
+    private void requestInterests(HttpExchange exchange, int accountId) throws Exception{
         final User customer = Authenticator.instance.authCustomer(exchange);
-        final Transaction responseData = transactionService.getInterest(customer, accountId);
+        final Transaction responseData = transactionService.requestInterests(customer, accountId);
         sendJsonResponse(exchange, responseData, Transaction.class);
     }
 
@@ -215,7 +215,7 @@ public class TransactionRouter extends Router {
   private void setLabels(HttpExchange exchange, int transactionId) throws Exception{
     final User loggedInCustomer = Authenticator.instance.authCustomer(exchange);
     final TransactionLabels requestData = getJsonBodyData(exchange, TransactionLabels.class);
-    final Transaction responseData = transactionService.setLabels(loggedInCustomer, transactionId, requestData);
-    sendJsonResponse(exchange, responseData, Transaction.class);
+    transactionService.setLabels(loggedInCustomer, transactionId, requestData);
+    sendJsonResponse(exchange, requestData, TransactionLabels.class);
   }
 }
