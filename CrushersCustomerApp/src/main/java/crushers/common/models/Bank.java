@@ -2,12 +2,16 @@ package crushers.common.models;
 
 import java.time.LocalTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import crushers.common.utils.Storable;
 
 public class Bank implements Storable {
     private int id = -1;
     private String name;
     private String details;
+
+    @JsonIgnoreProperties(value = {"worksAt"}, allowSetters = true)
     private User manager;
 
     public Bank() {
