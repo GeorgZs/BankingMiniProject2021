@@ -92,6 +92,11 @@ public class RecurringController implements Initializable{
         }
     }
 
+    public void cancel(ActionEvent e){
+        // Stage oldStage = (Stage)((Node)e.getSource()).getScene().getWindow();
+        // oldStage.close();
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         List<BankAccount> userAccounts = App.currentCustomerAccounts;

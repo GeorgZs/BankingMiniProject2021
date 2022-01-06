@@ -234,10 +234,8 @@ public class AccountService {
   public InterestRate changeInterestRate(User manager, InterestRate newInterestRate) throws Exception {
     Collection<BankAccount> accounts = storage.getAccountsOfBank(manager.getWorksAt());
     for (BankAccount account : accounts) {
-        if (account.getInterestRate() != 0.00) {
-            account.setInterestRate(newInterestRate.getRate());
-            storage.update(account.getId(), account);
-        }
+      account.setInterestRate(newInterestRate.getRate());
+      storage.update(account.getId(), account);
     }
     return newInterestRate;
   }

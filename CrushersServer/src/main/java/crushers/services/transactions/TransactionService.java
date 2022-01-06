@@ -299,7 +299,7 @@ public class TransactionService {
             }
         };
 
-        // a day is 2 seconds for testing purposes
-        scheduledExecutorService.scheduleAtFixedRate(runnable, 0, recurringTransaction.getInterval() * 2, TimeUnit.SECONDS);
+        // a day is 10 seconds for testing purposes
+        scheduledExecutorService.scheduleAtFixedRate(runnable, 0, recurringTransaction.getInterval() * 10, TimeUnit.SECONDS);
     }
 }

@@ -58,7 +58,11 @@ public class AccountController implements Initializable{
     public void select(ActionEvent e) throws IOException{
         if(accountList.getSelectionModel().getSelectedItem() == null){
             invalidLabel.setText("Please select an account!");
-        }else{
+        }
+        else if(accountList.getSelectionModel().getSelectedItem().isLoan()){
+            invalidLabel.setText("Cannot select a loan!");
+        }
+        else{
             App.currentAccount = accountList.getSelectionModel().getSelectedItem();
 
             try {
