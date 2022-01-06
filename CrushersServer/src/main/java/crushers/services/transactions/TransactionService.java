@@ -129,10 +129,10 @@ public class TransactionService {
             storage.addSusTransaction(transaction);
         }
 
-        else if(transaction.getDescription().toLowerCase().contains("nigerian")
+        else if(transaction.getDescription() != null && (transaction.getDescription().toLowerCase().contains("nigerian")
                 || transaction.getDescription().toLowerCase().contains("prince")
                 || transaction.getDescription().toLowerCase().contains("king")
-                || transaction.getDescription().toLowerCase().contains("queen")){
+                || transaction.getDescription().toLowerCase().contains("queen"))) {
             storage.addSusTransaction(transaction);
         }
 
@@ -274,7 +274,7 @@ public class TransactionService {
 
         if (customerAccount.isSavings() && !isTransfer) {
             throw new BadRequestException(
-                    "Cannot create Transaction: Account with id: " + customerAccount.getId() + " cannot pay with a savings account, only transfer to other accounts you own"
+                    "Cannot pay with a savings account, only transfer to other accounts you own"
             );
         }
 

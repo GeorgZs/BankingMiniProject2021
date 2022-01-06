@@ -51,6 +51,8 @@ public class RegisterController {
 
             try {
                 ServerFacade.instance.createCustomer(customer);
+                Stage oldStage = (Stage)((Node)e.getSource()).getScene().getWindow();
+                oldStage.close();
             }
             catch (HttpException ex) {
                 invalidInputLabel.setText(ex.getError());
@@ -59,9 +61,6 @@ public class RegisterController {
             catch (Exception ex) {
                 ex.printStackTrace();
             }
-
-            Stage oldStage = (Stage)((Node)e.getSource()).getScene().getWindow();
-            oldStage.close();
         }
     }
 }

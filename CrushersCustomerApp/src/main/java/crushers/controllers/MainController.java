@@ -48,10 +48,12 @@ public class MainController { // test commit
         catch (HttpException ex) {
             invalidLoginLabel.setText("Invalid E-mail or Password!");
             System.out.println(ex.getError());
+            return;
         }
         catch (Exception ex) {
             invalidLoginLabel.setText("Invalid E-mail or Password!");
             ex.printStackTrace();
+            return;
         }
 
         // Get the customer's accounts

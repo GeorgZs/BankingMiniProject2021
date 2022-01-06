@@ -2,6 +2,7 @@ package crushers.common.models;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import crushers.common.utils.Storable;
@@ -99,18 +100,22 @@ public class User implements Storable {
     }
 
 
+    @JsonIgnore
     public boolean isCustomer() {
         return this.type.equals("customer");
     }
 
+    @JsonIgnore
     public boolean isManager() {
         return this.type.equals("manager");
     }
 
+    @JsonIgnore
     public boolean isClerk() {
         return this.type.equals("clerk") || isManager();
     }
 
+    @JsonIgnore
     public boolean isInvalidType() {
         return type.equals("INVALID");
     }

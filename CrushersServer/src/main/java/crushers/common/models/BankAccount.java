@@ -1,5 +1,7 @@
 package crushers.common.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import crushers.common.utils.Storable;
 
 public class BankAccount implements Storable {
@@ -85,18 +87,22 @@ public class BankAccount implements Storable {
   }
 
 
+  @JsonIgnore
   public boolean isSavings() {
     return type.equals("savings");
   }
 
+  @JsonIgnore
   public boolean isPayment() {
     return type.equals("payment");
   }
 
+  @JsonIgnore
   public boolean isLoan() {
     return type.equals("loan");
   }
 
+  @JsonIgnore
   public boolean isInvalidType() {
     return type.equals("INVALID");
   }

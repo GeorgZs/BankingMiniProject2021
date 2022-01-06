@@ -34,7 +34,7 @@ import javafx.stage.Stage;
 public class SystemController implements Initializable{
 
     @FXML
-    private Label welcomeLabel, errorLabel, transactionError, loanErrorLabel, notificationErrorLabel, overviewErrorLabel;
+    private Label welcomeLabel, errorLabel, transactionError, loanErrorLabel, notificationErrorLabel, overviewErrorLabel, noNotificationsLabel;
     @FXML
     private Pane pane;
     @FXML
@@ -424,6 +424,7 @@ public class SystemController implements Initializable{
             observableNotifications = FXCollections.observableArrayList();
             observableNotifications.addAll(notifications);
             notificationsListView.setItems(observableNotifications);
+            noNotificationsLabel.setVisible(notifications.isEmpty());
         }
         catch (HttpException ex) {
             System.out.println(ex.getError());

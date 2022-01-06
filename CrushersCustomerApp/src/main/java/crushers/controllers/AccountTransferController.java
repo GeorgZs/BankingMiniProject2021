@@ -83,6 +83,7 @@ public class AccountTransferController implements Initializable {
                 AccountController.sysCtrl.addTransactionToTable(transaction);
                 MainController.accCtrl.updateAccountList();
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Transfer successful!");
+                alert.getDialogPane().setStyle("-fx-font-family: SansSerif");
                 alert.setHeaderText("");
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.isPresent() && result.get() == ButtonType.OK) {

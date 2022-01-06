@@ -91,6 +91,7 @@ public class Util {
 
     public static void logOutAlert(String title, String body, ActionEvent e){
         Alert alert = new Alert(AlertType.CONFIRMATION, body);
+        alert.getDialogPane().setStyle("-fx-font-family: SansSerif");
         alert.setTitle(title);
         alert.setHeaderText("");
         alert.setX(500);

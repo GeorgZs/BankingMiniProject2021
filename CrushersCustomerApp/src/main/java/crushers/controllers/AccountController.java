@@ -123,7 +123,7 @@ public class AccountController implements Initializable{
                     accountDetailsBox.setVisible(true);
                     accountBankLabel.setText("Bank: " + account.getBank().getName());
                     
-                    accountNameLabel.setText("Account name: " + account.getName());
+                    accountNameLabel.setText("Account name: " + (account.getName() != null ? account.getName() : "N/A"));
                     accountBalanceLabel.setText("Account balance: " + trunc(account.getBalance()) + " SEK");
                     accountIDLabel.setText("Account ID: " + account.getId());
             } 

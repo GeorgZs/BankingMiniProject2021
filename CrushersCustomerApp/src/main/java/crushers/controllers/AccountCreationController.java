@@ -42,13 +42,15 @@ public class AccountCreationController implements Initializable{
             account.setType(isPayment ? "payment" : "savings");
             account.setBank(bankSelection.getValue());
 
-            if (account.isSavings() && !accountDescriptionField.getText().isBlank()) {
+            if (!accountDescriptionField.getText().isBlank()) {
                 account.setName(accountDescriptionField.getText());
             }
 
             try {
                 ServerFacade.instance.createBankAccount(account);
                 MainController.accCtrl.updateAccountList();
+                Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
+                stage.close();
             }
             catch (HttpException ex) {
                 invalidLabel.setText(ex.getError());
@@ -58,9 +60,6 @@ public class AccountCreationController implements Initializable{
                 invalidLabel.setText("Oops, something went wrong! Could not create the bank account!");
                 ex.printStackTrace();
             }
-
-            Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
-            stage.close();
         }
     }
 

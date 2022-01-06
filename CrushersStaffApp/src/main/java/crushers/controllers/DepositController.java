@@ -29,6 +29,7 @@ public class DepositController {
         List<BankAccount> accounts = null;
         try {
             accounts = ServerFacade.instance.listAllBankAccountsAtThisBank();
+            System.out.println(accounts.size());
         } catch (Exception e) {
             e.printStackTrace();
         }

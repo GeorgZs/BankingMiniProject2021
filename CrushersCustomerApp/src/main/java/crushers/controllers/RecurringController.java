@@ -73,6 +73,7 @@ public class RecurringController implements Initializable{
                 AccountController.sysCtrl.addTransactionToTable(transaction);
                 Util.updateCustomer();
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Transfer successful!");
+                alert.getDialogPane().setStyle("-fx-font-family: SansSerif");
                 alert.setHeaderText("");
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.isPresent() && result.get() == ButtonType.OK) {

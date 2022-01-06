@@ -122,13 +122,13 @@ public class AccountService {
 
       if (sender.isLoan()) {
         throw new BadRequestException(
-                "Cannot create Transaction: Account with id: " + sender.getId() + " is a Loan"
+                "Cannot pay with a loan"
         );
       }
 
       if (sender.getBalance() <= transaction.getAmount()) {
         throw new BadRequestException(
-                "Cannot create Transaction: Account with id: " + sender.getId() + " does not have enough funds to create this Transaction"
+                "Account does not have enough funds to create this transaction"
         );
       }
 
@@ -138,13 +138,13 @@ public class AccountService {
 
         if (sender.isSavings() && !receiver.getOwner().equals(sender.getOwner())) {
           throw new BadRequestException(
-                  "Cannot create Transaction: Account with id: " + sender.getId() + " cannot pay with a savings account, only transfer to other accounts you own"
+                  "Cannot pay with a savings account, only transfer to other accounts you own"
           );
         }
 
         if (receiver.isLoan() && receiver.getBalance() + transaction.getAmount() > 0) {
           throw new BadRequestException(
-                  "Cannot create Transaction: You would pay back more than the loan amount"
+                  "You would pay back more than the loan amount"
           );
         }
 
@@ -159,7 +159,7 @@ public class AccountService {
 
       if (receiver.isLoan() && receiver.getBalance() + transaction.getAmount() > 0) {
         throw new BadRequestException(
-                "Cannot create Transaction: You would pay back more than the loan amount"
+                "You would pay back more than the loan amount"
         );
       }
 
