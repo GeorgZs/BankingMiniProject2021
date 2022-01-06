@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="269.0" prefWidth="340.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="crushers.controllers.AccountCreationController">
+<AnchorPane prefHeight="269.0" prefWidth="340.0" stylesheets="@../stylesheets/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="crushers.controllers.AccountCreationController">
    <children>
       <ChoiceBox fx:id="bankSelection" layoutX="119.0" layoutY="61.0" prefHeight="26.0" prefWidth="181.0" />
       <Label layoutX="37.0" layoutY="64.0" text="Select Bank:">
@@ -29,7 +29,7 @@
       <Button fx:id="createAccountButton" layoutX="210.0" layoutY="222.0" mnemonicParsing="false" onAction="#createAccount" text="Create Account" />
       <Label layoutX="87.0" layoutY="14.0" text="New account creation">
          <font>
-            <Font name="Malgun Gothic" size="18.0" />
+            <Font name="SansSerif Regular" size="18.0" />
          </font>
       </Label>
       <RadioButton fx:id="paymentOption" layoutX="167.0" layoutY="107.0" mnemonicParsing="false" onAction="#setPayment" prefHeight="18.0" prefWidth="118.0" text="Payment Account" toggleGroup="$accountType" />

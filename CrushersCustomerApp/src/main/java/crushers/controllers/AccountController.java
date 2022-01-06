@@ -137,7 +137,9 @@ public class AccountController implements Initializable{
         }
         else {
             for (BankAccount account : App.currentCustomerAccounts) {
-                customerTotalBalance += account.getBalance();
+                if(!account.getType().equals("loan")){
+                    customerTotalBalance += account.getBalance();
+                }
             }
 
             return trunc(customerTotalBalance);

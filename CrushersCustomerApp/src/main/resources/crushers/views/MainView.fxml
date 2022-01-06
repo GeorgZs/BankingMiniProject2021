@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="322.0" prefWidth="494.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="crushers.controllers.MainController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="322.0" prefWidth="494.0" stylesheets="@../stylesheets/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="crushers.controllers.MainController">
    <children>
       <Button fx:id="loginButton" layoutX="402.0" layoutY="168.0" mnemonicParsing="false" onAction="#login" text="Log-in" />
       <TextField fx:id="usernameField" layoutX="247.0" layoutY="82.0" prefHeight="26.0" prefWidth="206.0" promptText="E-Mail" />

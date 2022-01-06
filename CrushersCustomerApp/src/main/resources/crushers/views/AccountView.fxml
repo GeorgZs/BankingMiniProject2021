@@ -8,9 +8,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="accountAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../stylesheets/main.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="crushers.controllers.AccountController">
+<AnchorPane fx:id="accountAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../stylesheets/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="crushers.controllers.AccountController">
    <children>
-      <Label fx:id="welcomeLabel" alignment="CENTER" prefHeight="52.0" prefWidth="600.0" text="Welcome, {firstName} {lastName}" textFill="#311e7e">
+      <Label fx:id="welcomeLabel" alignment="CENTER" prefHeight="52.0" prefWidth="600.0" stylesheets="@../stylesheets/main.css" text="Welcome, {firstName} {lastName}" textFill="#311e7e">
          <font>
             <Font name="Malgun Gothic" size="26.0" />
          </font>

@@ -20,7 +20,7 @@
    <children>
       <TabPane fx:id="tabpane" layoutX="6.0" layoutY="45.0" prefHeight="368.0" prefWidth="709.0" style="-fx-background-color: #3F95E9;" stylesheets="@../stylesheets/main.css" tabClosingPolicy="UNAVAILABLE">
         <tabs>
-          <Tab text="Welcome">
+          <Tab text="Notifications">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="354.0" prefWidth="545.0" style="-fx-border-color: black; -fx-border-width: 1; -fx-background-color: white; -fx-border-radius: 5; -fx-background-radius: 5;">
                      <children>
@@ -66,7 +66,7 @@
                         </VBox>
                         <JFXCheckBox layoutX="59.0" layoutY="286.0" onAction="#toggleDisplayCardNumber" text="Display Card Number">
                            <font>
-                              <Font name="System Bold" size="12.0" />
+                              <Font name="SansSerif Regular" size="12.0" />
                            </font></JFXCheckBox>
                         <JFXButton layoutX="223.0" layoutY="283.0" onAction="#getInterest" style="-fx-background-color: #2669AB; -fx-font-family: SansSerif; -fx-text-fill: white;" text="Receive interest">
                            <padding>
@@ -194,7 +194,7 @@
       </TabPane>
       <Label fx:id="welcomeLabel" alignment="CENTER" layoutY="14.0" prefHeight="17.0" prefWidth="721.0" text="Welcome, {first_name} {last_name}">
          <font>
-            <Font name="System Bold" size="19.0" />
+            <Font name="SansSerif Regular" size="19.0" />
          </font>
       </Label>
       <JFXButton layoutX="448.0" layoutY="437.0" onAction="#selectDifferentAccount" style="-fx-background-color: #2669AB; -fx-font-family: Courier New; -fx-text-fill: white;" text="Select different account">

@@ -116,7 +116,7 @@
       </HBox>
       <Label layoutX="230.0" layoutY="14.0" text="Registration Form">
          <font>
-            <Font name="Malgun Gothic Semilight" size="18.0" />
+            <Font name="SansSerif Regular" size="18.0" />
          </font>
       </Label>
       <JFXButton fx:id="testButton" layoutX="37.0" layoutY="493.0" prefHeight="26.0" prefWidth="290.0" stylesheets="@../stylesheets/register.css" />

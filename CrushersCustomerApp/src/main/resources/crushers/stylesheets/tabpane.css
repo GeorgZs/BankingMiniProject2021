@@ -27,14 +27,16 @@
     -fx-background-color: #2669AB;
 }
 
-.tab .tab-label { 
+.tab .tab-label {
+    -fx-font-family: "SansSerif";
     -fx-alignment: CENTER;
     -fx-text-fill: #828282;
     -fx-font-size: 12px;
     -fx-font-weight: bold;
 }
 
-.tab:selected .tab-label { 
+.tab:selected .tab-label {
+    -fx-font-family: "SansSerif";
     -fx-alignment: CENTER;
     -fx-text-fill: white;
 }

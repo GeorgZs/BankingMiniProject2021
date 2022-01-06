@@ -13,22 +13,22 @@
          <children>
             <VBox prefHeight="247.0" prefWidth="192.0">
                <children>
-                  <Label prefHeight="38.0" prefWidth="214.0" style="-fx-font-weight: bold; -fx-font-family: Ebrima; -fx-text-fill: #1A4F82;" text="TRANSACTION ID:" />
-                  <Label prefHeight="38.0" prefWidth="214.0" style="-fx-font-weight: bold; -fx-font-family: Ebrima; -fx-text-fill: #1A4F82;" text="TRANSACTION AMOUNT:" />
-                  <Label prefHeight="38.0" prefWidth="214.0" style="-fx-font-weight: bold; -fx-font-family: Ebrima; -fx-text-fill: #1A4F82;" text="TRANSACTION BENEFACTOR:" />
-                  <Label prefHeight="38.0" prefWidth="214.0" style="-fx-font-weight: bold; -fx-font-family: Ebrima; -fx-text-fill: #1A4F82;" text="TRANSACTION BENEFICIARY:" />
-                  <Label prefHeight="80.0" prefWidth="182.0" style="-fx-font-weight: bold; -fx-font-family: Ebrima; -fx-text-fill: #1A4F82;" text="TRANSACTION DESCRIPTION:" />
-                  <Label prefHeight="80.0" prefWidth="182.0" style="-fx-font-weight: bold; -fx-font-family: Ebrima; -fx-text-fill: #1A4F82;" text="TRANSACTION LABEL:" />
+                  <Label prefHeight="38.0" prefWidth="214.0" style="-fx-font-weight: bold; -fx-font-family: SansSerif; -fx-text-fill: #1A4F82;" text="TRANSACTION ID:" />
+                  <Label prefHeight="38.0" prefWidth="214.0" style="-fx-font-weight: bold; -fx-font-family: SansSerif; -fx-text-fill: #1A4F82;" text="TRANSACTION AMOUNT:" />
+                  <Label prefHeight="38.0" prefWidth="214.0" style="-fx-font-weight: bold; -fx-font-family: SansSerif; -fx-text-fill: #1A4F82;" text="TRANSACTION BENEFACTOR:" />
+                  <Label prefHeight="38.0" prefWidth="214.0" style="-fx-font-weight: bold; -fx-font-family: SansSerif; -fx-text-fill: #1A4F82;" text="TRANSACTION BENEFICIARY:" />
+                  <Label prefHeight="80.0" prefWidth="182.0" style="-fx-font-weight: bold; -fx-font-family: SansSerif; -fx-text-fill: #1A4F82;" text="TRANSACTION DESCRIPTION:" />
+                  <Label prefHeight="80.0" prefWidth="182.0" style="-fx-font-weight: bold; -fx-font-family: SansSerif; -fx-text-fill: #1A4F82;" text="TRANSACTION LABEL:" />
                </children>
             </VBox>
             <VBox prefHeight="247.0" prefWidth="192.0">
                <children>
-                  <Label fx:id="transactionIdLabel" prefHeight="38.0" prefWidth="214.0" style="-fx-font-family: Ebrima; -fx-font-weight: bold; -fx-text-fill: #1A4F82;" text="{ID}" />
-                  <Label fx:id="transactionAmountLabel" prefHeight="38.0" prefWidth="214.0" style="-fx-font-family: Ebrima; -fx-font-weight: bold; -fx-text-fill: #1A4F82;" text="{AMOUNT} SEK" />
-                  <Label fx:id="transactionFromLabel" prefHeight="38.0" prefWidth="214.0" style="-fx-font-family: Ebrima; -fx-font-weight: bold; -fx-text-fill: #1A4F82;" text="{ID}" />
-                  <Label fx:id="transactionToLabel" prefHeight="38.0" prefWidth="214.0" style="-fx-font-family: Ebrima; -fx-font-weight: bold; -fx-text-fill: #1A4F82;" text="{ID}" />
-                  <Label fx:id="transactionDescriptionLabel" prefHeight="80.0" prefWidth="182.0" style="-fx-font-weight: bold; -fx-font-family: Ebrima; -fx-text-fill: #1A4F82;" text="{DESC}" wrapText="true" />
-                  <Label fx:id="transactionLabelLabel" prefHeight="80.0" prefWidth="182.0" style="-fx-font-weight: bold; -fx-font-family: Ebrima; -fx-text-fill: #1A4F82;" text="{LABEL}" wrapText="true" />
+                  <Label fx:id="transactionIdLabel" prefHeight="38.0" prefWidth="214.0" style="-fx-font-family: SansSerif; -fx-font-weight: bold; -fx-text-fill: #1A4F82;" text="{ID}" />
+                  <Label fx:id="transactionAmountLabel" prefHeight="38.0" prefWidth="214.0" style="-fx-font-family: SansSerif; -fx-font-weight: bold; -fx-text-fill: #1A4F82;" text="{AMOUNT} SEK" />
+                  <Label fx:id="transactionFromLabel" prefHeight="38.0" prefWidth="214.0" style="-fx-font-family: SansSerif; -fx-font-weight: bold; -fx-text-fill: #1A4F82;" text="{ID}" />
+                  <Label fx:id="transactionToLabel" prefHeight="38.0" prefWidth="214.0" style="-fx-font-family: SansSerif; -fx-font-weight: bold; -fx-text-fill: #1A4F82;" text="{ID}" />
+                  <Label fx:id="transactionDescriptionLabel" prefHeight="80.0" prefWidth="182.0" style="-fx-font-weight: bold; -fx-font-family: SansSerif; -fx-text-fill: #1A4F82;" text="{DESC}" wrapText="true" />
+                  <Label fx:id="transactionLabelLabel" prefHeight="80.0" prefWidth="182.0" style="-fx-font-weight: bold; -fx-font-family: SansSerif; -fx-text-fill: #1A4F82;" text="{LABEL}" wrapText="true" />
                </children>
             </VBox>
          </children>
