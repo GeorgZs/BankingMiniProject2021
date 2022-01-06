@@ -148,7 +148,7 @@ public class TransactionService {
             }
         }
         //sends transaction through the commit method which in turn withdraws money from both accounts (if applicable)
-        accountService.commit(transaction);
+        accountService.commitTransaction(transaction);
         return storage.create(transaction);
     }
 
@@ -166,18 +166,11 @@ public class TransactionService {
             throw new ForbiddenException();
         }
 
-        //check if user creating transaction is a Customer
-        if (loggedInUser.isCustomer()) {
-            if (!transaction.getFrom().getOwner().equals(loggedInUser) && !transaction.getTo().getOwner().equals(loggedInUser)) {
-                throw new ForbiddenException();
-            }
+        if (transaction.getFrom() != null) {
+            accountService.get(loggedInUser, transaction.getFrom().getId());
         }
-
-        //check if user creating transaction is a Clerk
-        if (loggedInUser.isClerk()) {
-            if (!transaction.getFrom().getBank().equals(loggedInUser.getWorksAt()) && !transaction.getTo().getBank().equals(loggedInUser.getWorksAt())) {
-                throw new ForbiddenException();
-            }
+        else if (transaction.getTo() != null) {
+            accountService.get(loggedInUser, transaction.getTo().getId());
         }
 
         return transaction;

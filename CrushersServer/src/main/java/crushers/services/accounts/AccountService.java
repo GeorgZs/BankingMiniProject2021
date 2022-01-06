@@ -114,7 +114,7 @@ public class AccountService {
    * takes the transaction and, once checked for errors, withdraws and deposits from Accounts specified in the Transaction
    * @throws Exception if the Accounts in the transactions are null or if the transaction's amount is greater than or equal to the sender balance
    */
-  public void commit(Transaction transaction) throws Exception {
+  public void commitTransaction(Transaction transaction) throws Exception {
     if (transaction == null) throw new ForbiddenException();
 
     if(transaction.getFrom() != null) {
@@ -134,7 +134,6 @@ public class AccountService {
 
       if(transaction.getTo() != null) {	
         BankAccount receiver = storage.get(transaction.getTo().getId());
-        receiver.setBalance(receiver.getBalance() + transaction.getAmount());
 
         if (sender.isSavings() && !receiver.getOwner().equals(sender.getOwner())) {
           throw new BadRequestException(
@@ -148,10 +147,15 @@ public class AccountService {
           );
         }
 
+        receiver.setBalance(receiver.getBalance() + transaction.getAmount());
+        storage.update(receiver.getId(), receiver);
+
         sender.setBalance(sender.getBalance() - transaction.getAmount());
+        storage.update(sender.getId(), sender);
       }
       else { // withdraw       
         sender.setBalance(sender.getBalance() - transaction.getAmount());
+        storage.update(sender.getId(), sender);
       }
     }
     else { // deposit or interests
@@ -164,6 +168,7 @@ public class AccountService {
       }
 
       receiver.setBalance(receiver.getBalance() + transaction.getAmount());
+      storage.update(receiver.getId(), receiver);
     }
   }
 

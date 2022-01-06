@@ -1,7 +1,5 @@
 package crushers.common.models;
 
-import java.time.LocalDateTime;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -15,7 +13,6 @@ public class User implements Storable {
     private String lastName;
     private String address;
     private String password;
-    private LocalDateTime lastLoginAt;
 
     // Clerks only
     @JsonIgnoreProperties(value = {"manager"}, allowSetters = true)
@@ -79,14 +76,6 @@ public class User implements Storable {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public LocalDateTime getLastLoginAt() {
-        return lastLoginAt;
-    }
-
-    public void setLastLoginAt(LocalDateTime timeStamp) {
-        this.lastLoginAt = timeStamp;
     }
 
 

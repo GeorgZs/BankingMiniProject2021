@@ -119,7 +119,7 @@ public class StaffService {
         try {
             Authenticator.instance.register(createdClerk);
         }
-        finally {
+        catch (Exception ex) {
             storage.delete(createdClerk.getId());
         }
         

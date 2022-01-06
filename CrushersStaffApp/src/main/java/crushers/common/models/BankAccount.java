@@ -104,7 +104,9 @@ public class BankAccount implements Storable {
 
   @Override
   public String toString() {
-    return owner + " - " + number;
+    return (name != null) 
+    ? owner.getLastName() + ": " + name + " - " + number + " | " + balance + " SEK"
+    : owner.getLastName() + ": " + number + " | " + balance + " SEK";
   }
 
   @Override

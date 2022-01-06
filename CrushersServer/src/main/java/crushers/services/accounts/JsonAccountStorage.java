@@ -77,10 +77,6 @@ public class JsonAccountStorage extends JsonStorage<BankAccount> {
    * @return the Set of Accounts registered to the Bank
    */
   public Set<BankAccount> getAccountsOfBank(Bank bank) {
-    System.out.println(bank);
-    System.out.println(bankAccounts.get(bank));
-    System.out.println(bankAccounts.get(bank).size());
-
     return bankAccounts.get(bank) == null ? new HashSet<>() : bankAccounts.get(bank);
   }
 

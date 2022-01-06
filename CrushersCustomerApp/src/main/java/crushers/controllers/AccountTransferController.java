@@ -80,7 +80,6 @@ public class AccountTransferController implements Initializable {
 
             try {
                 transaction = ServerFacade.instance.createTransaction(transaction);
-                AccountController.sysCtrl.addTransactionToTable(transaction);
                 MainController.accCtrl.updateAccountList();
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Transfer successful!");
                 alert.getDialogPane().setStyle("-fx-font-family: SansSerif");
