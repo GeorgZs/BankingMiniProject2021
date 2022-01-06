@@ -71,7 +71,7 @@ public class JsonTransactionStorage extends JsonStorage<Transaction> {
         accountTransactions.get(transaction.getFrom()).add(transaction);
         accountTransactions.get(transaction.getTo()).add(transaction);
 
-        if (transaction.isSuspicious()) {
+        if (transaction.isSuspicious() && transaction.getFrom() != null) {
             if (!suspiciousTransactions.containsKey(transaction.getFrom().getBank())) {
                 suspiciousTransactions.put(transaction.getFrom().getBank(), new HashSet<>());
             }

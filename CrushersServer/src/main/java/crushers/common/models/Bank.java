@@ -52,7 +52,7 @@ public class Bank implements Storable {
 
 
     public String generateAccountNumber() {
-        return String.format("SE %d %s %d", this.id % 1000, LocalTime.now().toString().split("[.]")[1], (int)(10000 + Math.random() * 90000));
+        return String.format("SE %d %d %d", this.id % 10000, (int)(Integer.parseInt(LocalTime.now().toString().split("[.]")[1]) / 100000), (int)(10000 + Math.random() * 90000));
     }
 
     @Override

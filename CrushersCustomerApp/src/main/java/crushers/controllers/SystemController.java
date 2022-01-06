@@ -237,6 +237,13 @@ public class SystemController implements Initializable{
 
             try {
                 transaction = ServerFacade.instance.createTransaction(transaction);
+                MainController.accCtrl.updateAccountList();
+                ArrayList<BankAccount> loans = App.currentCustomerAccounts.stream()
+                    .filter(account -> account.getBank().equals(App.currentAccount.getBank()) && account.isLoan())
+                    .collect(Collectors.toCollection(ArrayList::new));
+            
+                loanTableView.getItems().clear();
+                loanTableView.getItems().addAll(loans);
             }
             catch (HttpException ex) {
                 loanErrorLabel.setText(ex.getError());
@@ -273,11 +280,11 @@ public class SystemController implements Initializable{
         transactionTableView.getColumns().add(transactionAmountColumn);
 
         TableColumn<Transaction, String> transactionFromColumn = new TableColumn<>("From");
-        transactionFromColumn.setCellValueFactory(new PropertyValueFactory<>("fromString"));
+        transactionFromColumn.setCellValueFactory(new PropertyValueFactory<>("from"));
         transactionTableView.getColumns().add(transactionFromColumn);
 
         TableColumn<Transaction, String> transactionToColumn = new TableColumn<>("To");
-        transactionToColumn.setCellValueFactory(new PropertyValueFactory<>("toString"));
+        transactionToColumn.setCellValueFactory(new PropertyValueFactory<>("to"));
         transactionTableView.getColumns().add(transactionToColumn);
         
         TableColumn<Transaction, String> transactionDateColumn = new TableColumn<>("Date");
@@ -294,10 +301,6 @@ public class SystemController implements Initializable{
         CONTACTS (TABLE INIT)
         */
 
-        TableColumn<Contact, Integer> idColumn = new TableColumn<>("ID");
-        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-        contactTableView.getColumns().add(idColumn);
-
         TableColumn<Contact, String> nameColumn = new TableColumn<>("Name");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         contactTableView.getColumns().add(nameColumn);
@@ -306,8 +309,8 @@ public class SystemController implements Initializable{
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
         contactTableView.getColumns().add(descriptionColumn);
 
-        TableColumn<Contact, Integer> accountIdColumn = new TableColumn<>("Account ID");
-        accountIdColumn.setCellValueFactory(new PropertyValueFactory<>("accountId"));
+        TableColumn<Contact, Integer> accountIdColumn = new TableColumn<>("Account");
+        accountIdColumn.setCellValueFactory(new PropertyValueFactory<>("account"));
         contactTableView.getColumns().add(accountIdColumn);
         
         contactTableView.getItems().addAll(App.currentCustomerContacts);
@@ -332,6 +335,7 @@ public class SystemController implements Initializable{
             .filter(account -> account.getBank().equals(App.currentAccount.getBank()) && account.isLoan())
             .collect(Collectors.toCollection(ArrayList::new));
         
+        loanTableView.getItems().clear();
         loanTableView.getItems().addAll(loans);
         updateAccountOverview();
     }
@@ -371,6 +375,7 @@ public class SystemController implements Initializable{
     }
 //Returns the user to the account overview so they can create a new account of select a pre-existing account.
     public void selectDifferentAccount(ActionEvent e) throws IOException{
+        App.currentAccount = null;
         Util.closeAndShow("AccountView", "Select an Account", e);
     }
 //Toggles the visibility of the user's card number in the system view.
@@ -401,7 +406,7 @@ public class SystemController implements Initializable{
             debt += loan.getBalance();
         }
 
-        double netWorth = App.currentAccount.getBalance() - debt;
+        double netWorth = App.currentAccount.getBalance() + debt;
 
         transactionsMadeLabel.setText("Transactions Made: " + App.currentAccountTransactions.size() + " transactions");
         numberOfContactsLabel.setText("Number of Contacts: " + App.currentCustomerContacts.size() + " contacts");

@@ -167,10 +167,10 @@ public class TransactionService {
         }
 
         if (transaction.getFrom() != null) {
-            accountService.get(loggedInUser, transaction.getFrom().getId());
+            transaction.setFrom(accountService.get(loggedInUser, transaction.getFrom().getId()));
         }
         else if (transaction.getTo() != null) {
-            accountService.get(loggedInUser, transaction.getTo().getId());
+            transaction.setTo(accountService.get(loggedInUser, transaction.getTo().getId()));
         }
 
         return transaction;

@@ -100,7 +100,7 @@ public class ServerFacade {
 
 
   public List<Transaction> listAllTransactionsOfAccount(int accountId) throws Exception {
-    return Http.instance.getListWithAuth("/transactions/" + accountId, Transaction.class, this.authToken);
+    return Http.instance.getListWithAuth("/transactions/accounts/" + accountId, Transaction.class, this.authToken);
   }
 
   public List<Transaction> listAllSuspiciousTransactions() throws Exception {

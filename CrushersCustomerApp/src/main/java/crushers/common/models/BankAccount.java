@@ -1,5 +1,8 @@
 package crushers.common.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import crushers.App;
 import crushers.common.utils.Storable;
 
 public class BankAccount implements Storable {
@@ -9,9 +12,9 @@ public class BankAccount implements Storable {
   private Bank bank;
   private User owner;
   private double balance = 0.00;
+  private String name;
 
   // savings / loan account only
-  private String name;
   private double interestRate = 0.00;
 
   public BankAccount() {
@@ -84,19 +87,22 @@ public class BankAccount implements Storable {
     this.interestRate = interestRate;
   }
 
-
+  @JsonIgnore
   public boolean isSavings() {
     return type.equals("savings");
   }
 
+  @JsonIgnore
   public boolean isPayment() {
     return type.equals("payment");
   }
-
+  
+  @JsonIgnore
   public boolean isLoan() {
     return type.equals("loan");
   }
 
+  @JsonIgnore
   public boolean isInvalidType() {
     return type.equals("INVALID");
   }
@@ -104,9 +110,16 @@ public class BankAccount implements Storable {
 
   @Override
   public String toString() {
-    return (name != null) 
-      ? name + " - " + number + " | " + balance + " SEK"
-      : number + " | " + balance + " SEK";
+    String str = "";
+
+    if (name != null) str += name + " - ";
+    str += number;
+
+    if (this.owner.equals(App.currentCustomer)) {
+      str += " | " + balance + " SEK";
+    }
+
+    return str;
   }
 
   @Override

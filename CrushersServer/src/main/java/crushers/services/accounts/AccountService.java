@@ -2,6 +2,7 @@ package crushers.services.accounts;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 import crushers.common.httpExceptions.*;
 import crushers.common.models.*;
@@ -101,6 +102,26 @@ public class AccountService {
   }
 
   /**
+   *
+   * @param loggedInUser
+   * @param id
+   * @return account with the matching ID
+   * @throws Exception if the ID is invalid or the logged-in User doesnt have correct access to the account specified
+   */
+  public BankAccount getForContact(int id) throws Exception {
+    BankAccount account = storage.get(id);
+    
+    BankAccount accountForContact = new BankAccount();
+    accountForContact.setId(account.getId());
+    accountForContact.setType(account.getType());
+    accountForContact.setNumber(account.getNumber());
+    accountForContact.setBank(account.getBank());
+    accountForContact.setOwner(account.getOwner());
+    accountForContact.setName(account.getName());
+    return accountForContact;
+  }
+
+  /**
    * @param id of the Account in question
    * @return true or false based on whether the account exists or not
    * @throws Exception
@@ -179,7 +200,9 @@ public class AccountService {
   public Collection<BankAccount> getOfCustomer(User customer) throws Exception {
     Collection<BankAccount> accounts = storage.getAccountsOfCustomer(customer);
     if (accounts == null) accounts = new ArrayList<>();
-    return accounts;
+    return accounts.stream()
+      .filter(account -> !account.isFullyPaidBack())
+      .collect(Collectors.toList());
   }
 
   /**
@@ -189,7 +212,9 @@ public class AccountService {
   public Collection<BankAccount> getOfBank(Bank bank) throws Exception {
     Collection<BankAccount> accounts = storage.getAccountsOfBank(bank);
     if (accounts == null) accounts = new ArrayList<>();
-    return accounts;
+    return accounts.stream()
+      .filter(account -> !account.isFullyPaidBack())
+      .collect(Collectors.toList());
   }
 
   /**

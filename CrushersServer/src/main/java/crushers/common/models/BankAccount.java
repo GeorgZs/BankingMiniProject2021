@@ -11,9 +11,9 @@ public class BankAccount implements Storable {
   private Bank bank;
   private User owner;
   private double balance = 0.00;
+  private String name;
 
   // savings / loan account only
-  private String name;
   private double interestRate = 0.00;
 
   public BankAccount() {
@@ -100,6 +100,11 @@ public class BankAccount implements Storable {
   @JsonIgnore
   public boolean isLoan() {
     return type.equals("loan");
+  }
+
+  @JsonIgnore
+  public boolean isFullyPaidBack() {
+    return isLoan() && balance == 0;
   }
 
   @JsonIgnore

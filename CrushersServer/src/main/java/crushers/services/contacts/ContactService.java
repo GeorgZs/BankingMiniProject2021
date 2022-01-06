@@ -45,6 +45,7 @@ public class ContactService {
     }
     
     contact.setOf(customer);
+    contact.setAccount(accountService.getForContact(contact.getAccount().getId()));
     return storage.create(contact);
   }
 
