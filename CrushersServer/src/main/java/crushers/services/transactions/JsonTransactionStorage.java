@@ -94,7 +94,6 @@ public class JsonTransactionStorage extends JsonStorage<Transaction> {
      */
     public Transaction addSusTransaction(Transaction transaction) {
         transaction.setSuspicious(true);
-        addToMaps(transaction);
         return transaction;
     }
 
