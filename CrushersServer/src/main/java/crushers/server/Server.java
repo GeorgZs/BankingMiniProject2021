@@ -2,6 +2,7 @@ package crushers.server;
 
 import java.io.File;
 import java.net.InetSocketAddress;
+import java.nio.file.Files;
 
 import com.sun.net.httpserver.HttpServer;
 
@@ -45,9 +46,19 @@ public class Server {
    * Here we add our services to the server so that they can be accessed via http.
    */
   private void addServices() throws Exception {
-    // Create the folder for all our json storage files.
-    new File("data").mkdirs();
-
+    // Create the folder for all our json storage files and load inital data if existing.
+    File dataFolder = new File("data");
+    File initialDataFolder = new File("initial-data");
+    
+    if (!dataFolder.exists()) {
+      dataFolder.mkdir();
+      
+      if (initialDataFolder.exists()) {
+        for (File file : initialDataFolder.listFiles()) {
+          Files.copy(file.toPath(), dataFolder.toPath().resolve(file.getName()));
+        }
+      }
+    }
 
     final CustomerService customerService = new CustomerService(
       new JsonStorage<User>(new File("data/customers.json"), User.class)
