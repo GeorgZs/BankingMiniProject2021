@@ -48,7 +48,7 @@
                         <Font name="SansSerif Regular" size="13.0" />
                      </font>
                   </TextField>
-                  <Button fx:id="search" mnemonicParsing="false" prefHeight="26.0" prefWidth="70.0" text="Search account">
+                  <Button fx:id="search" mnemonicParsing="false" prefHeight="26.0" prefWidth="63.0" text="Search">
                      <font>
                         <Font name="SansSerif Regular" size="13.0" />
                      </font>

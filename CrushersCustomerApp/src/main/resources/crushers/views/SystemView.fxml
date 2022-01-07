@@ -65,7 +65,7 @@
                               <Insets bottom="2.0" left="5.0" top="2.0" />
                            </padding>
                         </VBox>
-                        <JFXCheckBox layoutX="59.0" layoutY="286.0" onAction="#toggleDisplayCardNumber" text="Display Card Number">
+                        <JFXCheckBox layoutX="59.0" layoutY="286.0" onAction="#toggleDisplayCardNumber" text="Display Account Number">
                            <font>
                               <Font name="SansSerif Regular" size="12.0" />
                            </font></JFXCheckBox>

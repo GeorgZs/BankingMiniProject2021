@@ -34,19 +34,12 @@ public class DepositController {
         }
         accountsTo.setItems(FXCollections.observableArrayList(accounts));
         accountsTo.setStyle("-fx-font-family: SansSerif");
+        dateOnDeposit.setStyle("-fx-font-family: SansSerif");
     }
 
 
     @FXML
     private void onPressedDeposit(javafx.event.ActionEvent actionEvent) throws Exception {
-        /*if(Integer.parseInt(amount.getText()) < 0) {
-          amount.setStyle("-fx-border-color: red ; -fx-border-width: 1px");
-          throw new Exception("Amount cannot be negative");
-      } else {
-            amount.setStyle("-fx-border-color: transparent");
-      }
-
-         */
         Transaction deposit = new Transaction();
         accountsTo.getValue().setType("payment");
         deposit.setTo(accountsTo.getValue());

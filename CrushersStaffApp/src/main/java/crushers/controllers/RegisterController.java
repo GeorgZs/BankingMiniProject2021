@@ -31,7 +31,7 @@ public class RegisterController {
     @FXML
     private TextField emailField;
     @FXML
-    private TextField passwordField;
+    private PasswordField passwordField;
     @FXML
     private Button register;
     @FXML
@@ -53,13 +53,10 @@ public class RegisterController {
         String postalCode = postalCodeField.getText();
         String email = emailField.getText();
         String password = passwordField.getText();
-        //String question = securityQuestions.getValue().toString();
-        //String answer = answerQuestions.getText();
 
         if(bankName.isEmpty() || bankName.isBlank()){
             WindowManager.showAlert("Bank name cannot be empty");
             bankNameField.setStyle("-fx-border-color: red ; -fx-border-width: 2px ;");
-            //bankNameField.setStyle("-fx-text-fill: red");
         }else{
             bankNameField.setStyle("-fx-border-color: black");
         }
@@ -110,8 +107,6 @@ public class RegisterController {
         else{
             passwordField.setStyle("-fx-border-color: black");
         }
-
-        //resetAllBorders("-fx-border-color: black ; -fx-border-width: 1px ;");
 
         User manager = new User();
         manager.setFirstName(firstName);
