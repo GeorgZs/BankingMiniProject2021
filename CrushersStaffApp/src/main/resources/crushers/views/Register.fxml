@@ -8,6 +8,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<?import javafx.scene.control.PasswordField?>
 <AnchorPane prefHeight="695.0" prefWidth="401.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="crushers.controllers.RegisterController">
    <children>
       <TextField fx:id="bankNameField" layoutX="14.0" layoutY="61.0" promptText="Name">
@@ -42,10 +43,10 @@
          <font>
             <Font name="SansSerif Regular" size="13.0" />
          </font></TextField>
-      <TextField fx:id="passwordField" layoutX="15.0" layoutY="547.0" prefHeight="27.0" prefWidth="371.0" promptText="Password">
+      <PasswordField fx:id="passwordField" layoutX="15.0" layoutY="547.0" prefHeight="27.0" prefWidth="371.0" promptText="Password">
          <font>
             <Font name="SansSerif Regular" size="13.0" />
-         </font></TextField>
+         </font></PasswordField>
       <Text layoutX="15.0" layoutY="231.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Member Information:">
          <font>
             <Font name="SansSerif Regular" size="13.0" />

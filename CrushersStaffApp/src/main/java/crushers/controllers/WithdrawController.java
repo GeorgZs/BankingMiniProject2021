@@ -36,6 +36,7 @@ public class WithdrawController {
         }
         accountFrom.setItems(FXCollections.observableArrayList(accounts));
         accountFrom.setStyle("-fx-font-family: SansSerif");
+        dateOnWithdraw.setStyle("-fx-font-family: SansSerif");
     }
 
     @FXML

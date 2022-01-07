@@ -41,6 +41,7 @@ public class SuspiciousTransactionController implements Initializable {
         to.setCellValueFactory(new PropertyValueFactory<>("to"));
         amount.setCellValueFactory(new PropertyValueFactory<>("amount"));
         date.setCellValueFactory(new PropertyValueFactory<>("date"));
+        susTableView.setStyle("-fx-font-family: SansSerif");
         
         executor.scheduleAtFixedRate(() -> {
             Platform.runLater(() -> {

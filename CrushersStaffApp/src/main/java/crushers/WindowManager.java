@@ -49,7 +49,6 @@ public class WindowManager {
     Parent root = FXMLLoader.load(App.class.getResource(page));
     
     ModalWindow = new Stage();
-    // ModalWindow.getIcons().add(new Image("crushers/imgs/logo.jpg"));
     ModalWindow.setScene(new Scene(root));
     ModalWindow.setTitle(title);
     ModalWindow.initModality(Modality.APPLICATION_MODAL);
@@ -62,7 +61,7 @@ public class WindowManager {
 
   public static void showAlert(String message){
     Alert a = new Alert(Alert.AlertType.INFORMATION);
-    a.setTitle("Warning");
+    a.setTitle("Information");
     a.setHeaderText(message);
     a.getDialogPane().setStyle("-fx-font-family: SansSerif");
     a.show();

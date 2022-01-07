@@ -127,6 +127,7 @@ public class DashboardController implements Initializable {
         lastNameClerk.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         emailClerk.setCellValueFactory(new PropertyValueFactory<>("email"));
         typeClerk.setCellValueFactory(new PropertyValueFactory<>("type"));
+        tableView.setStyle("-fx-font-family: SansSerif");
         
         executor.scheduleAtFixedRate(() -> {
             Platform.runLater(() -> {
