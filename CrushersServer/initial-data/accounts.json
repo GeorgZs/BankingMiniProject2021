@@ -1,0 +1,290 @@
+{
+  "1641555424" : {
+    "id" : 1641555424,
+    "type" : "payment",
+    "number" : "SE 5424 6 29866",
+    "bank" : {
+      "id" : 1641555424,
+      "name" : "PESA Bank",
+      "details" : "Opening hours: 09.00 - 17.00",
+      "manager" : {
+        "id" : 1641555424,
+        "type" : "manager",
+        "email" : "Lance@gmail.com",
+        "firstName" : "Lance",
+        "lastName" : "Janssen",
+        "address" : "Hörselgången 4",
+        "password" : "Lance1234"
+      }
+    },
+    "owner" : {
+      "id" : 1641555424,
+      "type" : "customer",
+      "email" : "IzabelleH@gmail.com",
+      "firstName" : "Izabelle",
+      "lastName" : "Hansson",
+      "address" : "Knektvägen 67",
+      "password" : "Izabelle321",
+      "worksAt" : null
+    },
+    "balance" : 24340.0,
+    "name" : "Payment",
+    "interestRate" : 0.0
+  },
+  "1641555425" : {
+    "id" : 1641555425,
+    "type" : "savings",
+    "number" : "SE 5424 8 43324",
+    "bank" : {
+      "id" : 1641555424,
+      "name" : "PESA Bank",
+      "details" : "Opening hours: 09.00 - 17.00",
+      "manager" : {
+        "id" : 1641555424,
+        "type" : "manager",
+        "email" : "Lance@gmail.com",
+        "firstName" : "Lance",
+        "lastName" : "Janssen",
+        "address" : "Hörselgången 4",
+        "password" : "Lance1234"
+      }
+    },
+    "owner" : {
+      "id" : 1641555424,
+      "type" : "customer",
+      "email" : "IzabelleH@gmail.com",
+      "firstName" : "Izabelle",
+      "lastName" : "Hansson",
+      "address" : "Knektvägen 67",
+      "password" : "Izabelle321",
+      "worksAt" : null
+    },
+    "balance" : 13753.0,
+    "name" : "Savings",
+    "interestRate" : 0.0
+  },
+  "1641555426" : {
+    "id" : 1641555426,
+    "type" : "payment",
+    "number" : "SE 5424 5 60517",
+    "bank" : {
+      "id" : 1641555424,
+      "name" : "PESA Bank",
+      "details" : "Opening hours: 09.00 - 17.00",
+      "manager" : {
+        "id" : 1641555424,
+        "type" : "manager",
+        "email" : "Lance@gmail.com",
+        "firstName" : "Lance",
+        "lastName" : "Janssen",
+        "address" : "Hörselgången 4",
+        "password" : "Lance1234"
+      }
+    },
+    "owner" : {
+      "id" : 1641555425,
+      "type" : "customer",
+      "email" : "Eriksson@hotmail.com",
+      "firstName" : "Kristoffer",
+      "lastName" : "Eriksson",
+      "address" : "Klinta 56",
+      "password" : "Kris4321",
+      "worksAt" : null
+    },
+    "balance" : 25820.0,
+    "name" : "Billing",
+    "interestRate" : 0.0
+  },
+  "1641555427" : {
+    "id" : 1641555427,
+    "type" : "savings",
+    "number" : "SE 5424 5 63171",
+    "bank" : {
+      "id" : 1641555424,
+      "name" : "PESA Bank",
+      "details" : "Opening hours: 09.00 - 17.00",
+      "manager" : {
+        "id" : 1641555424,
+        "type" : "manager",
+        "email" : "Lance@gmail.com",
+        "firstName" : "Lance",
+        "lastName" : "Janssen",
+        "address" : "Hörselgången 4",
+        "password" : "Lance1234"
+      }
+    },
+    "owner" : {
+      "id" : 1641555425,
+      "type" : "customer",
+      "email" : "Eriksson@hotmail.com",
+      "firstName" : "Kristoffer",
+      "lastName" : "Eriksson",
+      "address" : "Klinta 56",
+      "password" : "Kris4321",
+      "worksAt" : null
+    },
+    "balance" : 2500.0,
+    "name" : "Vacation",
+    "interestRate" : 0.0
+  },
+  "1641555428" : {
+    "id" : 1641555428,
+    "type" : "payment",
+    "number" : "SE 5424 4 29679",
+    "bank" : {
+      "id" : 1641555424,
+      "name" : "PESA Bank",
+      "details" : "Opening hours: 09.00 - 17.00",
+      "manager" : {
+        "id" : 1641555424,
+        "type" : "manager",
+        "email" : "Lance@gmail.com",
+        "firstName" : "Lance",
+        "lastName" : "Janssen",
+        "address" : "Hörselgången 4",
+        "password" : "Lance1234"
+      }
+    },
+    "owner" : {
+      "id" : 1641555426,
+      "type" : "customer",
+      "email" : "Fredrik55@gmail.com",
+      "firstName" : "Fredrik",
+      "lastName" : "Karlsson",
+      "address" : "Sandviken 59",
+      "password" : "Fredrik123",
+      "worksAt" : null
+    },
+    "balance" : 5202.0,
+    "name" : "Spending",
+    "interestRate" : 0.0
+  },
+  "1641555429" : {
+    "id" : 1641555429,
+    "type" : "savings",
+    "number" : "SE 5424 3 10412",
+    "bank" : {
+      "id" : 1641555424,
+      "name" : "PESA Bank",
+      "details" : "Opening hours: 09.00 - 17.00",
+      "manager" : {
+        "id" : 1641555424,
+        "type" : "manager",
+        "email" : "Lance@gmail.com",
+        "firstName" : "Lance",
+        "lastName" : "Janssen",
+        "address" : "Hörselgången 4",
+        "password" : "Lance1234"
+      }
+    },
+    "owner" : {
+      "id" : 1641555426,
+      "type" : "customer",
+      "email" : "Fredrik55@gmail.com",
+      "firstName" : "Fredrik",
+      "lastName" : "Karlsson",
+      "address" : "Sandviken 59",
+      "password" : "Fredrik123",
+      "worksAt" : null
+    },
+    "balance" : 33550.0,
+    "name" : "Car saving",
+    "interestRate" : 0.0
+  },
+  "1641555430" : {
+    "id" : 1641555430,
+    "type" : "loan",
+    "number" : "SE 5424 7 72632",
+    "bank" : {
+      "id" : 1641555424,
+      "name" : "PESA Bank",
+      "details" : "Opening hours: 09.00 - 17.00",
+      "manager" : {
+        "id" : 1641555424,
+        "type" : "manager",
+        "email" : "Lance@gmail.com",
+        "firstName" : "Lance",
+        "lastName" : "Janssen",
+        "address" : "Hörselgången 4",
+        "password" : "Lance1234"
+      }
+    },
+    "owner" : {
+      "id" : 1641555424,
+      "type" : "customer",
+      "email" : "IzabelleH@gmail.com",
+      "firstName" : "Izabelle",
+      "lastName" : "Hansson",
+      "address" : "Knektvägen 67",
+      "password" : "Izabelle321",
+      "worksAt" : null
+    },
+    "balance" : -16400.0,
+    "name" : "New laptop",
+    "interestRate" : 0.0
+  },
+  "1641555431" : {
+    "id" : 1641555431,
+    "type" : "loan",
+    "number" : "SE 5424 2 36959",
+    "bank" : {
+      "id" : 1641555424,
+      "name" : "PESA Bank",
+      "details" : "Opening hours: 09.00 - 17.00",
+      "manager" : {
+        "id" : 1641555424,
+        "type" : "manager",
+        "email" : "Lance@gmail.com",
+        "firstName" : "Lance",
+        "lastName" : "Janssen",
+        "address" : "Hörselgången 4",
+        "password" : "Lance1234"
+      }
+    },
+    "owner" : {
+      "id" : 1641555425,
+      "type" : "customer",
+      "email" : "Eriksson@hotmail.com",
+      "firstName" : "Kristoffer",
+      "lastName" : "Eriksson",
+      "address" : "Klinta 56",
+      "password" : "Kris4321",
+      "worksAt" : null
+    },
+    "balance" : -20000.0,
+    "name" : "hair transplant",
+    "interestRate" : 0.0
+  },
+  "1641555432" : {
+    "id" : 1641555432,
+    "type" : "loan",
+    "number" : "SE 5424 1 25843",
+    "bank" : {
+      "id" : 1641555424,
+      "name" : "PESA Bank",
+      "details" : "Opening hours: 09.00 - 17.00",
+      "manager" : {
+        "id" : 1641555424,
+        "type" : "manager",
+        "email" : "Lance@gmail.com",
+        "firstName" : "Lance",
+        "lastName" : "Janssen",
+        "address" : "Hörselgången 4",
+        "password" : "Lance1234"
+      }
+    },
+    "owner" : {
+      "id" : 1641555425,
+      "type" : "customer",
+      "email" : "Eriksson@hotmail.com",
+      "firstName" : "Kristoffer",
+      "lastName" : "Eriksson",
+      "address" : "Klinta 56",
+      "password" : "Kris4321",
+      "worksAt" : null
+    },
+    "balance" : -8490.0,
+    "name" : "New bike",
+    "interestRate" : 0.0
+  }
+}

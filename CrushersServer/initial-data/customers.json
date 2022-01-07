@@ -1,12 +1,32 @@
 {
-  "1641551782" : {
-    "id" : 1641551782,
+  "1641555424" : {
+    "id" : 1641555424,
     "type" : "customer",
-    "email" : "lance@home.com",
-    "firstName" : "Lance",
-    "lastName" : "Janssen",
-    "address" : "somewhere over the rainbow 420",
-    "password" : "PASSword1234",
+    "email" : "IzabelleH@gmail.com",
+    "firstName" : "Izabelle",
+    "lastName" : "Hansson",
+    "address" : "Knektvägen 67",
+    "password" : "Izabelle321",
+    "worksAt" : null
+  },
+  "1641555425" : {
+    "id" : 1641555425,
+    "type" : "customer",
+    "email" : "Eriksson@hotmail.com",
+    "firstName" : "Kristoffer",
+    "lastName" : "Eriksson",
+    "address" : "Klinta 56",
+    "password" : "Kris4321",
+    "worksAt" : null
+  },
+  "1641555426" : {
+    "id" : 1641555426,
+    "type" : "customer",
+    "email" : "Fredrik55@gmail.com",
+    "firstName" : "Fredrik",
+    "lastName" : "Karlsson",
+    "address" : "Sandviken 59",
+    "password" : "Fredrik123",
     "worksAt" : null
   }
 }
