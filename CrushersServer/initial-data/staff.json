@@ -1,0 +1,44 @@
+{
+  "1641555424" : {
+    "id" : 1641555424,
+    "type" : "manager",
+    "email" : "Lance@gmail.com",
+    "firstName" : "Lance",
+    "lastName" : "Janssen",
+    "address" : "Hörselgången 4",
+    "password" : "Lance1234",
+    "worksAt" : {
+      "id" : 1641555424,
+      "name" : "PESA Bank",
+      "details" : "Opening hours: 09.00 - 17.00"
+    }
+  },
+  "1641555425" : {
+    "id" : 1641555425,
+    "type" : "clerk",
+    "email" : "GeorgZ@gmail.com",
+    "firstName" : "Georg",
+    "lastName" : "Zsolnai",
+    "address" : "5th Avenue",
+    "password" : "Georg1234",
+    "worksAt" : {
+      "id" : 1641555424,
+      "name" : "PESA Bank",
+      "details" : "Opening hours: 09.00 - 17.00"
+    }
+  },
+  "1641555426" : {
+    "id" : 1641555426,
+    "type" : "clerk",
+    "email" : "JamesG@gmail.com",
+    "firstName" : "James",
+    "lastName" : "Goldman",
+    "address" : "Ringvägen 20",
+    "password" : "James1234",
+    "worksAt" : {
+      "id" : 1641555424,
+      "name" : "PESA Bank",
+      "details" : "Opening hours: 09.00 - 17.00"
+    }
+  }
+}

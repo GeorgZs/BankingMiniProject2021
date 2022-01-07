@@ -1,0 +1,16 @@
+{
+  "1641555424" : {
+    "id" : 1641555424,
+    "name" : "PESA Bank",
+    "details" : "Opening hours: 09.00 - 17.00",
+    "manager" : {
+      "id" : 1641555424,
+      "type" : "manager",
+      "email" : "Lance@gmail.com",
+      "firstName" : "Lance",
+      "lastName" : "Janssen",
+      "address" : "Hörselgången 4",
+      "password" : "Lance1234"
+    }
+  }
+}
