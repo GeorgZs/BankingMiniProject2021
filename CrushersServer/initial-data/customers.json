@@ -1,0 +1,12 @@
+{
+  "1641551782" : {
+    "id" : 1641551782,
+    "type" : "customer",
+    "email" : "lance@home.com",
+    "firstName" : "Lance",
+    "lastName" : "Janssen",
+    "address" : "somewhere over the rainbow 420",
+    "password" : "PASSword1234",
+    "worksAt" : null
+  }
+}

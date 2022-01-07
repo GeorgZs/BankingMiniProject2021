@@ -43,10 +43,6 @@ public class AccountController implements Initializable{
 
     public static SystemController sysCtrl;
 
-    public void displayName(String username){
-        welcomeLabel.setText("Welcome, " + username);
-    }
-
     public void logout(ActionEvent e) throws IOException{
         Util.logOutAlert("Logging out?", "Are you sure you want to log-out?", e);
     }
@@ -99,8 +95,9 @@ public class AccountController implements Initializable{
         
         String firstName = App.currentCustomer.getFirstName();
         String lastName = App.currentCustomer.getLastName();
+        int customerId = App.currentCustomer.getId();
         totalBalanceLabel.setText("Total Balance: " + getCustomerTotalBalance());
-        welcomeLabel.setText("Welcome, " + firstName + " " + lastName);
+        welcomeLabel.setText("Welcome, " + firstName + " " + lastName + " (ID" + customerId + ")");
 
         try {
             updateAccountList();

@@ -58,10 +58,7 @@ public class JsonAccountStorage extends JsonStorage<BankAccount> {
    * @return the set of Accounts for the logged-in Customer
    */
   public Set<BankAccount> getAccountsOfCustomer(User customer) {
-    for(BankAccount account : customerAccounts.get(customer)){
-      account.setOwner(customer); // refresh owner data at the accounts
-    }
-    return customerAccounts.get(customer);
+    return customerAccounts.get(customer) == null ? new HashSet<>() : customerAccounts.get(customer);
   }
 
   /**
