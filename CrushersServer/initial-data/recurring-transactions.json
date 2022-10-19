@@ -1,0 +1,76 @@
+{
+  "1641555424" : {
+    "id" : 1641555424,
+    "from" : {
+      "id" : 1641555424,
+      "type" : "payment",
+      "number" : "SE 5424 6 29866",
+      "bank" : {
+        "id" : 1641555424,
+        "name" : "PESA Bank",
+        "details" : "Opening hours: 09.00 - 17.00",
+        "manager" : {
+          "id" : 1641555424,
+          "type" : "manager",
+          "email" : "Lance@gmail.com",
+          "firstName" : "Lance",
+          "lastName" : "Janssen",
+          "address" : "Hörselgången 4",
+          "password" : "Lance1234"
+        }
+      },
+      "owner" : {
+        "id" : 1641555424,
+        "type" : "customer",
+        "email" : "IzabelleH@gmail.com",
+        "firstName" : "Izabelle",
+        "lastName" : "Hansson",
+        "address" : "Knektvägen 67",
+        "password" : "Izabelle321",
+        "worksAt" : null
+      },
+      "balance" : 23580.0,
+      "name" : "Payment",
+      "interestRate" : 0.0
+    },
+    "to" : {
+      "id" : 1641555429,
+      "type" : "savings",
+      "number" : "SE 5424 3 10412",
+      "bank" : {
+        "id" : 1641555424,
+        "name" : "PESA Bank",
+        "details" : "Opening hours: 09.00 - 17.00",
+        "manager" : {
+          "id" : 1641555424,
+          "type" : "manager",
+          "email" : "Lance@gmail.com",
+          "firstName" : "Lance",
+          "lastName" : "Janssen",
+          "address" : "Hörselgången 4",
+          "password" : "Lance1234"
+        }
+      },
+      "owner" : {
+        "id" : 1641555426,
+        "type" : "customer",
+        "email" : "Fredrik55@gmail.com",
+        "firstName" : "Fredrik",
+        "lastName" : "Karlsson",
+        "address" : "Sandviken 59",
+        "password" : "Fredrik123",
+        "worksAt" : null
+      },
+      "balance" : 0.0,
+      "name" : "Car saving",
+      "interestRate" : 0.0
+    },
+    "amount" : 1000.0,
+    "description" : "Monthly bonus",
+    "date" : null,
+    "recurring" : true,
+    "suspicious" : false,
+    "labels" : [ ],
+    "interval" : 30
+  }
+}

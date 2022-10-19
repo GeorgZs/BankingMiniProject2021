@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="325.0" prefWidth="369.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="crushers.controllers.RegisterController">
+   <children>
+      <Label layoutX="87.0" layoutY="14.0" text="New Account Registration">
+         <font>
+            <Font name="SansSerif Regular" size="17.0" />
+         </font>
+      </Label>
+      <TextField fx:id="lastNameField" layoutX="15.0" layoutY="111.0" prefHeight="26.0" prefWidth="186.0" promptText="Last Name">
+         <font>
+            <Font name="SansSerif Regular" size="13.0" />
+         </font></TextField>
+      <TextField fx:id="addressField" layoutX="15.0" layoutY="147.0" prefHeight="26.0" prefWidth="186.0" promptText="Address">
+         <font>
+            <Font name="SansSerif Regular" size="13.0" />
+         </font></TextField>
+      <TextField fx:id="emailField" layoutX="15.0" layoutY="182.0" prefHeight="26.0" prefWidth="186.0" promptText="E-Mail">
+         <font>
+            <Font name="SansSerif Regular" size="13.0" />
+         </font></TextField>
+      <Label fx:id="invalidInputLabel" layoutX="12.0" layoutY="287.0" prefHeight="35.0" prefWidth="345.0" textFill="#dc1515">
+         <font>
+            <Font name="SansSerif Regular" size="9.0" />
+         </font></Label>
+      <Button fx:id="registerButton" layoutX="236.0" layoutY="161.0" mnemonicParsing="false" onAction="#register" prefWidth="94.0" text="Register">
+         <font>
+            <Font name="SansSerif Regular" size="13.0" />
+         </font>
+      </Button>
+      <Label layoutX="141.0" layoutY="43.0" text="User Information">
+         <font>
+            <Font name="SansSerif Regular" size="12.0" />
+         </font>
+      </Label>
+      <PasswordField fx:id="passwordField" layoutX="15.0" layoutY="216.0" prefHeight="26.0" prefWidth="186.0" promptText="Password">
+         <font>
+            <Font name="SansSerif Regular" size="13.0" />
+         </font></PasswordField>
+      <PasswordField fx:id="repeatedPasswordField" layoutX="15.0" layoutY="251.0" prefHeight="26.0" prefWidth="186.0" promptText="Password (repeated)">
+         <font>
+            <Font name="SansSerif Regular" size="13.0" />
+         </font></PasswordField>
+      <TextField fx:id="firstNameField" layoutX="15.0" layoutY="75.0" prefHeight="26.0" prefWidth="186.0" promptText="First Name">
+         <font>
+            <Font name="SansSerif Regular" size="13.0" />
+         </font>
+      </TextField>
+   </children>
+</AnchorPane>

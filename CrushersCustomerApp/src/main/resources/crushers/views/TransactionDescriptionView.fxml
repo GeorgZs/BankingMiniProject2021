@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="362.0" prefWidth="389.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="crushers.controllers.TransactionDescriptionController">
+   <children>
+      <HBox layoutX="84.0" layoutY="32.0" prefHeight="220.0" prefWidth="389.0" style="-fx-border-color: black; -fx-border-width: 2;" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="32.0">
+         <children>
+            <VBox prefHeight="247.0" prefWidth="192.0">
+               <children>
+                  <Label prefHeight="38.0" prefWidth="214.0" style="-fx-font-weight: bold; -fx-font-family: SansSerif; -fx-text-fill: #1A4F82;" text="TRANSACTION ID:" />
+                  <Label prefHeight="38.0" prefWidth="214.0" style="-fx-font-weight: bold; -fx-font-family: SansSerif; -fx-text-fill: #1A4F82;" text="TRANSACTION AMOUNT:" />
+                  <Label prefHeight="38.0" prefWidth="214.0" style="-fx-font-weight: bold; -fx-font-family: SansSerif; -fx-text-fill: #1A4F82;" text="TRANSACTION BENEFACTOR:" />
+                  <Label prefHeight="38.0" prefWidth="214.0" style="-fx-font-weight: bold; -fx-font-family: SansSerif; -fx-text-fill: #1A4F82;" text="TRANSACTION BENEFICIARY:" />
+                  <Label prefHeight="80.0" prefWidth="182.0" style="-fx-font-weight: bold; -fx-font-family: SansSerif; -fx-text-fill: #1A4F82;" text="TRANSACTION DESCRIPTION:" />
+                  <Label prefHeight="80.0" prefWidth="182.0" style="-fx-font-weight: bold; -fx-font-family: SansSerif; -fx-text-fill: #1A4F82;" text="TRANSACTION LABEL:" />
+               </children>
+            </VBox>
+            <VBox prefHeight="247.0" prefWidth="192.0">
+               <children>
+                  <Label fx:id="transactionIdLabel" prefHeight="38.0" prefWidth="214.0" style="-fx-font-family: SansSerif; -fx-font-weight: bold; -fx-text-fill: #1A4F82;" text="{ID}" />
+                  <Label fx:id="transactionAmountLabel" prefHeight="38.0" prefWidth="214.0" style="-fx-font-family: SansSerif; -fx-font-weight: bold; -fx-text-fill: #1A4F82;" text="{AMOUNT} SEK" />
+                  <Label fx:id="transactionFromLabel" prefHeight="38.0" prefWidth="214.0" style="-fx-font-family: SansSerif; -fx-font-weight: bold; -fx-text-fill: #1A4F82;" text="{ID}" />
+                  <Label fx:id="transactionToLabel" prefHeight="38.0" prefWidth="214.0" style="-fx-font-family: SansSerif; -fx-font-weight: bold; -fx-text-fill: #1A4F82;" text="{ID}" />
+                  <Label fx:id="transactionDescriptionLabel" prefHeight="80.0" prefWidth="182.0" style="-fx-font-weight: bold; -fx-font-family: SansSerif; -fx-text-fill: #1A4F82;" text="{DESC}" wrapText="true" />
+                  <Label fx:id="transactionLabelLabel" prefHeight="80.0" prefWidth="182.0" style="-fx-font-weight: bold; -fx-font-family: SansSerif; -fx-text-fill: #1A4F82;" text="{LABEL}" wrapText="true" />
+               </children>
+            </VBox>
+         </children>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </HBox>
+      <Label layoutX="124.0" layoutY="3.0" text="Transaction Overview">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

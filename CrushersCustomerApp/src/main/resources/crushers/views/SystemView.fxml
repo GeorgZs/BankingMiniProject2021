@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXCheckBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="488.0" prefWidth="721.0" style="-fx-background-color: #3F95E9;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="crushers.controllers.SystemController">
+   <children>
+      <TabPane fx:id="tabpane" layoutX="6.0" layoutY="45.0" prefHeight="368.0" prefWidth="709.0" style="-fx-background-color: #3F95E9;" stylesheets="@../stylesheets/main.css" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="Notifications">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="354.0" prefWidth="545.0" style="-fx-border-color: black; -fx-border-width: 1; -fx-background-color: white; -fx-border-radius: 5; -fx-background-radius: 5;">
+                     <children>
+                        <ListView fx:id="notificationsListView" layoutX="35.0" layoutY="55.0" prefHeight="224.0" prefWidth="412.0" />
+                        <Label fx:id="noNotificationsLabel" layoutX="35.0" layoutY="25.0" prefHeight="30.0" prefWidth="412.0" text="No notifications received." textFill="#1e1a6f" />
+                     </children></AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="My Account">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: white; -fx-border-color: black; -fx-background-radius: 5; -fx-border-radius: 5;">
+                     <children>
+                        <Label fx:id="errorLabel" layoutX="14.0" layoutY="65.0" prefHeight="18.0" prefWidth="132.0" />
+                        <VBox layoutX="58.0" layoutY="83.0" prefHeight="187.0" prefWidth="267.0" style="-fx-background-color: #87BFF7; -fx-border-color: black; -fx-border-radius: 3;">
+                           <children>
+                              <Label fx:id="accountIdLabel" prefHeight="26.0" prefWidth="242.0" style="-fx-font-weight: bold;" text="Account ID: " textFill="#1e1a6f" />
+                              <Label fx:id="accountNumberLabel" prefHeight="26.0" prefWidth="257.0" style="-fx-font-weight: bold;" text="Account Number:" textFill="#1e1a6f" />
+                              <Label fx:id="accountNameLabel" prefHeight="26.0" prefWidth="242.0" style="-fx-font-weight: bold;" text="Account Name: " textFill="#1e1a6f" />
+                              <Label fx:id="accountBalanceLabel" prefHeight="26.0" prefWidth="235.0" style="-fx-font-weight: bold;" text="Account Balance: " textFill="#1e1a6f" />
+                              <Label fx:id="accountOwnerLabel" prefHeight="26.0" prefWidth="256.0" style="-fx-font-weight: bold;" text="Account Owner: " textFill="#1e1a6f" />
+                              <Label fx:id="accountTypeLabel" prefHeight="26.0" prefWidth="245.0" style="-fx-font-weight: bold;" text="Account Type: " textFill="#1e1a6f" />
+                              <Label fx:id="accountBankLabel" prefHeight="26.0" prefWidth="243.0" style="-fx-font-weight: bold;" text="Account Bank: " textFill="#1e1a6f" />
+                           </children>
+                           <padding>
+                              <Insets bottom="2.0" left="5.0" top="2.0" />
+                           </padding>
+                        </VBox>
+                        <VBox layoutX="376.0" layoutY="83.0" prefHeight="187.0" prefWidth="267.0" style="-fx-background-color: #87BFF7; -fx-border-color: black; -fx-border-radius: 3;">
+                           <children>
+                              <Label fx:id="transactionsMadeLabel" prefHeight="26.0" prefWidth="242.0" style="-fx-font-weight: bold;" text="Transactions made:" textFill="#1e1a6f" />
+                              <Label fx:id="numberOfContactsLabel" prefHeight="26.0" prefWidth="257.0" style="-fx-font-weight: bold;" text="Number of Contacts:" textFill="#1e1a6f" />
+                              <Label fx:id="pendingLoansLabel" prefHeight="26.0" prefWidth="242.0" style="-fx-font-weight: bold;" text="Pending Loans:" textFill="#1e1a6f" />
+                              <Label fx:id="totalDebtLabel" prefHeight="26.0" prefWidth="235.0" style="-fx-font-weight: bold;" text="Total Debt:" textFill="#1e1a6f" />
+                              <HBox prefHeight="46.0" prefWidth="260.0">
+                                 <children>
+                                    <Label prefHeight="26.0" prefWidth="68.0" style="-fx-font-weight: bold;" text="Net Worth:" textFill="#1e1a6f" />
+                                    <Label fx:id="netWorthLabel" prefHeight="26.0" prefWidth="135.0" style="-fx-font-weight: bold;" textFill="#1e1a6f" />
+                                 </children>
+                              </HBox>
+                           </children>
+                           <padding>
+                              <Insets bottom="2.0" left="5.0" top="2.0" />
+                           </padding>
+                        </VBox>
+                        <JFXCheckBox layoutX="59.0" layoutY="286.0" onAction="#toggleDisplayCardNumber" text="Display Account Number">
+                           <font>
+                              <Font name="SansSerif Regular" size="12.0" />
+                           </font></JFXCheckBox>
+                        <JFXButton layoutX="223.0" layoutY="283.0" onAction="#getInterest" style="-fx-background-color: #2669AB; -fx-font-family: SansSerif; -fx-text-fill: white;" text="Receive interest">
+                           <padding>
+                              <Insets bottom="4.0" left="10.0" right="10.0" top="4.0" />
+                           </padding>
+                        </JFXButton>
+                        <Label fx:id="overviewErrorLabel" layoutX="376.0" layoutY="286.0" prefHeight="15.0" prefWidth="266.0" style="-fx-font-weight: bold; -fx-text-fill: red;" />
+                        <Label layoutX="129.0" layoutY="45.0" style="-fx-font-weight: bold;" text="Account Details">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="438.0" layoutY="45.0" style="-fx-font-weight: bold;" text="Account Statistics">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="275.0" layoutY="18.0" style="-fx-font-weight: bold;" text="Account Overview">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Label>
+                     </children></AnchorPane>
+            </content>
+          </Tab>
+            <Tab text="Loans">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: white; -fx-border-color: black; -fx-background-radius: 5; -fx-border-radius: 5;">
+                     <children>
+                        <Label fx:id="loanErrorLabel" layoutX="68.0" layoutY="301.0" prefHeight="15.0" prefWidth="334.0" style="-fx-text-fill: red; -fx-font-weight: bold;" />
+                        <TextField fx:id="loanAmountField" layoutX="69.0" layoutY="68.0" prefHeight="25.0" prefWidth="208.0" promptText="Loan amount (SEK)" />
+                        <TableView fx:id="loanTableView" layoutX="351.0" layoutY="68.0" prefHeight="189.0" prefWidth="320.0" />
+                        <TextArea fx:id="loanPurposeField" layoutX="68.0" layoutY="103.0" prefHeight="152.0" prefWidth="209.0" promptText="Reason(s) for application" wrapText="true" />
+                        <TextField fx:id="amountPayback" layoutX="351.0" layoutY="267.0" prefHeight="25.0" prefWidth="198.0" promptText="Amount to pay back (SEK)" />
+                        <JFXButton fx:id="apply" layoutX="230.0" layoutY="267.0" onAction="#apply" style="-fx-background-color: #2669AB; -fx-font-family: SansSerif Regular; -fx-text-fill: white;" text="Apply">
+                           <padding>
+                              <Insets bottom="4.0" left="10.0" right="10.0" top="4.0" />
+                           </padding>
+                        </JFXButton>
+                        <JFXButton fx:id="paybackLoan" layoutX="564.0" layoutY="267.0" onAction="#paybackLoan" style="-fx-background-color: #2669AB; -fx-font-family: SansSerif Regular; -fx-text-fill: white;" text="Pay back amount">
+                           <padding>
+                              <Insets bottom="4.0" left="10.0" right="10.0" top="4.0" />
+                           </padding>
+                        </JFXButton>
+                        <Label layoutX="113.0" layoutY="26.0" style="-fx-font-weight: bold;" text="Apply for Loan">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="472.0" layoutY="26.0" style="-fx-font-weight: bold;" text="My Loans">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Label>
+                     </children></AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="Contacts">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: white; -fx-border-color: black; -fx-background-radius: 5; -fx-border-radius: 5;">
+                     <children>
+                        <Label alignment="CENTER" layoutX="326.0" layoutY="25.0" prefHeight="20.0" prefWidth="356.0" style="-fx-font-weight: bold;" text="My Contacts">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="nameField" layoutX="44.0" layoutY="69.0" prefHeight="26.0" prefWidth="231.0" promptText="Contact Name" />
+                        <TextArea fx:id="descriptionArea" layoutX="46.0" layoutY="145.0" prefHeight="111.0" prefWidth="230.0" promptText="Description" wrapText="true" />
+                        <TextField fx:id="accountID" layoutX="45.0" layoutY="106.0" prefHeight="26.0" prefWidth="230.0" promptText="Contact Account ID" />
+                        <Label fx:id="contactErrorLabel" layoutX="44.0" layoutY="268.0" prefHeight="36.0" prefWidth="129.0" style="-fx-text-fill: red;" />
+                        <TableView fx:id="contactTableView" layoutX="327.0" layoutY="66.0" prefHeight="230.0" prefWidth="356.0" />
+                        <Label layoutX="102.0" layoutY="25.0" style="-fx-font-weight: bold;" text="Create contact">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Label>
+                        <JFXButton layoutX="179.0" layoutY="273.0" onAction="#createContact" style="-fx-background-color: #2669AB; -fx-font-family: SansSerif Regular; -fx-text-fill: white;" text="Create contact">
+                           <padding>
+                              <Insets bottom="4.0" left="10.0" right="10.0" top="4.0" />
+                           </padding>
+                        </JFXButton>
+                     </children></AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="Payments">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: white; -fx-border-color: black; -fx-background-radius: 5; -fx-border-radius: 5;">
+                     <children>
+                        <Label alignment="CENTER" layoutX="288.0" layoutY="14.0" prefHeight="20.0" prefWidth="394.0" style="-fx-font-weight: bold;" text="Transaction History">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="transactionError" layoutX="288.0" layoutY="287.0" prefHeight="22.0" prefWidth="394.0" style="-fx-font-weight: bold;" textFill="#e10000">
+                           <font>
+                              <Font name="SansSerif Regular" size="12.0" />
+                           </font>
+                        </Label>
+                        <TableView fx:id="transactionTableView" layoutX="288.0" layoutY="44.0" prefHeight="234.0" prefWidth="394.0" />
+                        <TextArea fx:id="transactionLabelField" layoutX="51.0" layoutY="199.0" prefHeight="79.0" prefWidth="182.0" promptText="Transaction Label" wrapText="true" />
+                        <JFXButton fx:id="makeAPayment" layoutX="53.0" layoutY="44.0" onAction="#makeAPayment" prefHeight="30.0" prefWidth="180.0" style="-fx-background-color: #2669AB; -fx-font-family: SansSerif Regular; -fx-text-fill: white;" text="Transfer funds">
+                           <padding>
+                              <Insets bottom="4.0" left="10.0" right="10.0" top="4.0" />
+                           </padding>
+                        </JFXButton>
+                        <JFXButton layoutX="53.0" layoutY="82.0" onAction="#viewTransactionDetails" prefHeight="30.0" prefWidth="180.0" style="-fx-background-color: #2669AB; -fx-font-family: SansSerif Regular; -fx-text-fill: white;" text="View Transaction details">
+                           <padding>
+                              <Insets bottom="4.0" left="10.0" right="10.0" top="4.0" />
+                           </padding>
+                        </JFXButton>
+                        <JFXButton layoutX="53.0" layoutY="161.0" onAction="#setLabel" prefHeight="30.0" prefWidth="180.0" style="-fx-background-color: #2669AB; -fx-font-family: SansSerif Regular; -fx-text-fill: white;" text="Set Transaction label">
+                           <padding>
+                              <Insets bottom="4.0" left="10.0" right="10.0" top="4.0" />
+                           </padding>
+                        </JFXButton>
+                        <JFXButton layoutX="53.0" layoutY="121.0" onAction="#createRecurringTransaction" prefHeight="30.0" prefWidth="180.0" style="-fx-background-color: #2669AB; -fx-font-family: SansSerif Regular; -fx-text-fill: white;" text="Create Recurring Transaction">
+                           <padding>
+                              <Insets bottom="4.0" left="10.0" right="10.0" top="4.0" />
+                           </padding>
+                        </JFXButton>
+                     </children></AnchorPane>
+              </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+      <Label fx:id="welcomeLabel" alignment="CENTER" layoutY="14.0" prefHeight="17.0" prefWidth="721.0" text="Welcome, {first_name} {last_name}">
+         <font>
+            <Font name="SansSerif Regular" size="19.0" />
+         </font>
+      </Label>
+      <JFXButton layoutX="448.0" layoutY="437.0" onAction="#selectDifferentAccount" style="-fx-background-color: #2669AB; -fx-font-family: SansSerif Regular; -fx-text-fill: white;" text="Select different account">
+         <padding>
+            <Insets bottom="4.0" left="10.0" right="10.0" top="4.0" />
+         </padding>
+      </JFXButton>
+      <JFXButton layoutX="608.0" layoutY="437.0" onAction="#logout" style="-fx-background-color: #2669AB; -fx-font-family: SansSerif Regular; -fx-text-fill: white;" text="Log out">
+         <padding>
+            <Insets bottom="4.0" left="10.0" right="10.0" top="4.0" />
+         </padding>
+      </JFXButton>
+   </children>
+</Pane>
